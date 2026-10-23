@@ -54,9 +54,9 @@ export function CreditsExplained() {
               <div>
                 <Text as="h3">Credits or Search Tokens?</Text>
                 <Text as="p">
-                  Plan allowances are listed in credits; additional packages are sold as Search
-                  Tokens. The credit-to-token relationship is not yet verified. Confirm the account
-                  balance and package terms before adding capacity.
+                  Plan allowances use credits; additional packages use Search Tokens. Check the
+                  conversion, available balance and package terms in your account before adding
+                  capacity.
                 </Text>
               </div>
             </article>

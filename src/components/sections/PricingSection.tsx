@@ -6,7 +6,8 @@ import { useLocale } from '../../i18n/context';
 import { useRef, useState, type MouseEvent } from 'react';
 import { MobileBillingDock } from './MobileBillingDock';
 import { plans, type Plan } from '../../content/plans';
-import { productUrl } from '../../config/site';
+import { signInUrl } from '../../config/site';
+import { PlanHandoff } from './PlanHandoff';
 import { DoubleButton } from '../ui/DoubleButton';
 import { Modal } from '../ui/Modal';
 import { Visual } from '../visuals/Visual';
@@ -142,7 +143,7 @@ export function PricingSection({
                 </dl>
                 <div className="plan-actions">
                   {plan.id === 'free' ? (
-                    <a className="plan-button" href={`${productUrl}/register`}>
+                    <a className="plan-button" href={signInUrl}>
                       <LocaleText>{t(plan.action)}</LocaleText>
                     </a>
                   ) : (
@@ -215,9 +216,7 @@ export function PricingSection({
         <div className="table-scroll" tabIndex={0} role="region" aria-label={t('Plan comparison')}>
           <table>
             <caption>
-              <LocaleText>
-                {t('Allowances and access shown in the current landing concept')}
-              </LocaleText>
+              <LocaleText>{t('Plan allowances and access')}</LocaleText>
             </caption>
             <thead>
               <tr>
@@ -293,7 +292,7 @@ export function PricingSection({
             )}
           </LocaleText>
         </p>
-        <DoubleButton href={`${productUrl}/register`}>
+        <DoubleButton href={signInUrl}>
           <LocaleText>{t('Continue in Apcosys')}</LocaleText>
         </DoubleButton>
       </Modal>
@@ -350,9 +349,7 @@ export function PricingSection({
                 )}
               </LocaleText>
             </p>
-            <DoubleButton href={`${productUrl}/register`}>
-              <LocaleText>{t('Continue in Apcosys')}</LocaleText>
-            </DoubleButton>
+            <PlanHandoff key={selected.id + period} plan={selected} period={period} />
           </>
         )}
       </Modal>

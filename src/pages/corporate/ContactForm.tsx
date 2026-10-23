@@ -1,6 +1,6 @@
 import { Text } from '../../components/ui/Text';
 import { topics } from './contactTopics';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { supportEmail } from '../../config/site';
 import { siteHref } from '../../app/paths';
 import { Notice } from '../../components/layout/PageFrame';
@@ -31,12 +31,23 @@ export default function ContactForm({
   const formRef = useRef<HTMLFormElement>(null);
   const previewRef = useRef<HTMLTextAreaElement>(null);
   const openingTimer = useRef<number | null>(null);
+  const copyVersion = useRef(0);
+  const handledTopic = useRef(topic);
+
+  useLayoutEffect(() => {
+    if (handledTopic.current === topic) return;
+    handledTopic.current = topic;
+    copyVersion.current++;
+    setPreparedEmail('');
+    setStatus('');
+  }, [topic]);
 
   useEffect(() => {
     saveContactDraft({ ...readContactDraft(), topic });
   }, [topic]);
 
   const updateDraft = (values: Partial<ContactDraft>) => {
+    copyVersion.current++;
     const next = { ...draft, ...values, topic };
     setDraft(next);
     saveContactDraft(next);
@@ -46,6 +57,7 @@ export default function ContactForm({
 
   useEffect(
     () => () => {
+      copyVersion.current++;
       if (openingTimer.current !== null) window.clearTimeout(openingTimer.current);
     },
     [],
@@ -98,6 +110,7 @@ export default function ContactForm({
     if (opening) return;
     const email = prepare(event.currentTarget);
     if (!email) return;
+    copyVersion.current++;
     setOpening(true);
     setStatus(
       t(
@@ -125,12 +138,16 @@ export default function ContactForm({
     if (!formRef.current) return;
     const email = prepare(formRef.current);
     if (!email) return;
+    const version = ++copyVersion.current;
     try {
       await navigator.clipboard.writeText(email.text);
+      if (version !== copyVersion.current) return;
       setStatus(t('Email text copied. Paste it into your email application and send it there.'));
     } catch {
+      if (version !== copyVersion.current) return;
       setStatus(t('Copy the prepared email below and send it from your email application.'));
       requestAnimationFrame(() => {
+        if (version !== copyVersion.current) return;
         previewRef.current?.focus();
         previewRef.current?.select();
       });
@@ -138,6 +155,8 @@ export default function ContactForm({
   }
 
   function clearDraft() {
+    copyVersion.current++;
+    handledTopic.current = '';
     clearContactDraft();
     setDraft(emptyContactDraft());
     onTopicChange('');
@@ -209,6 +228,8 @@ export default function ContactForm({
             required
             value={topic}
             onChange={(event) => {
+              copyVersion.current++;
+              handledTopic.current = event.target.value;
               onTopicChange(event.target.value);
               setPreparedEmail('');
               setStatus('');

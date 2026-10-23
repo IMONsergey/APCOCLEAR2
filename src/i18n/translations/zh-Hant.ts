@@ -1,4 +1,8 @@
 export default {
+  'Team & Business plan': '團隊與 Business 方案',
+  'Billing & invoices': '帳單與發票',
+  'Responsible scanning': '負責任的掃描',
+  Other: '其他',
   ' / month': ' / 月',
   '(optional)': '(選填)',
   '{amount} billed annually': '年繳總額：{amount}',
@@ -61,8 +65,7 @@ export default {
   'Advisory applicability': '公告適用性',
   'All fields are required except company.': '除公司外，所有欄位均為必填。',
   'All Types': '所有類型',
-  'Allowances and access shown in the current landing concept':
-    '目前登陸頁面概念中所顯示的額度與存取權限。',
+  'Plan allowances and access': '方案額度與存取權限',
   'An address, domain or product name.': '位址、網域或產品名稱。',
   'An association does not establish exploitability.': '關聯並不能確立可利用性。',
   'An association is a lead to verify, not a confirmed vulnerability.':
@@ -148,8 +151,8 @@ export default {
   'Business access': 'Business 存取權限',
   'Business brings a larger allowance and access for up to {users} users. Discuss data needs, invoice payment and procurement questions with the team.':
     'Business 方案提供更大的額度以及最多 {users} 位使用者的存取權限。請與團隊討論資料需求、發票付款及採購問題。',
-  'Business plan figures shown for the client preview. Final access and commercial terms are confirmed in the product.':
-    '顯示的 Business 方案數據僅供客戶預覽。最終存取權限與商業條款將在產品中確認。',
+  'Confirm Business access and commercial terms in your account before purchase.':
+    '購買前，請在帳戶中確認 Business 方案的存取權限與商業條款。',
   'Can I start for free?': '我可以免費開始嗎？',
   'Can I use the API?': '我可以使用 API 嗎？',
   'Candidate infrastructure. Confirm each target against the programme rules.':
@@ -568,14 +571,14 @@ export default {
   'own tools.': '自有工具中。',
   Ownership: '所有權',
   'Ownership and attribution remain unproven.': '所有權和歸因仍未經證實。',
-  'Packages shown for the client preview. Check eligibility, token balance, expiry and final purchase terms in your account.':
-    '顯示的套件僅供客戶預覽。請在您的帳戶中檢查資格、權杖餘額、到期日及最終購買條款。',
+  'Check package eligibility, token balance, expiry and final purchase terms in your account.':
+    '請在帳戶中確認加購套件的適用資格、權杖餘額、到期日及最終購買條款。',
   'Patch state': '修補狀態',
   'Personal introduction': '個人入門',
   'Pick up the investigation': '繼續調查',
   Plan: '方案',
-  'Plan allowances are listed in credits; additional packages are sold as Search Tokens. The credit-to-token relationship is not yet verified. Confirm the account balance and package terms before adding capacity.':
-    '方案額度以「額度 (credits)」列出；額外套餐以「搜尋權杖 (Search Tokens)」販售。額度與權杖的轉換關係尚未驗證。在增加容量之前，請確認帳戶餘額和套餐條款。',
+  'Plan allowances use credits; additional packages use Search Tokens. Check the conversion, available balance and package terms in your account before adding capacity.':
+    '方案使用額度，加購套件使用搜尋權杖。增加用量前，請在帳戶中確認換算方式、可用餘額及套件條款。',
   'Plan billing options': '方案計費選項',
   'Plan comparison': '方案比較',
   'Plan rate limit': '方案速率限制',
@@ -706,8 +709,8 @@ export default {
     '透過 IP、網域、連接埠、服務或技術搜尋面向網際網路的主機，查看它們上面運行著什麼，並隨時細化您的搜尋。',
   'Search internet-facing hosts, services and technologies.':
     '搜尋面向網際網路的主機、服務與技術。',
-  'Search observed products and versions. CVE context is available from Plus in the plan preview.':
-    '搜尋觀測到的產品與版本。在方案預覽中，CVE 背景資訊從 Plus 版開始提供。',
+  'Search observed products and versions. The plan comparison lists CVE context from Plus.':
+    '搜尋觀測到的產品與版本。方案比較表列出從 Plus 起提供 CVE 背景資訊。',
   'SEARCH RESULTS': '搜尋結果',
   'Search the infrastructure behind the internet.': '搜尋網際網路背後的基礎設施。',
   'Search Token': '個搜尋權杖',
@@ -807,13 +810,13 @@ export default {
     '告訴我們哪些資產、變化和調查工作流程對您的團隊很重要。協助塑造監控體驗。',
   'Tell us which data, observations or coverage you want to understand.':
     '告訴我們您想了解哪些資料、觀測結果或涵蓋範圍。',
-  'Terms & Conditions': '條款與條件',
+  'Terms & Conditions': '使用條款',
   'Testing rules': '測試規則',
   'The approach': '研究方法',
   'The data behind': '每次搜尋背後的',
   'The data behind every search.': '每次搜尋背後的資料。',
-  'The exact meanings of Created and Updated, and the scan cadence, still require confirmation.':
-    'Created 和 Updated 的確切含義以及掃描頻率仍需確認。',
+  'Coverage totals do not indicate when an individual service was last observed. Check the timestamps attached to the record.':
+    '涵蓋範圍總數無法顯示個別服務最近一次被觀測的時間。請查看記錄附帶的時間戳記。',
   'The existing Free plan introduces the service for personal, non-commercial use.':
     '現有的 Free 方案讓使用者體驗此服務，僅供個人非商業用途。',
   'The form prepares a message in your email application. You review it and send it from there.':
@@ -992,8 +995,8 @@ export default {
   Dark: '深色',
   'Domain records': '網域記錄',
   Essential: '必要項目',
-  'Essential browser storage supports the website theme and your saved preferences. No optional analytics or marketing trackers are enabled in this client preview.':
-    '必要的瀏覽器儲存空間用於支援網站主題及您儲存的偏好設定。此網站預覽未啟用任何選用的分析或行銷追蹤器。',
+  'Essential browser storage supports the website theme and your saved preferences. No optional analytics or marketing trackers are enabled on this website.':
+    '必要的瀏覽器儲存空間用於支援網站主題及您儲存的偏好設定。此網站未啟用任何選用的分析或行銷追蹤器。',
   'Evidence source': '證據來源',
   'Example investigation note': '調查筆記範例',
   'Example investigations': '調查範例',
@@ -1032,7 +1035,7 @@ export default {
   'NEXT RESEARCH LEAD': '下一個研究線索',
   'No live observation': '無即時觀測資料',
   'Not included': '未包含',
-  'Not installed in this preview': '此預覽未安裝',
+  'Not enabled on this website': '此網站未啟用',
   'Not provided': '未提供',
   'Observation time': '觀測時間',
   'Observation, detection, association: different levels of certainty.':
@@ -1450,4 +1453,164 @@ export default {
   'Observed services and metadata': '觀測到的服務與中繼資料',
   'Illustrative API workspace with a masked key, credit balances and documentation access.':
     'API 工作區示意，包含已遮蔽的金鑰、剩餘額度與文件入口。',
+  'Built for people who investigate the internet.': '為探索網際網路的人而打造。',
+  'Apcosys makes technical observations about internet-facing infrastructure searchable, so security researchers and teams can investigate them.':
+    'Apcosys 將面向網際網路基礎架構的技術觀測整理為可搜尋的資料，供資安研究人員與團隊深入調查。',
+  'Why Apcosys': '為什麼選擇 Apcosys',
+  'Our approach': '我們的方法',
+  'Explore the platform': '探索平台',
+  'Talk to the people behind the product.': '與產品團隊交流。',
+  'Questions about the platform, data or collaboration? Reach the team at {email}.':
+    '對平台、資料或合作有疑問嗎？請透過 {email} 聯絡團隊。',
+  'A glass lens brings one connected host into focus within an infrastructure landscape.':
+    '玻璃透鏡在基礎架構景觀中聚焦於一台已連接的主機。',
+  'Why we built Apcosys.': '我們為何建立 Apcosys。',
+  'The answer is rarely in the first result. A good investigation needs a clear path from a technical question to the evidence behind it.':
+    '答案很少就在第一筆結果中。完善的調查需要一條清楚的路徑，從技術問題走向背後的證據。',
+  'Internet infrastructure produces a large volume of technical signals. The difficult part is turning an initial lead into a question you can investigate.':
+    '網際網路基礎架構產生大量技術訊號。困難之處在於將初步線索轉化為可以深入調查的問題。',
+  'Apcosys brings hosts, services and detected technologies into a searchable view, so researchers can open a result, understand its context and choose where to look next.':
+    'Apcosys 將主機、服務與偵測到的技術整合至可搜尋的介面，讓研究人員開啟結果、了解脈絡，並決定下一步的方向。',
+  'Start with an attribute.': '從一項屬性開始。',
+  'Inspect the services.': '檢查服務。',
+  'Read the evidence.': '檢視證據。',
+  'Next question': '下一個問題',
+  'Our approach.': '我們的方法。',
+  'Make the evidence easier to find, easier to understand and easier to use responsibly.':
+    '讓證據更容易查找、理解，並以負責任的方式使用。',
+  'Searchable observations.': '可搜尋的觀測資料。',
+  'We turn how public hosts respond — ports, services and technologies — into data you can query. Start with an attribute you know and narrow the question as you learn.':
+    '我們將公開主機的回應，包括連接埠、服務與技術，轉化為可查詢的資料。從已知屬性出發，隨著了解加深逐步聚焦問題。',
+  'Built for investigation.': '為調查而打造。',
+  'The product follows the path from query to host to context. Each step should help a researcher decide what deserves a closer look.':
+    '產品沿著查詢、主機到脈絡的路徑展開。每一步都應協助研究人員判斷哪些內容值得深入查看。',
+  'Transparent data.': '透明的資料。',
+  'A useful result explains what was observed and what remains uncertain. Collection context, observation dates and detection limits matter as much as the result itself.':
+    '有用的結果會說明觀測到了什麼，以及哪些部分仍不確定。收集脈絡、觀測日期與偵測限制，和結果本身同樣重要。',
+  'Responsible collection.': '負責任的資料收集。',
+  'Publicly observable information is not permission to test a system. We provide a direct contact route for scanning questions and network exclusion requests.':
+    '資訊可供公開觀測，並不代表獲得測試系統的授權。我們提供直接聯絡管道，處理掃描問題與網路排除請求。',
+  'See the approach in practice.': '了解方法如何付諸實踐。',
+  'Explore the investigation workflow and the principles behind the data.':
+    '探索調查流程與資料背後的原則。',
+  'From a question to a host.': '從問題走向主機。',
+  'Follow a query through results, services and technical context.':
+    '沿著查詢，逐步檢視結果、服務與技術脈絡。',
+  'What sits behind a result.': '結果背後的資訊。',
+  'Read about observations, coverage, dates and potential CVE associations.':
+    '了解觀測資料、涵蓋範圍、日期與潛在的 CVE 關聯。',
+  'Apcosys scanning inquiry': 'Apcosys 掃描諮詢',
+  'Apcosys network exclusion request': 'Apcosys 網路排除請求',
+  'Networks / IP ranges:': '網路 / IP 範圍：',
+  'My role in managing these networks:': '我在管理這些網路時的職責：',
+  'Contact details:': '聯絡資料：',
+  'Relevant dates and context:': '相關日期與背景資訊：',
+  'How Apcosys scans.': 'Apcosys 如何進行掃描。',
+  'The principles behind collecting observations from publicly accessible systems, and how to reach us about scanning activity or a network exclusion.':
+    '了解我們從公開可存取系統收集觀測資料的原則，以及如何就掃描活動或網路排除事宜聯絡我們。',
+  Collection: '資料收集',
+  'Identify traffic': '辨識流量',
+  'Request exclusion': '申請排除',
+  'Contact the scanning team': '聯絡掃描團隊',
+  'Request an exclusion': '申請排除網路',
+  'Questions about an observation?': '對觀測資料有疑問嗎？',
+  'Share the relevant network and time context with the team. For help interpreting a result, start with Data & Methodology.':
+    '請向團隊提供相關網路與時間資訊。如需協助解讀結果，請先查看「資料與方法論」。',
+  'Email the scanning team': '傳送電子郵件給掃描團隊',
+  'A glass boundary defines the infrastructure reached through a controlled entry point.':
+    '玻璃邊界劃出透過受控入口可存取的基礎架構。',
+  'What we collect.': '我們收集的資料。',
+  'Apcosys records how publicly accessible services respond to connection requests. Those responses become searchable technical observations.':
+    'Apcosys 記錄公開可存取的服務如何回應連線請求，並將這些回應轉化為可搜尋的技術觀測資料。',
+  'Ports and services': '連接埠與服務',
+  'Where a service responds and which supported protocol is observed.':
+    '服務回應的位置，以及觀測到的支援協定。',
+  'Service responses': '服務回應',
+  'The technical response used as evidence for an observation.': '作為觀測證據的技術回應。',
+  'Detected technologies': '偵測到的技術',
+  'Products and versions inferred from the available response.':
+    '根據可取得的回應推斷出的產品與版本。',
+  'For detailed collection boundaries or questions about specific traffic, contact the scanning team.':
+    '如需了解詳細收集範圍，或對特定流量有疑問，請聯絡掃描團隊。',
+  'Identifying our scanners.': '辨識我們的掃描器。',
+  'If you believe traffic came from Apcosys, send the details needed to check its origin. A product name or service banner alone is not enough to verify a scanner.':
+    '如果您認為流量來自 Apcosys，請提供核實來源所需的資料。僅憑產品名稱或服務橫幅，無法確認掃描器的身分。',
+  'What to include': '需要提供的資料',
+  Source: '來源',
+  'The source IP observed in your logs.': '您的日誌中記錄的來源 IP。',
+  Destination: '目標',
+  'The affected address, port and protocol.': '受影響的位址、連接埠與協定。',
+  Time: '時間',
+  'The date, time and timezone of the traffic.': '流量發生的日期、時間與時區。',
+  'A short description and a relevant, sanitised log excerpt.':
+    '簡短描述，以及已移除敏感資料的相關日誌片段。',
+  'Ask us to verify it.': '請我們協助核實。',
+  'Write to the team with the source and destination details. We can review your question against the relevant scanning information.':
+    '請寫信給團隊，提供來源與目標的詳細資訊。我們可以根據相關掃描資訊查核您的問題。',
+  'Do not send passwords, API keys or unrelated customer data.':
+    '請勿傳送密碼、API 金鑰或無關的客戶資料。',
+  'Email {email}': '寄信至 {email}',
+  'Opting out.': '退出掃描。',
+  'If you own or administer a network, contact us with the IP ranges you want excluded. Give the team enough context to identify the request and reach you.':
+    '如果您擁有或管理某個網路，請聯絡我們並提供要排除的 IP 範圍。請提供足夠背景資訊，讓團隊能確認請求內容並與您聯絡。',
+  'Identify the networks.': '列出網路。',
+  'List the relevant IP addresses or ranges. If the request concerns a particular event, include its date and timezone.':
+    '列出相關 IP 位址或範圍。如果請求與特定事件有關，請提供該事件的日期與時區。',
+  'Explain your role.': '說明您的職責。',
+  'Describe your responsibility for these networks and include a working contact address for follow-up.':
+    '說明您對這些網路的管理職責，並提供可用的聯絡地址以便後續聯繫。',
+  'Send the request.': '傳送請求。',
+  'The email link below prepares a short request. The team will need to confirm the next steps; an email draft does not apply an exclusion automatically.':
+    '下方電子郵件連結會準備一封簡短的請求郵件。團隊仍需確認後續步驟；建立郵件草稿不會自動排除網路。',
+  'Prepare a network exclusion request': '準備網路排除請求',
+  'Use the X-API-Key header. Keep your API key on a trusted server, outside browser code.':
+    '使用 X-API-Key 標頭。請將 API 金鑰保存在可信任的伺服器上，不要放入瀏覽器程式碼。',
+  'Documented response structure with synthetic host data. No request has been sent.':
+    '依文件格式呈現的回應，使用模擬主機資料。尚未傳送任何請求。',
+  'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.':
+    '文件所載的 HTTP 請求。執行前，請在伺服器環境中設定 APCOSYS_API_KEY。',
+  'Send a small host-search request to the public HTTP API. Use your account API key in the X-API-Key header.':
+    '向公開 HTTP API 傳送小規模主機搜尋請求。在 X-API-Key 標頭中使用您帳戶的 API 金鑰。',
+  'Send JSON to POST /api/v1/search/hosts. Start with a small page size and the filters your plan supports.':
+    '透過 POST /api/v1/search/hosts 傳送 JSON。先使用較小的分頁大小，以及您方案支援的篩選條件。',
+  'The HTTP API documents method costs separately from plan request rates. Review the current reference before scheduling larger workflows.':
+    'HTTP API 文件會將方法費用與方案的請求速率分開列示。安排較大規模的工作流程前，請先閱讀最新參考文件。',
+  'Published HTTP API limits are shown here. Check current plan details in your Apcosys account before scheduling a larger workflow.':
+    '這裡顯示已公布的 HTTP API 限制。安排較大規模的工作流程前，請在 Apcosys 帳戶中確認目前方案的詳細資訊。',
+  'Open Apcosys': '開啟 Apcosys',
+  'Opens in a new tab': '將在新分頁開啟',
+  'Copy plan details': '複製方案詳情',
+  'Plan details copied.': '已複製方案詳情。',
+  'Copy the plan details below. Your selection stays on this page while Apcosys opens in another tab.':
+    '複製下方方案詳情。Apcosys 將在另一個分頁開啟，您選擇的方案會保留在本頁。',
+  'Selected plan details': '所選方案詳情',
+  'Coverage snapshot · {date}': '涵蓋範圍快照 · {date}',
+  'View statistics source': '查看統計資料來源',
+  'These figures reproduce the public statistics endpoint. Read them alongside the source and its update date.':
+    '這些數字取自公開統計資料端點。請搭配資料來源及其更新日期閱讀。',
+  'Total reported in the {field} field.': '{field} 欄位所回報的總數。',
+  'This is a dated snapshot, not a live total. The endpoint does not specify counting or deduplication rules.':
+    '這是特定日期的快照，並非即時總數。此端點未說明計算或去除重複資料的規則。',
+  Products: '產品',
+  'Last updated': '最後更新',
+  'Print document': '列印文件',
+  'Legal documents': '法律文件',
+  'About this translation': '關於本翻譯',
+  'This translation is provided for reference. The English original is the authoritative published text.':
+    '本翻譯僅供參考。英文原文為正式公布的權威文本。',
+  'Read the English original': '閱讀英文原文',
+  'Back to top': '回到頂端',
+  'Questions? {email}': '有疑問嗎？{email}',
+  'Terms for accessing the Apcosys API and using its data.':
+    '存取 Apcosys API 及使用其資料的條款。',
+  'How cookies and related technologies are used, and how to manage your preferences.':
+    '了解 Cookie 與相關技術的使用方式，以及如何管理您的偏好設定。',
+  'What Apcosys collects, how it is collected, and the purpose of those observations.':
+    '了解 Apcosys 收集哪些資料、如何收集，以及這些觀測資料的用途。',
+  'How personal data is processed, protected and retained when you use Apcosys.':
+    '了解使用 Apcosys 時，個人資料如何被處理、保護及保留。',
+  'How Apcosys collects, uses and shares personal information, and the choices available to you.':
+    '了解 Apcosys 如何收集、使用及分享個人資訊，以及您可以做出的選擇。',
+  'The terms governing access to the Apcosys website and services.':
+    '規範存取 Apcosys 網站與服務的條款。',
 } satisfies Record<string, string>;

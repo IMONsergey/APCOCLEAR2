@@ -60,7 +60,7 @@ export function ApplicationApiScene() {
                 <code>
                   {'https://api.apcosys.net'}
                   <wbr />
-                  {'/v1'}
+                  {'/api/v1'}
                 </code>
               </div>
             </div>

@@ -69,18 +69,3 @@ export const demoScenarios: Record<
 };
 export const demoNotice =
   'Synthetic demonstration. Reserved example addresses and authored service records; no live scan or CVE finding.';
-export const apiRequestExample =
-  'curl --request GET "$APCOSYS_API_ENDPOINT" \\\n  --header "$APCOSYS_AUTH_HEADER: $APCOSYS_API_KEY"';
-export const apiResponseExample = JSON.stringify(
-  {
-    note: 'Illustrative response shape only',
-    host: demoHosts[0]!.ip,
-    services: demoHosts[0]!.services.map(({ port, protocol, technology }) => ({
-      port: Number(port),
-      protocol,
-      technology,
-    })),
-  },
-  null,
-  2,
-);

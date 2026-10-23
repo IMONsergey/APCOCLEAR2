@@ -48,17 +48,20 @@ test('data lens adapts its internal columns to its own width', async ({ page }) 
   await expect(lens.locator('.data-lens__service').first()).toHaveCSS('font-size', '12px');
 });
 
-test('query fragment uses local content density inside a narrow desktop slot', async ({ page }) => {
+test('research collection stays readable in a narrow desktop slot', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('./');
-  const fragment = page.locator('.home-capabilities .query-fragment');
-  await expect(fragment).toBeVisible();
-  const code = fragment.locator('.query-fragment__options code').first();
-  await expect(code).toHaveCSS('font-size', '12px');
-  await fragment.evaluate((element: HTMLElement) => {
-    element.style.width = '400px';
+  const collection = page.locator('.home-collection .capability-record');
+  await expect(collection).toBeVisible();
+  await collection.evaluate((element: HTMLElement) => {
+    element.style.width = '240px';
   });
-  await expect(code).toHaveCSS('font-size', '10px');
+  const overflow = await collection.evaluate(
+    (element) => element.scrollWidth - element.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(1);
+  await expect(collection.locator('.capability-record__host')).toHaveCount(2);
+  await expect(collection.locator('strong').first()).toHaveCSS('font-size', '16px');
 });
 
 test('monitoring asset selection follows the width of its panel', async ({ page }) => {

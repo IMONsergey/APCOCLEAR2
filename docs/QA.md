@@ -16,7 +16,7 @@ npm run test:release
 
 The responsive-container acceptance cases constrain a data lens, query fragment, product evidence panel and monitoring asset selector while the viewport remains wide. They also check actual document overflow at intermediate widths. These scenarios run in the focused Chromium/Firefox/WebKit suite, not only in the full release contract.
 
-The general accessibility gate scans every available route plus a missing route in each locale: 44 URL states × two themes × 390/1440 px. It checks document language, failed local resources and WCAG-tagged axe rules, including label-in-name. Localized interaction scans additionally cover the language menu, mobile navigation, pricing dialog and invalid Contact submission in RU and Traditional Chinese in both themes. CI installs Noto CJK; local runners need a script-capable font as well. These checks complement manual reading and assistive-technology review.
+The general accessibility gate scans every available route plus a missing route in each locale: 60 URL states × two themes × 390/1440 px, or 240 route/theme/viewport cases. It checks document language, failed local resources and WCAG-tagged axe rules, including label-in-name. Localized interaction scans additionally cover the language menu, mobile navigation, pricing dialog and invalid Contact submission in RU and Traditional Chinese in both themes. CI installs Noto CJK; local runners need a script-capable font as well. These checks complement manual reading and assistive-technology review.
 
 ## Reproducible clean-room handoff
 
@@ -29,7 +29,7 @@ npx playwright install chromium firefox webkit
 npm run test:cross-browser
 ```
 
-The focused contract covers routes, interactions, navigation/history/focus, themes/artwork, forms, recovery, equal internal hero heights and navigation-order-independent styles. `npm test` runs the full current contract in all three engines and takes longer. PR CI runs the **full current acceptance contract** in Chromium, Firefox and WebKit (`npm test`), while main CI validates the full Chromium contract. An explicit publishing dispatch runs that contract before deployment and again against the actual Pages URL. `test:cross-browser` remains a faster focused local diagnostic, not sufficient by itself for final multi-engine signoff.
+The focused contract covers routes, interactions, navigation/history/focus, themes/artwork, forms, recovery, equal internal hero heights and navigation-order-independent styles. `npm test` runs the full current contract in all three engines and takes longer. Main pushes and manual publishing dispatches require the full Chromium, Firefox and WebKit acceptance contract before deployment, then run the Chromium contract against the actual Pages URL. Pull requests validate without publishing. `test:cross-browser` remains a faster focused local diagnostic, not sufficient by itself for final multi-engine signoff.
 
 Set `APCO_BASE_URL=https://your-host/path/` to test an already deployed build. For a local build at a different subdirectory, set `APCO_TEST_BASE_PATH=/your-path/` so Playwright starts the preview at the same path. Set `APCO_TEST_PORT=4198` if the default 4187 port is occupied; tests never attach to an existing local preview automatically. Otherwise Playwright starts the local preview on port 4187. The default preview path is `/APCOCLEAR2/`. For root/subpath verification, run the matching preview explicitly and pass its URL through `APCO_BASE_URL`.
 

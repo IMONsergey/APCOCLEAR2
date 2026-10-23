@@ -1,4 +1,8 @@
 export default {
+  'Team & Business plan': 'Команда и тариф Business',
+  'Billing & invoices': 'Оплата и счета',
+  'Responsible scanning': 'Ответственное сканирование',
+  Other: 'Другое',
   ' / month': ' в месяц',
   '(optional)': '(необязательно)',
   '{amount} billed annually': 'Оплата за год: {amount}',
@@ -63,8 +67,7 @@ export default {
   'Advisory applicability': 'Применимость уведомления',
   'All fields are required except company.': 'Все поля обязательны для заполнения, кроме компании.',
   'All Types': 'Все типы',
-  'Allowances and access shown in the current landing concept':
-    'Лимиты и доступ, показанные в текущей концепции лендинга.',
+  'Plan allowances and access': 'Лимиты тарифов и доступ',
   'An address, domain or product name.': 'Адрес, домен или название продукта.',
   'An association does not establish exploitability.':
     'Связь не устанавливает возможность эксплуатации.',
@@ -97,7 +100,7 @@ export default {
   'Apcosys turns responses from publicly accessible infrastructure into searchable observations. Three different kinds of information appear together in a result.':
     'Apcosys превращает ответы от публично доступной инфраструктуры в доступные для поиска наблюдения. В результате вместе отображаются три разных типа информации.',
   API: 'API',
-  'API & Data License Agreement': 'Лицензионное соглашение на API и данные',
+  'API & Data License Agreement': 'Лицензионное соглашение об API и данных',
   'API & integration': 'API и интеграция',
   'API access': 'Доступ к API',
   'API access by plan.': 'Доступ к API по тарифам.',
@@ -154,8 +157,8 @@ export default {
   'Business access': 'Доступ Business',
   'Business brings a larger allowance and access for up to {users} users. Discuss data needs, invoice payment and procurement questions with the team.':
     'Тариф Business предлагает больший лимит и доступ до {users} пользователей. Обсудите с командой потребности в данных, оплату по счету и вопросы закупок.',
-  'Business plan figures shown for the client preview. Final access and commercial terms are confirmed in the product.':
-    'Цифры тарифа Business показаны для предварительного просмотра клиентом. Окончательный доступ и коммерческие условия подтверждаются в самом продукте.',
+  'Confirm Business access and commercial terms in your account before purchase.':
+    'Перед покупкой подтвердите доступ по тарифу Business и коммерческие условия в своём аккаунте.',
   'Can I start for free?': 'Могу ли я начать бесплатно?',
   'Can I use the API?': 'Могу ли я использовать API?',
   'Candidate infrastructure. Confirm each target against the programme rules.':
@@ -591,14 +594,14 @@ export default {
   Ownership: 'Право собственности',
   'Ownership and attribution remain unproven.':
     'Право собственности и атрибуция остаются недоказанными.',
-  'Packages shown for the client preview. Check eligibility, token balance, expiry and final purchase terms in your account.':
-    'Пакеты показаны для предварительного просмотра клиентом. Проверьте доступ, баланс токенов, срок действия и окончательные условия покупки в вашей учетной записи.',
+  'Check package eligibility, token balance, expiry and final purchase terms in your account.':
+    'Проверьте доступность пакета, баланс токенов, срок действия и окончательные условия покупки в своём аккаунте.',
   'Patch state': 'Состояние патча',
   'Personal introduction': 'Знакомство с продуктом',
   'Pick up the investigation': 'Возобновите расследование',
   Plan: 'Тариф',
-  'Plan allowances are listed in credits; additional packages are sold as Search Tokens. The credit-to-token relationship is not yet verified. Confirm the account balance and package terms before adding capacity.':
-    'Лимиты тарифов указаны в кредитах; дополнительные пакеты продаются как Поисковые токены. Соотношение кредитов и токенов пока не подтверждено. Перед добавлением ресурсов проверьте баланс учетной записи и условия пакетов.',
+  'Plan allowances use credits; additional packages use Search Tokens. Check the conversion, available balance and package terms in your account before adding capacity.':
+    'Лимиты тарифов учитываются в кредитах, а дополнительные пакеты — в поисковых токенах. Перед увеличением лимита проверьте соотношение единиц, доступный баланс и условия пакета в своём аккаунте.',
   'Plan billing options': 'Варианты оплаты тарифов',
   'Plan comparison': 'Сравнение тарифов',
   'Plan rate limit': 'Лимит скорости тарифа',
@@ -735,8 +738,8 @@ export default {
     'Ищите хосты в интернете по IP, домену, порту, сервису или технологии, смотрите, что на них работает, и уточняйте поиск по ходу дела.',
   'Search internet-facing hosts, services and technologies.':
     'Поиск доступных из интернета хостов, сервисов и технологий.',
-  'Search observed products and versions. CVE context is available from Plus in the plan preview.':
-    'Ищите наблюдаемые продукты и версии. Контекст CVE доступен начиная с тарифа Plus в предварительном просмотре тарифов.',
+  'Search observed products and versions. The plan comparison lists CVE context from Plus.':
+    'Ищите наблюдаемые продукты и версии. В сравнении тарифов контекст CVE указан начиная с Plus.',
   'SEARCH RESULTS': 'РЕЗУЛЬТАТЫ ПОИСКА',
   'Search the infrastructure behind the internet.': 'Ищите инфраструктуру, стоящую за интернетом.',
   'Search Token': 'Поисковый токен',
@@ -839,13 +842,13 @@ export default {
     'Расскажите нам, какие активы, изменения и рабочие процессы расследования важны для вашей команды. Помогите сформировать опыт использования мониторинга.',
   'Tell us which data, observations or coverage you want to understand.':
     'Расскажите нам, какие данные, наблюдения или покрытие вы хотите понять.',
-  'Terms & Conditions': 'Условия и положения',
+  'Terms & Conditions': 'Условия использования',
   'Testing rules': 'Правила тестирования',
   'The approach': 'Подход',
   'The data behind': 'Данные, стоящие за',
   'The data behind every search.': 'Данные, стоящие за каждым поиском.',
-  'The exact meanings of Created and Updated, and the scan cadence, still require confirmation.':
-    'Точные значения полей Created (Создано) и Updated (Обновлено), а также частота сканирования все еще требуют подтверждения.',
+  'Coverage totals do not indicate when an individual service was last observed. Check the timestamps attached to the record.':
+    'Суммарные показатели покрытия не указывают, когда отдельный сервис наблюдался в последний раз. Проверьте временные метки в его записи.',
   'The existing Free plan introduces the service for personal, non-commercial use.':
     'Тариф Free позволяет познакомиться с сервисом для личного некоммерческого использования.',
   'The form prepares a message in your email application. You review it and send it from there.':
@@ -1034,8 +1037,8 @@ export default {
   Dark: 'Темная',
   'Domain records': 'Записи домена',
   Essential: 'Обязательные',
-  'Essential browser storage supports the website theme and your saved preferences. No optional analytics or marketing trackers are enabled in this client preview.':
-    'Обязательное хранилище браузера поддерживает тему сайта и сохраненные настройки. В этой клиентской версии не включены дополнительные аналитические или маркетинговые трекеры.',
+  'Essential browser storage supports the website theme and your saved preferences. No optional analytics or marketing trackers are enabled on this website.':
+    'Обязательное хранилище браузера поддерживает тему сайта и сохранённые настройки. На этом сайте не включены дополнительные аналитические или маркетинговые трекеры.',
   'Evidence source': 'Источник доказательств',
   'Example investigation note': 'Пример заметки о расследовании',
   'Example investigations': 'Примеры расследований',
@@ -1077,15 +1080,14 @@ export default {
   'NEXT RESEARCH LEAD': 'СЛЕДУЮЩАЯ ЗАЦЕПКА ДЛЯ ИССЛЕДОВАНИЯ',
   'No live observation': 'Нет наблюдения в реальном времени',
   'Not included': 'Не включено',
-  'Not installed in this preview': 'Не установлена в этой версии',
+  'Not enabled on this website': 'На этом сайте не включена',
   'Not provided': 'Не указано',
   'Observation time': 'Время наблюдения',
   'Observation, detection, association: different levels of certainty.':
     'Наблюдение, обнаружение и связь — разные уровни достоверности.',
   'On this page': 'На этой странице',
   'Open Apcosys Search': 'Открыть поиск Apcosys',
-  'OSINT & Threat Investigation':
-    'OSINT (разведка на основе открытых источников) и расследование угроз',
+  'OSINT & Threat Investigation': 'OSINT и расследование угроз',
   'Pause product animation': 'Приостановить анимацию продукта',
   'Play product animation': 'Воспроизвести анимацию продукта',
   Port: 'Порт',
@@ -1515,4 +1517,165 @@ export default {
   'Observed services and metadata': 'Наблюдаемые сервисы и метаданные',
   'Illustrative API workspace with a masked key, credit balances and documentation access.':
     'Пример рабочей области API со скрытым ключом, остатками кредитов и доступом к документации.',
+  'Built for people who investigate the internet.': 'Для тех, кто исследует интернет.',
+  'Apcosys makes technical observations about internet-facing infrastructure searchable, so security researchers and teams can investigate them.':
+    'Apcosys делает технические наблюдения об инфраструктуре, доступной из интернета, пригодными для поиска и исследования специалистами и командами по безопасности.',
+  'Why Apcosys': 'Зачем нужен Apcosys',
+  'Our approach': 'Наш подход',
+  'Explore the platform': 'Изучите платформу',
+  'Talk to the people behind the product.': 'Свяжитесь с командой продукта.',
+  'Questions about the platform, data or collaboration? Reach the team at {email}.':
+    'Есть вопросы о платформе, данных или сотрудничестве? Напишите команде на {email}.',
+  'A glass lens brings one connected host into focus within an infrastructure landscape.':
+    'Стеклянная линза выделяет один подключённый хост на фоне окружающей инфраструктуры.',
+  'Why we built Apcosys.': 'Зачем мы создали Apcosys.',
+  'The answer is rarely in the first result. A good investigation needs a clear path from a technical question to the evidence behind it.':
+    'Ответ редко находится в первом результате. Для качественного исследования нужен понятный путь от технического вопроса к подтверждающим его данным.',
+  'Internet infrastructure produces a large volume of technical signals. The difficult part is turning an initial lead into a question you can investigate.':
+    'Инфраструктура интернета создаёт огромный объём технических сигналов. Сложнее всего превратить первоначальную зацепку в вопрос, который можно исследовать.',
+  'Apcosys brings hosts, services and detected technologies into a searchable view, so researchers can open a result, understand its context and choose where to look next.':
+    'Apcosys объединяет хосты, сервисы и обнаруженные технологии в едином поиске. Исследователь может открыть результат, разобраться в его контексте и выбрать следующий шаг.',
+  'Start with an attribute.': 'Начните с известного признака.',
+  'Inspect the services.': 'Изучите сервисы.',
+  'Read the evidence.': 'Изучите подтверждающие данные.',
+  'Next question': 'Следующий вопрос',
+  'Our approach.': 'Наш подход.',
+  'Make the evidence easier to find, easier to understand and easier to use responsibly.':
+    'Упростить поиск и понимание технических данных и помочь использовать их ответственно.',
+  'Searchable observations.': 'Наблюдения, доступные для поиска.',
+  'We turn how public hosts respond — ports, services and technologies — into data you can query. Start with an attribute you know and narrow the question as you learn.':
+    'Мы превращаем ответы публичных хостов — порты, сервисы и технологии — в данные для поиска. Начните с известного признака и уточняйте вопрос по мере исследования.',
+  'Built for investigation.': 'Создано для исследования.',
+  'The product follows the path from query to host to context. Each step should help a researcher decide what deserves a closer look.':
+    'Продукт ведёт от запроса к хосту и его контексту. Каждый шаг помогает исследователю понять, что заслуживает более пристального внимания.',
+  'Transparent data.': 'Прозрачные данные.',
+  'A useful result explains what was observed and what remains uncertain. Collection context, observation dates and detection limits matter as much as the result itself.':
+    'Полезный результат показывает, что наблюдалось, а что остаётся неопределённым. Условия сбора, даты наблюдений и ограничения определения технологий так же важны, как сам результат.',
+  'Responsible collection.': 'Ответственный сбор данных.',
+  'Publicly observable information is not permission to test a system. We provide a direct contact route for scanning questions and network exclusion requests.':
+    'Публичная доступность информации не даёт разрешения тестировать систему. С нами можно связаться напрямую по вопросам сканирования и исключения сетей.',
+  'See the approach in practice.': 'Посмотрите, как это работает.',
+  'Explore the investigation workflow and the principles behind the data.':
+    'Изучите процесс исследования и принципы работы с данными.',
+  'From a question to a host.': 'От вопроса к хосту.',
+  'Follow a query through results, services and technical context.':
+    'Пройдите путь от запроса к результатам, сервисам и техническому контексту.',
+  'What sits behind a result.': 'Что стоит за результатом.',
+  'Read about observations, coverage, dates and potential CVE associations.':
+    'Узнайте о наблюдениях, охвате, датах и возможных связях с CVE.',
+  'Apcosys scanning inquiry': 'Вопрос о сканировании Apcosys',
+  'Apcosys network exclusion request': 'Запрос на исключение сети из сканирования Apcosys',
+  'Networks / IP ranges:': 'Сети / диапазоны IP-адресов:',
+  'My role in managing these networks:': 'Моя роль в управлении этими сетями:',
+  'Contact details:': 'Контактные данные:',
+  'Relevant dates and context:': 'Даты и обстоятельства обращения:',
+  'How Apcosys scans.': 'Как сканирует Apcosys.',
+  'The principles behind collecting observations from publicly accessible systems, and how to reach us about scanning activity or a network exclusion.':
+    'Принципы сбора наблюдений о публично доступных системах и способы связаться с нами по вопросам сканирования или исключения сети.',
+  Collection: 'Сбор данных',
+  'Identify traffic': 'Проверка трафика',
+  'Request exclusion': 'Исключение сети',
+  'Contact the scanning team': 'Связаться с командой сканирования',
+  'Request an exclusion': 'Запросить исключение',
+  'Questions about an observation?': 'Есть вопросы о наблюдении?',
+  'Share the relevant network and time context with the team. For help interpreting a result, start with Data & Methodology.':
+    'Сообщите команде сведения о сети и времени события. Чтобы разобраться в результатах, начните с раздела «Данные и методология».',
+  'Email the scanning team': 'Написать команде сканирования',
+  'A glass boundary defines the infrastructure reached through a controlled entry point.':
+    'Стеклянная граница очерчивает инфраструктуру, доступную через контролируемую точку входа.',
+  'What we collect.': 'Какие данные мы собираем.',
+  'Apcosys records how publicly accessible services respond to connection requests. Those responses become searchable technical observations.':
+    'Apcosys фиксирует ответы публично доступных сервисов на запросы подключения. Эти ответы становятся техническими наблюдениями, доступными для поиска.',
+  'Ports and services': 'Порты и сервисы',
+  'Where a service responds and which supported protocol is observed.':
+    'Где отвечает сервис и какой из поддерживаемых протоколов наблюдается.',
+  'Service responses': 'Ответы сервисов',
+  'The technical response used as evidence for an observation.':
+    'Технический ответ, на котором основано наблюдение.',
+  'Detected technologies': 'Обнаруженные технологии',
+  'Products and versions inferred from the available response.':
+    'Продукты и версии, определённые по доступному ответу.',
+  'For detailed collection boundaries or questions about specific traffic, contact the scanning team.':
+    'Чтобы уточнить границы сбора данных или задать вопрос о конкретном трафике, свяжитесь с командой сканирования.',
+  'Identifying our scanners.': 'Как определить наши сканеры.',
+  'If you believe traffic came from Apcosys, send the details needed to check its origin. A product name or service banner alone is not enough to verify a scanner.':
+    'Если вы считаете, что трафик пришёл от Apcosys, отправьте сведения для проверки его источника. Одного названия продукта или баннера сервиса недостаточно, чтобы определить сканер.',
+  'What to include': 'Что указать',
+  Source: 'Источник',
+  'The source IP observed in your logs.': 'IP-адрес источника, зафиксированный в ваших журналах.',
+  Destination: 'Назначение',
+  'The affected address, port and protocol.': 'Адрес назначения, порт и протокол.',
+  Time: 'Время',
+  'The date, time and timezone of the traffic.': 'Дата, время и часовой пояс события.',
+  'A short description and a relevant, sanitised log excerpt.':
+    'Краткое описание и относящийся к событию фрагмент журнала без конфиденциальных данных.',
+  'Ask us to verify it.': 'Попросите нас проверить источник.',
+  'Write to the team with the source and destination details. We can review your question against the relevant scanning information.':
+    'Напишите команде и укажите сведения об источнике и назначении трафика. Мы сможем сопоставить ваш запрос с информацией о сканировании.',
+  'Do not send passwords, API keys or unrelated customer data.':
+    'Не отправляйте пароли, API-ключи и данные клиентов, не относящиеся к обращению.',
+  'Email {email}': 'Написать на {email}',
+  'Opting out.': 'Как отказаться от сканирования.',
+  'If you own or administer a network, contact us with the IP ranges you want excluded. Give the team enough context to identify the request and reach you.':
+    'Если вы владеете сетью или администрируете её, сообщите нам диапазоны IP-адресов, которые нужно исключить. Укажите сведения, необходимые для рассмотрения запроса и связи с вами.',
+  'Identify the networks.': 'Укажите сети.',
+  'List the relevant IP addresses or ranges. If the request concerns a particular event, include its date and timezone.':
+    'Перечислите IP-адреса или диапазоны. Если запрос связан с определённым событием, укажите его дату и часовой пояс.',
+  'Explain your role.': 'Опишите свою роль.',
+  'Describe your responsibility for these networks and include a working contact address for follow-up.':
+    'Опишите свою ответственность за эти сети и укажите действующий адрес для обратной связи.',
+  'Send the request.': 'Отправьте запрос.',
+  'The email link below prepares a short request. The team will need to confirm the next steps; an email draft does not apply an exclusion automatically.':
+    'Ссылка ниже подготовит короткое письмо. Команда должна подтвердить дальнейшие действия: создание черновика не исключает сеть автоматически.',
+  'Prepare a network exclusion request': 'Подготовить запрос на исключение сети',
+  'Use the X-API-Key header. Keep your API key on a trusted server, outside browser code.':
+    'Используйте заголовок X-API-Key. Храните API-ключ на доверенном сервере, вне кода браузера.',
+  'Documented response structure with synthetic host data. No request has been sent.':
+    'Структура ответа из документации с вымышленными данными хоста. Запрос не отправлялся.',
+  'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.':
+    'HTTP-запрос из документации. Перед выполнением задайте APCOSYS_API_KEY в серверном окружении.',
+  'Send a small host-search request to the public HTTP API. Use your account API key in the X-API-Key header.':
+    'Отправьте небольшой запрос поиска хостов в публичный HTTP API. Укажите API-ключ своего аккаунта в заголовке X-API-Key.',
+  'Send JSON to POST /api/v1/search/hosts. Start with a small page size and the filters your plan supports.':
+    'Отправьте JSON через POST /api/v1/search/hosts. Начните с небольшого размера страницы и фильтров, доступных на вашем тарифе.',
+  'The HTTP API documents method costs separately from plan request rates. Review the current reference before scheduling larger workflows.':
+    'Стоимость методов в документации HTTP API указана отдельно от лимитов частоты запросов по тарифам. Перед планированием масштабных задач изучите актуальную документацию.',
+  'Published HTTP API limits are shown here. Check current plan details in your Apcosys account before scheduling a larger workflow.':
+    'Здесь приведены опубликованные лимиты HTTP API. Перед планированием масштабной задачи проверьте актуальные условия тарифа в своём аккаунте Apcosys.',
+  'Open Apcosys': 'Открыть Apcosys',
+  'Opens in a new tab': 'Откроется в новой вкладке',
+  'Copy plan details': 'Скопировать условия тарифа',
+  'Plan details copied.': 'Условия тарифа скопированы.',
+  'Copy the plan details below. Your selection stays on this page while Apcosys opens in another tab.':
+    'Скопируйте условия тарифа ниже. Ваш выбор останется на этой странице, а Apcosys откроется в другой вкладке.',
+  'Selected plan details': 'Условия выбранного тарифа',
+  'Coverage snapshot · {date}': 'Снимок покрытия · {date}',
+  'View statistics source': 'Источник статистики',
+  'These figures reproduce the public statistics endpoint. Read them alongside the source and its update date.':
+    'Эти показатели взяты из публичного API статистики. Рассматривайте их вместе с источником и датой его обновления.',
+  'Total reported in the {field} field.': 'Общее значение, указанное в поле {field}.',
+  'This is a dated snapshot, not a live total. The endpoint does not specify counting or deduplication rules.':
+    'Это снимок на указанную дату, а не текущие значения в реальном времени. API не описывает правила подсчёта и удаления дубликатов.',
+  Products: 'Продукты',
+  'Last updated': 'Последнее обновление',
+  'Print document': 'Распечатать документ',
+  'Legal documents': 'Юридические документы',
+  'About this translation': 'Об этом переводе',
+  'This translation is provided for reference. The English original is the authoritative published text.':
+    'Перевод предоставлен для ознакомления. Официальный опубликованный текст — английский оригинал.',
+  'Read the English original': 'Читать английский оригинал',
+  'Back to top': 'К началу',
+  'Questions? {email}': 'Есть вопросы? {email}',
+  'Terms for accessing the Apcosys API and using its data.':
+    'Условия доступа к API Apcosys и использования его данных.',
+  'How cookies and related technologies are used, and how to manage your preferences.':
+    'Как используются файлы cookie и связанные технологии и как управлять своими предпочтениями.',
+  'What Apcosys collects, how it is collected, and the purpose of those observations.':
+    'Какие данные собирает Apcosys, как проводится сбор и для чего нужны эти наблюдения.',
+  'How personal data is processed, protected and retained when you use Apcosys.':
+    'Как обрабатываются, защищаются и хранятся персональные данные при использовании Apcosys.',
+  'How Apcosys collects, uses and shares personal information, and the choices available to you.':
+    'Как Apcosys собирает, использует и передаёт персональную информацию и какие возможности есть у вас.',
+  'The terms governing access to the Apcosys website and services.':
+    'Условия доступа к сайту и сервисам Apcosys.',
 } satisfies Record<string, string>;

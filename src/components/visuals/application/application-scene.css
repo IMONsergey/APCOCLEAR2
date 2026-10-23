@@ -410,7 +410,7 @@ html[data-theme='dark'] .application-scene {
 }
 .application-certificate dl > div {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr);
   gap: var(--space-2);
 }
 .application-certificate dt {

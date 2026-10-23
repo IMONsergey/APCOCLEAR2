@@ -51,14 +51,18 @@ export function readPublicSettings(env: PublicEnvironment) {
   if (signInUrl && signInUrl.origin !== product.origin) {
     throw new Error('VITE_APCO_SIGN_IN_URL must stay on the product origin.');
   }
-  const apiDocumentationUrl = docs ? httpUrl(docs, 'VITE_APCO_API_DOCS_URL') : null;
+  const apiDocumentationUrl = docs
+    ? httpUrl(docs, 'VITE_APCO_API_DOCS_URL')
+    : product.origin === 'https://apcosys.net'
+      ? new URL('/docs/api', product)
+      : null;
   if (apiDocumentationUrl && apiDocumentationUrl.protocol !== 'https:') {
     throw new Error('VITE_APCO_API_DOCS_URL must be a verified HTTPS URL.');
   }
   return {
     productUrl: product.origin,
     supportEmail,
-    signInUrl: signInUrl?.href ?? product.href,
+    signInUrl: signInUrl?.href ?? new URL('/login', product).href,
     apiDocumentationUrl: apiDocumentationUrl?.href ?? null,
   };
 }

@@ -328,6 +328,7 @@
 .stage-prepared-email {
   display: grid;
   gap: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 @media (min-width: 1001px) {
   .stage-table-hint {

@@ -19,11 +19,20 @@ test('rendered sign-in and API documentation use the configured destinations', a
   }
 });
 
-test('default sign-in opens the client site while unverified API docs stay disabled', () => {
+test('defaults use the published login route and HTTP API documentation', () => {
   expect(readPublicSettings({})).toEqual({
     productUrl: 'https://apcosys.net',
     supportEmail: 'info@apcosys.net',
-    signInUrl: 'https://apcosys.net/',
+    signInUrl: 'https://apcosys.net/login',
+    apiDocumentationUrl: 'https://apcosys.net/docs/api',
+  });
+});
+
+test('a custom product origin uses its login and local guide without assuming a docs route', () => {
+  expect(
+    readPublicSettings({ VITE_APCO_PRODUCT_URL: 'https://product.example.com' }),
+  ).toMatchObject({
+    signInUrl: 'https://product.example.com/login',
     apiDocumentationUrl: null,
   });
 });

@@ -1,6 +1,6 @@
 # Application demonstrations — 23 October 2026
 
-The five Home research scenes and the API illustration now use the approved application design. This is a replacement of the former GSAP custom-element scenes, following the initial frontend audit commit `4355610ef225780d44d64a2e0d2221bf9791f904`. That initial revision repaired the old scenes but did not complete this replacement. GSAP 3.13.0 remains the animation engine; its notice is retained.
+The five Home research scenes and the API illustration now use the approved application design. This replaces the former custom-element scenes, following the initial frontend audit commit `4355610ef225780d44d64a2e0d2221bf9791f904`. That initial revision repaired the old scenes but did not complete this replacement. The final review also replaces both remaining GSAP playback modules with native browser animation and removes the dependency from the distribution.
 
 ## Design source and scope
 
@@ -44,17 +44,19 @@ The API heading follows the website's prose spelling, `Apcosys`, in all three lo
 
 ## Runtime contract
 
-`ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render the complete translated frame eagerly. `StepDemoMount` and `ApiDemoMount` load `applicationPlayback.ts` near the viewport. GSAP controls a decorative cursor, target emphasis, query typing, the country-filter result count and the illustrative copied state. It does not own navigation, page text, real credentials or API communication.
+`ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render the complete translated frame eagerly. `StepDemoMount` and `ApiDemoMount` load `applicationPlayback.ts` near the viewport. A native animation clock controls a decorative cursor, target emphasis, query typing, the country-filter result count and the illustrative copied state. It does not own navigation, page text, real credentials or API communication.
 
-The four phases are exposed by `data-demo-phase`. `data-demo-playback` reports `static`, `playing` or `paused`. An intersection observer pauses offscreen motion, document visibility pauses hidden tabs, and a media-query listener applies a changed reduced-motion preference immediately. Cleanup removes observers/listeners, cancels a pending resize frame and reverts the GSAP context. Tests assert visible motion and frozen transforms rather than reaching into private timeline fields.
+The four phases are exposed by `data-demo-phase`. `data-demo-playback` reports `static`, `playing` or `paused`. An intersection observer pauses offscreen motion, document visibility pauses hidden tabs, and a media-query listener applies a changed reduced-motion preference immediately. Paused time does not accumulate into a jump on resume. Cleanup removes observers/listeners, cancels pending frames and restores the inline styles owned by playback. Tests assert visible motion and frozen transforms rather than reaching into private clock fields.
 
 Reduced motion leaves the complete initial frame readable. If the animation chunk fails, the React frame stays visible. Text, dates, balances, percentages and descriptions use the current EN/RU/Traditional Chinese locale. All six frames support the website's light and dark modes. The illustration subtree is inert and hidden from assistive technology; the enclosing image role has a translated description. Real page links and actions remain outside it.
 
 ## Data boundaries
 
-Host examples use `192.0.2.10`, `192.0.2.11`, AS64496 and `example.com`. TLS evidence stays attached to HTTPS/443 throughout playback and includes a complete 32-byte SHA-256 fingerprint. Fingerprints wrap between complete hexadecimal bytes, and each localized date remains a single unit when its validity range wraps. The API key is an eight-dot visual mask; it conveys neither a real credential nor an actual key length. Balances and `https://api.apcosys.net/v1` reproduce illustrative Figma content. No request is sent to that address and the illustrated copy/regenerate controls perform no real action. The actual developer-page template continues to use explicit integration placeholders.
+Host examples use `192.0.2.10`, `192.0.2.11`, AS64496 and `example.com`. TLS evidence stays attached to HTTPS/443 throughout playback and includes a complete 32-byte SHA-256 fingerprint. Fingerprints wrap between complete hexadecimal bytes, and each localized date remains a single unit when its validity range wraps. The API key is an eight-dot visual mask; it conveys neither a real credential nor an actual key length. Balances remain synthetic. The base URL is corrected to the published HTTP API origin and prefix, `https://api.apcosys.net/api/v1`. No request is sent from the illustration, and its copy/regenerate controls perform no real action. The developer-page request uses the documented POST host-search contract and X-API-Key authentication, with a clearly labelled synthetic response. See [Product integrations](reference/PRODUCT-INTEGRATIONS.md).
 
 ## Acceptance record
+
+This section records the earlier scene-replacement stage. See [Final readiness](FINAL-READINESS.md) for the subsequent full-site visual review and final validation of the current source.
 
 The replacement was checked at 320, 390, 768, 1024, 1440 and 1856 px in all three locales and both themes: 216 scene samples. The final matrix had no visible glyph clipping, broken images, page exceptions or document horizontal overflow. Seventy-two frame captures cover all six scenes at 320/1440 px; manual review covers composition, hierarchy, word wrapping, legibility and theme consistency in every capture. Minimum visible scene body text is 12 px.
 

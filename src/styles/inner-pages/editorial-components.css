@@ -175,6 +175,11 @@
   color: var(--accent-text);
   letter-spacing: var(--tracking-heading);
 }
+.site .inner-pages .coverage-source a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .site .inner-pages :is(.collection-layout, .team-handoff, .api-access-layout, .scanning-request) {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -493,7 +498,7 @@
 }
 .site .inner-pages .scanning-request dl > div {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: max-content minmax(0, 1fr);
   gap: var(--space-6);
 }
 .site .inner-pages .scanning-request dd {
@@ -697,8 +702,8 @@
     font-size: var(--font-size-24);
   }
   .site .inner-pages .scanning-request dl > div {
-    grid-template-columns: 80px 1fr;
-    gap: var(--space-4);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
   }
   .site .inner-pages .contact-topics {
     grid-template-columns: 1fr;

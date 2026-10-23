@@ -44,16 +44,16 @@ for (const mode of ['native', 'fallback', 'reduced'] as const) {
   });
 }
 
-test('capability changes keep text visible without masks or duplicate states', async ({ page }) => {
+test('data-type changes keep text visible without masks or duplicate states', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('./');
-  const panel = page.locator('.home-capabilities > .container > .morph-panel');
+  const panel = page.locator('.data-lens > .morph-panel');
   await panel.scrollIntoViewIfNeeded();
   const frames = await page.evaluate(async () => {
     const samples: { opacity: string; clip: string; copies: number; heading: string }[] = [];
-    const root = document.querySelector('.home-capabilities > .container > .morph-panel')!;
+    const root = document.querySelector('.data-lens > .morph-panel')!;
     for (const button of document.querySelectorAll<HTMLButtonElement>(
-      '.home-capabilities__tabs button',
+      '.home-searchable__index button',
     )) {
       button.click();
       for (let i = 0; i < 12; i++) {
@@ -63,8 +63,8 @@ test('capability changes keep text visible without masks or duplicate states', a
         samples.push({
           opacity: style.opacity,
           clip: style.clipPath,
-          copies: root.querySelectorAll('.home-capabilities__stage').length,
-          heading: content.querySelector('h3')!.textContent!,
+          copies: root.querySelectorAll('.data-lens__body').length,
+          heading: root.parentElement!.getAttribute('aria-label')!,
         });
       }
     }

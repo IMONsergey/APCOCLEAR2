@@ -48,15 +48,15 @@ test('translated labels include both conditional branches and preserve meaningfu
   );
 });
 
-test('technical examples, component props and English-only pages are not guessed as messages', (t) => {
+test('technical examples and catalogs are not guessed as messages; legal UI is checked', (t) => {
   const sources = fixture(t, {
     'src/View.tsx': `const selector = '.foo'; const View = () => <Text>Read <code>HTTP/1.1</code><span data-typography="verbatim">nginx</span><input value="technical value" /><span>the guide</span></Text>;`,
-    'src/pages/LegalPages.tsx': 'const label = t("Legal body remains English");',
+    'src/pages/LegalPages.tsx': 'const label = t("Print document");',
     'src/i18n/translations/ru.ts': 'const value = t("Do not scan catalogs");',
   });
   assert.deepEqual(
-    sources.map(({ message }) => message),
-    ['Read ', 'the guide'],
+    new Set(sources.map(({ message }) => message)),
+    new Set(['Read ', 'the guide', 'Print document']),
   );
 });
 
@@ -102,4 +102,20 @@ test('translated plan record fields are required without treating identifiers or
     missingTranslations(sources, { ru: {}, 'zh-Hant': {} }).join('\n'),
     /missing UI message: "Basic"/,
   );
+});
+
+test('dynamic contact topics cannot silently fall back to English in selects or email drafts', (t) => {
+  const sources = fixture(t, {
+    'src/pages/corporate/contactTopics.ts': `export const topics = ['Other', 'Billing & invoices', 'A newly added topic'] as const; const route = '/contact';`,
+  });
+  assert.deepEqual(
+    new Set(sources.map(({ message }) => message)),
+    new Set(['Other', 'Billing & invoices', 'A newly added topic']),
+  );
+  const failures = missingTranslations(sources, {
+    ru: { Other: 'Другое', 'Billing & invoices': 'Оплата и счета' },
+    'zh-Hant': { Other: '其他', 'Billing & invoices': '帳單與發票' },
+  });
+  assert.equal(failures.length, 2);
+  assert.ok(failures.every((failure) => failure.includes('A newly added topic')));
 });

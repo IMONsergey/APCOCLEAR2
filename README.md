@@ -1,6 +1,6 @@
 # Apcosys website
 
-React 19 + TypeScript + Vite marketing website: 19 English routes, 11 Russian and 11 Traditional Chinese marketing variants, Light/Dark/System themes, English legal documents and GSAP/canvas product demonstrations. The authenticated product is a separate system. Start developer onboarding with [Handoff](docs/HANDOFF.md).
+React 19 + TypeScript + Vite marketing website: all 19 pages in English, Russian and Traditional Chinese (57 localized URLs), Light/Dark/System themes, reference legal translations and application-based product demonstrations. The authenticated product is a separate system. Start developer onboarding with [Handoff](docs/HANDOFF.md) and inspect the latest [readiness review](docs/FINAL-READINESS.md).
 
 ## Local setup
 
@@ -61,7 +61,7 @@ The current Playwright acceptance suite is the release baseline. Visual changes 
 
 ## Deployment and documentation
 
-This repository is [IMONsergey/APCOCLEAR2](https://github.com/IMONsergey/APCOCLEAR2); its GitHub Pages target is https://imonsergey.github.io/APCOCLEAR2/. Confirm the successful publication workflow before sharing that URL. Publishing requires an explicit Actions workflow dispatch; ordinary pushes only validate the code. Vercel root-build settings are included, but hosting must be connected separately. `noindex` remains enabled until public-launch approval.
+This repository is [IMONsergey/APCOCLEAR2](https://github.com/IMONsergey/APCOCLEAR2); its GitHub Pages target is https://imonsergey.github.io/APCOCLEAR2/. Confirm the successful publication workflow before sharing that URL. A main push runs the full Chromium, Firefox and WebKit acceptance gates before publication, followed by Chromium checks against the actual deployment. Vercel root-build settings are included, but hosting must be connected separately. Review copies default to `noindex`; `APCO_SITE_INDEXABLE=true` requires a valid final HTTPS site origin.
 
 - [Developer handoff and integration boundaries](docs/HANDOFF.md)
 - [Move into a fresh repository](docs/MIGRATION.md)
@@ -69,6 +69,7 @@ This repository is [IMONsergey/APCOCLEAR2](https://github.com/IMONsergey/APCOCLE
 - [Localization strategy and translation release gates](docs/LOCALIZATION.md)
 - [Deployment and rollback](docs/DEPLOYMENT.md)
 - [Quality assurance](docs/QA.md)
-- [Quality review and remaining release decisions](docs/QUALITY-REVIEW.md)
+- [Current readiness and release status](docs/FINAL-READINESS.md)
+- [Initial audit history](docs/QUALITY-REVIEW.md)
 - [Grid](docs/SITE-GRID.md), [assets](docs/ASSETS.md), [visual engines](docs/VISUALS.md)
 - [Documentation index](docs/README.md) — maintenance guides and legal source files

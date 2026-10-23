@@ -81,6 +81,14 @@ const replaceMeta = (html: string, attribute: string, key: string, value: string
   );
 };
 const origin = process.env.APCO_PUBLIC_SITE_ORIGIN?.replace(/\/+$/, '') ?? '';
+const indexingSetting = process.env.APCO_SITE_INDEXABLE || 'false';
+if (!['true', 'false'].includes(indexingSetting)) {
+  throw new Error('APCO_SITE_INDEXABLE must be true or false.');
+}
+const indexable = indexingSetting === 'true';
+if (indexable && !origin) {
+  throw new Error('An indexable build requires APCO_PUBLIC_SITE_ORIGIN.');
+}
 if (origin) {
   const url = new URL(origin);
   if (url.protocol !== 'https:' || url.origin !== origin || url.username || url.password) {
@@ -98,6 +106,7 @@ const localizedPath = (path: string, locale: Locale): string => {
   return (base || '') + (path === '/' ? prefix + '/' : prefix + path);
 };
 const locales: readonly Locale[] = ['en', 'ru', 'zh-Hant'];
+const sitemapEntries: string[] = [];
 let generated = 0;
 for (const locale of locales) {
   await loadLocale(locale);
@@ -114,6 +123,8 @@ for (const locale of locales) {
     html = replaceMeta(html, 'name', 'description', description);
     html = replaceMeta(html, 'property', 'og:title', title);
     html = replaceMeta(html, 'property', 'og:description', description);
+    html = replaceMeta(html, 'name', 'robots', indexable ? 'index, follow' : 'noindex, nofollow');
+    html = html.replace('<html ', `<html data-indexable="${indexable}" `);
     const canonicalPath = localizedPath(route.path, locale);
     if (origin) {
       const links = [
@@ -133,6 +144,20 @@ for (const locale of locales) {
         }
       }
       html = html.replace('</head>', links.join('\n') + '\n  </head>');
+      const alternatives = hasLocalizedCopy(route.path)
+        ? ([...locales, 'x-default'] as const).map((alternate) => {
+            const targetLocale = alternate === 'x-default' ? 'en' : alternate;
+            return `    <xhtml:link rel="alternate" hreflang="${alternate}" href="${escape(origin + localizedPath(route.path, targetLocale))}" />`;
+          })
+        : [];
+      sitemapEntries.push(
+        [
+          '  <url>',
+          `    <loc>${escape(origin + canonicalPath)}</loc>`,
+          ...alternatives,
+          '  </url>',
+        ].join('\n'),
+      );
     }
     const relativePath = localizedPath(route.path, locale).slice(base.length).replace(/^\//, '');
     const target = join(dist, relativePath, 'index.html');
@@ -143,10 +168,28 @@ for (const locale of locales) {
 }
 await loadLocale('en');
 let notFound = template.replace(/<title>[^<]*<\/title>/, '<title>Page not found | Apcosys</title>');
+notFound = notFound.replace('<html ', `<html data-indexable="${indexable}" `);
+notFound = replaceMeta(notFound, 'name', 'robots', 'noindex, nofollow');
 notFound = replaceMeta(notFound, 'name', 'description', 'Find what you need on Apcosys.');
 notFound = replaceMeta(notFound, 'property', 'og:title', 'Page not found | Apcosys');
 notFound = replaceMeta(notFound, 'property', 'og:description', 'Find what you need on Apcosys.');
 await writeFile(join(dist, '404.html'), notFound);
+if (origin) {
+  await writeFile(
+    join(dist, 'sitemap.xml'),
+    [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+      ...sitemapEntries,
+      '</urlset>',
+      '',
+    ].join('\n'),
+  );
+}
+await writeFile(
+  join(dist, 'robots.txt'),
+  `User-agent: *\n${indexable ? 'Allow: /' : 'Disallow: /'}\n${origin ? `\nSitemap: ${origin}${base}/sitemap.xml\n` : ''}`,
+);
 console.log(
   'Generated localized static title, description and Open Graph metadata for',
   generated,

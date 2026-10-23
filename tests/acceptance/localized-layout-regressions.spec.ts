@@ -45,6 +45,36 @@ async function showBillingDock(page: Page) {
   throw new Error('The billing switch was unavailable throughout the pricing section.');
 }
 
+for (const locale of ['', 'ru/', 'zh-hant/']) {
+  for (const theme of ['light', 'dark'] as const) {
+    for (const width of [320, 768, 1440]) {
+      test(`search validation stays above example controls: ${locale || 'en'} ${theme} ${width}px`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.emulateMedia({ colorScheme: theme });
+        await ready(page, './' + locale);
+        const input = page.locator('.search-form [name="search_value"]');
+        await page.locator('.search-submit').click();
+        const error = page.locator('.search-error');
+        await expect(error).toBeVisible();
+        await expect(input).toHaveAttribute('aria-invalid', 'true');
+        await expect(input).toHaveAttribute('aria-describedby', (await error.getAttribute('id'))!);
+        const formBox = (await page.locator('.search-form').boundingBox())!;
+        const errorBox = (await error.boundingBox())!;
+        const examplesBox = (await page.locator('.search-examples').boundingBox())!;
+        expect(errorBox.y).toBeGreaterThanOrEqual(formBox.y + formBox.height + 8);
+        expect(examplesBox.y).toBeGreaterThanOrEqual(errorBox.y + errorBox.height + 8);
+        await expectTextWithinParent(error);
+        await input.fill('example.com');
+        await expect(error).toHaveCount(0);
+        await expect(input).not.toHaveAttribute('aria-invalid', 'true');
+        await expect(page.locator('.search-examples button')).toHaveCount(3);
+      });
+    }
+  }
+}
+
 for (const theme of ['light', 'dark'] as const) {
   test(`Russian compact cards and billing remain readable at 320px in ${theme}`, async ({
     page,
@@ -53,51 +83,51 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme });
     await ready(page, './ru/');
     await expectTextWithinParent(page.locator('.metric-card > dt, .metric-card > dd'));
-    await expectTextWithinParent(page.locator('.capability-notes h4'));
+    await expectTextWithinParent(page.locator('.home-collection__copy h3'));
     await expectTextWithinParent(page.locator('.footer-columns a > .locale-text'));
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
     ).toBeLessThanOrEqual(1);
 
-    const brokenWords = await page
-      .locator('.audiences h2, .audience-copy h3')
-      .evaluateAll((headings) =>
-        headings.flatMap((heading) => {
-          const lineHeight = parseFloat(getComputedStyle(heading).lineHeight);
-          const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
-          const broken: string[] = [];
-          let node;
-          while ((node = walker.nextNode())) {
-            for (const match of node.textContent!.matchAll(/\p{L}{6,}/gu)) {
-              const range = document.createRange();
-              range.setStart(node, match.index);
-              range.setEnd(node, match.index + match[0].length);
-              if (range.getBoundingClientRect().height > lineHeight * 1.5) broken.push(match[0]);
-            }
+    const brokenWords = await page.locator('.audience-copy h3').evaluateAll((headings) =>
+      headings.flatMap((heading) => {
+        const lineHeight = parseFloat(getComputedStyle(heading).lineHeight);
+        const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+        const broken: string[] = [];
+        let node;
+        while ((node = walker.nextNode())) {
+          for (const match of node.textContent!.matchAll(/\p{L}{6,}/gu)) {
+            const range = document.createRange();
+            range.setStart(node, match.index);
+            range.setEnd(node, match.index + match[0].length);
+            if (range.getBoundingClientRect().height > lineHeight * 1.5) broken.push(match[0]);
           }
-          return broken;
-        }),
-      );
+        }
+        return broken;
+      }),
+    );
     expect(brokenWords).toEqual([]);
 
-    const contrasts = await page.locator('.use-case-tags li').evaluateAll((tags) => {
-      const luminance = (color: string) => {
-        const rgb = color
-          .match(/[\d.]+/g)!
-          .slice(0, 3)
-          .map(Number);
-        const linear = rgb.map((channel) => {
-          const value = channel / 255;
-          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    const contrasts = await page
+      .locator('.home-usecases__story .double-button__label')
+      .evaluateAll((tags) => {
+        const luminance = (color: string) => {
+          const rgb = color
+            .match(/[\d.]+/g)!
+            .slice(0, 3)
+            .map(Number);
+          const linear = rgb.map((channel) => {
+            const value = channel / 255;
+            return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+          });
+          return 0.2126 * linear[0]! + 0.7152 * linear[1]! + 0.0722 * linear[2]!;
+        };
+        return tags.map((tag) => {
+          const text = luminance(getComputedStyle(tag).color);
+          const background = luminance(getComputedStyle(tag).backgroundColor);
+          return (Math.max(text, background) + 0.05) / (Math.min(text, background) + 0.05);
         });
-        return 0.2126 * linear[0]! + 0.7152 * linear[1]! + 0.0722 * linear[2]!;
-      };
-      return tags.map((tag) => {
-        const text = luminance(getComputedStyle(tag.querySelector('a')!).color);
-        const background = luminance(getComputedStyle(tag).backgroundColor);
-        return (Math.max(text, background) + 0.05) / (Math.min(text, background) + 0.05);
       });
-    });
     expect(contrasts).toHaveLength(3);
     for (const contrast of contrasts) expect(contrast).toBeGreaterThanOrEqual(4.5);
 

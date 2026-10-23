@@ -51,7 +51,8 @@ async function sampleDemoMotion(scene: Locator, duration = 2100) {
 
 async function expectDemoMoving(scene: Locator) {
   await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
-  const samples = await sampleDemoMotion(scene);
+  // The longest phase includes a reading pause and lasts 2.6 seconds.
+  const samples = await sampleDemoMotion(scene, 3100);
   expect(
     samples.every(
       ({ phase }) => phase !== null && Number.isInteger(phase) && phase >= 0 && phase <= 3,
@@ -181,7 +182,9 @@ for (const width of [390, 1440]) {
             .evaluate((el) => el.getAttribute('data-morphing')),
         )
         .toBe('false');
-      await expect(page.locator('.stage-code-window pre')).toContainText('APCOSYS_API_ENDPOINT');
+      await expect(page.locator('.stage-code-window pre')).toContainText(
+        'https://api.apcosys.net/api/v1/search/hosts',
+      );
     },
   );
 }
@@ -203,16 +206,9 @@ test('service selection produces the matching banner and animation can be paused
   );
 });
 
-test('capability and monitoring switches resize through intermediate frames on mobile', async ({
-  page,
-}) => {
+test('monitoring switches resize through intermediate frames on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const [route, panel, button] of [
-    [
-      './',
-      '.home-capabilities > .container > .morph-panel',
-      '.home-capabilities__tabs button:nth-child(4)',
-    ],
     [
       './platform/monitoring',
       '.stage-monitor-console__body > .morph-panel',

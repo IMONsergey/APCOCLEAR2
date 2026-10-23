@@ -148,13 +148,14 @@ test('pricing monthly and annual values follow documented discount', async ({ pa
   );
 });
 
-test('API example is explicitly illustrative and request/response switch', async ({ page }) => {
+test('documented HTTP API request and synthetic response switch', async ({ page }) => {
   await page.goto('./developers/api');
-  await expect(page.locator('.stage-code-window pre')).toContainText('APCOSYS_API_ENDPOINT');
-  await page.getByRole('button', { name: 'Response', exact: true }).click();
   await expect(page.locator('.stage-code-window pre')).toContainText(
-    'Illustrative response shape only',
+    'https://api.apcosys.net/api/v1/search/hosts',
   );
+  await page.getByRole('button', { name: 'Response', exact: true }).click();
+  await expect(page.locator('.stage-code-window pre')).toContainText('"open_ports"');
+  await expect(page.locator('.stage-code-note')).toContainText('synthetic host data');
 });
 
 test('Homepage navigation reaches search syntax and respects history', async ({ page }) => {
@@ -260,9 +261,7 @@ test('API documentation uses its verified destination or supported on-site guida
   await page.getByRole('link', { name: 'Read API integration guidance' }).first().click();
   await expect(page).toHaveURL(/\/developers\/api#documentation$/);
   await expect(page.locator('#documentation')).toBeInViewport();
-  await expect(
-    page.getByText('Illustrative request template, not a working API contract.', { exact: false }),
-  ).toBeVisible();
+  await expect(page.locator('.stage-code-note')).toContainText('Documented HTTP request.');
 });
 
 test('investigation page leads with one connected product scene, not another search widget', async ({

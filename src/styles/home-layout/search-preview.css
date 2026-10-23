@@ -269,12 +269,6 @@
   }
 }
 @media (max-width: 340px) {
-  .search-scene {
-    aspect-ratio: 320/568;
-  }
-  .search-scene__heading {
-    top: 34%;
-  }
   .search-scene__heading h2 {
     line-height: 1;
   }

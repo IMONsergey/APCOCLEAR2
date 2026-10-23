@@ -38,7 +38,7 @@ export const plans = [
     price: 0,
     credits: 500,
     users: 1,
-    action: 'Start Free',
+    action: 'Open Apcosys',
     api: false,
     apiRequestsPerSecond: null,
     searchFilters: 'Basic',

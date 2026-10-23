@@ -16,7 +16,6 @@ const locales = [
     quotas: ['Query credits remaining', 'Scan credits remaining'],
     closing: 'Start with your first query.',
     action: 'Try free search',
-    englishHint: 'Available in English',
   },
   {
     route: './ru/',
@@ -31,7 +30,6 @@ const locales = [
     quotas: ['Остаток кредитов на запросы', 'Остаток кредитов на сканирование'],
     closing: 'Начните с первого запроса.',
     action: 'Попробовать бесплатный поиск',
-    englishHint: 'Доступно на английском',
   },
   {
     route: './zh-hant/',
@@ -46,7 +44,6 @@ const locales = [
     quotas: ['剩餘查詢額度', '剩餘掃描額度'],
     closing: '從第一個查詢開始。',
     action: '試用免費搜尋',
-    englishHint: '提供英文版本',
   },
 ] as const;
 
@@ -306,7 +303,7 @@ for (const locale of locales) {
         }
         await expect(demo.locator('[data-demo-target="api-key"]')).toHaveText(/^•{8,32}$/);
         const endpoint = demo.locator('[data-demo-target="api-url"] > code');
-        await expect(endpoint).toHaveText('https://api.apcosys.net/v1');
+        await expect(endpoint).toHaveText('https://api.apcosys.net/api/v1');
         expect(await endpoint.evaluate((element) => Boolean(element.closest('a')))).toBe(false);
         await expect(demo.locator('.application-api__credit')).toHaveCount(2);
         await expect(demo.locator('.application-api__credit-track')).toHaveCount(2);
@@ -370,24 +367,19 @@ for (const locale of locales) {
 
         const footer = page.locator('.footer-columns');
         await footer.scrollIntoViewIfNeeded();
-        const englishLinks = footer.locator(
+        const localizedLinks = footer.locator(
           'a[href$="/about"], a[href$="/responsible-scanning"], a[href*="/legal/"]',
         );
-        await expect(englishLinks).toHaveCount(8);
-        for (const link of await englishLinks.all()) {
-          const badge = link.locator('abbr');
-          if (locale.language === 'en') await expect(badge).toHaveCount(0);
-          else {
-            await expect(badge).toBeVisible();
-            await expect(badge).toHaveText('EN');
-            await expect(badge).toHaveAttribute(
-              'title',
-              new RegExp(`^${locale.englishHint.split(' ').join('\\s+')}$`),
-            );
-            await expect(link).toHaveAccessibleName(/EN/);
-            const href = (await link.getAttribute('href'))!;
-            expect(href).not.toMatch(/\/(?:ru|zh-hant)\//);
-          }
+        await expect(localizedLinks).toHaveCount(8);
+        const localeRoot = new URL(page.url()).pathname.replace(/\/?$/, '/');
+        for (const link of await localizedLinks.all()) {
+          await expect(link.locator('abbr')).toHaveCount(0);
+          const target = new URL((await link.getAttribute('href'))!, page.url());
+          const route = target.pathname.match(/\/(about|responsible-scanning|legal\/[^/]+)$/);
+          expect(route, 'footer links retain their authored destination').not.toBeNull();
+          expect(target.pathname, 'footer navigation preserves the selected language').toBe(
+            `${localeRoot}${route![1]}`,
+          );
           await expectReadableContents(link, 9.5);
         }
         const translatedContact = footer.locator('a[href$="/contact"]');

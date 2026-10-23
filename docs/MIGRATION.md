@@ -22,7 +22,7 @@ Extract it to an empty directory and initialize a new Git repository. Do not cop
 
 ## Initialize the destination repository
 
-After extracting the approved ZIP and entering its `apcosys-web/` directory, create an **empty** repository in the receiving owner's GitHub account (without a generated README, license or .gitignore). When GitHub Pages will host the site, enable **Settings → Pages → GitHub Actions** in the receiving repository. A push to `main` validates the code; publication requires an explicit `workflow_dispatch` of the deployment workflow after validation. For a Vercel-only destination, the receiving owner can disable the Pages publishing jobs while retaining validation. Then:
+After extracting the approved ZIP and entering its `apcosys-web/` directory, create an **empty** repository in the receiving owner's GitHub account (without a generated README, license or .gitignore). When GitHub Pages will host the site, enable **Settings → Pages → GitHub Actions** in the receiving repository. A push to `main` validates the code in Chromium, Firefox and WebKit before publishing, then checks the actual Pages URL. An explicit `workflow_dispatch` is also supported; only a run on `main` publishes. Pull requests and manual runs on other branches validate without publication. For a Vercel-only destination, the receiving owner can disable the Pages publishing jobs while retaining validation. Then:
 
 ```sh
 git init -b main

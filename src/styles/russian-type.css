@@ -38,41 +38,12 @@ html[lang='ru'] .site .step-copy h3 {
 }
 
 html[lang='ru'] .site .audience-copy h3 {
-  font-size: var(--type-subsection-size);
-  line-height: 1.1;
-}
-
-/* Give long audience headings a complete line before the decorative artwork. */
-html[lang='ru'] .site .audience-copy {
-  width: 100%;
-  max-width: none;
-}
-html[lang='ru'] .site .audience-copy h3 {
-  padding-right: 0;
-  max-width: 100%;
+  font-size: var(--font-size-24);
+  line-height: 1.25;
   hyphens: manual;
 }
-html[lang='ru'] .site .audience-copy p,
-html[lang='ru'] .site .use-case-tags {
-  max-width: 68%;
-}
-html[lang='ru'] .site .audience-art {
-  top: 60%;
-}
-@media (max-width: 599px) {
-  html[lang='ru'] .site .audience-copy h3 {
-    min-height: 0;
-    padding-top: 128px;
-  }
-  html[lang='ru'] .site .audience-copy p,
-  html[lang='ru'] .site .use-case-tags {
-    max-width: none;
-  }
-  html[lang='ru'] .site .audience-art {
-    top: 0;
-    right: var(--space-4);
-    width: 144px;
-  }
+html[lang='ru'] .site .home-collection__copy h3 {
+  line-height: 1.25;
 }
 
 @media (max-width: 1000px) {
@@ -91,6 +62,9 @@ html[lang='ru'] .site .audience-art {
   html[lang='ru'] .site .inner-pages {
     --type-page-size: clamp(29px, 7.5vw, 40px);
     --type-section-size: clamp(28px, 7vw, 36px);
+  }
+  html[lang='ru'] .site .legal-copy h2 {
+    font-size: var(--type-subsection-size);
   }
 }
 

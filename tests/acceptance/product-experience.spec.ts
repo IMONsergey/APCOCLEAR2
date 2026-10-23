@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { deploymentSettings } from '../helpers/public-settings';
 
 test('Hero keeps one real search and immediately visible connected examples', async ({ page }) => {
   await page.goto('./');
@@ -79,7 +80,12 @@ test('Pricing explains units before comparison without changing the original car
     await expect(page.locator('#plan-' + plan)).toBeVisible();
   }
   await expect(page.locator('.stage-usage-guide')).toContainText('Search Tokens');
-  await expect(page.locator('.stage-usage-guide')).toContainText('not yet verified');
+  await expect(page.locator('.stage-usage-guide')).toContainText(
+    'Plan allowances use credits; additional packages use Search Tokens.',
+  );
+  await expect(page.locator('.stage-usage-guide')).toContainText(
+    'Check the conversion, available balance and package terms in your account before adding capacity.',
+  );
   const sequence = await page.evaluate(() => {
     const guide = document.querySelector('.stage-usage-guide');
     const compare = document.querySelector('#compare-plans');
@@ -91,17 +97,109 @@ test('Pricing explains units before comparison without changing the original car
   await expect(page.locator('#search-token-packages')).toContainText('25,000');
 });
 
-test('API starts with request, supports response and discloses unverified auth', async ({
+test('API starts with the published HTTP request and labels synthetic response values', async ({
   page,
 }) => {
   await page.goto('./developers/api');
   const code = page.locator('.stage-code-window');
-  await expect(code.locator('pre')).toContainText('APCOSYS_API_ENDPOINT');
+  await expect(code.locator('pre')).toContainText('curl --request POST');
+  await expect(code.locator('pre')).toContainText('https://api.apcosys.net/api/v1/search/hosts');
+  await expect(code.locator('pre')).toContainText('X-API-Key: $APCOSYS_API_KEY');
   await expect(code.locator('.stage-api-auth')).toContainText('AUTHENTICATION');
   await expect(code.getByRole('button', { name: 'Response', exact: true })).toHaveAttribute(
     'aria-pressed',
     'false',
   );
   await code.getByRole('button', { name: 'Response', exact: true }).click();
-  await expect(code.locator('pre')).toContainText('Illustrative response shape only');
+  const response = JSON.parse((await code.locator('pre').textContent())!);
+  expect(response).toMatchObject({
+    total: expect.any(Number),
+    page: 1,
+    docs_per_page: 20,
+    hosts: [
+      expect.objectContaining({
+        ip: '203.0.113.10',
+        open_ports: [{ protocol: 'https', port: 443 }],
+      }),
+    ],
+  });
+  expect(response).not.toHaveProperty('services');
+  await expect(code.locator('.stage-code-note')).toContainText('synthetic host data');
+});
+
+for (const locale of ['', 'ru/', 'zh-hant/']) {
+  test(`${locale || 'en'} plan handoff copies the chosen annual plan and keeps the comparison open`, async ({
+    page,
+    context,
+  }) => {
+    let copied = '';
+    await page.exposeFunction('capturePlanCopy', (text: string) => {
+      copied = text;
+    });
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: (text: string) =>
+            (Reflect.get(window, 'capturePlanCopy') as (value: string) => Promise<void>)(text),
+        },
+      });
+    });
+    await context.route(deploymentSettings.signInUrl, (route) =>
+      route.fulfill({
+        contentType: 'text/html',
+        body: '<title>Product entry test</title><p>Account entry</p>',
+      }),
+    );
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`./${locale}pricing`);
+    await page.locator('.billing--desktop input[value="annually"]').check({ force: true });
+    await page.locator('#plan-plus .plan-button').click();
+    const dialog = page.getByRole('dialog');
+    const handoff = dialog.locator('.plan-handoff');
+    await handoff.getByRole('button').click();
+    await expect.poll(() => copied).toMatch(/\bplus\b/i);
+    expect(copied).toMatch(/480/);
+    await expect(handoff.getByRole('status')).toBeVisible();
+    const link = handoff.getByRole('link');
+    await expect(link).toHaveAttribute('href', deploymentSettings.signInUrl);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+    expect(new URL((await link.getAttribute('href'))!).searchParams.has('subscription')).toBe(
+      false,
+    );
+    const [popup] = await Promise.all([page.waitForEvent('popup'), link.click()]);
+    await expect(popup).toHaveURL(deploymentSettings.signInUrl);
+    await popup.close();
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator('.selected-plan-price')).toContainText('40');
+    await expect(page.locator('.billing--desktop input[value="annually"]')).toBeChecked();
+  });
+}
+
+test('plan handoff provides a readable summary when clipboard access is denied on mobile', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: () => Promise.reject(new DOMException('Denied', 'NotAllowedError')),
+      },
+    });
+  });
+  await page.setViewportSize({ width: 320, height: 840 });
+  await page.goto('./pricing');
+  await page.locator('#plan-business .plan-button').first().click();
+  const handoff = page.getByRole('dialog').locator('.plan-handoff');
+  await handoff.getByRole('button', { name: 'Copy plan details' }).click();
+  const preview = handoff.getByRole('textbox', { name: 'Selected plan details' });
+  await expect(preview).toBeVisible();
+  await expect(preview).toHaveAttribute('readonly', '');
+  await expect(preview).toHaveValue(/BUSINESS/);
+  await expect(preview).toHaveValue(/900/);
+  await expect(preview).toBeFocused();
+  const rect = await preview.boundingBox();
+  expect(rect!.x).toBeGreaterThanOrEqual(0);
+  expect(rect!.x + rect!.width).toBeLessThanOrEqual(320);
 });

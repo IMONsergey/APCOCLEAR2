@@ -134,8 +134,8 @@ export default function PricingPage() {
             </div>
           </div>
           <Notice>
-            Packages shown for the client preview. Check eligibility, token balance, expiry and
-            final purchase terms in your account.
+            Check package eligibility, token balance, expiry and final purchase terms in your
+            account.
           </Notice>
         </div>
       </section>

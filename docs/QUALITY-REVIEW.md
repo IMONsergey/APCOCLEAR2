@@ -1,12 +1,14 @@
 # Quality review — 23 October 2026
 
+**Historical record of the initial audit and scene replacement.** The current all-language review, subsequent fixes, test results and release status are in [Final readiness](FINAL-READINESS.md). Counts, integration decisions and publication behavior below describe their original stage.
+
 The initial audit revision `4355610ef225780d44d64a2e0d2221bf9791f904` imports the complete source of `IMONsergey/apcoseb-clear` at `20885a574cf1e959c6db23b299198fc3fb2808f4` into `IMONsergey/APCOCLEAR2` and applies the frontend audit corrections. The original repository is unchanged. That revision contains 390 source files; dependencies, build output and temporary review artifacts are excluded. The application-scene replacement below is a subsequent correction.
 
 Issue identifiers below refer to the preceding audit. Acceptance combines source review, rendered behavior, browser regressions and visual inspection. The authenticated product, commercial policy and hosting ownership are separate from this marketing repository. The exact imported revision and its push validation can be inspected in [repository history](https://github.com/IMONsergey/APCOCLEAR2/commits/main/) and [Actions](https://github.com/IMONsergey/APCOCLEAR2/actions).
 
 ## Application-scene replacement
 
-The initial audit repaired the legacy demonstrations but omitted the required replacement from the application Figma page. That omission is now addressed: all five Home research scenes and the API workspace are rebuilt from the approved frames, using their exact vector assets and translated React HTML. The old product/API custom elements, summary styles and legacy theme adapter are removed. GSAP remains the optional motion layer.
+The initial audit repaired the legacy demonstrations but omitted the required replacement from the application Figma page. That omission was addressed in the subsequent scene replacement: all five Home research scenes and the API workspace were rebuilt from the approved frames, using their exact vector assets and translated React HTML. The old product/API custom elements, summary styles and legacy theme adapter were removed. GSAP remained the optional motion layer at that stage; the final review has since removed it completely, as recorded in [Final readiness](FINAL-READINESS.md).
 
 [Application demonstrations](APPLICATION-DEMOS.md) records all six source frames, fourteen SVG assets, data boundaries and lifecycle behavior. EN, RU and Traditional Chinese work in both themes. Static content is present before animation loads, and reduced motion retains the complete readable frame. The final six-width matrix contains 216 scene samples and 72 mobile/desktop captures, with no glyph clipping, image failures, page exceptions or document overflow. The production Home graph remains within the enforced budgets at 129.6/132 KiB gzip JS and 28.5/29 KiB gzip CSS.
 

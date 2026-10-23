@@ -8,22 +8,22 @@ import { useLocale } from '../../i18n/context';
 export default function ScanningPage() {
   const { t } = useLocale();
   const inquiry =
-    'mailto:' + supportEmail + '?subject=' + encodeURIComponent('Apcosys scanning inquiry');
+    'mailto:' + supportEmail + '?subject=' + encodeURIComponent(t('Apcosys scanning inquiry'));
   const exclusion =
     'mailto:' +
     supportEmail +
     '?subject=' +
-    encodeURIComponent('Apcosys network exclusion request') +
+    encodeURIComponent(t('Apcosys network exclusion request')) +
     '&body=' +
     encodeURIComponent(
       [
-        'Networks / IP ranges:',
+        t('Networks / IP ranges:'),
         '',
-        'My role in managing these networks:',
+        t('My role in managing these networks:'),
         '',
-        'Contact details:',
+        t('Contact details:'),
         '',
-        'Relevant dates and context:',
+        t('Relevant dates and context:'),
         '',
       ].join('\n'),
     );

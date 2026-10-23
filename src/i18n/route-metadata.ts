@@ -57,6 +57,43 @@ export const localizedMetadata = {
     description:
       'Questions about data, API access, team plans or procurement? Choose a topic and tell us what you need.',
   },
+  '/about': {
+    title: 'Built for people who investigate the internet.',
+    description:
+      'Apcosys makes technical observations about internet-facing infrastructure searchable, so security researchers and teams can investigate them.',
+  },
+  '/responsible-scanning': {
+    title: 'How Apcosys scans.',
+    description:
+      'The principles behind collecting observations from publicly accessible systems, and how to reach us about scanning activity or a network exclusion.',
+  },
+  '/legal/api-data-license-agreement': {
+    title: 'API & Data License Agreement',
+    description: 'Terms for accessing the Apcosys API and using its data.',
+  },
+  '/legal/cookie-policy': {
+    title: 'Cookie Policy',
+    description:
+      'How cookies and related technologies are used, and how to manage your preferences.',
+  },
+  '/legal/data-collection-policy': {
+    title: 'Data Collection Policy',
+    description:
+      'What Apcosys collects, how it is collected, and the purpose of those observations.',
+  },
+  '/legal/data-processing-agreement': {
+    title: 'Data Processing Agreement',
+    description: 'How personal data is processed, protected and retained when you use Apcosys.',
+  },
+  '/legal/privacy-policy': {
+    title: 'Privacy Policy',
+    description:
+      'How Apcosys collects, uses and shares personal information, and the choices available to you.',
+  },
+  '/legal/terms': {
+    title: 'Terms & Conditions',
+    description: 'The terms governing access to the Apcosys website and services.',
+  },
 } as const satisfies Record<
   (typeof localizedRoutes)[number],
   { title: string; description: string }

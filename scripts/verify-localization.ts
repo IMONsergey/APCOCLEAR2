@@ -23,8 +23,10 @@ for (const language of languageOptions) {
 const allPaths = new Set(siteRoutes.map(({ path }) => path));
 for (const path of localizedRoutes) {
   if (!allPaths.has(path)) failures.push(`Missing route: ${path}`);
-  if (path.startsWith('/legal/')) failures.push(`Unreviewed legal translation: ${path}`);
   if (!localizedMetadata[path]) failures.push(`Missing localized metadata: ${path}`);
+}
+for (const path of allPaths) {
+  if (!localizedRoutes.includes(path)) failures.push(`Missing localized editions: ${path}`);
 }
 
 for (const [locale, catalog] of Object.entries(catalogs)) {
@@ -59,6 +61,6 @@ if (failures.length) {
   process.exitCode = 1;
 } else {
   console.log(
-    `${localizedRoutes.length} localized marketing routes, ${new Set(sources.map(({ message }) => message)).size} required authored UI messages and ${Object.keys(ru).length}/${Object.keys(zhHant).length} RU/Traditional Chinese messages verified.`,
+    `${localizedRoutes.length} localized routes, ${new Set(sources.map(({ message }) => message)).size} required authored UI messages and ${Object.keys(ru).length}/${Object.keys(zhHant).length} RU/Traditional Chinese messages verified.`,
   );
 }

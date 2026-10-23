@@ -1,5 +1,5 @@
 import { RouteReady } from './app/RouteReady';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { useLocale } from './i18n/context';
 import { LocaleText } from './i18n/LocaleText';
 import { Header } from './components/Header';
@@ -32,6 +32,7 @@ const pages = {
 export function App() {
   const { locale, t } = useLocale();
   const path = useSiteRoute(locale);
+  const [readyPath, setReadyPath] = useState<string | null>(null);
   const notFound = path === '/404';
   const Page = pages[routeGroup(path)];
   return (
@@ -42,7 +43,7 @@ export function App() {
         </a>
         <Header forceVisible={notFound} />
         <main id="main" data-route={path}>
-          <RouteBoundary key={path}>
+          <RouteBoundary key={path} path={path} onReady={setReadyPath}>
             <Suspense
               fallback={
                 <div className="route-fallback" role="status" aria-label={t('Loading page')}>
@@ -50,13 +51,13 @@ export function App() {
                 </div>
               }
             >
-              <RouteReady path={path}>
+              <RouteReady path={path} onReady={setReadyPath}>
                 <Page path={path} />
               </RouteReady>
             </Suspense>
           </RouteBoundary>
         </main>
-        {!notFound && <Footer />}
+        {!notFound && readyPath === path && <Footer />}
       </div>
     </MotionProvider>
   );

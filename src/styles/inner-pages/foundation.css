@@ -247,6 +247,18 @@ html[data-theme='dark'] .page-artwork img {
 .site .inner-pages .case-fragment {
   padding: 28px;
 }
+.site .inner-pages .case-fragment > header {
+  padding: 0 0 var(--space-6);
+}
+.site .inner-pages .case-fragment > p {
+  padding: var(--space-4) 0 0;
+}
+.site .inner-pages .case-fragment :is(dl, .scope-boundary, .indicator-trail) {
+  margin-inline: 0;
+}
+.site .inner-pages .case-fragment > .indicator-trail {
+  padding-inline: 0;
+}
 .site .inner-pages .case-fragment > .version-path {
   margin-inline: 0;
 }
@@ -417,6 +429,16 @@ html[data-theme='dark'] .page-artwork img {
 .site .inner-pages .stage-api-limits .stage-data-table {
   min-width: 0;
   table-layout: fixed;
+}
+.site .inner-pages .stage-api-limits .stage-data-table :is(th, td) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.site .inner-pages .stage-api-limits .stage-data-table thead th:first-child {
+  width: 28%;
+}
+.site .inner-pages .stage-api-limits .stage-data-table thead th:nth-child(2) {
+  width: 30%;
 }
 .site .inner-pages .stage-code-window pre {
   font-size: var(--font-size-14);

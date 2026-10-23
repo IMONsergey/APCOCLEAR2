@@ -1,64 +1,82 @@
 # Developer handoff
 
-This is the Apcosys marketing website, including internal informational pages. It is not the authenticated application. Current operating guides are linked in [the documentation index](README.md).
+This repository contains the Apcosys marketing website and its informational pages. The authenticated product is a separate application. Current operating guides are linked in [the documentation index](README.md).
 
 ## First working session
 
-1. Check out the agreed commit. Keep `package-lock.json`; use Node 22.12+.
+1. Check out the agreed commit. Keep `package-lock.json`; use Node 22.12 or later.
 2. Run `npm ci`, `npm run check`, `npm run build`.
-3. Run `npx playwright install chromium` and `npm run test:release`.
-4. Run `npm run dev`; open `http://127.0.0.1:5187/APCOCLEAR2/`.
-5. Review the homepage, one route from each page group, Pricing and a legal page in both themes, including a mobile viewport.
+3. Install `chromium firefox webkit` with Playwright and install Noto CJK fonts for Traditional Chinese geometry checks.
+4. Run `npm run test:release` for the full Chromium contract or `npm test` for the full contract in all three engines.
+5. Run `npm run dev`; open the URL printed by Vite, normally `http://127.0.0.1:5187/APCOCLEAR2/`.
+6. Review all page groups, Pricing and legal content in both themes and at narrow and wide widths.
 
-For all three engines, install `chromium firefox webkit` and run `npm run test:cross-browser`. See [QA](QA.md) for actual evidence and limits. A green test run is not a visual or content approval.
+`npm run test:cross-browser` runs a smaller focused interaction suite. It does not replace the full three-engine release gate. See [QA](QA.md) and the current release record for evidence and limits. Automated checks complement visual and editorial review.
 
-## Product boundary and delivery status
+## Product boundaries
 
-| Feature      | What this repository does                                                                                                     | Owner input for a live integration                                   |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Search       | Sends the query to the external product `/search?search_value=…`                                                              | Confirm the product's supported query semantics                      |
-| Sign In      | Opens the client product homepage; an optional verified route can override it                                                 | Product homepage during migration; optional same-origin sign-in URL  |
-| Registration | Links to external `/register`; selected pricing plan is not transferred                                                       | Product registration/plan-selection contract                         |
-| Pricing      | Displays owner-supplied plans and annual calculations; local comparison/dialogs                                               | Approved billing mechanics and checkout handoff                      |
-| API          | Illustrative request/response and animation; no real API call or key storage                                                  | Verified API reference and integration contract                      |
-| Monitoring   | Explicitly labelled concept with synthetic states                                                                             | Product availability and data/alert contract                         |
-| Contact      | Validates fields, retains a per-tab draft for up to 24 hours, and prepares mailto/copy output; no message is sent to a server | Backend/service if actual website delivery is required               |
-| Cookies      | Stores an essential-only preference; no analytics integration                                                                 | Approved consent/tracking model before adding analytics              |
-| Legal pages  | Six repository-owned Markdown sources compiled to local pages                                                                 | Owner review of the legal content; source updates must be deliberate |
-| Languages    | EN, RU and Traditional Chinese for 11 marketing routes; EN-only corporate and legal pages                                     | Review translated content and verify each destination deployment     |
-| Themes       | System/manual choice; separate light/dark illustration files                                                                  | Use existing tokens and `ThemedArtwork` for future illustrations     |
+| Feature           | Repository behavior                                                                                                              | Separate product or owner responsibility                                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Search            | Sends a query to the external product's `/search?search_value=…` route                                                           | Product query execution and account permissions                                                        |
+| Account entry     | Opens `/login` on the configured product origin; supports a same-origin override                                                 | Registration, authentication and account recovery inside the product                                   |
+| Pricing           | Shared plan data, annual calculations, comparison dialogs, copyable chosen-plan summary and account entry in another tab         | Checkout, actual subscription selection and payment; the site does not invent a plan-transfer URL      |
+| API               | Published HTTP request example using `X-API-Key` and `/api/v1/search/hosts`; documented response structure with synthetic values | The live API, credentials, subscription permissions and current endpoint behavior                      |
+| Coverage          | Dated snapshot from the public statistics endpoint, with its source and update date                                              | Current totals and authoritative counting/deduplication definitions                                    |
+| Monitoring        | Explicitly labelled concept with synthetic states                                                                                | Product availability and data/alert contracts                                                          |
+| Contact           | Required-field validation, per-tab draft for up to 24 hours, mailto preparation, copy and readable fallback                      | Message delivery through the user's email application; a backend is needed for direct website delivery |
+| Cookies           | Essential preference storage; no optional analytics or marketing trackers enabled                                                | Consent/tracking design if optional analytics is added                                                 |
+| Legal pages       | Six preserved English Markdown sources and full RU/Traditional Chinese reference translations, compiled separately by locale     | Legal approval and deliberate amendments to the authoritative English text                             |
+| Languages         | All 19 routes in EN, RU and Traditional Chinese; 57 authored URL variants plus localized 404 handling                            | Editorial approval of terminology and final-host verification                                          |
+| Themes and motion | System/manual theme choice, paired artwork, six rebuilt application scenes, complete reduced-motion frames                       | Physical-device acceptance and future asset changes                                                    |
+
+The six legacy product/API scenes have been replaced by React HTML and the approved vector assets. Both remaining GSAP playback modules now use native browser animation, and the GSAP dependency is removed. Preserve the remaining asset notices and integrity checks. Synthetic demonstrations must remain clearly labelled, and animation failure must not hide readable content.
+
+The remaining commercial content decision is the mapping between Free/Plus/Expert/Business plans and the license's Personal/Free and Business/Enterprise categories. No additional usage rights are inferred for Plus or Expert. Keep the current clarification and contact route until the owner approves matching legal wording. A future automatic checkout handoff, direct Contact delivery, final public domain and indexing policy also require their actual receiving systems or owner decisions.
 
 ## Configuration
 
-Copy `.env.example` to a local `.env` only if overriding defaults. `VITE_*` values are public and embedded at build time. Both Vite and the application validate product URLs, documentation URLs and the support email. Invalid settings fail the build. Rebuild after changing them.
+Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` values are public and embedded at build time. Both Vite and the application validate product URLs, documentation URLs and the support email. Invalid settings fail the build. Rebuild after changing them.
 
-Optional `APCO_PUBLIC_SITE_ORIGIN` sets static canonical/OG URLs for the final HTTPS origin. It is a build input, not a product URL. See [Deployment](DEPLOYMENT.md). Changing the support email updates site UI, not the preserved legal document bodies; legal amendments require owner review.
+| Setting                   | Default or behavior                                                                                                                                            |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_APCO_PRODUCT_URL`   | `https://apcosys.net`; an origin without a path, query or fragment                                                                                             |
+| `VITE_APCO_SIGN_IN_URL`   | `/login` on the product origin; an override must stay on that origin                                                                                           |
+| `VITE_APCO_API_DOCS_URL`  | `https://apcosys.net/docs/api` for the default product; custom product origins fall back to the site's API guide unless an HTTPS documentation URL is supplied |
+| `VITE_APCO_SUPPORT_EMAIL` | `info@apcosys.net`                                                                                                                                             |
+| `APCO_PUBLIC_SITE_ORIGIN` | Optional locally; GitHub workflows default to the repository owner's Pages origin; controls static canonical/OG/alternate URLs and sitemap                     |
+| `APCO_SITE_INDEXABLE`     | `false` by default; `true` requires a valid HTTPS marketing origin                                                                                             |
+| `APCO_SITE_BASE`          | GitHub workflow destination path; local builds use the `--base` option                                                                                         |
+
+Changing the support email updates site UI, not the preserved legal document bodies. Legal amendments require review. See [Deployment](DEPLOYMENT.md) for origin, indexing and host configuration.
 
 ## Development contract
 
 - Follow `src/pages/HomePage.tsx` for homepage order and `src/content/routes.ts` for route metadata.
 - Import URL helpers from `src/app/paths.ts`; keep router lifecycle code out of page components.
 - Page implementations live in `src/pages/<group>/`; shared frames and editorial components live in `src/components/layout/`. `npm run verify:architecture` enforces their dependency direction.
-- Reuse `DoubleButton`, `Modal`, `AnimatedDetails`, `MorphPanel`, `PageFrame`, and `EditorialSection`. Use `Text` for ordinary authored text; it emits the same semantic tag and runs Typograf automatically.
-- Edit subscription allowances only in `content/plans.ts`; the comparison, API and Business summaries derive from that record.
-- Preserve shared container edges, right-aligned closing actions/footer metadata, natural content height and reduced-motion support.
-- Use paired illustration assets; never derive the dark edition with CSS inversion.
-- Preserve the integrity checks for the six original and three themed TypeScript visual engines and retain all font/GSAP notices.
-- Edit legal Markdown, run `npm run legal:compile`, review the generated diff. Do not edit the JSON by hand.
+- Reuse `DoubleButton`, `Modal`, `AnimatedDetails`, `MorphPanel`, `PageFrame` and `EditorialSection`. Use `Text` for ordinary authored text; it preserves the semantic tag and applies typography rules.
+- Edit subscription allowances only in `src/content/plans.ts`; comparison, API and Business summaries derive from that record. Keep HTTP API examples separate from the authenticated application's session/WebSocket protocol.
+- Update `src/content/metrics.ts` only from an identified statistics response, keeping its timestamp and source together. Do not turn fields into claims about unique systems or vulnerable hosts without a verified definition.
+- Preserve shared container edges, readable line lengths, natural content height, keyboard access and reduced-motion support.
+- Use paired illustration assets; do not derive the dark edition with CSS inversion.
+- Preserve the integrity checks for the visual engines and retain all applicable font and asset notices.
+- Edit legal Markdown, run `npm run legal:compile`, then review the generated JSON diff. The compiler verifies source hashes, edition metadata, section structure and protected source facts. Do not edit compiled legal JSON by hand.
 - Keep demos marked as synthetic. Do not substitute invented production endpoints or credentials.
 
 ## Source package and acceptance
 
-After changes are committed and the working tree is clean, run `npm run handoff:package`. It creates a ZIP in `.work/` from `HEAD`, with no `.git` directory or embedded source-commit marker. It includes the current source, acceptance tests, assets, license notices and maintenance guides; it excludes dependencies, build output and local reports. The source commit is printed separately for release records.
+After changes are committed and the working tree is clean, run `npm run handoff:package`. It creates a ZIP in `.work/` from `HEAD`, with no `.git` directory or embedded source-commit marker. It includes current source, acceptance tests, assets, license notices and maintenance guides; it excludes dependencies, build output and local reports. The source commit is printed separately for release records.
 
-On pull requests, CI additionally runs the `handoff-package` job. It extracts the ZIP outside the original source tree, verifies that history/review material is absent and required licenses are present, runs a fresh locked install and full static checks, then builds and runs `test:relocation` at both a renamed repository subpath and a root-domain deployment. The relocation contract includes direct links, 404 recovery, configuration and localized fonts. Download the ZIP from the successful workflow's `apcosys-web-clean-source-*` artifact; do not replace it with a ZIP of the old Git working directory.
+On pull requests, CI runs the `handoff-package` job after full browser validation. It extracts the ZIP outside the original source tree, verifies archive boundaries and required licenses, installs locked dependencies, runs all static checks, then builds and runs `test:relocation` at a renamed repository subpath, at the root, and with custom product/sign-in/docs destinations. Download the ZIP from the successful workflow's `apcosys-web-clean-source-*` artifact.
 
-Provide the accepted commit, ZIP, successful Chromium and cross-browser checks, clean-room CI result, deployment URL and any remaining owner decisions. Verify all links and forms after deploying to the recipient's hostname. Hosting account ownership, environment variables and repository permissions must be transferred separately by their owners.
+On `main`, the release workflow requires source checks, the production build and the complete Chromium, Firefox and WebKit contracts before Pages deployment. The deployed URL then receives the full Chromium contract. Manual dispatch on `main` uses the same gate. Provide the accepted commit, successful workflow run, deployment URL and any remaining owner decisions; do not infer publication merely from a local build or prepared source tree.
+
+Repository permissions, hosting ownership and environment configuration are transferred separately by their owners. The original project repository remains outside this work's publication target.
 
 ## Maintenance boundaries
 
-Typography uses 12 discrete size steps, six line heights and five shadow recipes. `verify:styles` enforces these limits. Use the [style ownership map](STYLES.md) and change the original rule, including its responsive states, rather than appending a competing override.
+Typography uses 12 discrete size steps, six line heights and five shadow recipes. `verify:styles` enforces these limits. Use the [style ownership map](STYLES.md) and change the original rule and its responsive states rather than adding a competing override.
 
-Source files have strict import boundaries, route-typing checks and a filename-collision guard to preserve compatibility with case-insensitive filesystems. The site is client-rendered: route HTML has static metadata and a no-JavaScript fallback, but complete HTML content is rendered by React. If public SEO requirements change, evaluate prerendering/SSR separately rather than silently adding infrastructure.
+Source files have strict import boundaries, route-typing checks and a filename-collision guard for case-insensitive filesystems. The site is client-rendered: route HTML has static metadata and a no-JavaScript fallback, while React renders complete content. Evaluate prerendering or SSR separately if public SEO requirements change.
 
-Cold-load measurements are laboratory samples, not field performance scores. Real mobile devices, assistive-technology checks, external product endpoints and legal/commercial content still require final owner acceptance.
+Cold-load measurements are laboratory samples. Browser-engine tests do not establish physical iOS/Android device or complete assistive-technology approval. External account behavior and legal/commercial content remain separate acceptance responsibilities.

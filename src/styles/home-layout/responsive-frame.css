@@ -165,9 +165,6 @@
   right: 0;
   text-align: center;
 }
-.search-form:has(.search-free-note) .search-error {
-  top: calc(100% + 36px);
-}
 @media (min-width: 1600px) {
   .hero .lead {
     font-size: var(--font-size-20);

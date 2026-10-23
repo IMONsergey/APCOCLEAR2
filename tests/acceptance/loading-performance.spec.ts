@@ -1,5 +1,35 @@
 import { expect, test } from '@playwright/test';
 
+for (const path of ['./', './about/', './legal/privacy-policy/']) {
+  test(`footer actions appear only after delayed page content commits: ${path}`, async ({
+    page,
+  }) => {
+    let release: () => void = () => undefined;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route(/\/(?:HomePage|CorporatePages|LegalPages)-[\w-]+\.js$/, async (route) => {
+      await held;
+      await route.continue();
+    });
+    try {
+      const navigation = page.goto(path);
+      await expect(page.locator('main .route-fallback')).toBeVisible();
+      await expect(page.locator('footer')).toHaveCount(0);
+      release();
+      await navigation;
+      await expect(page.locator('main h1')).toBeVisible();
+      await page.getByRole('button', { name: 'Cookie Preferences' }).click();
+      const dialog = page.getByRole('dialog', { name: 'Cookie Preferences' });
+      await expect(dialog).toBeVisible();
+      await dialog.getByRole('button', { name: 'Save Preferences' }).click();
+      await expect(dialog).toBeHidden();
+    } finally {
+      release();
+    }
+  });
+}
+
 // Delay route code deliberately: a fast development machine must not hide a collapsing fallback.
 for (const width of [390, 1440]) {
   for (const path of ['./', './about/', './legal/privacy-policy/']) {

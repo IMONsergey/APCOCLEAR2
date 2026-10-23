@@ -8,13 +8,6 @@ export interface TranslationSource {
   line: number;
 }
 
-// These routes deliberately have no localized edition. Shared components are
-// still scanned: a label used by an English-only page can also appear elsewhere.
-const englishOnlyPages = new Set([
-  'src/pages/LegalPages.tsx',
-  'src/pages/corporate/AboutPage.tsx',
-  'src/pages/corporate/ScanningPage.tsx',
-]);
 const verbatimElements = new Set([
   'code',
   'pre',
@@ -54,6 +47,11 @@ const translatedRecordFields = new Set([
 // from passing simply because the renderer calls t(plan.searchFilters).
 const translatedDataFields: Readonly<Record<string, readonly string[]>> = {
   'src/content/plans.ts': ['name', 'description', 'action', 'searchFilters'],
+};
+// Contact topics are translated in selects and generated email text. Their
+// values are source keys even though the renderer calls t(topic) dynamically.
+const translatedDataArrays: Readonly<Record<string, readonly string[]>> = {
+  'src/pages/corporate/contactTopics.ts': ['topics'],
 };
 
 function sourceFiles(directory: string): string[] {
@@ -123,7 +121,7 @@ export function collectTranslationSources(root = process.cwd()): TranslationSour
   const messages: TranslationSource[] = [];
   for (const file of sourceFiles(resolve(root, 'src'))) {
     const name = relative(root, file).split(sep).join('/');
-    if (englishOnlyPages.has(name) || name.startsWith('src/i18n/translations/')) continue;
+    if (name.startsWith('src/i18n/translations/')) continue;
     const source = ts.createSourceFile(
       file,
       readFileSync(file, 'utf8'),
@@ -139,16 +137,25 @@ export function collectTranslationSources(root = process.cwd()): TranslationSour
       });
     };
     function propText(expression: ts.Expression): void {
+      if (
+        ts.isParenthesizedExpression(expression) ||
+        ts.isAsExpression(expression) ||
+        ts.isNonNullExpression(expression)
+      ) {
+        propText(expression.expression);
+        return;
+      }
       for (const message of staticStrings(expression)) add(message, expression);
       if (ts.isArrayLiteralExpression(expression))
         for (const item of expression.elements) propText(item);
-      if (ts.isObjectLiteralExpression(expression))
+      if (ts.isObjectLiteralExpression(expression)) {
         for (const property of expression.properties)
           if (
             ts.isPropertyAssignment(property) &&
             translatedRecordFields.has(property.name.getText(source).replace(/^['"]|['"]$/g, ''))
           )
             propText(property.initializer);
+      }
     }
     function textChildren(children: ts.NodeArray<ts.JsxChild>): void {
       for (const child of children) {
@@ -164,6 +171,12 @@ export function collectTranslationSources(root = process.cwd()): TranslationSour
       }
     }
     function visit(node: ts.Node): void {
+      if (
+        ts.isVariableDeclaration(node) &&
+        translatedDataArrays[name]?.includes(node.name.getText(source)) &&
+        node.initializer
+      )
+        propText(node.initializer);
       if (
         ts.isPropertyAssignment(node) &&
         translatedDataFields[name]?.includes(node.name.getText(source).replace(/^['"]|['"]$/g, ''))

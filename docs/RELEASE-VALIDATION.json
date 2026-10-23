@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-23",
+  "baselineCommit": "6deda43835e054a3d741de2dbae2df6bf00d3aeb",
+  "runtimeAndTestSnapshotSha256": "afc1fdf5119d774122707e586c5deb07154bc9cfc4f606ab054df7b0ce76b091",
+  "staticGates": {
+    "scriptFixtures": 18,
+    "runtimeModules": 141,
+    "runtimeImports": 427,
+    "localizedRoutes": 19,
+    "requiredUiMessages": 735,
+    "catalogMessages": {
+      "ru": 1316,
+      "zh-Hant": 1316
+    },
+    "assets": 87,
+    "fontAndLicenseFiles": 10,
+    "protectedVisualModules": 9
+  },
+  "build": {
+    "base": "/APCOCLEAR2/",
+    "staticMetadataDocuments": 57,
+    "entryRawKiB": {
+      "js": 318.5,
+      "css": 31.4
+    },
+    "homeStaticGraphGzipKiB": {
+      "js": 129.3,
+      "css": 27.6
+    },
+    "allRouteBudgetsPassed": true,
+    "physicalGsapChunks": 0
+  },
+  "acceptanceInventory": {
+    "perEngine": 699,
+    "engines": ["chromium", "firefox", "webkit"],
+    "total": 2097,
+    "files": 45,
+    "knownExplicitSkips": 12,
+    "skipReason": "Six Layout Instability API / CLS checks per Firefox and WebKit; no layout or accessibility cases suppressed."
+  },
+  "browserRuns": [
+    {
+      "name": "complete-initial",
+      "scope": "Complete 2049-case inventory before the last legal, contact, footer and native-playback corrections.",
+      "stats": {
+        "startTime": "2026-10-23T20:13:40.304Z",
+        "duration": 2198221.036,
+        "expected": 2027,
+        "skipped": 12,
+        "unexpected": 10,
+        "flaky": 0
+      },
+      "reportSha256": "bb1887554825490beb70f9193f1c0d8604dc73536e31dd9474ebbed2a5b5afb1",
+      "retries": 0
+    },
+    {
+      "name": "affected-follow-up",
+      "scope": "414 cases against a fresh production candidate; precedes the final semantic pointer targets and corrected observation window.",
+      "stats": {
+        "startTime": "2026-10-23T20:47:42.606Z",
+        "duration": 581343.2119999999,
+        "expected": 401,
+        "skipped": 12,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "reportSha256": "1f41025c6e05d95fa5866e846f65f63a47f2f6f2011b62afccb9b067ba523dc0",
+      "retries": 0
+    },
+    {
+      "name": "final-native-motion",
+      "scope": "Final pointer targets, complete native lifecycle, reduced motion and motion-chunk fallback on the final production source snapshot. Corrected moving observation window is 3100 ms; assertions unchanged.",
+      "stats": {
+        "startTime": "2026-10-23T20:58:26.343Z",
+        "duration": 390414.739,
+        "expected": 54,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "reportSha256": "aceefb8c28b482f0ba7d689f07f5d8fa047a313cc3280f52b20bf4f72b9624ef",
+      "workers": 1,
+      "retries": 0
+    }
+  ],
+  "relocation": {
+    "passed": 216,
+    "failed": 0,
+    "skipped": 0,
+    "configurations": ["root-indexable", "renamed-subpath", "custom-product"],
+    "note": "72 cases in each isolated build; captured before native playback changes, which do not modify routing or configuration."
+  },
+  "visual": {
+    "pageVariants": 240,
+    "continuousPageReviewSheets": 417,
+    "assetFiles": 87,
+    "applicationMotionSequences": 72,
+    "applicationMotionFrames": 432,
+    "evidenceMotionSequences": 24,
+    "evidenceMotionFrames": 240,
+    "correctedPointerFrames": 48,
+    "openConfirmedFindings": 0,
+    "motionReviewSheets": 108,
+    "motionImageHashesVerified": 828,
+    "motionImageHashMismatches": 0,
+    "liveReducedMotionChecksPassed": 96,
+    "pauseObservationsPassed": 72,
+    "javascriptErrors": 0
+  },
+  "animationBytes": {
+    "before": {
+      "chunks": [
+        {
+          "file": "assets/applicationPlayback-DelWn74d.js",
+          "bytes": 2482,
+          "gzipBytes": 1191
+        },
+        {
+          "file": "assets/gsap-BkXJJ_M9.js",
+          "bytes": 69089,
+          "gzipBytes": 26897
+        },
+        {
+          "file": "assets/evidencePlayback-BjegXh-h.js",
+          "bytes": 2588,
+          "gzipBytes": 1037
+        }
+      ],
+      "bytes": 74159,
+      "gzipBytes": 29125
+    },
+    "after": {
+      "chunks": [
+        {
+          "file": "assets/applicationPlayback-Di-RN2kU.js",
+          "bytes": 3241,
+          "gzipBytes": 1531
+        },
+        {
+          "file": "assets/playback-DAZWMNzm.js",
+          "bytes": 455,
+          "gzipBytes": 298
+        },
+        {
+          "file": "assets/evidencePlayback-DUNs-18r.js",
+          "bytes": 3709,
+          "gzipBytes": 1671
+        }
+      ],
+      "bytes": 7405,
+      "gzipBytes": 3500
+    },
+    "savedBytes": 66754,
+    "savedGzipBytes": 25625
+  },
+  "limitations": [
+    "Not a single clean full-suite execution on the final source; full-run failures and their targeted resolutions are preserved.",
+    "Browser emulation and automated accessibility checks do not establish every-device or complete WCAG approval."
+  ],
+  "resolvedInitialFailures": [
+    {
+      "count": 6,
+      "cause": "Two final Traditional Chinese legal revisions were compared with an earlier frozen build.",
+      "resolution": "All legal-localization cases pass on the fresh affected candidate in all three engines."
+    },
+    {
+      "count": 1,
+      "cause": "Footer action moved between pointer events while the lazy initial route committed.",
+      "resolution": "Footer waits for the normal/error route; delayed-route and Cookie Preferences cases pass in all three engines."
+    },
+    {
+      "count": 1,
+      "cause": "A 2100 ms moving observation could fit inside the longest 2600 ms reading phase.",
+      "resolution": "Use a 3100 ms observation, keeping all movement/visibility/phase assertions and 2100 ms resting observation. Final suite passes in all three engines."
+    },
+    {
+      "count": 2,
+      "cause": "WebKit API expansion sampling captured only seven/eight distinct progress levels during a concurrent full run. Trace supports scheduler pressure but cannot establish its sole cause.",
+      "resolution": "Both unchanged API progress assertions pass in the fresh affected run and in the final single-worker run."
+    }
+  ],
+  "publicationAtPackaging": {
+    "confirmed": false,
+    "remoteMainAtLastRead": "6deda43835e054a3d741de2dbae2df6bf00d3aeb",
+    "note": "Local validation does not certify a GitHub write, workflow completion or Pages publication."
+  }
+}

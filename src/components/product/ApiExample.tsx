@@ -1,7 +1,7 @@
 import { Text } from '../ui/Text';
 import { useEffect, useRef, useState } from 'react';
 import { MorphPanel } from '../ui/MorphPanel';
-import { apiRequestExample, apiResponseExample } from '../../content/product-demo';
+import { apiRequestExample, apiResponseExample } from '../../content/api-example';
 import { useLocale } from '../../i18n/context';
 export function ApiExample({ compact = false }: { compact?: boolean }) {
   const { t } = useLocale();
@@ -77,8 +77,7 @@ export function ApiExample({ compact = false }: { compact?: boolean }) {
         <div className="stage-api-auth">
           <span>{t('AUTHENTICATION')}</span>
           <Text as="p">
-            Obtain your key inside Apcosys. Set the endpoint and authentication header from the
-            confirmed API reference.
+            Use the X-API-Key header. Keep your API key on a trusted server, outside browser code.
           </Text>
         </div>
       )}
@@ -93,8 +92,8 @@ export function ApiExample({ compact = false }: { compact?: boolean }) {
         </pre>
         <Text as="p" className="stage-code-note">
           {response
-            ? 'Synthetic host data, not the production response schema.'
-            : 'Request template. Endpoint and authentication contract require product confirmation.'}
+            ? 'Documented response structure with synthetic host data. No request has been sent.'
+            : 'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.'}
         </Text>
       </MorphPanel>
       <span className="sr-only" role="status">

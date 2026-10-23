@@ -1,6 +1,54 @@
 import { expect, test } from '@playwright/test';
 import { siteRoutes } from '../../src/content/routes';
 import { deploymentSettings } from '../helpers/public-settings';
+import { hasLocalizedCopy } from '../../src/i18n/localized-routes';
+
+test('published metadata keeps indexing, sitemap and 404 policies consistent', async ({
+  request,
+  page,
+}) => {
+  const html = await (await request.get('./')).text();
+  const robots = await (await request.get('./robots.txt')).text();
+  const indexable = html.includes('data-indexable="true"');
+  expect(html).toContain(
+    `name="robots" content="${indexable ? 'index, follow' : 'noindex, nofollow'}"`,
+  );
+  expect(robots).toContain(indexable ? 'Allow: /' : 'Disallow: /');
+  const notFound = await (await request.get('./404.html')).text();
+  expect(notFound).toContain('name="robots" content="noindex, nofollow"');
+  const canonical = html.match(/rel="canonical" href="([^"]+)"/)?.[1];
+  if (canonical) {
+    const response = await request.get('./sitemap.xml');
+    expect(response.ok()).toBe(true);
+    const sitemap = await response.text();
+    const expectedRoutes = siteRoutes.reduce(
+      (count, route) => count + (hasLocalizedCopy(route.path) ? 3 : 1),
+      0,
+    );
+    const parsed = await page.evaluate((xml) => {
+      const document = new DOMParser().parseFromString(xml, 'application/xml');
+      return {
+        errors: document.querySelectorAll('parsererror').length,
+        locations: [...document.querySelectorAll('url > loc')].map((node) => node.textContent!),
+      };
+    }, sitemap);
+    expect(parsed.errors).toBe(0);
+    expect(parsed.locations).toHaveLength(expectedRoutes);
+    expect(new Set(parsed.locations).size).toBe(expectedRoutes);
+    expect(parsed.locations).toContain(canonical);
+    expect(parsed.locations.every((url) => url.startsWith(new URL(canonical).origin))).toBe(true);
+    expect(sitemap).not.toContain('/404');
+    expect(robots).toContain(new URL('sitemap.xml', canonical).href);
+  }
+  await page.goto('./missing-indexing-check');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
+  await page.locator('.site-header .brand').click();
+  await expect(page.locator('#hero-title')).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    indexable ? 'index, follow' : 'noindex, nofollow',
+  );
+});
 
 for (const failure of ['network', 'server'] as const) {
   test(`failed initial page download (${failure}) retains navigation and offers working reload`, async ({

@@ -51,13 +51,16 @@
 .application-api__control-row {
   display: grid;
   grid-template-columns: minmax(76px, 1fr) minmax(0, 132px);
-  align-items: end;
+  grid-template-rows: auto minmax(40px, auto);
+  align-items: stretch;
   gap: var(--space-2);
   min-width: 0;
 }
 
 .application-api__field-group {
   display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
   gap: var(--space-1);
   min-width: 0;
 }
@@ -105,6 +108,9 @@
   line-height: 1.25;
   text-align: center;
   overflow-wrap: anywhere;
+}
+.application-api__control-row > .application-api__action {
+  grid-row: 2;
 }
 
 .application-api__action img,
@@ -156,13 +162,16 @@
 .application-api__credits {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
+  grid-template-rows: auto 6px auto;
+  align-items: stretch;
   gap: var(--space-3);
   min-width: 0;
 }
 
 .application-api__credit {
   display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
   gap: var(--space-2);
   min-width: 0;
 }
@@ -306,6 +315,7 @@
   }
 
   .application-api__url-row > .application-api__action {
+    grid-row: auto;
     justify-self: start;
   }
 

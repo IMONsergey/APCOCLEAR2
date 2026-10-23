@@ -1,6 +1,6 @@
 import { apiDocumentationUrl } from '../config/site';
 
-/** Use the on-site guide until the product owner supplies the API reference. */
+/** Custom installations without a documentation URL retain the local guide. */
 const documentationHref = apiDocumentationUrl ?? '/developers/api#documentation';
 
 export const navigation = [

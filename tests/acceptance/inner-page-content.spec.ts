@@ -62,7 +62,7 @@ test('network exclusion link prepares an actionable email without claiming submi
   const email = new URL(href!);
   expect(email.protocol).toBe('mailto:');
   expect(email.searchParams.get('subject')).toBe('Apcosys network exclusion request');
-  const body = email.searchParams.get('body');
+  const body = email.searchParams.get('body')?.replace(/\s+/gu, ' ');
   for (const field of [
     'Networks / IP ranges:',
     'My role in managing these networks:',

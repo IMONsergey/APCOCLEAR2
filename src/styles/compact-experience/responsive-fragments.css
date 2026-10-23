@@ -60,9 +60,6 @@
   .site .product-evidence .product-evidence__footer {
     display: none;
   }
-  .query-fragment {
-    padding: 18px;
-  }
   .site .stage-page-hero {
     padding-block: var(--space-8);
   }
@@ -98,12 +95,6 @@
     grid-template-columns: 42px 60px 1fr;
     gap: var(--space-2);
     font-size: var(--font-size-12);
-  }
-  .query-fragment__options button {
-    gap: var(--space-2);
-  }
-  .query-fragment__options code {
-    font-size: var(--font-size-10);
   }
 }
 .team-sequence {

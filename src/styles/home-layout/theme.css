@@ -61,16 +61,12 @@ html[data-theme='dark'] .search-form {
 }
 html[data-theme='dark'] .search-error {
   color: #f0a6a0;
-  box-shadow: var(--shadow-popover);
 }
 html[data-theme='dark'] .step-media {
   background: linear-gradient(180deg, var(--surface-card), var(--surface-tint));
 }
 html[data-theme='dark'] .step-illustration {
   background: #101619;
-}
-html[data-theme='dark'] .use-case-tags li {
-  color: var(--text-primary);
 }
 html[data-theme='dark'] .metric-card {
   border-color: var(--border-subtle);

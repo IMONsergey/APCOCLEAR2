@@ -221,6 +221,12 @@ export function useSiteRoute(locale: Locale) {
       document.querySelector<HTMLMetaElement>(selector)?.setAttribute('content', value);
     };
     meta('meta[name="description"]', description);
+    meta(
+      'meta[name="robots"]',
+      route && document.documentElement.dataset.indexable === 'true'
+        ? 'index, follow'
+        : 'noindex, nofollow',
+    );
     meta('meta[property="og:title"]', title);
     meta('meta[property="og:description"]', description);
     let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');

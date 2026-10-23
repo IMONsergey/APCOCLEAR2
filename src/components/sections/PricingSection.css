@@ -58,6 +58,11 @@
   color: var(--text-muted);
   min-height: 18px;
 }
+@media (min-width: 600px) {
+  .plan-description {
+    min-height: 3em;
+  }
+}
 .plan-price {
   font-size: var(--font-size-48);
   font-weight: 400;

@@ -33,7 +33,6 @@
     "verify:localization": "tsx scripts/verify-localization.ts"
   },
   "dependencies": {
-    "gsap": "3.13.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "typograf": "7.8.0"

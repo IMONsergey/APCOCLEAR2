@@ -1,6 +1,6 @@
 import type { SitePath } from '../content/routes';
 
-/** Marketing routes with client-supplied translations in both additional languages. */
+/** Routes with complete editions in both additional languages. */
 export const localizedRoutes = [
   '/',
   '/platform/search-investigation',
@@ -12,7 +12,15 @@ export const localizedRoutes = [
   '/teams',
   '/developers/api',
   '/pricing',
+  '/about',
+  '/responsible-scanning',
   '/contact',
+  '/legal/api-data-license-agreement',
+  '/legal/cookie-policy',
+  '/legal/data-collection-policy',
+  '/legal/data-processing-agreement',
+  '/legal/privacy-policy',
+  '/legal/terms',
 ] as const satisfies readonly SitePath[];
 
 export const hasLocalizedCopy = (route: string): boolean =>

@@ -25,7 +25,7 @@ function ApiSample() {
     <EditorialSection
       id="documentation"
       title="Your first request."
-      intro="Start with a small query. Use your account API key and the endpoint, authentication scheme and parameters from the current API reference."
+      intro="Send a small host-search request to the public HTTP API. Use your account API key in the X-API-Key header."
       className="stage-api-demo"
     >
       <div className="api-first-request">
@@ -40,8 +40,8 @@ function ApiSample() {
           <Text as="li">
             <Text as="h3">Prepare a narrow request.</Text>
             <Text as="p">
-              Choose a host or search question you understand. Set the endpoint and authentication
-              header from the current reference.
+              Send JSON to POST /api/v1/search/hosts. Start with a small page size and the filters
+              your plan supports.
             </Text>
           </Text>
           <Text as="li">
@@ -151,8 +151,8 @@ export default function ApiPage() {
               much capacity is available.
             </Text>
             <Text as="p">
-              API activity uses the account’s request balance. Review request costs and Search Token
-              packages before scheduling a larger workflow.
+              The HTTP API documents method costs separately from plan request rates. Review the
+              current reference before scheduling larger workflows.
             </Text>
             <a className="stage-text-link" href={siteHref('/pricing') + '#usage-guide'}>
               {t('Understand usage and capacity')}
@@ -160,8 +160,8 @@ export default function ApiPage() {
           </aside>
         </div>
         <Text as="p" className="editorial-note">
-          Plan rates shown for the client preview. Confirm current limits and consumption in your
-          account.
+          Published HTTP API limits are shown here. Check current plan details in your Apcosys
+          account before scheduling a larger workflow.
         </Text>
       </EditorialSection>
       <EditorialSection

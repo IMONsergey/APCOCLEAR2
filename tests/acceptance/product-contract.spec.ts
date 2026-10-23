@@ -13,14 +13,21 @@ test('home contains all new content, five animated scenes, one set of coverage f
     'aria-label',
     /TLS\s+certificate,\s+issuer,\s+validity\s+period\s+and\s+fingerprint/,
   );
-  await expect(page.locator('.summary-grid')).toContainText('CVE Associations');
+  await expect(page.locator('.summary-grid')).toContainText('CVEs');
+  await expect(page.locator('.summary-source a')).toHaveAttribute(
+    'href',
+    'https://api.apcosys.net/api/statistics',
+  );
   await expect(page.locator('.data-section')).not.toContainText('88 585 365');
-  await page.locator('.home-capabilities__tabs').getByRole('button', { name: 'Filter' }).click();
-  const filter = page.getByRole('checkbox', { name: 'HTTPS only' });
-  await filter.check();
-  await expect(page.locator('.home-capabilities__screen')).not.toContainText('HTTPS redirect');
-  await filter.uncheck();
-  await expect(page.locator('.home-capabilities__screen')).toContainText('HTTPS redirect');
+  const collection = page.locator('#capabilities');
+  await expect(collection).toContainText('Confirm current availability and plan access');
+  await expect(collection.locator('.capability-record__host')).toHaveCount(2);
+  await expect(collection.getByRole('link', { name: 'Talk to Us' })).toHaveAttribute(
+    'href',
+    /contact$/,
+  );
+  await expect(page.locator('main .home-capabilities__tabs')).toHaveCount(0);
+  await expect(page.locator('#use-cases #audiences')).toBeVisible();
   await expect(page.locator('.api-section .api-demo-frame')).toBeVisible();
 });
 
@@ -116,15 +123,15 @@ test('API response is collapsed initially and clipboard gives useful feedback', 
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('./developers/api');
   const code = page.locator('.stage-code-window');
-  await expect(code.locator('pre')).not.toContainText('198.51.100.24');
+  await expect(code.locator('pre')).not.toContainText('203.0.113.10');
   await code.getByRole('button', { name: 'Copy', exact: true }).click();
   await expect(code.getByRole('button', { name: /Copied|Selected/ })).toBeVisible();
   if (browserName === 'chromium')
     expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
-      'APCOSYS_API_ENDPOINT',
+      'https://api.apcosys.net/api/v1/search/hosts',
     );
   await code.getByRole('button', { name: 'Response', exact: true }).click();
-  await expect(code.locator('pre')).toContainText('198.51.100.24');
+  await expect(code.locator('pre')).toContainText('203.0.113.10');
 });
 
 test('Monitoring carries selected synthetic host into investigation', async ({ page }) => {

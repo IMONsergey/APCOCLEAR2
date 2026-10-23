@@ -1,4 +1,6 @@
 import { siteRoutes, type RouteGroup } from '../content/routes';
+import { getLocale } from './paths';
+import { loadLegalDocuments } from '../i18n/legal-documents';
 
 /** Warm the exact lazy route before replacing the currently visible page. */
 export const loadHome = () => import('../pages/HomePage');
@@ -25,7 +27,11 @@ const loaders = {
 const pending = new Map<string, Promise<unknown>>();
 export function prepareRoute(path: string) {
   if (!pending.has(path)) {
-    const request = loaders[routeGroup(path)]();
+    const group = routeGroup(path);
+    const request =
+      group === 'legal'
+        ? Promise.all([loaders[group](), loadLegalDocuments(getLocale())])
+        : loaders[group]();
     pending.set(
       path,
       request.catch((error: unknown) => {
