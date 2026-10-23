@@ -1406,7 +1406,7 @@ export default {
   'Draft cleared.': '已清除草稿。',
   'Your draft stays in this browser tab for up to 24 hours. This website does not send your message. Review and send it in your email application.':
     '草稿會在此瀏覽器分頁保留最多 24 小時。本網站不會寄出您的訊息。請在電子郵件應用程式中檢查並寄出。',
-  'Build with APCOSYS': '使用 APCOSYS 開發',
+  'Build with Apcosys': '使用 Apcosys 開發',
   'Your existing key, available credits and API documentation.':
     '您現有的金鑰、可用額度與 API 文件。',
   'API key': 'API 金鑰',

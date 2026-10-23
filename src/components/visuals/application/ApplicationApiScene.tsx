@@ -19,7 +19,7 @@ export function ApplicationApiScene() {
   return (
     <div className="application-api-scene">
       <div className="application-api__intro">
-        <h3 className="application-api__heading">{t('Build with APCOSYS')}</h3>
+        <h3 className="application-api__heading">{t('Build with Apcosys')}</h3>
         <p className="application-api__subtitle">
           {t('Your existing key, available credits and API documentation.')}
         </p>

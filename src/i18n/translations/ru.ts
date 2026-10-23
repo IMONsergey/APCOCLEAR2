@@ -1469,7 +1469,7 @@ export default {
   'Draft cleared.': 'Черновик удалён.',
   'Your draft stays in this browser tab for up to 24 hours. This website does not send your message. Review and send it in your email application.':
     'Черновик сохраняется в этой вкладке браузера на срок до 24 часов. Сайт не отправляет сообщения. Проверьте письмо и отправьте его из почтового приложения.',
-  'Build with APCOSYS': 'Создавайте с APCOSYS',
+  'Build with Apcosys': 'Создавайте с Apcosys',
   'Your existing key, available credits and API documentation.':
     'Ваш ключ, доступные кредиты и документация API.',
   'API key': 'API-ключ',

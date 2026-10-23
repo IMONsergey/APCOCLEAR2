@@ -40,6 +40,8 @@ All fourteen files are local SVG exports in `public/assets/application/`, regist
 
 The existing `Logo` component supplies the original brand vector. No replacement wordmark is typeset. The API icon dimensions are asserted in browser tests because a broad image rule previously enlarged them despite successful image decoding.
 
+The API heading follows the website's prose spelling, `Apcosys`, in all three locales. The original vector logo and intentional uppercase footer labels retain their established forms.
+
 ## Runtime contract
 
 `ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render the complete translated frame eagerly. `StepDemoMount` and `ApiDemoMount` load `applicationPlayback.ts` near the viewport. GSAP controls a decorative cursor, target emphasis, query typing, the country-filter result count and the illustrative copied state. It does not own navigation, page text, real credentials or API communication.
@@ -69,3 +71,9 @@ The third initial failure concerned an unchanged API expansion frame-sampling as
 After the resize correction, the unchanged WebKit suite passed all 63 cases. The six affected Chromium cases and six affected Firefox cases also passed, for 75/75 in the targeted final run, with no failures, skipped tests or retries. The earlier complete Chromium and Firefox runs each passed 63/63; only the affected cases were repeated after the shared observer fix. The separate motion-chunk failure test passed once in each of the three engines.
 
 After the final date and fingerprint wrapping adjustment, all 45 scene/TLS cases passed across the three engines, as did the Chromium legal-page loading contract. The home-page contract initially differed only in typographic nonbreaking spaces in its accessible description; its matcher now accepts whitespace without changing the expected words. That single case passed on its targeted rerun. The final gate therefore has passing observations for all 47 distinct cases (17 Chromium, 15 Firefox and 15 WebKit), recorded as a 46/47 run plus the corrected 1/1 rerun.
+
+### Repository-wide brand consistency
+
+The first complete repository CI run for the replacement passed 567 of 568 cases. Its remaining failure correctly caught uppercase `APCOSYS` in the new API heading, contrary to the website's existing prose-brand contract. The heading and both translated messages now use `Apcosys`; scene-specific text expectations were updated to the same wording. The original site-wide brand assertion, logo-path checks and uppercase-footer assertions remain unchanged.
+
+The corrected production build passed all 15 targeted Chromium cases: the unchanged brand contract across every site route, twelve API combinations covering three locales, both themes and 320/1440 px, reduced motion, and viewport pause/resume. There were no failures, skipped tests or retries.

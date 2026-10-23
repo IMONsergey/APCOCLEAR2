@@ -257,7 +257,7 @@ test('reduced motion keeps all Figma scenes and product evidence readable withou
   const api = page.locator('.application-scene[data-scene="api"]');
   await api.scrollIntoViewIfNeeded();
   await expect(api).toBeVisible();
-  await expect(api.locator('.application-api__heading')).toHaveText('Build with APCOSYS');
+  await expect(api.locator('.application-api__heading')).toHaveText('Build with Apcosys');
   await expect(api.locator('.application-demo-cursor')).toBeHidden();
   await expectDemoResting(api, 'static');
   await page.goto('./platform/search-investigation');

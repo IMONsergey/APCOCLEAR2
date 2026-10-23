@@ -77,7 +77,7 @@ test('Figma API remains static until viewed, then plays, pauses and resumes with
 
   const demo = page.locator('.application-scene[data-scene="api"]');
   await expect(demo).toHaveAttribute('data-demo-playback', 'static');
-  await expect(demo.locator('.application-api__heading')).toHaveText('Build with APCOSYS');
+  await expect(demo.locator('.application-api__heading')).toHaveText('Build with Apcosys');
   await page.locator('#api').scrollIntoViewIfNeeded();
   await demo.scrollIntoViewIfNeeded();
 
