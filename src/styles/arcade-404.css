@@ -1,0 +1,124 @@
+/* A full-viewport game on the standard page grid; no separate game frame. */
+html:has(.site--not-found),
+body:has(.site--not-found),
+#root:has(.site--not-found) {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.site.site--not-found {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--surface-page);
+}
+
+.site--not-found .header-spacer {
+  flex: 0 0 var(--header-height);
+}
+
+.site--not-found > main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.arcade404-page {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: var(--layout-max);
+  height: 100%;
+  min-height: 0;
+  margin-inline: auto;
+  padding-block: clamp(12px, 1.8vh, 22px);
+  gap: clamp(8px, 1.6vh, 18px);
+  color: var(--text-primary);
+}
+
+.arcade404-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.arcade404-header h1 {
+  min-width: 0;
+  font: 500 var(--font-size-24)/1.25 var(--font-sans);
+  letter-spacing: var(--tracking-heading);
+}
+
+.arcade404-home {
+  flex: 0 0 auto;
+}
+
+.arcade404-game {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.arcade404-board-frame {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.arcade404-board {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 48 / 31;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.arcade404-board:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.arcade404-fallback {
+  display: grid;
+  place-items: center;
+  width: min(100%, 960px);
+  height: 100%;
+  max-height: 620px;
+  font: 500 var(--font-size-80)/1 var(--font-sans);
+  letter-spacing: var(--tracking-display);
+  color: var(--text-muted);
+}
+
+@media (max-width: 599px) {
+  .arcade404-page {
+    gap: var(--space-2);
+    padding-block: var(--space-3);
+  }
+
+  .arcade404-header h1 {
+    font: 500 var(--font-size-18)/1.25 var(--font-sans);
+  }
+
+  .arcade404-home {
+    font-size: var(--font-size-12);
+  }
+}

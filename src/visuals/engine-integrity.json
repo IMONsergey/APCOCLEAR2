@@ -1,0 +1,38 @@
+[
+  {
+    "path": "src/visuals/flow/turquoise-flow.ts",
+    "sha256": "21eb5e0aa67a131363c4574ec4616d9f2b36891f2b30b125c27234998e0f8262"
+  },
+  {
+    "path": "src/visuals/waves/ice-sphere-waves.ts",
+    "sha256": "4dfdf79445bdbcde2c6ff30dd25edd7e2ec42b826731169abdd1fb0624f14bdb"
+  },
+  {
+    "path": "src/visuals/globe/land-data.ts",
+    "sha256": "93d50af19c6b22cfd74d82aaf58299110eb9642f68892e470d206e8530704ce8"
+  },
+  {
+    "path": "src/visuals/globe/signal-globe.ts",
+    "sha256": "d34faaa5a8be17d729a8f23fa0d8560cf1646428090976f879635b2056ed7edd"
+  },
+  {
+    "path": "src/visuals/dots/dot-cascade.ts",
+    "sha256": "1d62c27ddcbf282e49f3a73551f00e24989a642f510d3e681973d913f45c524a"
+  },
+  {
+    "path": "src/visuals/shapes/animated-shapes.ts",
+    "sha256": "1de13b2221e569014dace0c9eb4611d41d0dd625efe67d293e3a71ac0076600c"
+  },
+  {
+    "path": "src/visuals/flow/turquoise-flow-themed.ts",
+    "sha256": "99a43a20db7015b9c1c5abfce06267fe7070b1e6a9b54b4afe2b7e2b8cbdcf64"
+  },
+  {
+    "path": "src/visuals/waves/ice-sphere-waves-themed.ts",
+    "sha256": "cad632b325e1fb67739a426ab90bca0112e483c1d9d06234d74dcfae72f9cac8"
+  },
+  {
+    "path": "src/visuals/dots/dot-cascade-themed.ts",
+    "sha256": "c42d58a5c0fe7abe950beb75df07d55e5058b88c9cd43cf0f8b9a6fb865c51ac"
+  }
+]
