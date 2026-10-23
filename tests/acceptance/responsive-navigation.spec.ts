@@ -69,23 +69,43 @@ for (const width of [390, 1440]) {
   );
 }
 
-test('API demo loads near its section, runs and pauses off screen', async ({ page }) => {
+test('Figma API remains static until viewed, then plays, pauses and resumes with navigation', async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await visit(page, 1440);
 
-  await expect(page.locator('api-developer-demo')).toHaveCount(0);
+  const demo = page.locator('.application-scene[data-scene="api"]');
+  await expect(demo).toHaveAttribute('data-demo-playback', 'static');
+  await expect(demo.locator('.application-api__heading')).toHaveText('Build with APCOSYS');
   await page.locator('#api').scrollIntoViewIfNeeded();
+  await demo.scrollIntoViewIfNeeded();
 
-  const demo = page.locator('api-developer-demo');
-  await expect(demo).toBeAttached();
-  await expect
-    .poll(() => demo.evaluate((node) => Boolean(Reflect.get(node, '_timeline'))))
-    .toBe(true);
+  const cursorTransform = () =>
+    demo
+      .locator('.application-demo-cursor')
+      .evaluate((cursor) => getComputedStyle(cursor).transform);
+  await expect(demo).toHaveAttribute('data-demo-playback', 'playing');
+  await expect(demo.locator('.application-demo-cursor')).toBeVisible();
+  const initial = await cursorTransform();
+  await expect.poll(cursorTransform).not.toBe(initial);
 
-  await page.locator('#pricing').scrollIntoViewIfNeeded();
-  await expect
-    .poll(() => demo.evaluate((node) => Reflect.get(node, '_timeline')?.paused()))
-    .toBe(true);
+  await page.locator('.hero h1').scrollIntoViewIfNeeded();
+  await expect(demo).toHaveAttribute('data-demo-playback', 'paused');
+  const resting = {
+    transform: await cursorTransform(),
+    phase: await demo.getAttribute('data-demo-phase'),
+  };
+  await page.waitForTimeout(2100);
+  expect({
+    transform: await cursorTransform(),
+    phase: await demo.getAttribute('data-demo-phase'),
+  }).toEqual(resting);
+
+  await demo.scrollIntoViewIfNeeded();
+  await expect(demo).toHaveAttribute('data-demo-playback', 'playing');
+  const resumed = await cursorTransform();
+  await expect.poll(cursorTransform).not.toBe(resumed);
 });
 
 test('reduced motion keeps globe visible and closing action usable on phone', async ({ page }) => {

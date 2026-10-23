@@ -80,7 +80,11 @@ for (const [entry, jsLimit, cssLimit, compressed] of limits) {
   }
   if (entry.includes('LegalPages')) {
     for (const file of files) {
-      if (/\/(?:HomePage|PageFrame|ThemedArtwork|gsap|evidencePlayback|theme-demos)-/.test(file))
+      if (
+        /\/(?:HomePage|PageFrame|ThemedArtwork|gsap|evidencePlayback|applicationPlayback)-/.test(
+          file,
+        )
+      )
         problems.push(`Legal unexpectedly depends on ${file}`);
     }
   }

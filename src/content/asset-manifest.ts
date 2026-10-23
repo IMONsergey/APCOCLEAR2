@@ -1,5 +1,24 @@
 export default {
   groups: {
+    application: {
+      directory: 'assets/application',
+      files: [
+        'aperture.svg',
+        'run-search.svg',
+        'netherlands.svg',
+        'germany.svg',
+        'united-states.svg',
+        'filter-plus.svg',
+        'type-chevron.svg',
+        'nginx.svg',
+        'copy-white.svg',
+        'copy-accent.svg',
+        'code.svg',
+        'external.svg',
+        'certificate.svg',
+        'link.svg',
+      ],
+    },
     brand: {
       directory: 'assets/brand',
       files: ['favicon.svg', 'logo.svg'],

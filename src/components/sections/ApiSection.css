@@ -67,7 +67,7 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  height: 560px;
+  min-height: 560px;
   aspect-ratio: auto;
   background: white;
   pointer-events: none;
@@ -87,38 +87,11 @@
   opacity: 0.14;
   inset: 16px -16px -16px 16px;
 }
-.api-demo-frame .api-demo-fallback,
-.api-demo-host {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  pointer-events: none;
-  transition: opacity 240ms ease;
-  border-radius: inherit;
-  overflow: hidden;
+.api-demo-frame > .application-scene {
+  min-height: 560px;
 }
-.api-demo-frame .api-demo-fallback {
-  height: 100%;
-  padding: var(--space-6);
-  color: var(--text-primary);
-  opacity: 1;
-}
-.api-demo-fallback p {
-  margin-bottom: var(--space-5);
-  font-size: var(--font-size-12);
-  color: var(--text-muted);
-}
-.api-demo-fallback h3 {
-  margin-block: var(--space-4) var(--space-3);
-  font-size: var(--font-size-14);
-}
-.api-demo-fallback pre {
-  padding: var(--space-3);
-  background: var(--surface-elevated);
-  border-radius: var(--radius-control);
-  font: 400 var(--font-size-12)/1.5 var(--font-mono);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+.application-api-scene {
+  padding: var(--space-4);
 }
 .api-visual-note {
   margin-top: var(--space-6);
@@ -127,33 +100,6 @@
   color: white;
   max-width: 60ch;
 }
-.api-demo-host {
-  height: 100%;
-  opacity: 0;
-  --api-c-008fa3: var(--action-fill);
-  --api-c-0799ae: var(--action-fill);
-  --api-c-727d82: var(--text-muted);
-  --api-font: var(--font-sans);
-  --api-mono: var(--font-mono);
-}
-.api-demo-frame[data-ready='true'] .api-demo-fallback {
-  opacity: 0;
-}
-.api-demo-frame[data-ready='true'] .api-demo-host {
-  opacity: 1;
-}
-.api-demo-host > api-developer-demo {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.api-demo-poster {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  overflow: hidden;
-}
-
 @container api (max-width: 1199px) {
   .api-grid {
     min-height: 0;
@@ -213,8 +159,9 @@
     flex: 1;
     justify-content: flex-start;
   }
-  .api-demo-frame {
-    height: 600px;
+  .api-demo-frame,
+  .api-demo-frame > .application-scene {
+    min-height: 600px;
   }
   .api-demo-frame,
   .api-demo-frame::before,
@@ -232,11 +179,5 @@
   .api-copy h2 {
     font-size: var(--font-size-40);
     line-height: 1.1;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .api-demo-frame .api-demo-fallback,
-  .api-demo-host {
-    transition: none;
   }
 }

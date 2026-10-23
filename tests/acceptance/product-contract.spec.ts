@@ -11,7 +11,7 @@ test('home contains all new content, five animated scenes, one set of coverage f
   await expect(page.locator('.step-illustration')).toHaveCount(5);
   await expect(page.locator('.step-illustration').nth(3)).toHaveAttribute(
     'aria-label',
-    /technical context/,
+    /TLS\s+certificate,\s+issuer,\s+validity\s+period\s+and\s+fingerprint/,
   );
   await expect(page.locator('.summary-grid')).toContainText('CVE Associations');
   await expect(page.locator('.data-section')).not.toContainText('88 585 365');

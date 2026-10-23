@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
 
 test.use({ reducedMotion: 'no-preference' });
 
@@ -20,35 +20,135 @@ function expectContinuous(samples: { height: number; time: number }[], minimumDe
   }
 }
 
-test('original API really plays, then sleeps outside the viewport', async ({ page }) => {
+async function sampleDemoMotion(scene: Locator, duration = 2100) {
+  return scene.evaluate(async (root, observationTime) => {
+    const cursor = root.querySelector<HTMLElement>('.application-demo-cursor');
+    if (!cursor) throw new Error('The animated demonstration must contain a visible cursor.');
+    const read = () => {
+      const style = getComputedStyle(cursor);
+      const matrix = new DOMMatrixReadOnly(
+        style.transform === 'none' ? undefined : style.transform,
+      );
+      const phase = root.getAttribute('data-demo-phase');
+      return {
+        phase: phase === null ? null : Number(phase),
+        transform: style.transform,
+        x: matrix.m41,
+        y: matrix.m42,
+        visible:
+          style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0,
+      };
+    };
+    const started = performance.now();
+    const samples = [read()];
+    while (performance.now() - started < observationTime) {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      samples.push(read());
+    }
+    return samples;
+  }, duration);
+}
+
+async function expectDemoMoving(scene: Locator) {
+  await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
+  const samples = await sampleDemoMotion(scene);
+  expect(
+    samples.every(
+      ({ phase }) => phase !== null && Number.isInteger(phase) && phase >= 0 && phase <= 3,
+    ),
+  ).toBe(true);
+  const visible = samples.filter((sample) => sample.visible);
+  expect(visible.length, 'normal-motion playback must show its cursor').toBeGreaterThan(2);
+  expect(new Set(visible.map(({ transform }) => transform)).size).toBeGreaterThan(2);
+  const travel = Math.hypot(
+    Math.max(...visible.map(({ x }) => x)) - Math.min(...visible.map(({ x }) => x)),
+    Math.max(...visible.map(({ y }) => y)) - Math.min(...visible.map(({ y }) => y)),
+  );
+  expect(
+    travel,
+    'the rendered cursor must travel, not only advertise playing state',
+  ).toBeGreaterThan(8);
+  expect(
+    new Set(samples.map(({ phase }) => phase)).size,
+    'the visible demonstration advances',
+  ).toBeGreaterThan(1);
+}
+
+async function expectDemoResting(scene: Locator, playback: 'paused' | 'static') {
+  await expect(scene).toHaveAttribute('data-demo-playback', playback);
+  const samples = await sampleDemoMotion(scene);
+  expect(new Set(samples.map(({ phase, transform }) => `${phase}:${transform}`)).size).toBe(1);
+}
+
+test('Figma API demonstration moves while visible and sleeps outside the viewport', async ({
+  page,
+}) => {
   await page.goto('./');
   await page.locator('#api').scrollIntoViewIfNeeded();
-  const api = page.locator('api-developer-demo');
+  const api = page.locator('.application-scene[data-scene="api"]');
+  await api.scrollIntoViewIfNeeded();
   await expect(api).toBeVisible();
-  const time = () => api.evaluate((el) => Reflect.get(el, '_timeline')?.time() as number);
-  await expect.poll(time).toBeGreaterThan(0.3);
-  const before = await time();
-  await page.waitForTimeout(250);
-  expect(await time()).toBeGreaterThan(before);
+  await expectDemoMoving(api);
   await page.locator('.hero h1').scrollIntoViewIfNeeded();
-  await expect.poll(() => api.evaluate((el) => Reflect.get(el, '_timeline')?.paused())).toBe(true);
-  const resting = await time();
-  await page.waitForTimeout(250);
-  expect(await time()).toBe(resting);
+  await expectDemoResting(api, 'paused');
 });
 
-test('all five original investigation films mount and animate', async ({ page }) => {
+test('all five Figma investigation demonstrations move only while visible', async ({ page }) => {
+  test.setTimeout(90_000);
   await page.goto('./');
   for (const [index, name] of ['query', 'results', 'host', 'evidence', 'suggestions'].entries()) {
     const card = page.locator('.step-card').nth(index);
     await card.scrollIntoViewIfNeeded();
-    const scene = card.locator('apcosys-product-demo');
+    const scene = card.locator(`.application-scene[data-scene="${name}"]`);
     await scene.scrollIntoViewIfNeeded();
-    await expect(scene).toHaveAttribute('scene', name);
-    await expect
-      .poll(() => scene.evaluate((el) => Reflect.get(el, '_timeline')?.time()))
-      .toBeGreaterThan(0.1);
+    await expectDemoMoving(scene);
+    await page.locator('.hero h1').scrollIntoViewIfNeeded();
+    await expectDemoResting(scene, 'paused');
   }
+});
+
+test('Figma playback pauses on a document visibility notification and resumes when visible', async ({
+  page,
+}) => {
+  await page.goto('./');
+  const scene = page.locator('.application-scene[data-scene="api"]');
+  await page.locator('#api').scrollIntoViewIfNeeded();
+  await scene.scrollIntoViewIfNeeded();
+  await expectDemoMoving(scene);
+  // Emulate the browser visibility signal, without exposing animation internals.
+  const hidden = await scene.evaluate(async (root) => {
+    const descriptors = ['hidden', 'visibilityState'].map((key) => ({
+      key,
+      descriptor: Object.getOwnPropertyDescriptor(document, key),
+    }));
+    const read = () => ({
+      phase: root.getAttribute('data-demo-phase'),
+      transform: getComputedStyle(root.querySelector('.application-demo-cursor')!).transform,
+    });
+    try {
+      Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+      Object.defineProperty(document, 'visibilityState', { configurable: true, value: 'hidden' });
+      document.dispatchEvent(new Event('visibilitychange'));
+      const started = performance.now();
+      while (
+        root.getAttribute('data-demo-playback') !== 'paused' &&
+        performance.now() - started < 5000
+      )
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      const before = read();
+      await new Promise((resolve) => setTimeout(resolve, 2100));
+      return { before, after: read(), playback: root.getAttribute('data-demo-playback') };
+    } finally {
+      for (const { key, descriptor } of descriptors) {
+        if (descriptor) Object.defineProperty(document, key, descriptor);
+        else Reflect.deleteProperty(document, key);
+      }
+      document.dispatchEvent(new Event('visibilitychange'));
+    }
+  });
+  expect(hidden.playback).toBe('paused');
+  expect(hidden.after).toEqual(hidden.before);
+  await expectDemoMoving(scene);
 });
 
 for (const width of [390, 1440]) {
@@ -139,14 +239,27 @@ test('capability and monitoring switches resize through intermediate frames on m
   }
 });
 
-test('reduced motion keeps API and evidence readable without playback', async ({ page }) => {
+test('reduced motion keeps all Figma scenes and product evidence readable without playback', async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('./');
+  for (const [index, name] of ['query', 'results', 'host', 'evidence', 'suggestions'].entries()) {
+    const card = page.locator('.step-card').nth(index);
+    await card.scrollIntoViewIfNeeded();
+    const scene = card.locator(`.application-scene[data-scene="${name}"]`);
+    await expect(scene).toBeVisible();
+    await expect(scene).toHaveAttribute('data-demo-playback', 'static');
+    await expect(scene).toHaveAttribute('data-demo-phase', '0');
+    await expect(scene.locator('.application-demo-cursor')).toBeHidden();
+  }
   await page.locator('#api').scrollIntoViewIfNeeded();
-  await expect(page.locator('api-developer-demo')).toBeVisible();
-  expect(
-    await page.locator('api-developer-demo').evaluate((el) => Reflect.get(el, '_timeline')),
-  ).toBeNull();
+  const api = page.locator('.application-scene[data-scene="api"]');
+  await api.scrollIntoViewIfNeeded();
+  await expect(api).toBeVisible();
+  await expect(api.locator('.application-api__heading')).toHaveText('Build with APCOSYS');
+  await expect(api.locator('.application-demo-cursor')).toBeHidden();
+  await expectDemoResting(api, 'static');
   await page.goto('./platform/search-investigation');
   await expect(page.locator('.evidence-response')).toContainText('HTTP/1.1 200 OK');
   await expect(page.locator('.evidence-cursor')).toBeHidden();

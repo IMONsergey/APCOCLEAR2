@@ -1,56 +1,52 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
+test.use({ reducedMotion: 'reduce' });
+
 const locales = [
   {
     route: './',
     language: 'en',
-    recent: 'Recent queries',
-    countries: 'All countries',
-    services: 'Open services',
-    periods: ['7D', '30D', '90D', '1Y'],
-    evidence: 'Evidence collected from 203.0.113.10:22',
-    refine: 'Refine your query',
-    request: 'Request',
-    response: 'Response',
-    apiNote: 'Illustrative host search response.',
+    query: 'Search internet infrastructure.',
+    results: '148 results',
+    services: 'Services',
+    certificate: 'Certificate identity',
+    issuer: 'Example Certificate Authority',
+    applied: 'Applied condition',
+    apiHeading: 'Build with APCOSYS',
+    quotas: ['Query credits remaining', 'Scan credits remaining'],
     closing: 'Start with your first query.',
     action: 'Try free search',
     englishHint: 'Available in English',
-    assessment: 'No CVE assessment is provided for this illustrative service.',
   },
   {
     route: './ru/',
     language: 'ru',
-    recent: 'Недавние запросы',
-    countries: 'Все страны',
-    services: 'Открытые сервисы',
-    periods: ['7д', '30д', '90д', '1г'],
-    evidence: 'Доказательства собраны с 203.0.113.10:22',
-    refine: 'Уточните запрос',
-    request: 'Запрос',
-    response: 'Ответ',
-    apiNote: 'Пример ответа на поиск хостов.',
+    query: 'Поиск инфраструктуры интернета.',
+    results: '148 результатов',
+    services: 'Сервисы',
+    certificate: 'Сведения о сертификате',
+    issuer: 'Пример удостоверяющего центра',
+    applied: 'Применённое условие',
+    apiHeading: 'Создавайте с APCOSYS',
+    quotas: ['Остаток кредитов на запросы', 'Остаток кредитов на сканирование'],
     closing: 'Начните с первого запроса.',
     action: 'Попробовать бесплатный поиск',
     englishHint: 'Доступно на английском',
-    assessment: 'Для этого сервиса в примере не приводится оценка по CVE.',
   },
   {
     route: './zh-hant/',
     language: 'zh-Hant',
-    recent: '最近查詢',
-    countries: '所有國家/地區',
-    services: '開放服務',
-    periods: ['7天', '30天', '90天', '1年'],
-    evidence: '從 203.0.113.10:22 收集的證據',
-    refine: '細化您的查詢',
-    request: '請求',
-    response: '回應',
-    apiNote: '主機搜尋回應的示意範例。',
+    query: '搜尋網際網路基礎設施。',
+    results: '148 筆結果',
+    services: '服務',
+    certificate: '憑證識別資訊',
+    issuer: '範例憑證機構',
+    applied: '已套用條件',
+    apiHeading: '使用 APCOSYS 開發',
+    quotas: ['剩餘查詢額度', '剩餘掃描額度'],
     closing: '從第一個查詢開始。',
     action: '試用免費搜尋',
     englishHint: '提供英文版本',
-    assessment: '此示意服務未提供 CVE 評估。',
   },
 ] as const;
 
@@ -150,44 +146,84 @@ async function expectReadableContents(container: Locator, minimumFont = 11.5, ch
   expect(result.issues, 'all displayed glyphs must fit at a readable size').toEqual([]);
 }
 
+async function expectDecodedAssets(scene: Locator) {
+  expect(
+    await scene.locator('img').count(),
+    'Figma asset references remain present',
+  ).toBeGreaterThan(0);
+  const broken = await scene.evaluate(async (host) => {
+    const masks = new Set(
+      [...host.querySelectorAll('*')].flatMap((element) =>
+        [...getComputedStyle(element).maskImage.matchAll(/url\((['"]?)(.*?)\1\)/g)].map(
+          (match) => match[2]!,
+        ),
+      ),
+    );
+    const images = [
+      ...host.querySelectorAll('img'),
+      ...[...masks].map((source) => {
+        const image = new Image();
+        image.src = source;
+        return image;
+      }),
+    ];
+    const results = await Promise.all(
+      images.map(async (image) => {
+        try {
+          await image.decode();
+          return image.naturalWidth > 0 && image.naturalHeight > 0 ? null : image.currentSrc;
+        } catch {
+          return image.currentSrc || image.src;
+        }
+      }),
+    );
+    return results.filter((source) => source !== null);
+  });
+  expect(broken, 'every referenced illustration image and mask must decode').toEqual([]);
+}
+
+async function expectFigmaScene(scene: Locator, node: string) {
+  await expect(scene).toBeVisible();
+  await expect(scene).toHaveAttribute('data-design-source', 'figma-application');
+  await expect(scene).toHaveAttribute('data-design-node', node);
+  await expect(scene).toHaveAttribute('data-demo-playback', 'static');
+  await expect(scene).toHaveAttribute('data-demo-phase', '0');
+  await expect(scene.locator('.application-demo-cursor')).toBeHidden();
+  await expectDecodedAssets(scene);
+}
+
 for (const locale of locales) {
-  test(`full evidence playback keeps service, product and CVE context consistent: ${locale.language}`, async ({
+  test(`Figma TLS playback preserves the selected HTTPS certificate context: ${locale.language}`, async ({
     page,
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await openHome(page, locale.route, 'light', 1440);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await openHome(page, locale.route, 'light', 1440);
     await page.locator('.step-card').nth(3).scrollIntoViewIfNeeded();
-    await expect(
-      page.locator('apcosys-product-demo[scene="evidence"] .evidence-source'),
-    ).toBeVisible();
-    // Exercise the renderer's supported full presentation, whose associations are
-    // intentionally omitted from the homepage excerpt, through its real timeline.
-    await page.evaluate(() => {
-      const element = document.createElement('apcosys-product-demo');
-      element.id = 'full-evidence-regression';
-      element.setAttribute('scene', 'evidence');
-      element.setAttribute('autoplay', 'false');
-      element.style.cssText = 'position:fixed;inset:0;width:1360px;height:840px;z-index:1000';
-      document.body.append(element);
-    });
-    const scene = page.locator('#full-evidence-regression');
-    await expect(scene.locator('.evidence-products:visible')).toContainText('OpenSSH');
-    await expect(scene.locator('.evidence-cve:visible')).toHaveCount(3);
-    await scene.evaluate((element) => element.setAttribute('autoplay', 'true'));
-    await expect(scene.locator('[data-port="443"]')).toHaveAttribute('data-active', 'true');
-    await expect(scene.locator('.evidence-banner-text')).toContainText('Apache/2.4.41');
-    await expect(scene.locator('.evidence-products:visible')).toContainText('Apache HTTP Server');
-    await expect(scene.locator('.evidence-products:visible')).not.toContainText('OpenSSH');
-    await expect(scene.locator('.evidence-cve:visible')).toHaveCount(0);
-    await expect(
-      scene.locator('.evidence-https-context .evidence-confidence-description'),
-    ).toHaveText(locale.assessment);
-    await expect(scene.locator('[data-port="22"]')).toHaveAttribute('data-active', 'true');
-    await expect(scene.locator('.evidence-banner-text')).toContainText('SSH-2.0-OpenSSH');
-    await expect(scene.locator('.evidence-products:visible')).toContainText('OpenSSH');
-    await expect(scene.locator('.evidence-cve:visible')).toHaveCount(3);
+    const scene = page.locator('.application-scene[data-scene="evidence"]');
+    await scene.scrollIntoViewIfNeeded();
+    await expect(scene).toHaveAttribute('data-design-source', 'figma-application');
+    await expect(scene).toHaveAttribute('data-design-node', '903:48414');
+    await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
+    await expect(scene.locator('.application-demo-cursor')).toBeVisible();
+    for (const phase of [0, 1, 2, 3]) {
+      await expect(scene).toHaveAttribute('data-demo-phase', String(phase));
+      await expect(scene.locator('.application-certificate-title')).toHaveText(locale.certificate);
+      await expect(scene.locator('.application-tls-service[data-demo-service="443"]')).toHaveText(
+        '443 / HTTPS · example.com',
+      );
+      await expect(scene.locator('.application-certificate dl dd')).toHaveText([
+        'example.com',
+        locale.issuer,
+      ]);
+      await expect(scene.locator('.application-fingerprint > span')).toHaveText('SHA-256');
+      await expect(scene.locator('.application-fingerprint code')).toHaveText(
+        /^(?:[0-9A-F]{2}:){31}[0-9A-F]{2}$/,
+      );
+      await expect(scene).not.toContainText(/OpenSSH|SSH-2\.0|CVE-\d{4}-\d+/);
+      await expectReadableContents(scene);
+    }
     expect(errors).toEqual([]);
   });
 
@@ -195,34 +231,45 @@ for (const locale of locales) {
     for (const theme of ['light', 'dark'] as const) {
       const variant = `${locale.language} ${width}px ${theme}`;
 
-      test(`five research excerpts remain readable and localized: ${variant}`, async ({ page }) => {
+      test(`five Figma research scenes remain readable and localized: ${variant}`, async ({
+        page,
+      }) => {
         await openHome(page, locale.route, theme, width);
         const scenes = [
-          ['query', '.recent-heading > span:first-child', locale.recent],
-          ['results', '.country-filter-label', locale.countries],
-          ['host', '.services-panel .host-panel-title > span', locale.services],
-          ['evidence', '.evidence-source', locale.evidence],
-          ['suggestions', '.refine-label', locale.refine],
+          ['query', '899:4021', '.application-query-title', locale.query],
+          ['results', '899:4117', '.application-results-heading', locale.results],
+          ['host', '899:5079', '.application-host-services-title', locale.services],
+          ['evidence', '903:48414', '.application-certificate-title', locale.certificate],
+          ['suggestions', '903:48044', '.application-refine-heading', locale.applied],
         ];
-        for (const [name, selector, text] of scenes) {
+        for (const [name, node, selector, text] of scenes) {
           await test.step(name!, async () => {
             const card = page
               .locator('.step-card')
               .nth(scenes.findIndex((scene) => scene[0] === name));
             await card.scrollIntoViewIfNeeded();
-            const scene = card.locator('apcosys-product-demo');
+            const scene = card.locator(`.application-scene[data-scene="${name}"]`);
+            await expectFigmaScene(scene, node!);
             await expect(scene.locator(selector!)).toBeVisible();
-            await expect(scene.locator(selector!)).toHaveText(text!);
+            await expect(scene.locator(selector!)).toHaveText(text!, { useInnerText: true });
             await expectReadableContents(scene);
-            if (name === 'host')
-              await expect(scene.locator('.period')).toHaveText([...locale.periods]);
+            if (name === 'host') {
+              await expect(scene).toContainText('nginx');
+              await expect(scene).toContainText('HTTP/1.1 200 OK');
+            }
             if (name === 'results') {
-              const addresses = await scene.locator('.result-ip:visible').allTextContents();
+              const addresses = await scene
+                .locator('.application-result-address:visible')
+                .allTextContents();
               expect(addresses.length).toBeGreaterThan(0);
               for (const address of addresses)
                 expect(address).toMatch(/^(192\.0\.2|198\.51\.100|203\.0\.113)\.\d+$/);
-              for (const domain of await scene.locator('.result-domain:visible').allTextContents())
-                expect(domain).toMatch(/(?:^|\.)example\.(?:com|net|org)$/);
+            }
+            if (name === 'evidence') {
+              await expect(scene).toContainText('example.com');
+              await expect(scene).toContainText(locale.issuer);
+              await expect(scene).toContainText('SHA-256');
+              await expect(scene).not.toContainText(/OpenSSH|SSH-2\.0|CVE-\d{4}-\d+/);
             }
           });
         }
@@ -231,7 +278,7 @@ for (const locale of locales) {
         ).toBeLessThanOrEqual(1);
       });
 
-      test(`API excerpt shows a readable illustrative host response without a live request: ${variant}`, async ({
+      test(`Figma API credentials and quotas remain readable without a live request: ${variant}`, async ({
         page,
       }) => {
         const requests: string[] = [];
@@ -241,27 +288,58 @@ for (const locale of locales) {
         await openHome(page, locale.route, theme, width);
         const frame = page.locator('.api-demo-frame');
         await frame.scrollIntoViewIfNeeded();
-        await expect(frame).toHaveAttribute('data-ready', 'true');
-        const demo = frame.locator('api-developer-demo');
-        await expect(demo.locator('.description')).toHaveText(locale.apiNote);
-        await expect(demo.locator('.main > section').first().locator('h2')).toHaveText(
-          locale.request,
-        );
-        await expect(demo.locator('.main > section').last().locator('h2')).toHaveText(
-          locale.response,
-        );
-        await expect(demo.locator('.response-list')).toBeVisible();
-        const response = JSON.parse(
-          (await demo.locator('.response-list .code-text').allTextContents()).join('\n'),
-        );
-        expect(response).toMatchObject({ port: 443, protocol: 'HTTPS' });
-        expect(response.host).toMatch(/^(192\.0\.2|198\.51\.100|203\.0\.113)\.\d+$/);
-        expect(response).not.toHaveProperty('revenue');
-        expect(response).not.toHaveProperty('transactions');
-        const request = await demo.locator('.request-lines').innerText();
-        expect(request).toContain('$APCOSYS_API_ENDPOINT');
-        expect(request).toContain('$APCOSYS_AUTH_HEADER');
-        expect(request).not.toMatch(/https?:\/\//);
+        const demo = frame.locator('.application-scene[data-scene="api"]');
+        await expectFigmaScene(demo, '903:53837');
+        await expect(demo.locator('.application-api__heading')).toHaveText(locale.apiHeading);
+        for (const [file, size] of [
+          ['copy-white.svg', 20],
+          ['copy-accent.svg', 20],
+          ['external.svg', 20],
+          ['code.svg', 36],
+        ] as const) {
+          const icon = demo.locator(`img[src$="/application/${file}"]`);
+          await expect(icon).toBeVisible();
+          const bounds = await icon.boundingBox();
+          expect(bounds, `${file} must render its intended icon geometry`).not.toBeNull();
+          expect(Math.abs(bounds!.width - size), `${file} rendered width`).toBeLessThanOrEqual(1);
+          expect(Math.abs(bounds!.height - size), `${file} rendered height`).toBeLessThanOrEqual(1);
+        }
+        await expect(demo.locator('[data-demo-target="api-key"]')).toHaveText(/^•{8,32}$/);
+        const endpoint = demo.locator('[data-demo-target="api-url"] > code');
+        await expect(endpoint).toHaveText('https://api.apcosys.net/v1');
+        expect(await endpoint.evaluate((element) => Boolean(element.closest('a')))).toBe(false);
+        await expect(demo.locator('.application-api__credit')).toHaveCount(2);
+        await expect(demo.locator('.application-api__credit-track')).toHaveCount(2);
+        const meters = demo.locator('[role="meter"]');
+        await expect(meters).toHaveCount(2);
+        const number = new Intl.NumberFormat(locale.language);
+        for (const [index, [current, maximum]] of [
+          [124850, 1500000],
+          [327680, 327680],
+        ].entries()) {
+          await expect(meters.nth(index)).toHaveAttribute('aria-valuenow', String(current));
+          await expect(meters.nth(index)).toHaveAttribute('aria-valuemax', String(maximum));
+          await expect(meters.nth(index)).toHaveAttribute(
+            'aria-label',
+            new RegExp(`^${locale.quotas[index]!.split(' ').join('\\s+')}$`),
+          );
+          const balance = demo.locator('.application-api__credit').nth(index);
+          await expect(balance.locator('.application-api__credit-value > span').first()).toHaveText(
+            number.format(current!),
+          );
+          await expect(balance.locator('.application-api__credit-value > span').last()).toHaveText(
+            number.format(maximum!),
+          );
+          const ratio = await meters.nth(index).evaluate((track) => {
+            const fill = track.querySelector('.application-api__credit-fill')!;
+            return fill.getBoundingClientRect().width / track.getBoundingClientRect().width;
+          });
+          expect(
+            Math.abs(ratio - current! / maximum!),
+            'quota fill matches the displayed balance',
+          ).toBeLessThan(0.015);
+        }
+        await expect(demo).not.toContainText(/Revenue Transactions|\/v1\/datasets/);
         await expectReadableContents(demo);
         expect(requests, 'illustrations must not execute an API request').toEqual([]);
       });

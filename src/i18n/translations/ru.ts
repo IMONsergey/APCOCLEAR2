@@ -1469,4 +1469,50 @@ export default {
   'Draft cleared.': 'Черновик удалён.',
   'Your draft stays in this browser tab for up to 24 hours. This website does not send your message. Review and send it in your email application.':
     'Черновик сохраняется в этой вкладке браузера на срок до 24 часов. Сайт не отправляет сообщения. Проверьте письмо и отправьте его из почтового приложения.',
+  'Build with APCOSYS': 'Создавайте с APCOSYS',
+  'Your existing key, available credits and API documentation.':
+    'Ваш ключ, доступные кредиты и документация API.',
+  'API key': 'API-ключ',
+  'Copy API key': 'Скопировать API-ключ',
+  'Regenerate API key': 'Создать новый API-ключ',
+  'Copy base URL': 'Скопировать базовый URL',
+  'Query credits remaining': 'Остаток кредитов на запросы',
+  'Scan credits remaining': 'Остаток кредитов на сканирование',
+  'From a question to a response.': 'От вопроса к ответу.',
+  'Use the current endpoints and supported query fields.':
+    'Используйте актуальные эндпоинты и поддерживаемые поля запроса.',
+  'Open documentation': 'Открыть документацию',
+  'API access and rate limits depend on your plan.':
+    'Доступ к API и лимиты частоты запросов зависят от тарифа.',
+  '{percent} left': 'Осталось {percent}',
+  'Search workspace with filters, a query field and supported query types.':
+    'Рабочая область поиска: фильтры, поле запроса и поддерживаемые типы запросов.',
+  'Review the service response, certificate and observed technical context.':
+    'Изучите ответ сервиса, сертификат и наблюдаемый технический контекст.',
+  'Illustrative TLS certificate, issuer, validity period and fingerprint for an individual host.':
+    'Пример TLS-сертификата хоста: издатель, срок действия и отпечаток.',
+  Filters: 'Фильтры',
+  Netherlands: 'Нидерланды',
+  'Example Network': 'Пример сети',
+  'TLS certificate': 'TLS-сертификат',
+  'Search internet infrastructure.': 'Поиск инфраструктуры интернета.',
+  'Find hosts, services and networks.': 'Ищите хосты, сервисы и сети.',
+  'Text query': 'Текстовый запрос',
+  'Use filters for a specific field or range.': 'Уточните поле или диапазон с помощью фильтров.',
+  '148 results': '148 результатов',
+  '86 results': '86 результатов',
+  'Country · Hosts': 'Страна · Хосты',
+  'HTTPS response': 'Ответ HTTPS',
+  'Certificate identity': 'Сведения о сертификате',
+  Subject: 'Субъект',
+  Issuer: 'Издатель',
+  'Example Certificate Authority': 'Пример удостоверяющего центра',
+  'Connection & validity': 'Соединение и срок действия',
+  'Certificate fingerprint': 'Отпечаток сертификата',
+  'Applied condition': 'Применённое условие',
+  'Clear conditions': 'Сбросить условия',
+  '1 result': '1 результат',
+  'Observed services and metadata': 'Наблюдаемые сервисы и метаданные',
+  'Illustrative API workspace with a masked key, credit balances and documentation access.':
+    'Пример рабочей области API со скрытым ключом, остатками кредитов и доступом к документации.',
 } satisfies Record<string, string>;

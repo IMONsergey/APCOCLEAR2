@@ -91,7 +91,7 @@ export function StepCarousel() {
               </div>
               <div className="step-media">
                 <Visual kind="dots" direction="bottom-to-top" />
-                <StepIllustration scene={step.scene} image={step.image} alt={step.alt} />
+                <StepIllustration scene={step.scene} alt={step.alt} />
               </div>
             </li>
           ))}

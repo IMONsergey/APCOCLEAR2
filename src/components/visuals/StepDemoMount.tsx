@@ -1,28 +1,19 @@
-import '../../styles/theme-demos.css';
-import { useLayoutEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import { useLayoutEffect, type RefObject } from 'react';
 import type { ResearchScene } from '../../content/research';
-import '../../visuals/product/product-scenes.ts';
+import { useLocale } from '../../i18n/context';
+import { startApplicationPlayback } from './application/applicationPlayback';
 
-declare global {
-  interface Window {
-    ApcosysProductScenes?: { configure(options: { gsap: typeof gsap }): void };
-  }
-}
-window.ApcosysProductScenes?.configure({ gsap });
-
-export default function StepDemoMount({ scene }: { scene: ResearchScene }) {
-  const host = useRef<HTMLDivElement>(null);
+export default function StepDemoMount({
+  scene,
+  frameRef,
+}: {
+  scene: ResearchScene;
+  frameRef: RefObject<HTMLDivElement | null>;
+}) {
+  const { locale } = useLocale();
   useLayoutEffect(() => {
-    if (!host.current) return;
-    const element = document.createElement('apcosys-product-demo');
-    element.setAttribute('scene', scene);
-    element.setAttribute('fit', 'contain');
-    element.setAttribute('presentation', 'summary');
-    element.inert = true;
-    element.setAttribute('aria-hidden', 'true');
-    host.current.append(element);
-    return () => element.remove();
-  }, [scene]);
-  return <div ref={host} className="step-demo-host" aria-hidden="true" inert />;
+    if (!frameRef.current) return;
+    return startApplicationPlayback(frameRef.current, scene);
+  }, [frameRef, scene, locale]);
+  return null;
 }

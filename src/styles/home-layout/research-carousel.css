@@ -100,31 +100,18 @@
 }
 .step-illustration {
   position: relative;
-  width: calc(103% * var(--media-density));
+  width: 100%;
   margin-inline-start: auto;
-  height: 360px;
-  max-width: none;
+  min-height: 440px;
+  max-width: 100%;
   aspect-ratio: auto;
-  object-fit: cover;
   border-radius: var(--radius-panel) 0 0 var(--radius-panel);
   z-index: 1;
   overflow: clip;
   transition: transform 320ms var(--ease);
 }
-.step-illustration > img {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1.49;
-  object-fit: cover;
-}
-.step-demo-host {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.step-demo-host > apcosys-product-demo {
-  width: 100%;
-  height: 100%;
+.step-illustration > .application-scene {
+  min-height: 440px;
 }
 @container research (min-width: 1800px) {
   .step-media {

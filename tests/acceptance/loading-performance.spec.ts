@@ -63,7 +63,9 @@ test('Legal loads without homepage, product artwork or animation engines', async
   await page.waitForTimeout(400);
   expect(
     assets.filter((path) =>
-      /\/(?:HomePage|PageFrame|ThemedArtwork|evidencePlayback|gsap|theme-demos)-/.test(path),
+      /\/(?:HomePage|PageFrame|ThemedArtwork|evidencePlayback|gsap|applicationPlayback)-/.test(
+        path,
+      ),
     ),
   ).toEqual([]);
 });

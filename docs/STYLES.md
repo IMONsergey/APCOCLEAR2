@@ -4,20 +4,21 @@ Change a shared role before adding a local value. Components own their geometry;
 
 ## Editing map
 
-| Concern                                                       | Owner                                                                  |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| Semantic colors, spacing, radius, elevation and page rails    | `src/styles/tokens.css`                                                |
-| Font sizes, font recipes, tracking and responsive page titles | `src/styles/type-scale.css`                                            |
-| Document defaults, reset, container and accessibility helpers | `src/styles/base.css`                                                  |
-| Dark palette and theme controls                               | `src/styles/theme.css`                                                 |
-| Shared buttons and interaction states                         | `src/styles/controls.css`                                              |
-| Header and language disclosure                                | `navigation.css`, `localization.css`, `interface-layout.css`           |
-| Homepage                                                      | `home-layout.css`, `home-product.css`, owning section CSS              |
-| Inner-page composition, reading groups and responsive grids   | `inner-pages.css`                                                      |
-| Reusable page components, workspaces and research scenarios   | `page-components.css`, `workspaces.css`, `research-scenarios.css`      |
-| Legal layout, navigation and print                            | `legal-pages.css`                                                      |
-| Contained product fragments and evidence motion               | `compact-experience.css`, `product-evidence.css`, `product-motion.css` |
-| Original engines and private scene palette adapter            | `src/visuals/`, `theme-demos.css`                                      |
+| Concern                                                       | Owner                                                                               |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Semantic colors, spacing, radius, elevation and page rails    | `src/styles/tokens.css`                                                             |
+| Font sizes, font recipes, tracking and responsive page titles | `src/styles/type-scale.css`                                                         |
+| Document defaults, reset, container and accessibility helpers | `src/styles/base.css`                                                               |
+| Dark palette and theme controls                               | `src/styles/theme.css`                                                              |
+| Shared buttons and interaction states                         | `src/styles/controls.css`                                                           |
+| Header and language disclosure                                | `navigation.css`, `localization.css`, `interface-layout.css`                        |
+| Homepage                                                      | `home-layout.css`, `home-product.css`, owning section CSS                           |
+| Inner-page composition, reading groups and responsive grids   | `inner-pages.css`                                                                   |
+| Reusable page components, workspaces and research scenarios   | `page-components.css`, `workspaces.css`, `research-scenarios.css`                   |
+| Legal layout, navigation and print                            | `legal-pages.css`                                                                   |
+| Contained product fragments and evidence motion               | `compact-experience.css`, `product-evidence.css`, `product-motion.css`              |
+| Original rendering engines                                    | `src/visuals/`                                                                      |
+| Application scene geometry and private light/dark palette     | `components/visuals/application/application-scene.css`, `application-api-scene.css` |
 
 `main.tsx` establishes global order. Lazy page groups load their own CSS; do not promote it into the initial bundle solely to simplify imports. Do not add a new stylesheet whose only purpose is to override a previous review. Existing `stage-*` class names are stable component selectors, not a second design system.
 

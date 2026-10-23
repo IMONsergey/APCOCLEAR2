@@ -56,7 +56,7 @@ test('internal pages use distinct compact visual narratives', async ({ page }) =
   for (const [route, selector] of routes) {
     await page.goto('./' + route);
     await expect(page.locator(selector!)).toBeVisible();
-    await expect(page.locator('apcosys-product-demo,api-developer-demo')).toHaveCount(0);
+    await expect(page.locator('.application-scene')).toHaveCount(0);
     await expect(page.locator('main .eyebrow')).toHaveCount(0);
   }
 });

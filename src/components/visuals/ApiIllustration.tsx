@@ -1,10 +1,12 @@
 import { useNearViewport } from '../../hooks/useNearViewport';
 import '../sections/ApiSection.css';
-import { Component, Suspense, lazy, useCallback, useRef, useState, type ReactNode } from 'react';
-import { apiRequestExample, demoHosts } from '../../content/product-demo';
+import { Component, Suspense, lazy, useRef, type ReactNode } from 'react';
 import { useLocale } from '../../i18n/context';
+import { ApplicationFrame } from './application/ApplicationFrame';
+import { ApplicationApiScene } from './application/ApplicationApiScene';
 
 const Demo = lazy(() => import('./ApiDemoMount'));
+
 class DemoBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() {
@@ -14,48 +16,26 @@ class DemoBoundary extends Component<{ children: ReactNode }, { failed: boolean 
     return this.state.failed ? null : this.props.children;
   }
 }
+
 export function ApiIllustration() {
   const { t } = useLocale();
   const ref = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
   const mounted = useNearViewport(ref, '280px');
-  const [ready, setReady] = useState(false);
-  const onReady = useCallback(() => setReady(true), []);
-
   return (
     <div
       ref={ref}
       className="api-demo-frame"
-      data-ready={ready}
       role="img"
       aria-label={t(
-        'Illustrative Apcosys API documentation with a request and response. See the current documentation for the live API.',
+        'Illustrative API workspace with a masked key, credit balances and documentation access.',
       )}
     >
-      <div className="api-demo-poster" aria-hidden="true">
-        <div className="api-demo-fallback">
-          <p>{t('Illustrative workflow')}</p>
-          <h3>{t('Request')}</h3>
-          <pre>
-            <code>{apiRequestExample}</code>
-          </pre>
-          <h3>{t('Response')}</h3>
-          <pre>
-            <code>
-              {JSON.stringify(
-                {
-                  host: demoHosts[0]!.ip,
-                  port: 443,
-                  protocol: 'HTTPS',
-                },
-                null,
-                2,
-              )}
-            </code>
-          </pre>
-        </div>
-      </div>
+      <ApplicationFrame scene="api" frameRef={frameRef}>
+        <ApplicationApiScene />
+      </ApplicationFrame>
       <DemoBoundary>
-        <Suspense fallback={null}>{mounted && <Demo onReady={onReady} />}</Suspense>
+        <Suspense fallback={null}>{mounted && <Demo frameRef={frameRef} />}</Suspense>
       </DemoBoundary>
     </div>
   );
