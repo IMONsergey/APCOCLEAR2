@@ -5,7 +5,7 @@ import { linkTo } from '../../components/layout/pageLinks';
 import { ApiExample } from '../../components/product/ApiExample';
 import { apiDocumentationUrl } from '../../config/site';
 import { siteHref } from '../../app/paths';
-import { PageFrame, Notice } from '../../components/layout/PageFrame';
+import { PageFrame } from '../../components/layout/PageFrame';
 import {
   EditorialSection,
   ReadingRows,
@@ -54,12 +54,6 @@ function ApiSample() {
         </ol>
         <div>
           <ApiExample />
-          {!apiDocumentationUrl && (
-            <Notice>
-              Illustrative request template, not a working API contract. Contact the team for the
-              current endpoint, authentication details and API reference.
-            </Notice>
-          )}
         </div>
       </div>
     </EditorialSection>

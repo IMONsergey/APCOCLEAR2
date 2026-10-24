@@ -94,12 +94,33 @@ for (const width of [390, 1440, 1920]) {
     const canvases = await page.locator('.step-illustration').evaluateAll((scenes) =>
       scenes.map((scene) => {
         const rect = scene.getBoundingClientRect();
-        return { width: rect.width, height: rect.height };
+        const card = scene.closest('.step-card')!;
+        const cardBounds = card.getBoundingClientRect();
+        const copyBounds = card.querySelector('.step-copy h3')!.getBoundingClientRect();
+        return {
+          width: rect.width,
+          height: rect.height,
+          left: rect.left,
+          copyLeft: copyBounds.left,
+          cardLeft: cardBounds.left,
+          cardWidth: cardBounds.width,
+        };
       }),
     );
     for (const canvas of canvases) {
       expect(Math.abs(canvas.width / canvas.height - 1.5)).toBeLessThan(0.01);
       expect(Math.abs(canvas.height - canvases[0]!.height)).toBeLessThanOrEqual(1);
+      expect(
+        Math.abs(canvas.left - canvas.copyLeft),
+        'each application screen starts at the same left edge as its step title',
+      ).toBeLessThanOrEqual(1);
+      expect(canvas.left, 'the card never clips the start of a screen').toBeGreaterThanOrEqual(
+        canvas.cardLeft,
+      );
+      expect(
+        canvas.width,
+        'the preserved screen size permits only a small crop at the card right edge',
+      ).toBeLessThanOrEqual(canvas.cardWidth);
     }
     await expect(page.locator('.application-toolbar')).toHaveCount(0);
     await expect(

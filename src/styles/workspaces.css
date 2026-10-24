@@ -157,16 +157,6 @@
   overflow: hidden;
   background: var(--surface-card);
 }
-.stage-monitor-console__footer {
-  padding: 19px var(--space-6);
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-4);
-  font: 400 var(--font-size-12)/1.5 var(--font-mono);
-  color: var(--text-muted);
-  letter-spacing: var(--tracking-label);
-  border-top: 1px solid var(--border-subtle);
-}
 .stage-monitor-console__body {
   display: grid;
   grid-template-columns: minmax(220px, 27%) minmax(0, 1fr);
@@ -386,10 +376,6 @@
   }
   .stage-monitor-console__summary > div {
     min-height: 105px;
-  }
-  .stage-monitor-console__footer {
-    padding: 14px;
-    font-size: var(--font-size-10);
   }
   .stage-team-operations__flow,
   .stage-team-operations__business {

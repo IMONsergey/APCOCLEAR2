@@ -82,15 +82,16 @@ test('prices retain the digit-reel animation in both directions and rapid switch
   const annual = page.getByRole('radio', { name: 'Annually', exact: true });
   const monthly = page.getByRole('radio', { name: 'Monthly', exact: true });
 
-  await annual.check();
-  await expect(page.locator('.price-amount')).toHaveText(['$0', '$40', '$240', '$720']);
-  await expect.poll(starts).toBeGreaterThan(0);
-  const annualStarts = await starts();
-  expect(await page.locator('.price-digit__reel').count()).toBeGreaterThan(0);
-
+  await expect(annual).toBeChecked();
   await monthly.check();
   await expect(page.locator('.price-amount')).toHaveText(['$0', '$50', '$300', '$900']);
-  await expect.poll(starts).toBeGreaterThan(annualStarts);
+  await expect.poll(starts).toBeGreaterThan(0);
+  const monthlyStarts = await starts();
+  expect(await page.locator('.price-digit__reel').count()).toBeGreaterThan(0);
+
+  await annual.check();
+  await expect(page.locator('.price-amount')).toHaveText(['$0', '$40', '$240', '$720']);
+  await expect.poll(starts).toBeGreaterThan(monthlyStarts);
 
   await annual.check();
   await monthly.check();

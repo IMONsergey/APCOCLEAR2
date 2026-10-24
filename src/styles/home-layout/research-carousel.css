@@ -45,6 +45,7 @@
   padding-left: max(var(--gutter), calc((100cqw - var(--layout-max)) / 2));
 }
 .step-track {
+  --step-copy-inset: 40px;
   --card-width: calc((min(100cqw - 2 * var(--gutter), var(--layout-max)) - 40px) / 3);
   display: grid;
   grid-auto-flow: column;
@@ -109,7 +110,7 @@
 .step-illustration {
   position: relative;
   width: 100%;
-  margin-inline-start: auto;
+  margin-inline-start: calc(var(--step-copy-inset) - var(--space-3));
   min-height: 0;
   max-width: 100%;
   aspect-ratio: 3 / 2;
@@ -132,6 +133,7 @@
     padding: var(--space-6);
   }
   .step-track {
+    --step-copy-inset: var(--space-7);
     --card-width: calc((100cqw - 2 * var(--gutter) - 20px) / 2);
   }
   .step-copy h3 {
@@ -143,6 +145,9 @@
   }
 }
 @container research (max-width: 899px) {
+  .step-track {
+    --step-copy-inset: var(--space-6);
+  }
   .section-heading-row {
     display: block;
   }
@@ -206,6 +211,9 @@
   }
 }
 @container research (max-width: 340px) {
+  .step-track {
+    --step-copy-inset: var(--space-5);
+  }
   .step-copy h3 {
     font-size: var(--font-size-40);
   }
@@ -238,6 +246,9 @@
   }
 }
 @container research (min-width: 1200px) and (max-width: 1279px) {
+  .step-track {
+    --step-copy-inset: var(--space-7);
+  }
   .step-copy {
     padding-inline: var(--space-7);
   }
@@ -245,13 +256,9 @@
 .step-evidence-note {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-6);
   margin-top: var(--space-6);
-}
-.step-evidence-note p {
-  font-size: var(--font-size-14);
-  color: var(--text-muted);
 }
 @media (max-width: 599px) {
   .step-evidence-note {

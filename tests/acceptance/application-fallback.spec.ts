@@ -25,9 +25,40 @@ test('all six application frames remain readable when their motion chunks fail',
     await frame.scrollIntoViewIfNeeded();
     await page.waitForLoadState('networkidle');
     await expect(frame).toBeVisible();
+    await expect(frame).toHaveAttribute('data-design-source', 'apcosys-application');
     await expect(frame).toHaveAttribute('data-demo-playback', 'static');
+    await expect(frame.locator('.application-demo-cursor')).toBeHidden();
     await expect(frame.locator(heading!)).toBeVisible();
     await expect(frame.locator(heading!)).not.toBeEmpty();
+    if (scene === 'query') await expect(frame.locator('[data-demo-query]')).toHaveText('nginx');
+    if (scene === 'results') {
+      await expect(frame.locator('.application-results-all')).toHaveText('4 hosts returned');
+      await expect(frame.locator('.application-result-address')).toHaveCount(2);
+    }
+    if (scene === 'host' || scene === 'evidence') {
+      await expect(frame).toContainText('192.0.2.10');
+      await expect(frame).toContainText('node-1.example.com');
+    }
+    if (scene === 'evidence') {
+      await expect(frame.locator('[data-demo-target="tls-names"]')).toContainText(
+        'node-1.example.com',
+      );
+      await expect(frame.locator('.application-status')).toHaveText('TLS 1.3');
+      await expect(frame.locator('.application-fingerprint')).toHaveCount(0);
+    }
+    if (scene === 'suggestions')
+      await expect(frame.locator('.application-applied')).toContainText('node-1.example.com');
+    if (scene === 'api') {
+      const keyPanel = frame.locator('[data-api-panel="key"]');
+      await expect(keyPanel).toBeVisible();
+      await expect(frame.locator('[data-api-panel="usage"]')).toBeHidden();
+      await expect(frame.locator('[data-demo-target="api-key"]')).toHaveText(/^•{16}$/);
+      await expect(frame.locator('[role="meter"]:visible')).toHaveCount(2);
+      await expect(keyPanel.locator('[role="meter"]').first()).toHaveAttribute(
+        'aria-valuenow',
+        '1240500',
+      );
+    }
     expect(
       await frame
         .locator('img')

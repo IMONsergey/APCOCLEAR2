@@ -8,10 +8,10 @@ async function visit(page: Page, width = 1440, height = 1000) {
 }
 
 const platformDestinations = [
+  'about',
   'platform/search-investigation',
   'platform/data-methodology',
   'platform/monitoring',
-  'about',
   'responsible-scanning',
   'contact',
 ];
@@ -22,10 +22,10 @@ for (const locale of [
     prefix: '',
     platform: 'Platform',
     labels: [
+      'About',
       'Search & Investigation',
       'Data & Methodology',
       'Monitoring',
-      'About',
       'Responsible Scanning',
       'Talk to Us',
     ],
@@ -35,10 +35,10 @@ for (const locale of [
     prefix: 'ru/',
     platform: 'Платформа',
     labels: [
+      'О нас',
       'Поиск и исследование',
       'Данные и методология',
       'Мониторинг',
-      'О нас',
       'Ответственное сканирование',
       'Связаться с нами',
     ],
@@ -47,7 +47,7 @@ for (const locale of [
     language: 'zh-Hant',
     prefix: 'zh-hant/',
     platform: '平台',
-    labels: ['搜尋與調查', '資料與方法論', '監控', '關於我們', '負責任的掃描', '聯絡我們'],
+    labels: ['關於我們', '搜尋與調查', '資料與方法論', '監控', '負責任的掃描', '聯絡我們'],
   },
 ]) {
   test(`${locale.language} keeps all six Platform links reachable in short desktop and mobile menus`, async ({
@@ -195,7 +195,7 @@ for (const width of [390, 1440]) {
   );
 }
 
-test('Figma API remains static until viewed, then plays, pauses and resumes with navigation', async ({
+test('application API remains static until viewed, then plays, pauses and resumes with navigation', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -203,7 +203,7 @@ test('Figma API remains static until viewed, then plays, pauses and resumes with
 
   const demo = page.locator('.application-scene[data-scene="api"]');
   await expect(demo).toHaveAttribute('data-demo-playback', 'static');
-  await expect(demo.locator('.application-api__heading')).toHaveText('Build with Apcosys');
+  await expect(demo.locator('.application-api__heading')).toHaveText('API access');
   await page.locator('#api').scrollIntoViewIfNeeded();
   await demo.scrollIntoViewIfNeeded();
 

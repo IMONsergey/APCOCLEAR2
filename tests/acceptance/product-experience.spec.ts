@@ -49,7 +49,8 @@ test('Monitoring has five meaningful concept states and selectable example asset
     'href',
     /search-investigation/,
   );
-  await expect(page.locator('.stage-monitor-console')).toContainText('NO LIVE ALERTS');
+  await expect(page.locator('.stage-concept-label')).toBeVisible();
+  await expect(page.locator('.stage-concept-label')).toContainText('Not a live product capability');
 });
 
 for (const [route, label] of [
@@ -97,7 +98,7 @@ test('Pricing explains units before comparison without changing the original car
   await expect(page.locator('#search-token-packages')).toContainText('25,000');
 });
 
-test('API starts with the published HTTP request and labels synthetic response values', async ({
+test('API starts with the published HTTP request and labels the example response', async ({
   page,
 }) => {
   await page.goto('./developers/api');
@@ -124,27 +125,14 @@ test('API starts with the published HTTP request and labels synthetic response v
     ],
   });
   expect(response).not.toHaveProperty('services');
-  await expect(code.locator('.stage-code-note')).toContainText('synthetic host data');
+  await expect(code.locator('.stage-code-note')).toHaveText('Example response');
 });
 
 for (const locale of ['', 'ru/', 'zh-hant/']) {
-  test(`${locale || 'en'} plan handoff copies the chosen annual plan and keeps the comparison open`, async ({
+  test(`${locale || 'en'} plan handoff keeps the selected annual plan visible while opening Apcosys`, async ({
     page,
     context,
   }) => {
-    let copied = '';
-    await page.exposeFunction('capturePlanCopy', (text: string) => {
-      copied = text;
-    });
-    await page.addInitScript(() => {
-      Object.defineProperty(navigator, 'clipboard', {
-        configurable: true,
-        value: {
-          writeText: (text: string) =>
-            (Reflect.get(window, 'capturePlanCopy') as (value: string) => Promise<void>)(text),
-        },
-      });
-    });
     await context.route(deploymentSettings.signInUrl, (route) =>
       route.fulfill({
         contentType: 'text/html',
@@ -153,14 +141,13 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
     );
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(`./${locale}pricing`);
-    await page.locator('.billing--desktop input[value="annually"]').check({ force: true });
+    await expect(page.locator('.billing--desktop input[value="annually"]')).toBeChecked();
     await page.locator('#plan-plus .plan-button').click();
     const dialog = page.getByRole('dialog');
+    await expect(dialog.locator('.selected-plan-price')).toContainText('40');
+    await expect(dialog).toContainText('480');
     const handoff = dialog.locator('.plan-handoff');
-    await handoff.getByRole('button').click();
-    await expect.poll(() => copied).toMatch(/\bplus\b/i);
-    expect(copied).toMatch(/480/);
-    await expect(handoff.getByRole('status')).toBeVisible();
+    await expect(handoff.getByRole('button')).toHaveCount(0);
     const link = handoff.getByRole('link');
     await expect(link).toHaveAttribute('href', deploymentSettings.signInUrl);
     await expect(link).toHaveAttribute('target', '_blank');
@@ -177,29 +164,18 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
   });
 }
 
-test('plan handoff provides a readable summary when clipboard access is denied on mobile', async ({
-  page,
-}) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: () => Promise.reject(new DOMException('Denied', 'NotAllowedError')),
-      },
-    });
-  });
+test('mobile plan handoff retains one action and the complete annual price', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 840 });
   await page.goto('./pricing');
   await page.locator('#plan-business .plan-button').first().click();
-  const handoff = page.getByRole('dialog').locator('.plan-handoff');
-  await handoff.getByRole('button', { name: 'Copy plan details' }).click();
-  const preview = handoff.getByRole('textbox', { name: 'Selected plan details' });
-  await expect(preview).toBeVisible();
-  await expect(preview).toHaveAttribute('readonly', '');
-  await expect(preview).toHaveValue(/BUSINESS/);
-  await expect(preview).toHaveValue(/900/);
-  await expect(preview).toBeFocused();
-  const rect = await preview.boundingBox();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.locator('.selected-plan-price')).toContainText('$720');
+  await expect(dialog).toContainText('$8,640');
+  await expect(dialog.locator('.plan-handoff button')).toHaveCount(0);
+  await expect(dialog.locator('.plan-handoff textarea')).toHaveCount(0);
+  const action = dialog.locator('.plan-handoff a');
+  await expect(action).toBeVisible();
+  const rect = await action.boundingBox();
   expect(rect!.x).toBeGreaterThanOrEqual(0);
   expect(rect!.x + rect!.width).toBeLessThanOrEqual(320);
 });

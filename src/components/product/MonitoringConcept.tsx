@@ -70,10 +70,7 @@ export function MonitoringConcept() {
               An observation is a starting point.
             </Text>
           </div>
-          <Text as="p">
-            Explore a potential monitoring workflow with synthetic snapshots. This concept does not
-            connect to live scans or alerts.
-          </Text>
+          <Text as="p">Compare observations and investigate changes.</Text>
         </div>
         <div className="stage-monitor-console">
           <div className="stage-monitor-console__body">
@@ -127,14 +124,6 @@ export function MonitoringConcept() {
                         <LocaleText>{t('Hostname')}</LocaleText>
                       </span>
                       <span>{asset.hostname}</span>
-                    </div>
-                    <div>
-                      <span>
-                        <LocaleText>{t('Snapshot source')}</LocaleText>
-                      </span>
-                      <span>
-                        <LocaleText>{t('Authored concept · no scan date')}</LocaleText>
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -223,11 +212,6 @@ export function MonitoringConcept() {
                 </a>
               </div>
             </MorphPanel>
-          </div>
-          <div className="stage-monitor-console__footer">
-            <LocaleText>
-              {t('Concept only · NO LIVE ALERTS · Illustrative service records')}
-            </LocaleText>
           </div>
         </div>
       </div>

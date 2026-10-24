@@ -290,11 +290,6 @@
 .site .inner-pages .stage-contact-submit {
   justify-self: end;
 }
-.site .inner-pages .stage-contact-form :is(.stage-form-hint, .stage-note) {
-  font-size: var(--font-size-14);
-  line-height: 1.6;
-  color: var(--text-muted);
-}
 .stage-form-label {
   display: flex;
   align-items: baseline;
@@ -318,17 +313,9 @@
 .stage-form-actions .double-button {
   max-width: 100%;
 }
-.stage-form-actions .plain-button {
-  min-height: 44px;
-}
 .stage-form-actions .double-button__label {
   white-space: normal;
   text-align: left;
-}
-.stage-prepared-email {
-  display: grid;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
 }
 @media (min-width: 1001px) {
   .stage-table-hint {

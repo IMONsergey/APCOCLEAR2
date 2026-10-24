@@ -92,7 +92,7 @@ export function ApiExample({ compact = false }: { compact?: boolean }) {
         </pre>
         <Text as="p" className="stage-code-note">
           {response
-            ? 'Documented response structure with synthetic host data. No request has been sent.'
+            ? 'Example response'
             : 'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.'}
         </Text>
       </MorphPanel>

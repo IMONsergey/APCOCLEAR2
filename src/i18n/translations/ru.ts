@@ -1,4 +1,37 @@
 export default {
+  'Follow a reserved example domain through scope checks and host evidence.':
+    'На примере зарезервированного домена пройдите от проверки границ программы к данным хоста.',
+  'Review an example technology, matching hosts and potential vulnerability context.':
+    'Изучите пример технологии, соответствующие хосты и сведения о возможных уязвимостях.',
+  'Follow a reserved example address through services and shared attributes.':
+    'Изучите сервисы и общие признаки на примере зарезервированного IP-адреса.',
+  'Review an example host and plan the next investigation step.':
+    'Изучите пример хоста и определите следующий шаг исследования.',
+  'API enabled': 'API доступен',
+  'Usage & limits': 'Расход и лимиты',
+  'Account API key': 'API-ключ аккаунта',
+  'One key for your integrations.': 'Один ключ для ваших интеграций.',
+  'Reveal key': 'Показать ключ',
+  'Rotate API key': 'Замена API-ключа',
+  'Rotate key': 'Заменить ключ',
+  'Your access': 'Ваш доступ',
+  'Account limits': 'Лимиты аккаунта',
+  'Search pages per query': 'Страниц на запрос',
+  Enabled: 'Доступен',
+  'All types': 'Все типы',
+  'Saved queries': 'Сохранённые запросы',
+  'Example Research Network': 'Тестовая исследовательская сеть',
+  'Explore hosts, services and networks.': 'Исследуйте хосты, сервисы и сети.',
+  Results: 'Результаты',
+  Save: 'Сохранить',
+  '4 hosts returned': 'Найдено 4 хоста',
+  'Page 1': 'Страница 1',
+  'Host / network': 'Хост / сеть',
+  'Apply conditions': 'Применить условия',
+  'Validity period': 'Срок действия',
+  'DNS names': 'Имена DNS',
+  'Example results': 'Пример результатов',
+
   'Team & Business plan': 'Команда и тариф Business',
   'Billing & invoices': 'Оплата и счета',
   'Responsible scanning': 'Ответственное сканирование',
@@ -75,8 +108,7 @@ export default {
     'Связь — это зацепка для проверки, а не подтвержденная уязвимость.',
   'An authorised domain.': 'Домен, разрешённый для тестирования.',
   'An HTTPS service and a technology response.': 'HTTPS-сервис и ответ технологии.',
-  'An illustrative saved collection. Confirm current availability and plan access with the team.':
-    'Иллюстративный пример. Уточните у команды доступность функции и тарифы, в которые она входит.',
+  'Example collection.': 'Пример подборки.',
   'An indicator from an alert.': 'Индикатор из оповещения.',
   'An IP from a log, a domain from a report or a service identified in an alert can become a starting point.':
     'IP-адрес из журнала, домен из отчета или сервис, обнаруженный в оповещении, могут стать отправной точкой.',
@@ -337,8 +369,7 @@ export default {
   Explore: 'Изучить',
   'Explore a host with its service evidence, or learn how to contact the team about scanning activity.':
     'Изучите хост вместе с доказательствами его сервисов или узнайте, как связаться с командой по поводу сканирования.',
-  'Explore a potential monitoring workflow with synthetic snapshots. This concept does not connect to live scans or alerts.':
-    'Изучите потенциальный рабочий процесс мониторинга с помощью примерных снимков. Эта концепция не подключается к реальным сканированиям или оповещениям.',
+  'Compare observations and investigate changes.': 'Сравнивайте наблюдения и изучайте изменения.',
   'Explore access levels or talk to the team about the API reference and your integration requirements.':
     'Изучите уровни доступа или свяжитесь с командой, чтобы обсудить справочную документацию по API и ваши требования к интеграции.',
   'Explore an example': 'Посмотреть пример',
@@ -445,8 +476,7 @@ export default {
     'Иллюстративная документация Apcosys API с примером запроса и ответа. Актуальную информацию смотрите в документации продукта.',
   'Illustrative data shape. The API contract comes from the product documentation.':
     'Пример структуры данных. Актуальное описание API смотрите в документации продукта.',
-  'Illustrative inputs, not query syntax. Use the syntax and filters provided in Apcosys search.':
-    'Иллюстративные входные данные, а не синтаксис запроса. Используйте синтаксис и фильтры, предоставленные в поиске Apcosys.',
+  'Example inputs.': 'Примеры для поиска.',
   'Illustrative request template, not a working API contract. Contact the team for the current endpoint, authentication details and API reference.':
     'Пример шаблона запроса, а не действующая спецификация API. Свяжитесь с командой, чтобы уточнить актуальный адрес API, параметры аутентификации и получить документацию.',
   Included: 'Включено',
@@ -756,15 +786,14 @@ export default {
   'See where a technology runs.': 'Определите, где развёрнута технология.',
   'SELECT A HOST': 'ВЫБЕРИТЕ ХОСТ',
   'Select a topic': 'Выберите тему',
-  'Select HTTPS to narrow this demonstration to the service you want to inspect.':
-    'Включите «Только HTTPS», чтобы оставить в примере HTTPS-сервисы.',
+  'Filter results by service.': 'Фильтруйте результаты по сервису.',
   'Separate a lead from a finding.': 'Отделите зацепку от находки.',
   'Service attribute': 'Атрибут сервиса',
   'Service discovery': 'Обнаружение сервисов',
   'SERVICE EVIDENCE / {port} TCP': 'ПРИЗНАКИ СЕРВИСА / {port} TCP',
-  'SERVICE FILTER / SYNTHETIC DEMO': 'ФИЛЬТР СЕРВИСОВ / СИНТЕТИЧЕСКАЯ ДЕМОНСТРАЦИЯ',
+  'SERVICE FILTER': 'ФИЛЬТР СЕРВИСОВ',
   'Service observations': 'Наблюдения за сервисами',
-  'Service response · illustrative record': 'Ответ сервиса · иллюстративный пример',
+  'Service response · example record': 'Ответ сервиса · пример записи',
   Services: 'Сервисы',
   'Share your team size, research needs and any invoice requirements.':
     'Укажите размер команды, задачи исследования и требования к выставлению счетов.',
@@ -991,8 +1020,7 @@ export default {
   '{count} example host': '{count} пример хоста',
   '{count} service records': 'Записей о сервисах: {count}',
   '{name} interactive illustrated workflow': 'Интерактивный иллюстративный рабочий процесс: {name}',
-  '{address} is a reserved documentation address. This is a conceptual workflow, not an incident or attribution finding.':
-    '{address} — зарезервированный адрес для документации. Это концептуальный рабочий процесс, а не реальный инцидент или вывод об атрибуции.',
+  '{address} · Reserved example address.': '{address} · Зарезервированный адрес для примера.',
   'A precise connection carries data between two software systems.':
     'Точное соединение передает данные между двумя программными системами.',
   'A single teal connection links three transparent layers of observations.':
@@ -1008,7 +1036,7 @@ export default {
   APPEARANCE: 'ОФОРМЛЕНИЕ',
   Appearance: 'Оформление',
   'Authored concept · no scan date': 'Авторская концепция · без даты сканирования',
-  'Authored demonstration': 'Авторская демонстрация',
+  'Example record': 'Пример записи',
   'Authorised scope': 'Разрешенная область',
   'Begin with a known {type}. The records below show how the investigation continues. Technology input illustrates intent, not verified query syntax.':
     'Начните с известного атрибута типа «{type}». Записи ниже показывают, как продолжается расследование. Ввод технологии иллюстрирует замысел, а не проверенный синтаксис запроса.',
@@ -1132,10 +1160,8 @@ export default {
   'Technical indicators connected into an investigation trail.':
     'Технические индикаторы соединены в цепочку расследования.',
   'Technical review': 'Техническая проверка',
-  'The domain and host below are reserved examples, not a real bug bounty programme or an authorised target.':
-    'Указанные ниже домен и хост зарезервированы для примеров и не являются реальной программой баг-баунти или разрешенной целью.',
-  'Technology, version and host information below are illustrative. No specific CVE or exploitable host is claimed.':
-    'Приведенные ниже сведения о технологии, версии и хосте носят иллюстративный характер. Здесь не заявляется о конкретной CVE или уязвимом для эксплуатации хосте.',
+  'Reserved example domain and IP addresses.': 'Зарезервированные домен и IP-адреса для примера.',
+  'Example technology and host records.': 'Примеры данных о технологиях и хостах.',
   'This page could not load.': 'Не удалось загрузить эту страницу.',
   'TIME CONTEXT': 'ВРЕМЕННОЙ КОНТЕКСТ',
   'Topic: {topic}': 'Тема: {topic}',
@@ -1490,8 +1516,8 @@ export default {
     'Рабочая область поиска: поле запроса и поддерживаемые типы запросов.',
   'Review the service response, certificate and observed technical context.':
     'Изучите ответ сервиса, сертификат и наблюдаемый технический контекст.',
-  'Illustrative TLS certificate, issuer, validity period and fingerprint for an individual host.':
-    'Пример TLS-сертификата хоста: издатель, срок действия и отпечаток.',
+  'Host TLS certificate with its issuer, validity period and DNS name.':
+    'TLS-сертификат хоста: издатель, срок действия и DNS-имя.',
   Filters: 'Фильтры',
   Netherlands: 'Нидерланды',
   'Example Network': 'Пример сети',
@@ -1514,8 +1540,8 @@ export default {
   'Clear conditions': 'Сбросить условия',
   '1 result': '1 результат',
   'Observed services and metadata': 'Наблюдаемые сервисы и метаданные',
-  'Illustrative API workspace with a masked key, credit balances and documentation access.':
-    'Пример рабочей области API со скрытым ключом, остатками кредитов и доступом к документации.',
+  'API workspace with a masked key, credit balances and account limits.':
+    'Рабочая область API со скрытым ключом, остатками кредитов и лимитами аккаунта.',
   'Built for people who investigate the internet.': 'Создано для тех, кто исследует интернет.',
   'Apcosys makes technical observations about internet-facing infrastructure searchable, so security researchers and teams can investigate them.':
     'Apcosys превращает технические наблюдения об инфраструктуре, доступной из интернета, в данные для поиска. Исследователи и команды безопасности могут изучать их и анализировать.',
@@ -1624,13 +1650,12 @@ export default {
   'Describe your responsibility for these networks and include a working contact address for follow-up.':
     'Опишите свою ответственность за эти сети и укажите действующий адрес для обратной связи.',
   'Send the request.': 'Отправьте запрос.',
-  'The email link below prepares a short request. The team will need to confirm the next steps; an email draft does not apply an exclusion automatically.':
-    'Ссылка ниже подготовит короткое письмо. Команда должна подтвердить дальнейшие действия: создание черновика не исключает сеть из сканирования автоматически.',
+  'Send your IP range and contact details. Our team will review the request.':
+    'Отправьте диапазон IP-адресов и контактные данные. Наша команда рассмотрит запрос.',
   'Prepare a network exclusion request': 'Подготовить запрос на исключение сети',
   'Use the X-API-Key header. Keep your API key on a trusted server, outside browser code.':
     'Используйте заголовок X-API-Key. Храните API-ключ на доверенном сервере, вне кода браузера.',
-  'Documented response structure with synthetic host data. No request has been sent.':
-    'Структура ответа из документации с вымышленными данными хоста. Запрос не отправлялся.',
+  'Example response': 'Пример ответа',
   'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.':
     'HTTP-запрос из документации. Перед выполнением задайте APCOSYS_API_KEY в серверном окружении.',
   'Send a small host-search request to the public HTTP API. Use your account API key in the X-API-Key header.':

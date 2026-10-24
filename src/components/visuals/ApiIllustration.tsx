@@ -27,9 +27,7 @@ export function ApiIllustration() {
       ref={ref}
       className="api-demo-frame"
       role="img"
-      aria-label={t(
-        'Illustrative API workspace with a masked key, credit balances and documentation access.',
-      )}
+      aria-label={t('API workspace with a masked key, credit balances and account limits.')}
     >
       <ApplicationFrame scene="api" frameRef={frameRef}>
         <ApplicationApiScene />

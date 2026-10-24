@@ -8,13 +8,6 @@
   letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
-.home-product-caption {
-  font-size: var(--font-size-12);
-  line-height: 1.6;
-  color: var(--text-muted);
-  margin-top: 18px;
-  max-width: 560px;
-}
 .home-usecases {
   background: var(--surface-elevated);
   padding-block: clamp(88px, 8vw, 128px);
@@ -202,10 +195,6 @@
   font: 400 var(--font-size-12)/1.6 var(--font-mono);
   color: var(--text-primary);
 }
-.capability-record > .home-product-caption {
-  margin: 0;
-  padding: 0 18px 18px;
-}
 .home-team-cta {
   background: #037a8f;
   color: #fff;
@@ -337,6 +326,7 @@
   margin-bottom: 18px;
 }
 .capability-notes h4 {
+  margin: 0;
   font-size: var(--font-size-18);
   font-weight: 500;
   letter-spacing: var(--tracking-compact);
@@ -359,10 +349,6 @@
   align-items: center;
   gap: var(--space-6);
   margin-top: var(--space-7);
-}
-.step-evidence-note p {
-  max-width: 540px;
-  line-height: 1.6;
 }
 .step-evidence-note .double-button {
   flex-shrink: 0;

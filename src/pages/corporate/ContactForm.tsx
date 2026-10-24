@@ -3,18 +3,12 @@ import { topics } from './contactTopics';
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { supportEmail } from '../../config/site';
 import { siteHref } from '../../app/paths';
-import { Notice } from '../../components/layout/PageFrame';
 import { DoubleButton } from '../../components/ui/DoubleButton';
+import { Icon } from '../../components/ui/Icon';
 import { LinkLanguageHint } from '../../components/ui/LinkLanguageHint';
 import { MorphPanel } from '../../components/ui/MorphPanel';
 import { useLocale } from '../../i18n/context';
-import {
-  clearContactDraft,
-  emptyContactDraft,
-  readContactDraft,
-  saveContactDraft,
-  type ContactDraft,
-} from './contactDraft';
+import { readContactDraft, saveContactDraft, type ContactDraft } from './contactDraft';
 
 export default function ContactForm({
   topic,
@@ -27,18 +21,14 @@ export default function ContactForm({
   const [status, setStatus] = useState('');
   const [opening, setOpening] = useState(false);
   const [draft, setDraft] = useState(readContactDraft);
-  const [preparedEmail, setPreparedEmail] = useState('');
-  const formRef = useRef<HTMLFormElement>(null);
-  const previewRef = useRef<HTMLTextAreaElement>(null);
+  const [emailError, setEmailError] = useState(false);
   const openingTimer = useRef<number | null>(null);
-  const copyVersion = useRef(0);
   const handledTopic = useRef(topic);
 
   useLayoutEffect(() => {
     if (handledTopic.current === topic) return;
     handledTopic.current = topic;
-    copyVersion.current++;
-    setPreparedEmail('');
+    setEmailError(false);
     setStatus('');
   }, [topic]);
 
@@ -47,17 +37,15 @@ export default function ContactForm({
   }, [topic]);
 
   const updateDraft = (values: Partial<ContactDraft>) => {
-    copyVersion.current++;
     const next = { ...draft, ...values, topic };
     setDraft(next);
     saveContactDraft(next);
-    setPreparedEmail('');
+    setEmailError(false);
     setStatus('');
   };
 
   useEffect(
     () => () => {
-      copyVersion.current++;
       if (openingTimer.current !== null) window.clearTimeout(openingTimer.current);
     },
     [],
@@ -95,14 +83,7 @@ export default function ContactForm({
       '',
       message,
     ].join('\n');
-    const text = [
-      t('To: {email}', { email: supportEmail }),
-      t('Subject: {subject}', { subject }),
-      '',
-      body,
-    ].join('\n');
-    setPreparedEmail(text);
-    return { subject, body, text };
+    return { subject, body };
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -110,13 +91,9 @@ export default function ContactForm({
     if (opening) return;
     const email = prepare(event.currentTarget);
     if (!email) return;
-    copyVersion.current++;
     setOpening(true);
-    setStatus(
-      t(
-        'Your email application will open with a prepared message. Please send the email there; this website has not submitted it.',
-      ),
-    );
+    setStatus('');
+    setEmailError(false);
     try {
       window.location.href =
         'mailto:' +
@@ -126,7 +103,7 @@ export default function ContactForm({
         '&body=' +
         encodeURIComponent(email.body);
     } catch {
-      setStatus(t('Copy the prepared email below and send it from your email application.'));
+      setEmailError(true);
     }
     openingTimer.current = window.setTimeout(() => {
       openingTimer.current = null;
@@ -134,35 +111,6 @@ export default function ContactForm({
     }, 700);
   }
 
-  async function copyEmail() {
-    if (!formRef.current) return;
-    const email = prepare(formRef.current);
-    if (!email) return;
-    const version = ++copyVersion.current;
-    try {
-      await navigator.clipboard.writeText(email.text);
-      if (version !== copyVersion.current) return;
-      setStatus(t('Email text copied. Paste it into your email application and send it there.'));
-    } catch {
-      if (version !== copyVersion.current) return;
-      setStatus(t('Copy the prepared email below and send it from your email application.'));
-      requestAnimationFrame(() => {
-        if (version !== copyVersion.current) return;
-        previewRef.current?.focus();
-        previewRef.current?.select();
-      });
-    }
-  }
-
-  function clearDraft() {
-    copyVersion.current++;
-    handledTopic.current = '';
-    clearContactDraft();
-    setDraft(emptyContactDraft());
-    onTopicChange('');
-    setPreparedEmail('');
-    setStatus(t('Draft cleared.'));
-  }
   const privacyMarker = '__APCOSYS_PRIVACY_POLICY__';
   const privacyConsent = t(
     'I agree to the processing of my data in line with the {privacyPolicy}.',
@@ -173,16 +121,7 @@ export default function ContactForm({
   const privacyAfter =
     markerIndex >= 0 ? privacyConsent.slice(markerIndex + privacyMarker.length) : '';
   return (
-    <form
-      ref={formRef}
-      id="contact-form"
-      className="stage-contact-form"
-      onSubmit={submit}
-      noValidate={false}
-    >
-      <Text as="p" className="stage-form-hint">
-        All fields are required except company.
-      </Text>
+    <form id="contact-form" className="stage-contact-form" onSubmit={submit} noValidate={false}>
       <div className="stage-form-row">
         <label>
           {t('Name')}{' '}
@@ -223,27 +162,29 @@ export default function ContactForm({
         </label>
         <label>
           {t('Topic')}{' '}
-          <select
-            name="topic"
-            required
-            value={topic}
-            onChange={(event) => {
-              copyVersion.current++;
-              handledTopic.current = event.target.value;
-              onTopicChange(event.target.value);
-              setPreparedEmail('');
-              setStatus('');
-            }}
-          >
-            <option value="" disabled>
-              {t('Select a topic')}
-            </option>
-            {topics.map((topic) => (
-              <option value={topic} key={topic}>
-                {t(topic)}
+          <span className="stage-select">
+            <select
+              name="topic"
+              required
+              value={topic}
+              onChange={(event) => {
+                handledTopic.current = event.target.value;
+                onTopicChange(event.target.value);
+                setEmailError(false);
+                setStatus('');
+              }}
+            >
+              <option value="" disabled>
+                {t('Select a topic')}
               </option>
-            ))}
-          </select>
+              {topics.map((topic) => (
+                <option value={topic} key={topic}>
+                  {t(topic)}
+                </option>
+              ))}
+            </select>
+            <Icon name="chevron" />
+          </span>
         </label>
       </div>
       <label>
@@ -257,12 +198,8 @@ export default function ContactForm({
           value={draft.message}
           onChange={(event) => updateDraft({ message: event.target.value })}
           aria-labelledby="contact-message-label"
-          aria-describedby="contact-message-hint"
           placeholder={t('Tell us what you would like to evaluate…')}
         />
-        <span id="contact-message-hint" className="stage-form-hint">
-          {t('At least 10 characters.')}
-        </span>
       </label>
       <label className="stage-consent">
         <input
@@ -283,32 +220,23 @@ export default function ContactForm({
       </label>
       <div className="stage-form-actions">
         <DoubleButton type="submit" className="stage-contact-submit" disabled={opening}>
-          {t(opening ? 'Opening email…' : 'Prepare email')}
+          {t(opening ? 'Opening email…' : 'Email us')}
         </DoubleButton>
-        <DoubleButton variant="secondary" onClick={() => void copyEmail()}>
-          {t('Copy email text')}
-        </DoubleButton>
-        <button type="button" className="plain-button" onClick={clearDraft}>
-          {t('Clear draft')}
-        </button>
       </div>
-      <MorphPanel className="stage-form-feedback">
-        {status && (
-          <Text as="p" className="stage-form-status" role="status">
-            {status}
-          </Text>
-        )}
-        {preparedEmail && (
-          <label className="stage-prepared-email">
-            {t('Prepared email')}
-            <textarea ref={previewRef} readOnly rows={8} value={preparedEmail} />
-          </label>
-        )}
-        <Notice>
-          Your draft stays in this browser tab for up to 24 hours. This website does not send your
-          message. Review and send it in your email application.
-        </Notice>
-      </MorphPanel>
+      {(status || emailError) && (
+        <MorphPanel className="stage-form-feedback">
+          {status && (
+            <Text as="p" className="stage-form-status" role="status">
+              {status}
+            </Text>
+          )}
+          {emailError && (
+            <p className="stage-form-status" role="status">
+              <a href={'mailto:' + supportEmail}>{t('Email {email}', { email: supportEmail })}</a>
+            </p>
+          )}
+        </MorphPanel>
+      )}
     </form>
   );
 }

@@ -47,7 +47,10 @@ test('contact topic selection prepares the form and query presets are validated'
   await expect(page.getByRole('combobox', { name: 'Topic', exact: true })).toHaveValue(
     'Billing & invoices',
   );
-  await page.getByRole('button', { name: 'Clear draft', exact: true }).click();
+  await page.evaluate(() => {
+    for (const key of Object.keys(sessionStorage))
+      if (key.startsWith('apcosys-contact-draft-v1:')) sessionStorage.removeItem(key);
+  });
   await page.goto('./contact?topic=unknown');
   await expect(page.getByRole('combobox', { name: 'Topic', exact: true })).toHaveValue('');
 });
@@ -71,6 +74,8 @@ test('network exclusion link prepares an actionable email without claiming submi
   ])
     expect(body).toContain(field);
   await expect(
-    page.getByText('an email draft does not apply an exclusion automatically.', { exact: false }),
+    page.getByText('Send your IP range and contact details. Our team will review the request.', {
+      exact: true,
+    }),
   ).toBeVisible();
 });

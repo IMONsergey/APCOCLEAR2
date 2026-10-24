@@ -201,7 +201,7 @@ const capabilities = [
   {
     label: 'Filter',
     title: 'Focus on the relevant service.',
-    text: 'Select HTTPS to narrow this demonstration to the service you want to inspect.',
+    text: 'Filter results by service.',
     mode: 'services',
   },
   {
@@ -213,7 +213,7 @@ const capabilities = [
   {
     label: 'Buckets',
     title: 'Keep a useful lead together.',
-    text: 'An illustrative saved collection. Confirm current availability and plan access with the team.',
+    text: 'Example collection.',
     mode: 'host',
   },
   {
@@ -274,7 +274,7 @@ export function CapabilitiesSection() {
               {selected === 1 ? (
                 <div className="capability-record">
                   <div className="capability-record__bar">
-                    <span>{t('SERVICE FILTER / SYNTHETIC DEMO')}</span>
+                    <span>{t('SERVICE FILTER')}</span>
                     <label>
                       <input
                         type="checkbox"
@@ -336,11 +336,6 @@ export function CapabilitiesSection() {
                       )}
                     </code>
                   </pre>
-                  <p className="home-product-caption">
-                    {t(
-                      'Illustrative data shape. The API contract comes from the product documentation.',
-                    )}
-                  </p>
                 </div>
               ) : selected === 0 ? (
                 <SearchFragment />

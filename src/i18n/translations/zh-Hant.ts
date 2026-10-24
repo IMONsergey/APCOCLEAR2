@@ -1,4 +1,36 @@
 export default {
+  'Follow a reserved example domain through scope checks and host evidence.':
+    '以保留的範例網域，逐步檢查授權範圍並查看主機證據。',
+  'Review an example technology, matching hosts and potential vulnerability context.':
+    '檢視範例技術、相符主機及潛在漏洞的相關資訊。',
+  'Follow a reserved example address through services and shared attributes.':
+    '以保留的範例 IP 位址，追查服務及共同屬性。',
+  'Review an example host and plan the next investigation step.': '檢視範例主機，規劃下一步調查。',
+  'API enabled': 'API 已啟用',
+  'Usage & limits': '用量與限制',
+  'Account API key': '帳戶 API 金鑰',
+  'One key for your integrations.': '以一組金鑰連接您的整合。',
+  'Reveal key': '顯示金鑰',
+  'Rotate API key': '更換 API 金鑰',
+  'Rotate key': '更換金鑰',
+  'Your access': '您的存取權限',
+  'Account limits': '帳戶限制',
+  'Search pages per query': '每次查詢的頁數',
+  Enabled: '已啟用',
+  'All types': '所有類型',
+  'Saved queries': '已儲存的查詢',
+  'Example Research Network': '範例研究網路',
+  'Explore hosts, services and networks.': '探索主機、服務與網路。',
+  Results: '結果',
+  Save: '儲存',
+  '4 hosts returned': '找到 4 個主機',
+  'Page 1': '第 1 頁',
+  'Host / network': '主機／網路',
+  'Apply conditions': '套用條件',
+  'Validity period': '有效期限',
+  'DNS names': 'DNS 名稱',
+  'Example results': '結果範例',
+
   OSINT: 'OSINT',
   'Team & Business plan': '團隊與 Business 方案',
   'Billing & invoices': '帳單與發票',
@@ -73,8 +105,7 @@ export default {
     '關聯是待驗證的線索，而非已確認的漏洞。',
   'An authorised domain.': '授權的網域。',
   'An HTTPS service and a technology response.': '一個 HTTPS 服務和技術回應。',
-  'An illustrative saved collection. Confirm current availability and plan access with the team.':
-    '已儲存集合的示意範例。請向團隊確認目前是否提供此功能，以及哪些方案可使用。',
+  'Example collection.': '集合範例。',
   'An indicator from an alert.': '來自警報的指標。',
   'An IP from a log, a domain from a report or a service identified in an alert can become a starting point.':
     '來自日誌的 IP、來自報告的網域或警報中識別的服務，都可以成為起點。',
@@ -325,8 +356,7 @@ export default {
   Explore: '探索',
   'Explore a host with its service evidence, or learn how to contact the team about scanning activity.':
     '連同服務證據一起探索主機，或了解如何就掃描活動聯絡團隊。',
-  'Explore a potential monitoring workflow with synthetic snapshots. This concept does not connect to live scans or alerts.':
-    '使用模擬快照探索潛在的監控工作流程。此概念不會連接到實際掃描或警報。',
+  'Compare observations and investigate changes.': '比較觀測記錄，調查變化。',
   'Explore access levels or talk to the team about the API reference and your integration requirements.':
     '探索存取層級，或與團隊討論 API 參考文件及您的整合需求。',
   'Explore an example': '探索範例',
@@ -429,8 +459,7 @@ export default {
     'Apcosys API 的說明性請求與回應範例。實際 API 請參閱目前的產品文件。',
   'Illustrative data shape. The API contract comes from the product documentation.':
     '示意資料結構。API 的實際規格請以產品文件為準。',
-  'Illustrative inputs, not query syntax. Use the syntax and filters provided in Apcosys search.':
-    '說明性輸入，並非查詢語法。請使用 Apcosys 搜尋中提供的語法和篩選條件。',
+  'Example inputs.': '輸入範例。',
   'Illustrative request template, not a working API contract. Contact the team for the current endpoint, authentication details and API reference.':
     '示意請求範本，並非可直接使用的 API 規格。請聯絡團隊取得目前的端點、身分驗證資訊及 API 參考文件。',
   Included: '包含',
@@ -729,15 +758,14 @@ export default {
   'See where a technology runs.': '查看技術運行的地方。',
   'SELECT A HOST': '選擇主機',
   'Select a topic': '選擇主題',
-  'Select HTTPS to narrow this demonstration to the service you want to inspect.':
-    '選擇 HTTPS 以將此示範範圍縮小至您想檢視的服務。',
+  'Filter results by service.': '依服務篩選結果。',
   'Separate a lead from a finding.': '將線索與發現區分開來。',
   'Service attribute': '服務屬性',
   'Service discovery': '服務探索',
   'SERVICE EVIDENCE / {port} TCP': '服務證據 / {port} TCP',
-  'SERVICE FILTER / SYNTHETIC DEMO': '服務篩選 / 模擬示範',
+  'SERVICE FILTER': '服務篩選',
   'Service observations': '服務觀測',
-  'Service response · illustrative record': '服務回應 · 說明性記錄',
+  'Service response · example record': '服務回應 · 範例記錄',
   Services: '服務',
   'Share your team size, research needs and any invoice requirements.':
     '分享您的團隊規模、研究需求以及任何發票要求。',
@@ -951,8 +979,7 @@ export default {
   '{count} example host': '{count} 個範例主機',
   '{count} service records': '{count} 筆服務記錄',
   '{name} interactive illustrated workflow': '{name} 互動式說明工作流程',
-  '{address} is a reserved documentation address. This is a conceptual workflow, not an incident or attribution finding.':
-    '{address} 是保留的文件範例位址。這是概念性工作流程，並非真實事件或歸因結論。',
+  '{address} · Reserved example address.': '{address} · 保留的範例位址。',
   'A precise connection carries data between two software systems.':
     '一條精確的連線在兩個軟體系統之間傳遞資料。',
   'A single teal connection links three transparent layers of observations.':
@@ -968,7 +995,7 @@ export default {
   APPEARANCE: '外觀',
   Appearance: '外觀',
   'Authored concept · no scan date': '編寫的概念示範 · 無掃描日期',
-  'Authored demonstration': '編寫的示範',
+  'Example record': '範例記錄',
   'Authorised scope': '授權範圍',
   'Begin with a known {type}. The records below show how the investigation continues. Technology input illustrates intent, not verified query syntax.':
     '從已知的{type}開始。下方記錄顯示調查如何繼續進行。技術輸入僅用於說明意圖，並非經驗證的查詢語法。',
@@ -1084,10 +1111,8 @@ export default {
   TECHNOLOGY: '技術',
   'Technical indicators connected into an investigation trail.': '技術指標串連成一條調查軌跡。',
   'Technical review': '技術檢視',
-  'The domain and host below are reserved examples, not a real bug bounty programme or an authorised target.':
-    '下方網域與主機均為保留範例，並非真實的漏洞賞金計畫或授權目標。',
-  'Technology, version and host information below are illustrative. No specific CVE or exploitable host is claimed.':
-    '下方技術、版本與主機資訊僅供說明，並未宣稱存在特定 CVE 或可利用的主機。',
+  'Reserved example domain and IP addresses.': '保留的範例網域與 IP 位址。',
+  'Example technology and host records.': '範例技術與主機記錄。',
   'This page could not load.': '無法載入此頁面。',
   'TIME CONTEXT': '時間背景資訊',
   'Topic: {topic}': '主題：{topic}',
@@ -1428,8 +1453,8 @@ export default {
     '含查詢欄位與支援查詢類型的搜尋工作區。',
   'Review the service response, certificate and observed technical context.':
     '檢視服務回應、憑證及觀測到的技術背景資訊。',
-  'Illustrative TLS certificate, issuer, validity period and fingerprint for an individual host.':
-    '單一主機的 TLS 憑證示意，包含簽發者、有效期與指紋。',
+  'Host TLS certificate with its issuer, validity period and DNS name.':
+    '主機的 TLS 憑證，包含簽發者、有效期與 DNS 名稱。',
   Filters: '篩選條件',
   Netherlands: '荷蘭',
   'Example Network': '範例網路',
@@ -1452,8 +1477,8 @@ export default {
   'Clear conditions': '清除條件',
   '1 result': '1 筆結果',
   'Observed services and metadata': '觀測到的服務與中繼資料',
-  'Illustrative API workspace with a masked key, credit balances and documentation access.':
-    'API 工作區示意，包含已遮蔽的金鑰、剩餘額度與文件入口。',
+  'API workspace with a masked key, credit balances and account limits.':
+    'API 工作區，包含已遮蔽的金鑰、剩餘額度與帳戶限制。',
   'Built for people who investigate the internet.': '為探索網際網路的人而打造。',
   'Apcosys makes technical observations about internet-facing infrastructure searchable, so security researchers and teams can investigate them.':
     'Apcosys 將面向網際網路基礎架構的技術觀測整理為可搜尋的資料，供資安研究人員與團隊深入調查。',
@@ -1561,13 +1586,12 @@ export default {
   'Describe your responsibility for these networks and include a working contact address for follow-up.':
     '說明您對這些網路的管理職責，並提供可用的聯絡地址以便後續聯繫。',
   'Send the request.': '傳送請求。',
-  'The email link below prepares a short request. The team will need to confirm the next steps; an email draft does not apply an exclusion automatically.':
-    '下方電子郵件連結會準備一封簡短的請求郵件。團隊仍需確認後續步驟；建立郵件草稿不會自動排除網路。',
+  'Send your IP range and contact details. Our team will review the request.':
+    '請提供 IP 範圍與聯絡資料。我們的團隊會審核您的請求。',
   'Prepare a network exclusion request': '準備網路排除請求',
   'Use the X-API-Key header. Keep your API key on a trusted server, outside browser code.':
     '使用 X-API-Key 標頭。請將 API 金鑰保存在可信任的伺服器上，不要放入瀏覽器程式碼。',
-  'Documented response structure with synthetic host data. No request has been sent.':
-    '依文件格式呈現的回應，使用模擬主機資料。尚未傳送任何請求。',
+  'Example response': '範例回應',
   'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.':
     '文件所載的 HTTP 請求。執行前，請在伺服器環境中設定 APCOSYS_API_KEY。',
   'Send a small host-search request to the public HTTP API. Use your account API key in the X-API-Key header.':

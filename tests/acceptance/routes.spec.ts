@@ -36,10 +36,9 @@ test('Protected preview keeps unverified monitoring visibly conceptual', async (
 
 test('Contact form does not claim to send without a backend', async ({ page }) => {
   await page.goto('./contact');
-  await expect(
-    page.getByText('This website does not send your message.', { exact: false }),
-  ).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Prepare email' })).toBeVisible();
+  await expect(page.locator('#contact-form .stage-form-actions button')).toHaveCount(1);
+  await expect(page.locator('#contact-form')).not.toContainText('Message sent');
+  await expect(page.getByRole('button', { name: 'Email us' })).toBeVisible();
   await expect(page.getByLabel('Work email')).toHaveAttribute('type', 'email');
 });
 

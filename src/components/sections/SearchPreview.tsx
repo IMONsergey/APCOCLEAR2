@@ -191,7 +191,7 @@ export function SearchPreview() {
               <ProductEvidence scenario={scenario} compact embedded showPlaybackStatus={false} />
             </div>
             <p className="search-scene__demo-note">
-              <LocaleText>{t('Synthetic demonstration · No live observations.')}</LocaleText>{' '}
+              <LocaleText>{t('Example results')}</LocaleText>{' '}
               <a href={productUrl + '/search'}>
                 <LocaleText>{t('Open product search')}</LocaleText>
               </a>

@@ -7,10 +7,10 @@ export const navigation = [
   {
     label: 'Platform',
     items: [
+      { label: 'About', href: '/about' },
       { label: 'Search & Investigation', href: '/platform/search-investigation' },
       { label: 'Data & Methodology', href: '/platform/data-methodology' },
       { label: 'Monitoring', href: '/platform/monitoring' },
-      { label: 'About', href: '/about' },
       { label: 'Responsible Scanning', href: '/responsible-scanning' },
       { label: 'Talk to Us', href: '/contact' },
     ],

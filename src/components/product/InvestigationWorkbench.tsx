@@ -34,8 +34,7 @@ const stories = {
   bounty: {
     tag: 'AUTHORISED BUG BOUNTY',
     heading: 'Stay inside the programme scope.',
-    context:
-      'Illustrative research using example.com, a reserved example domain. Always verify the actual programme scope before testing.',
+    context: 'Follow a reserved example domain through scope checks and host evidence.',
     query: 'example.com',
     captions: [
       'Confirm scope',
@@ -55,8 +54,7 @@ const stories = {
   vulnerability: {
     tag: 'VULNERABILITY RESEARCH',
     heading: 'Technology signals need verification.',
-    context:
-      'A conceptual product walkthrough: detected technology, matching hosts and potential vulnerability context.',
+    context: 'Review an example technology, matching hosts and potential vulnerability context.',
     query: 'nginx 1.24.0',
     captions: [
       'Choose a technology',
@@ -76,8 +74,7 @@ const stories = {
   osint: {
     tag: 'OSINT & THREAT INVESTIGATION',
     heading: 'Follow an indicator, not an assumption.',
-    context:
-      'An illustrative lead built around documentation-only example addresses, without attribution claims.',
+    context: 'Follow a reserved example address through services and shared attributes.',
     query: '198.51.100.24',
     captions: [
       'Begin with an indicator',
@@ -97,8 +94,7 @@ const stories = {
   team: {
     tag: 'SECURITY TEAM WORKFLOW',
     heading: 'From analyst question to technical context.',
-    context:
-      'An illustrative research experience for teams evaluating search and API capabilities.',
+    context: 'Review an example host and plan the next investigation step.',
     query: '203.0.113.42',
     captions: [
       'Receive a question',
@@ -225,10 +221,6 @@ export function InvestigationWorkbench({ story = 'search' }: { story?: Story }) 
           </div>
         </div>
         <div className="stage-workbench__bottom">
-          <Text as="p">
-            Illustrative UI · No live host results or backend queries are simulated. The product
-            screens demonstrate the intended investigation sequence.
-          </Text>
           <div>
             <a href={productUrl + '/search'}>
               <LocaleText>{t('Try Search')}</LocaleText>

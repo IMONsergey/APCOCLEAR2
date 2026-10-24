@@ -214,9 +214,9 @@
   border-radius: var(--radius-control);
 }
 .monitor-context h4 {
+  margin: 0 0 var(--space-4);
   font-size: var(--font-size-18);
   font-weight: 500;
-  margin-bottom: var(--space-4);
 }
 .monitor-context dl > div {
   display: flex;

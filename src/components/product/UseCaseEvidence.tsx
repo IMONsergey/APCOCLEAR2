@@ -29,8 +29,7 @@ const journeys: Record<'scope' | 'technology' | 'indicator', Journey> = {
     query: 'Search that permitted domain using the currently supported query format.',
     result: 'Inspect the host, ports and service context of candidate results.',
     next: 'Verify each selected host against the programme rules before interacting with it.',
-    caveat:
-      'The domain and host below are reserved examples, not a real bug bounty programme or an authorised target.',
+    caveat: 'Reserved example domain and IP addresses.',
   },
   technology: {
     label: 'VULNERABILITY RESEARCH / EXAMPLE INVESTIGATION',
@@ -43,8 +42,7 @@ const journeys: Record<'scope' | 'technology' | 'indicator', Journey> = {
       'Research input: nginx 1.24.0. Translate it into the supported product/version query syntax.',
     result: 'Compare observed host services, detection evidence and any associated CVE context.',
     next: 'Open a host, check observation age, patch backports and configuration before drawing conclusions.',
-    caveat:
-      'Technology, version and host information below are illustrative. No specific CVE or exploitable host is claimed.',
+    caveat: 'Example technology and host records.',
   },
   indicator: {
     label: 'OSINT / EXAMPLE INVESTIGATION',
@@ -56,8 +54,7 @@ const journeys: Record<'scope' | 'technology' | 'indicator', Journey> = {
     query: 'Look up the address in the current Apcosys search.',
     result: 'Review the host view, available services, technologies and observation date.',
     next: 'Investigate a relevant service or attribute while keeping attribution unproven.',
-    caveat:
-      '{address} is a reserved documentation address. This is a conceptual workflow, not an incident or attribution finding.',
+    caveat: '{address} · Reserved example address.',
     caveatValues: { address: '198.51.100.24' },
   },
 };

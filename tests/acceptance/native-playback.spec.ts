@@ -14,8 +14,15 @@ for (const width of [390, 1440]) {
         scene: 'results',
         phase: '1',
         group: 'country-filter',
-        item: '.application-facet--nl',
-        text: /Netherlands\s*86/,
+        item: '.application-facet--de',
+        text: 'Germany',
+      },
+      {
+        scene: 'results',
+        phase: '2',
+        group: 'result-first',
+        item: '[data-demo-target="result-first"]',
+        text: /192\.0\.2\.10[\s\S]*Germany/,
       },
       {
         scene: 'host',
@@ -36,7 +43,7 @@ for (const width of [390, 1440]) {
         phase: '1',
         group: 'refine-applied',
         item: '.application-applied > span:first-child',
-        text: 'Domain · example.com',
+        text: 'Domain · node-1.example.com',
       },
     ];
     for (const target of targets) {
@@ -91,20 +98,80 @@ test('a live reduced-motion change restores the complete query while it is being
   const query = scene.locator('[data-demo-query]');
   await expect
     .poll(async () => (await query.textContent())?.length, { timeout: 12000 })
-    .toBeLessThan(7);
+    .toBeLessThan(5);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(scene).toHaveAttribute('data-demo-playback', 'static');
   await expect(scene).toHaveAttribute('data-demo-phase', '0');
-  await expect(query).toHaveText('example');
+  await expect(query).toHaveText('nginx');
   await expect(scene.locator('.application-demo-cursor')).toBeHidden();
   await page.waitForTimeout(1800);
-  await expect(query).toHaveText('example');
+  await expect(query).toHaveText('nginx');
   await expect(scene).toHaveAttribute('data-demo-phase', '0');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
   await expect(scene.locator('.application-demo-cursor')).toBeVisible();
   await expect(scene).toHaveAttribute('data-demo-phase', '1');
 });
+
+for (const width of [390, 1440]) {
+  test(`the application API keeps its frame stable between key and usage panels at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 950 });
+    await page.goto('./');
+    const scene = page.locator('.application-scene[data-scene="api"]');
+    await scene.scrollIntoViewIfNeeded();
+    await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
+    await expect(scene).toHaveAttribute('data-demo-phase', '1');
+    await expect(scene.locator('[data-api-panel="key"]')).toBeVisible();
+    await expect(scene.locator('[data-api-panel="usage"]')).toBeHidden();
+    await expect(scene.locator('[data-demo-target="api-key"]')).toHaveText(/^•{16}$/);
+    const keyFrame = await scene.boundingBox();
+    expect(keyFrame).not.toBeNull();
+
+    await expect(scene).toHaveAttribute('data-demo-phase', '2');
+    const usagePanel = scene.locator('[data-api-panel="usage"]');
+    await expect(usagePanel).toBeVisible();
+    await expect(scene.locator('[data-api-panel="key"]')).toBeHidden();
+    const usageMeters = usagePanel.locator('[role="meter"]:visible');
+    await expect(usageMeters).toHaveCount(2);
+    await expect(scene.locator('[role="meter"]:visible')).toHaveCount(2);
+    const number = new Intl.NumberFormat('en');
+    for (const [index, [current, maximum]] of [
+      [1240500, 1500000],
+      [327680, 327680],
+    ].entries()) {
+      await expect(usageMeters.nth(index)).toHaveAttribute('aria-valuenow', String(current));
+      await expect(usageMeters.nth(index)).toHaveAttribute('aria-valuemax', String(maximum));
+      const value = usagePanel.locator('.application-api__credit-value').nth(index);
+      await expect(value.locator('span').first()).toHaveText(number.format(current!));
+      await expect(value.locator('span').last()).toContainText(number.format(maximum!));
+    }
+    const usageFrame = await scene.boundingBox();
+    expect(usageFrame).not.toBeNull();
+    expect(
+      Math.abs(usageFrame!.width - keyFrame!.width),
+      'switching panels preserves the API frame width',
+    ).toBeLessThanOrEqual(1);
+    expect(
+      Math.abs(usageFrame!.height - keyFrame!.height),
+      'switching panels preserves the API frame height',
+    ).toBeLessThanOrEqual(1);
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(scene).toHaveAttribute('data-demo-playback', 'static');
+    await expect(scene).toHaveAttribute('data-demo-phase', '0');
+    await expect(scene.locator('[data-api-panel="key"]')).toBeVisible();
+    await expect(scene.locator('[data-api-panel="usage"]')).toBeHidden();
+    await expect(scene.locator('.application-demo-cursor')).toBeHidden();
+    const staticFrame = await scene.boundingBox();
+    expect(staticFrame).not.toBeNull();
+    expect(
+      Math.abs(staticFrame!.height - keyFrame!.height),
+      'reduced motion preserves the API frame height',
+    ).toBeLessThanOrEqual(1);
+  });
+}
 
 async function openEvidence(page: Page) {
   await page.goto('./platform/search-investigation');

@@ -75,9 +75,6 @@ export default function ContactPage() {
             </button>
           ))}
         </div>
-        <Text as="p" className="editorial-note">
-          Billing, scanning or another question? Select the relevant topic in the form below.
-        </Text>
       </EditorialSection>
       <section className="stage-contact section-space">
         <div className="container stage-contact-layout">
@@ -90,15 +87,7 @@ export default function ContactPage() {
             <div className="contact-direct">
               <Text as="h3">Prefer a direct email?</Text>
               <a href={'mailto:' + supportEmail}>{supportEmail}</a>
-              <Text as="p">
-                The form prepares a message in your email application. You review it and send it
-                from there.
-              </Text>
             </div>
-            <Text as="p" className="editorial-note">
-              Keep credentials, access tokens and sensitive third-party findings out of your
-              message.
-            </Text>
           </div>
           <ContactForm topic={topic} onTopicChange={setTopic} />
         </div>

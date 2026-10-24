@@ -28,7 +28,8 @@ export function ApplicationFrame({
       ref={frameRef}
       className="application-scene"
       data-scene={scene}
-      data-design-source="figma-application"
+      data-design-source="apcosys-application"
+      data-design-url="https://assaasdev.vercel.app"
       data-design-node={designNodes[scene]}
       data-demo-playback="static"
       data-demo-phase="0"

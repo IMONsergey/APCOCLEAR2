@@ -35,7 +35,7 @@ export function PricingSection({
   const [compare, setCompare] = useState(false);
   const rangeRef = useRef<HTMLDivElement>(null);
   const [planOpen, setPlanOpen] = useState(false);
-  const [period, setPeriod] = useState<BillingPeriod>('monthly');
+  const [period, setPeriod] = useState<BillingPeriod>('annually');
   const [selected, setSelected] = useState<Plan | null>(null);
   return (
     <section className="pricing section-space" id="pricing" aria-labelledby="pricing-title">
@@ -342,14 +342,7 @@ export function PricingSection({
                 </dd>
               </div>
             </dl>
-            <p className="modal-note">
-              <LocaleText>
-                {t(
-                  'The selected plan is shown for comparison only. Plan selection is not transferred to registration. Confirm the plan, pricing and billing inside Apcosys before purchase.',
-                )}
-              </LocaleText>
-            </p>
-            <PlanHandoff key={selected.id + period} plan={selected} period={period} />
+            <PlanHandoff />
           </>
         )}
       </Modal>

@@ -95,7 +95,7 @@ test('contact requirements are explicit and whitespace cannot bypass message len
   page,
 }) => {
   await page.goto('./contact');
-  await expect(page.getByText('All fields are required except company.')).toBeVisible();
+  await expect(page.locator('#contact-form [name="name"]')).toHaveAttribute('required', '');
   await expect(page.getByLabel('Company (optional)')).not.toHaveAttribute('required');
   await page.getByRole('textbox', { name: 'Name', exact: true }).fill('Audit');
   await page.getByRole('textbox', { name: 'Work email', exact: true }).fill('audit@example.com');
@@ -103,7 +103,7 @@ test('contact requirements are explicit and whitespace cannot bypass message len
   await page.getByRole('textbox', { name: 'Message', exact: true }).fill('         ok         ');
   // No real email is sent: the invalid message must be rejected before the mailto action.
   await page.getByRole('checkbox').check();
-  await page.getByRole('button', { name: 'Prepare email' }).click();
+  await page.getByRole('button', { name: 'Email us' }).click();
   await expect(page.locator('.stage-form-status')).toContainText('at least 10 characters');
   await expect(page.getByRole('textbox', { name: 'Message', exact: true })).toBeFocused();
   await expect(page).toHaveURL(/\/contact\/?$/);
@@ -118,7 +118,7 @@ for (const width of [320, 768, 1440]) {
     await page.evaluate(() => document.fonts.ready);
     const formBounds = (await form.boundingBox())!;
     const actions = [];
-    for (const name of ['Prepare email', 'Copy email text', 'Clear draft']) {
+    for (const name of ['Email us']) {
       const button = form.getByRole('button', { name, exact: true });
       await expect(button).toBeVisible();
       await expect(button).toBeEnabled();
@@ -139,17 +139,12 @@ for (const width of [320, 768, 1440]) {
       Math.abs(actions[0]!.x - formBounds.x),
       'primary action starts at the form edge',
     ).toBeLessThan(1);
-    for (let i = 0; i < actions.length; i++) {
-      for (let j = i + 1; j < actions.length; j++) {
-        const a = actions[i]!;
-        const b = actions[j]!;
-        const overlapX = Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x);
-        const overlapY = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y);
-        expect(overlapX <= 0.5 || overlapY <= 0.5, `${a.name} and ${b.name} do not overlap`).toBe(
-          true,
-        );
-      }
-    }
+    await expect(form.locator('.stage-form-actions button')).toHaveCount(1);
+    const topic = (await form.locator('select[name="topic"]').boundingBox())!;
+    const chevron = (await form.locator('.stage-select > svg').boundingBox())!;
+    expect(Math.abs(chevron.y + chevron.height / 2 - topic.y - topic.height / 2)).toBeLessThan(1);
+    expect(topic.x + topic.width - chevron.x - chevron.width).toBeGreaterThanOrEqual(14);
+    expect(topic.x + topic.width - chevron.x - chevron.width).toBeLessThanOrEqual(18);
     expect((await page.locator('.footer-email').boundingBox())!.height).toBeGreaterThanOrEqual(44);
     await page.goto('./developers/api');
     await expect(page.locator('.stage-code-copy')).toBeVisible();

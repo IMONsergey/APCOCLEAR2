@@ -2,37 +2,6 @@
   min-width: 0;
   margin-top: var(--space-6);
 }
-.plan-handoff > p {
-  color: var(--color-text-body);
-  font-size: var(--font-size-16);
-  line-height: 1.6;
-}
-.plan-handoff__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-}
-.plan-handoff__hint {
-  display: block;
-  color: var(--text-muted);
-  font-size: var(--font-size-14);
-  margin-top: var(--space-3);
-}
-.plan-handoff [role='status'] {
-  margin-top: var(--space-4);
-}
-.plan-handoff textarea {
-  display: block;
-  width: 100%;
-  min-width: 0;
+.plan-handoff .double-button {
   max-width: 100%;
-  margin-top: var(--space-5);
-  padding: var(--space-4);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-control);
-  background: var(--surface-card);
-  color: var(--text-primary);
-  font: 400 var(--font-size-16)/1.5 var(--font-sans);
-  resize: vertical;
 }

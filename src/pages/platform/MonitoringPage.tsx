@@ -73,9 +73,6 @@ export default function MonitoringPage() {
             </article>
           ))}
         </div>
-        <Text as="p" className="editorial-note">
-          Concept examples only. This page does not connect to live scans or deliver alerts.
-        </Text>
       </EditorialSection>
       <EditorialSection
         id="monitoring-next"

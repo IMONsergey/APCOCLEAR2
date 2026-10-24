@@ -75,7 +75,8 @@ test('monitoring concept changes state and does not claim real alerts', async ({
   await expect(page.getByText('443 / HTTPS + 80 / HTTP')).toBeVisible();
   await buttons.nth(2).click();
   await expect(page.getByRole('heading', { name: 'Review a possible change.' })).toBeVisible();
-  await expect(page.getByText('NO LIVE ALERTS')).toBeVisible();
+  await expect(page.locator('.stage-concept-label')).toBeVisible();
+  await expect(page.locator('.stage-concept-label')).toContainText('Not a live product capability');
 });
 
 test('distinct use-case evidence is accessible in each research journey', async ({ page }) => {
@@ -91,6 +92,9 @@ test('homepage plan prices follow the selected billing period', async ({ page })
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('./');
   await page.locator('#pricing').scrollIntoViewIfNeeded();
+  await expect(page.locator('.billing--desktop input[value="annually"]')).toBeChecked();
+  await expect(page.locator('.plan-grid .price-amount')).toHaveText(['$0', '$40', '$240', '$720']);
+  await page.locator('.billing--desktop').getByRole('radio', { name: 'Monthly' }).check();
   await expect(page.locator('.plan-grid .price-amount')).toHaveText(['$0', '$50', '$300', '$900']);
   await page.locator('.billing--desktop').getByRole('radio', { name: 'Annually' }).check();
   await expect(page.locator('.plan-grid .price-amount')).toHaveText(['$0', '$40', '$240', '$720']);
@@ -127,6 +131,11 @@ test('billing switch aligns with the heading baseline on desktop', async ({ page
 
 test('pricing monthly and annual values follow documented discount', async ({ page }) => {
   await page.goto('./pricing');
+  await expect(page.locator('.billing--desktop input[value="annually"]')).toBeChecked();
+  await expect(page.locator('#plan-plus .plan-price')).toContainText('$40');
+  await expect(page.locator('#plan-expert .plan-price')).toContainText('$240');
+  await expect(page.locator('#plan-business .plan-price')).toContainText('$720');
+  await page.locator('.billing--desktop').getByRole('radio', { name: 'Monthly' }).check();
   await expect(page.locator('#plan-plus .plan-price')).toContainText('$50');
   await expect(page.locator('#plan-expert .plan-price')).toContainText('$300');
   await expect(page.locator('#plan-business .plan-price')).toContainText('$900');
@@ -140,7 +149,10 @@ test('pricing monthly and annual values follow documented discount', async ({ pa
   await page.getByRole('button', { name: 'Choose Business' }).click();
   const dialog = page.getByRole('dialog', { name: 'BUSINESS plan' });
   await expect(dialog).toBeVisible();
-  await expect(dialog).toContainText('selection is not transferred');
+  await expect(dialog.getByRole('link', { name: 'Open Apcosys', exact: true })).toHaveAttribute(
+    'href',
+    deploymentSettings.signInUrl,
+  );
   await dialog.getByRole('button', { name: 'Close dialog' }).click();
   await expect(page.locator('#plan-business .stage-plan-contact')).toHaveAttribute(
     'href',
@@ -148,14 +160,14 @@ test('pricing monthly and annual values follow documented discount', async ({ pa
   );
 });
 
-test('documented HTTP API request and synthetic response switch', async ({ page }) => {
+test('documented HTTP API request and example response switch', async ({ page }) => {
   await page.goto('./developers/api');
   await expect(page.locator('.stage-code-window pre')).toContainText(
     'https://api.apcosys.net/api/v1/search/hosts',
   );
   await page.getByRole('button', { name: 'Response', exact: true }).click();
   await expect(page.locator('.stage-code-window pre')).toContainText('"open_ports"');
-  await expect(page.locator('.stage-code-note')).toContainText('synthetic host data');
+  await expect(page.locator('.stage-code-note')).toHaveText('Example response');
 });
 
 test('Homepage navigation reaches search syntax and respects history', async ({ page }) => {
@@ -190,23 +202,24 @@ test('direct path refresh serves route-specific SEO meta in static response', as
 test('registration and Sign In never claim unsupported plan selection', async ({ page }) => {
   await page.goto('./pricing');
   await page.getByRole('button', { name: 'Choose Plus' }).click();
-  await expect(page.getByRole('dialog', { name: 'PLUS plan' })).toContainText(
-    'selection is not transferred',
-  );
+  await expect(
+    page
+      .getByRole('dialog', { name: 'PLUS plan' })
+      .getByRole('link', { name: 'Open Apcosys', exact: true }),
+  ).toHaveAttribute('href', deploymentSettings.signInUrl);
   await expect(page.locator('.site-header .header-signin')).toHaveAttribute(
     'href',
     deploymentSettings.signInUrl,
   );
 });
 
-test('contact form displays required email fallback and validation', async ({ page }) => {
+test('contact form offers one email action and validates required fields', async ({ page }) => {
   await page.goto('./contact');
-  await expect(page.getByRole('button', { name: 'Prepare email' })).toBeVisible();
-  await page.getByRole('button', { name: 'Prepare email' }).click();
+  await expect(page.getByRole('button', { name: 'Email us' })).toBeVisible();
+  await page.getByRole('button', { name: 'Email us' }).click();
   await expect(page.locator('[name="name"]')).toHaveAttribute('required', '');
-  await expect(
-    page.getByText('This website does not send your message.', { exact: false }),
-  ).toBeVisible();
+  await expect(page.locator('#contact-form .stage-form-actions button')).toHaveCount(1);
+  await expect(page.locator('#contact-form [name="name"]')).toBeFocused();
 });
 
 test('direct hash entry waits for lazy investigation content', async ({ page }) => {

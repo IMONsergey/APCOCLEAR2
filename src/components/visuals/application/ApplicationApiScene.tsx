@@ -1,126 +1,137 @@
-import { assetUrl } from '../../../content/assets';
 import { useLocale } from '../../../i18n/context';
+import { ApplicationGlyph as Glyph } from './ApplicationGlyph';
 import './application-api-scene.css';
 
 const creditBalances = [
-  { label: 'Query credits remaining', remaining: 124_850, total: 1_500_000 },
+  { label: 'Query credits remaining', remaining: 1_240_500, total: 1_500_000 },
   { label: 'Scan credits remaining', remaining: 327_680, total: 327_680 },
 ] as const;
 
-/** Figma application workspace, presented as an inert illustration by its frame. */
-export function ApplicationApiScene() {
+function CreditBalances({ showAccess = false }: { showAccess?: boolean }) {
   const { locale, t } = useLocale();
   const number = new Intl.NumberFormat(locale);
-  const percent = new Intl.NumberFormat(locale, {
-    style: 'percent',
-    maximumFractionDigits: 0,
-  });
+  return (
+    <div className="application-api__credits">
+      {showAccess && (
+        <div className="application-api__access">
+          <strong>{t('Your access')}</strong>
+          <span>{t('Business')}</span>
+        </div>
+      )}
+      {creditBalances.map(({ label, remaining, total }) => (
+        <div className="application-api__credit" key={label}>
+          <p className="application-api__credit-label">{t(label)}</p>
+          <p className="application-api__credit-value">
+            <span>{number.format(remaining)}</span>
+            <span className="application-api__credit-total"> / {number.format(total)}</span>
+          </p>
+          <div
+            className="application-api__credit-track"
+            role="meter"
+            aria-label={t(label)}
+            aria-valuemin={0}
+            aria-valuemax={total}
+            aria-valuenow={remaining}
+          >
+            <div
+              className="application-api__credit-fill"
+              style={{ width: `${(remaining / total) * 100}%` }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
+/** An inert excerpt of the current account-key and usage screens. */
+export function ApplicationApiScene() {
+  const { t } = useLocale();
   return (
     <div className="application-api-scene">
       <div className="application-api__intro">
-        <h3 className="application-api__heading">{t('Build with Apcosys')}</h3>
-        <p className="application-api__subtitle">
-          {t('Your existing key, available credits and API documentation.')}
-        </p>
+        <h3 className="application-api__heading">{t('API access')}</h3>
+        <span className="application-status">
+          <Glyph name="check" />
+          {t('API enabled')}
+        </span>
       </div>
-
+      <div className="application-object-tabs application-api__tabs">
+        <span className="application-api__key-tab" data-demo-target="api-key-tab">
+          <Glyph name="key" />
+          {t('API key')}
+        </span>
+        <span className="application-api__usage-tab" data-demo-target="api-usage">
+          <Glyph name="chart" />
+          {t('Usage & limits')}
+        </span>
+      </div>
       <div className="application-api__workspace">
-        <div className="application-api__credentials">
-          <div className="application-api__control-row">
+        <div className="application-api__panel application-api__panel--key" data-api-panel="key">
+          <div className="application-api__credentials">
+            <div className="application-api__card-heading">
+              <span className="application-api__symbol">
+                <Glyph name="key" />
+              </span>
+              <div>
+                <h4>{t('Account API key')}</h4>
+                <p>{t('One key for your integrations.')}</p>
+              </div>
+            </div>
             <div className="application-api__field-group">
               <p className="application-api__label">{t('API key')}</p>
               <div
                 className="application-api__field application-api__key"
                 data-demo-target="api-key"
               >
-                <code>••••••••</code>
+                <code>••••••••••••••••</code>
               </div>
             </div>
-            <div
-              className="application-api__action application-api__action--primary"
-              data-demo-target="api-copy"
-              title={t('Copy API key')}
-            >
-              <span className="application-api__copy-label">
-                <span className="application-api__copy-default">{t('Copy')}</span>
-                <span data-demo-copy-state>{t('Copied')}</span>
+            <div className="application-api__actions">
+              <span className="application-api__action">
+                <Glyph name="eye" />
+                {t('Reveal key')}
               </span>
-              <img src={assetUrl('application', 'copy-white.svg')} width="20" height="20" alt="" />
+              <span className="application-api__action" data-demo-target="api-copy">
+                <Glyph name="copy" />
+                <span className="application-api__copy-label">
+                  <span className="application-api__copy-default">{t('Copy')}</span>
+                  <span data-demo-copy-state>{t('Copied')}</span>
+                </span>
+              </span>
+            </div>
+            <div className="application-api__rotate">
+              <span>{t('Rotate API key')}</span>
+              <span className="application-api__action">
+                <Glyph name="refresh" />
+                {t('Rotate key')}
+              </span>
             </div>
           </div>
-
-          <div className="application-api__action application-api__regenerate">
-            {t('Regenerate API key')}
-          </div>
-
-          <div className="application-api__control-row application-api__url-row">
-            <div className="application-api__field-group">
-              <p className="application-api__label">{t('Base URL')}</p>
-              <div className="application-api__field" data-demo-target="api-url">
-                <code>
-                  {'https://api.apcosys.net'}
-                  <wbr />
-                  {'/api/v1'}
-                </code>
-              </div>
-            </div>
-            <div
-              className="application-api__action application-api__icon-action"
-              title={t('Copy base URL')}
-            >
-              <img src={assetUrl('application', 'copy-accent.svg')} width="20" height="20" alt="" />
-            </div>
-          </div>
-
-          <div className="application-api__credits">
-            {creditBalances.map(({ label, remaining, total }) => (
-              <div className="application-api__credit" key={label}>
-                <div className="application-api__credit-label">
-                  <p>{t(label)}</p>
-                  <span>{t('{percent} left', { percent: percent.format(remaining / total) })}</span>
-                </div>
-                <div
-                  className="application-api__credit-track"
-                  role="meter"
-                  aria-label={t(label)}
-                  aria-valuemin={0}
-                  aria-valuemax={total}
-                  aria-valuenow={remaining}
-                >
-                  <div
-                    className="application-api__credit-fill"
-                    style={{ width: `${(remaining / total) * 100}%` }}
-                  />
-                </div>
-                <p className="application-api__credit-value">
-                  <span>{number.format(remaining)}</span>
-                  <span aria-hidden="true"> / </span>
-                  <span>{number.format(total)}</span>
-                </p>
-              </div>
-            ))}
-          </div>
+          <CreditBalances showAccess />
         </div>
-
-        <div className="application-api__documentation">
-          <div className="application-api__documentation-heading">
-            <img src={assetUrl('application', 'code.svg')} width="36" height="36" alt="" />
-            <h4>{t('From a question to a response.')}</h4>
+        <div
+          className="application-api__panel application-api__panel--usage"
+          data-api-panel="usage"
+        >
+          <CreditBalances />
+          <div className="application-api__limits" data-demo-target="api-limits">
+            <h4>{t('Account limits')}</h4>
+            <dl>
+              <div>
+                <dt>{t('Plan')}</dt>
+                <dd>{t('Business')}</dd>
+              </div>
+              <div>
+                <dt>{t('Search pages per query')}</dt>
+                <dd>300</dd>
+              </div>
+              <div>
+                <dt>{t('API access')}</dt>
+                <dd className="application-link">{t('Enabled')}</dd>
+              </div>
+            </dl>
           </div>
-          <p className="application-api__documentation-description">
-            {t('Use the current endpoints and supported query fields.')}
-          </p>
-          <div
-            className="application-api__action application-api__documentation-action"
-            data-demo-target="api-docs"
-          >
-            <span>{t('Open documentation')}</span>
-            <img src={assetUrl('application', 'external.svg')} width="20" height="20" alt="" />
-          </div>
-          <p className="application-api__documentation-note">
-            {t('API access and rate limits depend on your plan.')}
-          </p>
         </div>
       </div>
     </div>

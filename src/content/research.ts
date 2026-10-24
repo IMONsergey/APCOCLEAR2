@@ -22,7 +22,7 @@ export const researchSteps = [
     title: 'Technical context.',
     scene: 'evidence',
     description: 'Review the service response, certificate and observed technical context.',
-    alt: 'Illustrative TLS certificate, issuer, validity period and fingerprint for an individual host.',
+    alt: 'Host TLS certificate with its issuer, validity period and DNS name.',
   },
   {
     title: 'Next step.',

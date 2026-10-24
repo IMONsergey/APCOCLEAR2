@@ -1,84 +1,82 @@
 # Application demonstrations — 24 October 2026
 
-The five Home research scenes and the API illustration are translated React/HTML excerpts of the application. The 24 October correction gives all five research scenes a compact 3:2 frame, removes the shared top toolbar from all six demonstrations and removes the artwork from the first query scene. The API illustration uses its own responsive layout and content-driven height.
+The five Home research scenes and the API illustration now follow the current Apcosys SaaS interface. They are compact, translated React/HTML excerpts with native playback. The five research frames retain their existing 3:2 size; their left edge now aligns with the card text. The homepage retains all 13 sections in the approved order, including both Audience illustrations.
 
-Playback continues to use the native browser animation implementation from the previous release. GSAP remains absent from runtime imports and the dependency manifest. This document describes the current composition, asset sizes and runtime contract. [Final readiness](FINAL-READINESS.md) records the current release checks and publication status; the earlier replacement results are preserved separately under **Historical acceptance record** below.
+This document describes the implementation in source. [Final readiness](FINAL-READINESS.md) records the current verification scope and links to the commit-associated release workflow. The historical results below are not evidence for this revision.
 
-## Design source and scope
+## Current design source
 
-Source: [Apcosys, page «01 · Приложение»](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-3620), previously named «Приложение — доработка». Design context, visible child nodes and screenshots were read from the file. The source design was not edited.
+- Live interface: [Apcosys SaaS](https://assaasdev.vercel.app/).
+- Reference repository: [IMONsergey/Assaasdev](https://github.com/IMONsergey/Assaasdev), checked out at [`85f41b7569ccb172b4eceabd345e9c79cfde470e`](https://github.com/IMONsergey/Assaasdev/commit/85f41b7569ccb172b4eceabd345e9c79cfde470e), dated 24 October 2026, “Refine native navigation, avatars and guided workflows”.
+- Example records and account values: [`src/demo/fixtures.ts` at that revision](https://github.com/IMONsergey/Assaasdev/blob/85f41b7569ccb172b4eceabd345e9c79cfde470e/src/demo/fixtures.ts).
 
-| Website scene | Application source frame                                                                                            | Current implemented excerpt                                                                  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Query         | [899:4021 — Поиск, начало](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-4021)            | Search heading, query field, query-type hints and filter guidance; no artwork or toolbar     |
-| Results       | [899:4117 — Поиск, результаты](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-4117)        | Query, country facets, result count and host records with ports/product                      |
-| Host          | [899:5079 — Объект, адрес и сервисы](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-5079)  | Address, network, service tabs, HTTPS response and detected product                          |
-| Evidence      | [903:48414 — Сертификат TLS](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=903-48414)         | Selected HTTPS service, certificate identity, issuer, validity and SHA-256 fingerprint       |
-| Refined query | [903:48044 — Поиск, применён domain](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=903-48044) | Applied domain condition, condition chip and matching result                                 |
-| API           | [903:53837 — API, доступ](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=903-53837)            | Existing masked key, copy state, base URL, query/scan credit balances and documentation card |
+The earlier Figma frames remain historical provenance. They no longer define the current scene composition or example values. `ApplicationFrame` identifies the current source with `data-design-source="apcosys-application"` and `data-design-url="https://assaasdev.vercel.app"`; the retained `data-design-node` values refer to the earlier Figma source.
 
-The result row `899:4220` and filter fragment `959:74371` supplied detailed context where the parent frame was sparse. The current marketing excerpts arrange that application content for compact cards using the website's type roles, theme tokens and translated text. Results place country facets beside host records; the host scene places service selection beside the response; certificate details and the refined query use compact data rows. The five-scene frame has a fixed aspect ratio, so its dimensions remain consistent when its language or playback phase changes.
+## Current six excerpts
 
-## Current layout and typography
+| Scene             | Implemented content and progression                                                                                                                                                                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Query             | Centered search heading; `nginx` query; Filters, All types and Saved queries where space permits; text/domain/IP/technology hints; adjoining search label and arrow. No illustration or application shell header.                                                                                                             |
+| Results           | Results/Analytics tabs, a four-host result count and a compact table excerpt. Playback opens the left country-filter panel, selects Germany, then shows one matching result.                                                                                                                                                  |
+| Host              | `192.0.2.10`, `node-1.example.com`, Germany and AS64496 / Example Research Network. Services shows the fixture total of 100 with a three-service excerpt: 443 HTTPS, 80 HTTP and 22 SSH. The selected HTTPS response and nginx 1.0 remain connected to that host.                                                             |
+| Technical context | The same host and HTTPS/443 context, TLS 1.3, certificate subject and issuer, validity dates and DNS name. There is no invented fingerprint.                                                                                                                                                                                  |
+| Next step         | Search for `node-1.example.com`, show the applied Domain condition and retain the same host as the matching result.                                                                                                                                                                                                           |
+| API               | API access with API key and Usage & limits tabs. Playback emphasizes the masked account key, shows the copied state and switches to the account-usage panel. The key view has Reveal, Copy and Rotate controls; the usage view shows credit balances and account limits. No base-URL field or documentation card is included. |
 
-The shared `ApplicationFrame` contains scene content and the decorative cursor. It has no logo strip, Filters / All Types toolbar or API/Search toolbar label. The first query scene contains its search interface and supporting text without `aperture.svg`.
+The results excerpt shows two of the four matching fixture records before filtering: `192.0.2.10` in Germany and `192.0.2.144` in the Netherlands. The record count describes the result set; the compact illustration does not attempt to display every row.
 
-| Element                        | Current contract                                                                                                                                                                 |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Five research frames           | One 3:2 aspect ratio; the previous 440 px minimum height is removed                                                                                                              |
-| Research carousel              | One card through 767 px, two from 768 px and three from 1200 px; the narrow layout includes 16 px of trailing allowance so the last card reaches its intended scroll position    |
-| Research body, labels and code | 10 px base; regular record headings and result addresses use 12 px                                                                                                               |
-| Query heading                  | 18 px normally; 16 px when the application container is at most 299 px wide, 20 px from 400 px                                                                                   |
-| Host address heading           | 16 px normally; 12 px at container widths up to 299 px, 18 px from 400 px                                                                                                        |
-| API body and code              | 12 px; documentation heading 14 px                                                                                                                                               |
-| API introductory heading       | 18 px normally; 16 px when the API content container is at most 359 px wide                                                                                                      |
-| API fields and actions         | 32 px minimum height, with room for localized content; the regenerate action uses 28 px normally and 32 px when the API content container is at most 359 px wide                 |
-| API layout                     | Credentials and documentation form two columns above 479 px of API-content width and stack at 479 px or below; height follows the content without the former 560/600 px minimums |
+The TLS example uses the source fixture's `Example Certificate Authority`, subject/DNS name `node-1.example.com`, and validity from **1 October 2026 to 1 January 2027**. Dates are formatted in the selected locale with UTC. The earlier generated SHA-256 value and its tooltip metadata have been removed.
 
-These values are CSS dimensions from `application-scene.css`, `application-api-scene.css` and the outer section styles. Container breakpoints refer to the illustration's available width, while the carousel breakpoints refer to its section width. Research text retains a 10 px minimum rather than being reduced further at the two-card transition.
+| API account field                   | Fixture value         |
+| ----------------------------------- | --------------------- |
+| Plan                                | Business              |
+| Query credits remaining / allowance | 1,240,500 / 1,500,000 |
+| Scan credits remaining / allowance  | 327,680 / 327,680     |
+| Search pages per query              | 300                   |
+| API access                          | Enabled               |
 
-The API key field and its copy action have explicit grid positions. The visible copy label uses the translated `Copy` / `Copied` state; its full `Copy API key` description remains in `title`. The base URL has a compact copy icon with a translated `Copy base URL` title. This keeps the localized controls compact without splitting long action labels inside words.
+Credit meters derive their fill from the displayed remaining/allowance values. The sixteen dots in the key field are a visual mask, not an exposed credential or an assertion about real key length. These are the separate application's demonstration fixtures, not live scan results or a production account.
 
-## Exact vector assets
+## Layout, typography and assets
 
-All fourteen files remain local SVG exports in `public/assets/application/`, registered in `src/content/asset-manifest.ts` and resolved through `assetUrl` when rendered. No temporary Figma asset URL is shipped. The exports' paths, viewBox values and aspect ratios are preserved. The artwork and two toolbar exports remain in the source collection but are not rendered in the current demonstrations. The sizes below describe the current CSS-rendered icons, which can differ from their original export canvases and HTML width/height attributes.
+The shared `ApplicationFrame` contains the scene and decorative cursor without a logo strip, navigation shell or shared screen header. Controls within the search box belong to the excerpt itself. The first query scene has no artwork.
 
-| File                | Figma node                       | Export canvas          | Rendered role                                                               |
-| ------------------- | -------------------------------- | ---------------------- | --------------------------------------------------------------------------- |
-| `aperture.svg`      | `1279:24142`                     | 360 × 341.581          | Retained source export; not rendered in the current query scene             |
-| `run-search.svg`    | `I902:3871;902:3814`             | 50 × 50                | Query action, 22 × 22; 16 × 16 at application-container widths up to 299 px |
-| `netherlands.svg`   | `958:70915`                      | 24 × 16                | Country marker and facet, 12 × 8                                            |
-| `germany.svg`       | `958:70920`                      | 24 × 16                | Country facet, 12 × 8                                                       |
-| `united-states.svg` | `962:72020`                      | 24 × 16                | Country facet, 12 × 8                                                       |
-| `filter-plus.svg`   | `I914:7459;914:7433;902:3806`    | 8 × 8                  | Retained source export; the toolbar is removed                              |
-| `type-chevron.svg`  | `I914:7459;914:7434;902:3810`    | 7 × 5 including stroke | Retained source export; the toolbar is removed                              |
-| `nginx.svg`         | `962:72017`                      | 20 × 20                | Product marker, 12 × 12                                                     |
-| `certificate.svg`   | `959:70264`                      | 18 × 18                | Certificate heading, 12 × 12                                                |
-| `link.svg`          | `959:70285`                      | 18 × 18                | Connection/validity heading, 12 × 12                                        |
-| `copy-white.svg`    | `I903:53856;984:12522;984:82546` | 20 × 20                | Primary API copy action, 16 × 16                                            |
-| `copy-accent.svg`   | `I903:53864;984:12657;984:82553` | 20 × 20                | Base URL action, 16 × 16                                                    |
-| `code.svg`          | `903:53876`                      | 36 × 36                | Documentation card, 24 × 24                                                 |
-| `external.svg`      | `I903:53881;984:12657;984:82559` | 20 × 20                | Documentation action, 16 × 16                                               |
+- All five research excerpts keep the **3:2** aspect ratio and existing frame width. `--step-copy-inset` coordinates the text and illustration left edges at each carousel breakpoint. The illustration moves right without shrinking; only the outer card intentionally clips its trailing right edge. That crop must not be treated as a document overflow defect or used to excuse accidental clipping inside the scene.
+- The carousel retains one card through 767px, two from 768px and three from 1200px. Shared rows keep the card text and media aligned.
+- Research body text has a **10px minimum**. Compact breakpoints omit secondary details instead of scaling the whole interface below that size. The query heading is 18px normally, 16px at application widths up to 359px and 20px from 400px.
+- API body text is 12px; secondary labels and actions are 10px, card headings 14px and the API heading 20px. Above 479px of application-container width, the key and account balances sit in two columns. At 479px and below they stack. Both API panels occupy the same grid area, reserving the taller panel's content height; playback hides the inactive panel with `visibility` so the tab change does not resize the outer frame.
+- Both light and dark scene palettes use the website's existing tokens. The cyan API section keeps its established outer composition.
 
-At application-container widths up to 299 px, the country facets retain their text labels and counts while omitting their small flags; host country markers remain visible. API icon dimensions are asserted in browser tests because a broad image rule previously enlarged them despite successful image decoding.
+`ApplicationGlyph.tsx` supplies lightweight inline SVG line icons. Country flags, the nginx mark and the certificate icon continue to use registered local exports from `public/assets/application/` through `assetUrl`. Earlier exported artwork, toolbar and API icons remain available as source assets, but their old rendered-size table is not a specification for this implementation. No remote Figma image URLs are shipped.
 
-The API heading follows the website's prose spelling, `Apcosys`, in all three locales. The original vector logo and intentional uppercase footer labels retain their established forms.
+## Native playback and data boundaries
 
-## Runtime contract
+`ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render their HTML before motion loads. `StepDemoMount` and `ApiDemoMount` load `applicationPlayback.ts` near the viewport. GSAP is still absent from runtime imports and the dependency manifest.
 
-`ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render the complete translated frame eagerly. `StepDemoMount` and `ApiDemoMount` load `applicationPlayback.ts` near the viewport. A native animation clock controls a decorative cursor, target emphasis, query typing, the country-filter result count and the illustrative copied state. It does not own navigation, page text, real credentials or API communication.
+The native clock retains its eight-second cycle: four 1.8-second phases followed by a 0.8-second reading pause. It drives the decorative cursor, target emphasis, query typing, country-filter panel/result state, copied state and the API key/usage switch. `data-demo-phase` identifies the phase; `data-demo-playback` reports `static`, `playing` or `paused`. API view state is exposed through `data-api-view`.
 
-The four phases are exposed by `data-demo-phase`. `data-demo-playback` reports `static`, `playing` or `paused`. An intersection observer pauses offscreen motion, document visibility pauses hidden tabs, and a media-query listener applies a changed reduced-motion preference immediately. Paused time does not accumulate into a jump on resume. Cleanup removes observers/listeners, cancels pending frames and restores the inline styles owned by playback. Tests assert visible motion and frozen transforms rather than reaching into private clock fields.
+Viewport visibility pauses offscreen playback; document visibility pauses hidden tabs. A changed reduced-motion preference resets the clock, restores the complete captured query and initial state, hides the cursor and removes the filter/copy/API-view state. Resume does not accumulate paused time. Resize measurements are scheduled through `requestAnimationFrame`. Cleanup removes observers/listeners, cancels pending work and restores styles owned by playback. The API panel transition also respects reduced motion.
 
-Reduced motion leaves the complete initial frame readable. If the animation chunk fails, the React frame stays visible. Text, dates, balances, percentages and descriptions use the current EN/RU/Traditional Chinese locale. All six frames support the website's light and dark modes. The illustration subtree is inert and hidden from assistive technology; the enclosing image role has a translated description. Real page links and actions remain outside it.
+If a motion chunk fails, the complete initial React frame remains available. The illustration subtree is inert and hidden from assistive technology; its enclosing image role supplies a translated description. EN, RU and Traditional Chinese text, dates and balances follow the selected locale. The illustrated search, key and tab controls do not submit requests, reveal or rotate a key, copy real account data or change product state. Real navigation stays outside the inert scene.
 
-## Data boundaries
+The developer page is separate from these illustrations and retains the documented POST host-search example and X-API-Key authentication. See [Product integrations](reference/PRODUCT-INTEGRATIONS.md).
 
-Host examples use `192.0.2.10`, `192.0.2.11`, AS64496, `example.com` and `cdn.example.com`. TLS evidence stays attached to HTTPS/443 throughout playback. The service label is `443 / HTTPS`; the associated domain remains visible in the host heading and certificate Subject.
+## Historical Figma provenance
 
-The certificate's visible SHA-256 value is abbreviated as `7A:3C:91:0F:26:5E ··· AE:0C:62:98:F3`. The same `<code>` element retains the complete 32-byte digest in its `title` attribute. Regression checks assert the visible prefix/suffix and the full attribute value. Each localized date remains a single unit when the validity range wraps. The illustration stays inert; retaining the full digest as metadata does not add a verification or copy control.
+The previous replacement used [Apcosys, page «01 · Приложение»](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-3620), previously named «Приложение — доработка». Design context, visible child nodes and screenshots were read; the source Figma file was not edited.
 
-The API key is an eight-dot visual mask; it conveys neither a real credential nor an actual key length. Balances remain synthetic. The displayed base URL is `https://api.apcosys.net/api/v1`. No request is sent from the illustration, and its copy/regenerate controls perform no real action. The developer-page request uses the documented POST host-search contract and X-API-Key authentication, with a clearly labelled synthetic response. See [Product integrations](reference/PRODUCT-INTEGRATIONS.md).
+| Earlier scene | Historical Figma frame                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Query         | [899:4021 — Поиск, начало](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-4021)            |
+| Results       | [899:4117 — Поиск, результаты](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-4117)        |
+| Host          | [899:5079 — Объект, адрес и сервисы](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=899-5079)  |
+| Evidence      | [903:48414 — Сертификат TLS](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=903-48414)         |
+| Refined query | [903:48044 — Поиск, применён domain](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=903-48044) |
+| API           | [903:53837 — API, доступ](https://www.figma.com/design/lLMSuy0RrCiPhg873xpVUY/Apcosys?node-id=903-53837)            |
+
+Result row `899:4220` and filter fragment `959:74371` supplied additional context. That implementation used the earlier `example` query, 148-result presentation, `example.com` host context, generated certificate fingerprint, a base-URL API field and documentation card. Those details describe the superseded excerpts. The local SVG export collection and its original paths/viewBox values are retained; its fourteen-file provenance was recorded with that replacement.
+
+The first 24 October composition correction then introduced the shared 3:2 research frames, removed the shell toolbar and query artwork, and reduced the compact text size. The current SaaS-based revision keeps those structural decisions while replacing the inner content and aligning the illustration with the card text.
 
 ## Historical acceptance record — earlier replacement stage
 

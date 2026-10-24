@@ -138,7 +138,7 @@ export default function ScanningPage() {
             },
             {
               title: 'Send the request.',
-              text: 'The email link below prepares a short request. The team will need to confirm the next steps; an email draft does not apply an exclusion automatically.',
+              text: 'Send your IP range and contact details. Our team will review the request.',
             },
           ]}
         />

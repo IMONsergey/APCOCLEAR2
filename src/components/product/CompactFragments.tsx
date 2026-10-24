@@ -156,7 +156,7 @@ export function HostFragment() {
       <pre>
         <code>{'HTTP/1.1 200 OK\nServer: nginx/1.24.0'}</code>
       </pre>
-      <p>{t('Service response · illustrative record')}</p>
+      <p>{t('Service response · example record')}</p>
     </div>
   );
 }

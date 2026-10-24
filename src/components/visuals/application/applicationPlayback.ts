@@ -2,17 +2,17 @@ import { createPlaybackClock, easeInOutCubic, playbackProgress } from '../../../
 import type { ApplicationScene } from './ApplicationFrame';
 
 const targets: Record<ApplicationScene, readonly string[]> = {
-  query: ['query-input', 'query-submit', 'query-examples', 'query-hint'],
-  results: ['query-input', 'country-filter', 'result-first', 'result-next'],
+  query: ['query-input', 'query-submit', 'query-examples', 'query-examples'],
+  results: ['query-input', 'country-filter', 'result-first', 'result-first'],
   host: ['host-address', 'host-services', 'host-response', 'host-product'],
-  evidence: ['tls-tab', 'tls-identity', 'tls-validity', 'tls-fingerprint'],
+  evidence: ['tls-service', 'tls-identity', 'tls-validity', 'tls-names'],
   suggestions: ['refine-condition', 'refine-applied', 'query-submit', 'result-first'],
-  api: ['api-key', 'api-copy', 'api-url', 'api-docs'],
+  api: ['api-key', 'api-copy', 'api-usage', 'api-limits'],
 };
 
 // The outline can explain a group while the pointer identifies its selected item.
 const cursorTargets: Readonly<Record<string, string>> = {
-  'country-filter': '.application-facet--nl',
+  'country-filter': '.application-facet--de',
   'host-address': 'strong',
   'host-services': '[data-selected="true"]',
   'refine-applied': ':scope > span:first-child',
@@ -59,6 +59,7 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
     root.dataset.demoPhase = '0';
     delete root.dataset.demoFilter;
     delete root.dataset.demoCopied;
+    delete root.dataset.apiView;
     previousPhase = -1;
     if (query) query.textContent = queryText;
   }
@@ -85,21 +86,27 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
     if (phase !== previousPhase) {
       previousPhase = phase;
       root.dataset.demoPhase = String(phase);
-      if (scene === 'results') root.dataset.demoFilter = phase === 0 ? '' : 'country';
-      if (scene === 'api') root.dataset.demoCopied = String(phase >= 1);
+      if (scene === 'results') root.dataset.demoFilter = phase >= 2 ? 'country' : '';
+      if (scene === 'api') {
+        root.dataset.demoCopied = String(phase >= 1);
+        root.dataset.apiView = phase >= 2 ? 'usage' : 'key';
+      }
       // Filter/copy labels can reflow in a translation without resizing the outer frame.
       measure();
     }
 
     let previous = { x: 0, y: 0 };
     let position = previous;
+    const activeElement = focusTargets[phase]?.element;
     for (const target of focusTargets) {
       const start = target.index * 1.8;
       const local = time - start;
       const entering = playbackProgress(time, start + 0.4, 0.25);
       const leaving = playbackProgress(time, start + 1.35, 0.35);
       const emphasis = local < 1.35 ? 1 - (1 - entering) ** 2 : (1 - leaving) ** 2;
-      target.element.style.setProperty('--demo-emphasis', emphasis.toFixed(4));
+      // A repeated reading target must not be cleared by its inactive phase.
+      if (target.element !== activeElement || target.index === phase)
+        target.element.style.setProperty('--demo-emphasis', emphasis.toFixed(4));
       if (target.index <= phase) {
         const move = easeInOutCubic(playbackProgress(time, start, 0.5));
         position = {

@@ -11,7 +11,7 @@ test('home contains all new content, five animated scenes, one set of coverage f
   await expect(page.locator('.step-illustration')).toHaveCount(5);
   await expect(page.locator('.step-illustration').nth(3)).toHaveAttribute(
     'aria-label',
-    /TLS\s+certificate,\s+issuer,\s+validity\s+period\s+and\s+fingerprint/,
+    /Host\s+TLS\s+certificate\s+with\s+its\s+issuer,\s+validity\s+period\s+and\s+DNS\s+name/,
   );
   await expect(page.locator('.summary-grid')).toContainText('CVEs');
   await expect(page.locator('.summary-source a')).toHaveAttribute(
@@ -21,7 +21,7 @@ test('home contains all new content, five animated scenes, one set of coverage f
   await expect(page.locator('.data-section')).not.toContainText('88 585 365');
   const collection = page.locator('#capabilities');
   await collection.getByRole('button', { name: /Buckets/ }).click();
-  await expect(collection).toContainText('Confirm current availability and plan access');
+  await expect(collection).toContainText('Example collection.');
   await expect(collection.locator('.capability-record__host')).toHaveCount(2);
   await expect(
     collection.getByRole('link', { name: 'Explore Search & Investigation' }),
@@ -50,13 +50,33 @@ test('home contains all new content, five animated scenes, one set of coverage f
   await expect(page.locator('.api-section .api-demo-frame')).toBeVisible();
 });
 
-for (const width of [320, 390, 599, 768]) {
+for (const width of [320, 390, 599, 768, 1024]) {
   test(
-    'mobile investigation active tab and search content remain visible at ' + width,
+    'compact investigation active tab and search content remain visible at ' + width,
     async ({ page }) => {
       await page.setViewportSize({ width, height: 844 });
       await page.goto('./platform/search-investigation');
       const nav = page.locator('.stage-workbench__steps');
+      const layout = await page.locator('.stage-workbench__stage').evaluate((stage) => {
+        const navigation = stage.querySelector('.stage-workbench__steps')!;
+        const navBox = navigation.getBoundingClientRect();
+        const viewerBox = stage.querySelector('.stage-workbench__viewer')!.getBoundingClientRect();
+        return {
+          width: stage.clientWidth,
+          navWidth: navBox.width,
+          viewerWidth: viewerBox.width,
+          viewerClearance: viewerBox.top - navBox.bottom,
+          tabTops: [...navigation.querySelectorAll('[role="tab"]')].map(
+            (tab) => tab.getBoundingClientRect().top,
+          ),
+        };
+      });
+      // Compact layouts keep one horizontal step row above the full-width record.
+      // This also guards the tablet breakpoint against a leftover desktop sidebar.
+      expect(Math.abs(layout.navWidth - layout.width)).toBeLessThanOrEqual(1);
+      expect(Math.abs(layout.viewerWidth - layout.width)).toBeLessThanOrEqual(1);
+      expect(layout.viewerClearance).toBeGreaterThanOrEqual(-1);
+      expect(Math.max(...layout.tabTops) - Math.min(...layout.tabTops)).toBeLessThanOrEqual(1);
       const first = nav.getByRole('tab').first();
       expect(await nav.evaluate((e) => e.scrollLeft)).toBe(0);
       await first.focus();

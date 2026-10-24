@@ -81,7 +81,7 @@ async function expectDemoResting(scene: Locator, playback: 'paused' | 'static') 
   expect(new Set(samples.map(({ phase, transform }) => `${phase}:${transform}`)).size).toBe(1);
 }
 
-test('Figma API demonstration moves while visible and sleeps outside the viewport', async ({
+test('application API demonstration moves while visible and sleeps outside the viewport', async ({
   page,
 }) => {
   await page.goto('./');
@@ -94,7 +94,9 @@ test('Figma API demonstration moves while visible and sleeps outside the viewpor
   await expectDemoResting(api, 'paused');
 });
 
-test('all five Figma investigation demonstrations move only while visible', async ({ page }) => {
+test('all five application investigation demonstrations move only while visible', async ({
+  page,
+}) => {
   test.setTimeout(90_000);
   await page.goto('./');
   for (const [index, name] of ['query', 'results', 'host', 'evidence', 'suggestions'].entries()) {
@@ -108,7 +110,7 @@ test('all five Figma investigation demonstrations move only while visible', asyn
   }
 });
 
-test('Figma playback pauses on a document visibility notification and resumes when visible', async ({
+test('application playback pauses on a document visibility notification and resumes when visible', async ({
   page,
 }) => {
   await page.goto('./');
@@ -235,7 +237,7 @@ test('monitoring switches resize through intermediate frames on mobile', async (
   }
 });
 
-test('reduced motion keeps all Figma scenes and product evidence readable without playback', async ({
+test('reduced motion keeps all application scenes and product evidence readable without playback', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -253,7 +255,7 @@ test('reduced motion keeps all Figma scenes and product evidence readable withou
   const api = page.locator('.application-scene[data-scene="api"]');
   await api.scrollIntoViewIfNeeded();
   await expect(api).toBeVisible();
-  await expect(api.locator('.application-api__heading')).toHaveText('Build with Apcosys');
+  await expect(api.locator('.application-api__heading')).toHaveText('API access');
   await expect(api.locator('.application-demo-cursor')).toBeHidden();
   await expectDemoResting(api, 'static');
   await page.goto('./platform/search-investigation');

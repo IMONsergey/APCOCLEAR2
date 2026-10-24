@@ -7,12 +7,12 @@ const locales = [
     route: './',
     language: 'en',
     query: 'Search internet infrastructure.',
-    results: '148 results',
+    results: '4 hosts returned',
     services: 'Services',
     certificate: 'Certificate identity',
     issuer: 'Example Certificate Authority',
     applied: 'Applied condition',
-    apiHeading: 'Build with Apcosys',
+    apiHeading: 'API access',
     quotas: ['Query credits remaining', 'Scan credits remaining'],
     closing: 'Start with your first query.',
     action: 'Try free search',
@@ -21,12 +21,12 @@ const locales = [
     route: './ru/',
     language: 'ru',
     query: 'Поиск инфраструктуры интернета.',
-    results: '148 результатов',
+    results: 'Найдено 4 хоста',
     services: 'Сервисы',
     certificate: 'Сведения о сертификате',
     issuer: 'Пример удостоверяющего центра',
     applied: 'Применённое условие',
-    apiHeading: 'Создавайте с Apcosys',
+    apiHeading: 'Доступ к API',
     quotas: ['Остаток кредитов на запросы', 'Остаток кредитов на сканирование'],
     closing: 'Начните с первого запроса.',
     action: 'Попробовать бесплатно',
@@ -35,12 +35,12 @@ const locales = [
     route: './zh-hant/',
     language: 'zh-Hant',
     query: '搜尋網際網路基礎設施。',
-    results: '148 筆結果',
+    results: '找到 4 個主機',
     services: '服務',
     certificate: '憑證識別資訊',
     issuer: '範例憑證機構',
     applied: '已套用條件',
-    apiHeading: '使用 Apcosys 開發',
+    apiHeading: 'API 存取',
     quotas: ['剩餘查詢額度', '剩餘掃描額度'],
     closing: '從第一個查詢開始。',
     action: '試用免費搜尋',
@@ -60,11 +60,26 @@ async function openHome(page: Page, route: string, theme: 'light' | 'dark', widt
  * This catches scaled-down desktop text and content below a fixed-height excerpt.
  * Invisible animation layers and intentionally omitted detail are not user-visible text.
  */
-async function expectReadableContents(container: Locator, minimumFont = 11.5, checkBounds = true) {
+async function expectReadableContents(
+  container: Locator,
+  minimumFont = 11.5,
+  checkBounds = true,
+  allowCardRightCrop = false,
+) {
   const result = await container.evaluate(
-    (host, { minimum, checkBounds }) => {
+    (host, { minimum, checkBounds, allowCardRightCrop }) => {
       const root = host.shadowRoot ?? host;
       const bounds = host.getBoundingClientRect();
+      const describeOverflow = (rect: DOMRect, clip: DOMRect) =>
+        Object.entries({
+          left: clip.left - rect.left,
+          right: rect.right - clip.right,
+          top: clip.top - rect.top,
+          bottom: rect.bottom - clip.bottom,
+        })
+          .filter(([, amount]) => amount > 1)
+          .map(([edge, amount]) => `${edge} ${amount.toFixed(2)}px`)
+          .join(', ');
       const parentOf = (element: Element): Element | null => {
         if (element.parentElement) return element.parentElement;
         const tree = element.getRootNode();
@@ -114,7 +129,11 @@ async function expectReadableContents(container: Locator, minimumFont = 11.5, ch
               rect.top < bounds.top - 1 ||
               rect.bottom > bounds.bottom + 1)
           )
-            issues.push({ text, reason: 'outside excerpt', detail: host.className });
+            issues.push({
+              text,
+              reason: 'outside excerpt',
+              detail: `${host.className}: ${describeOverflow(rect, bounds)}`,
+            });
           for (let index = 0; index < ancestors.length; index++) {
             const style = styles[index]!;
             const clipX = /^(hidden|clip|auto|scroll)$/.test(style.overflowX);
@@ -124,29 +143,56 @@ async function expectReadableContents(container: Locator, minimumFont = 11.5, ch
             // The page viewport scrolls normally; the regression concerns component clipping.
             if (ancestor === document.documentElement || ancestor === document.body) continue;
             const clip = ancestor.getBoundingClientRect();
+            // The approved composition aligns the complete screen with the copy and lets
+            // only its right edge continue behind the card. Internal screen clipping,
+            // its left edge and every vertical boundary remain errors.
+            const permitsRightCrop =
+              allowCardRightCrop &&
+              Boolean(host.closest('.step-card')) &&
+              ancestor.matches('.step-card, .step-track');
             if (
-              (clipX && (rect.left < clip.left - 1 || rect.right > clip.right + 1)) ||
+              (clipX &&
+                (rect.left < clip.left - 1 ||
+                  (!permitsRightCrop && rect.right > clip.right + 1))) ||
               (clipY && (rect.top < clip.top - 1 || rect.bottom > clip.bottom + 1))
             )
-              issues.push({ text, reason: 'clipped text', detail: String(ancestor.className) });
+              issues.push({
+                text,
+                reason: 'clipped text',
+                detail: `${ancestor.className}: ${describeOverflow(rect, clip)}`,
+              });
           }
         }
       }
-      return { count, issues };
+      return { count, issues, scene: host.getAttribute('data-scene') || host.className };
     },
-    { minimum: minimumFont, checkBounds },
+    { minimum: minimumFont, checkBounds, allowCardRightCrop },
   );
   expect(
     result.count,
     'the illustration must contain readable text, not only a raster',
   ).toBeGreaterThan(0);
-  expect(result.issues, 'all displayed glyphs must fit at a readable size').toEqual([]);
+  if (result.issues.length) {
+    const screenshotPath = test
+      .info()
+      .outputPath(
+        `clipped-${result.scene.replace(/[^a-z0-9_-]/gi, '-')}-${test.info().attachments.length}.png`,
+      );
+    await container.screenshot({ path: screenshotPath });
+    await test.info().attach(`clipped-scene-${result.scene}`, {
+      path: screenshotPath,
+      contentType: 'image/png',
+    });
+  }
+  expect
+    .soft(result.issues, `${result.scene}: all displayed glyphs must fit at a readable size`)
+    .toEqual([]);
 }
 
 async function expectDecodedAssets(scene: Locator) {
   expect(
-    await scene.locator('img').count(),
-    'Figma asset references remain present',
+    await scene.locator('img, svg').count(),
+    'application icons remain present',
   ).toBeGreaterThan(0);
   const broken = await scene.evaluate(async (host) => {
     const masks = new Set(
@@ -179,9 +225,10 @@ async function expectDecodedAssets(scene: Locator) {
   expect(broken, 'every referenced illustration image and mask must decode').toEqual([]);
 }
 
-async function expectFigmaScene(scene: Locator, node: string) {
+async function expectApplicationScene(scene: Locator, node: string) {
   await expect(scene).toBeVisible();
-  await expect(scene).toHaveAttribute('data-design-source', 'figma-application');
+  await expect(scene).toHaveAttribute('data-design-source', 'apcosys-application');
+  await expect(scene).toHaveAttribute('data-design-url', 'https://assaasdev.vercel.app');
   await expect(scene).toHaveAttribute('data-design-node', node);
   await expect(scene).toHaveAttribute('data-demo-playback', 'static');
   await expect(scene).toHaveAttribute('data-demo-phase', '0');
@@ -190,7 +237,7 @@ async function expectFigmaScene(scene: Locator, node: string) {
 }
 
 for (const locale of locales) {
-  test(`Figma TLS playback preserves the selected HTTPS certificate context: ${locale.language}`, async ({
+  test(`application TLS playback preserves the selected HTTPS certificate context: ${locale.language}`, async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -200,7 +247,8 @@ for (const locale of locales) {
     await page.locator('.step-card').nth(3).scrollIntoViewIfNeeded();
     const scene = page.locator('.application-scene[data-scene="evidence"]');
     await scene.scrollIntoViewIfNeeded();
-    await expect(scene).toHaveAttribute('data-design-source', 'figma-application');
+    await expect(scene).toHaveAttribute('data-design-source', 'apcosys-application');
+    await expect(scene).toHaveAttribute('data-design-url', 'https://assaasdev.vercel.app');
     await expect(scene).toHaveAttribute('data-design-node', '903:48414');
     await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
     await expect(scene.locator('.application-demo-cursor')).toBeVisible();
@@ -211,19 +259,25 @@ for (const locale of locales) {
         '443 / HTTPS',
       );
       await expect(scene.locator('.application-certificate dl dd')).toHaveText([
-        'example.com',
+        'node-1.example.com',
         locale.issuer,
       ]);
-      await expect(scene.locator('.application-fingerprint > span')).toHaveText('SHA-256');
-      await expect(scene.locator('.application-fingerprint code')).toHaveText(
-        /^7A:3C:91:0F:26:5E.+AE:0C:62:98:F3$/,
+      await expect(scene.locator('.application-validity time')).toHaveCount(2);
+      await expect(scene.locator('.application-validity time').first()).toHaveAttribute(
+        'datetime',
+        '2026-10-01',
       );
-      await expect(scene.locator('.application-fingerprint code')).toHaveAttribute(
-        'title',
-        /^(?:[0-9A-F]{2}:){31}[0-9A-F]{2}$/,
+      await expect(scene.locator('.application-validity time').last()).toHaveAttribute(
+        'datetime',
+        '2027-01-01',
       );
+      await expect(scene.locator('[data-demo-target="tls-names"]')).toContainText(
+        'node-1.example.com',
+      );
+      await expect(scene.locator('.application-status')).toHaveText('TLS 1.3');
+      await expect(scene.locator('.application-fingerprint')).toHaveCount(0);
       await expect(scene).not.toContainText(/OpenSSH|SSH-2\.0|CVE-\d{4}-\d+/);
-      await expectReadableContents(scene, 9.5);
+      await expectReadableContents(scene, 9.5, true, true);
     }
     expect(errors).toEqual([]);
   });
@@ -232,13 +286,13 @@ for (const locale of locales) {
     for (const theme of ['light', 'dark'] as const) {
       const variant = `${locale.language} ${width}px ${theme}`;
 
-      test(`five Figma research scenes remain readable and localized: ${variant}`, async ({
+      test(`five application research scenes remain readable and localized: ${variant}`, async ({
         page,
       }) => {
         await openHome(page, locale.route, theme, width);
         const scenes = [
           ['query', '899:4021', '.application-query-title', locale.query],
-          ['results', '899:4117', '.application-results-heading', locale.results],
+          ['results', '899:4117', '.application-results-all', locale.results],
           ['host', '899:5079', '.application-host-services-title', locale.services],
           ['evidence', '903:48414', '.application-certificate-title', locale.certificate],
           ['suggestions', '903:48044', '.application-refine-heading', locale.applied],
@@ -250,11 +304,18 @@ for (const locale of locales) {
               .nth(scenes.findIndex((scene) => scene[0] === name));
             await card.scrollIntoViewIfNeeded();
             const scene = card.locator(`.application-scene[data-scene="${name}"]`);
-            await expectFigmaScene(scene, node!);
+            await expectApplicationScene(scene, node!);
             await expect(scene.locator(selector!)).toBeVisible();
-            await expect(scene.locator(selector!)).toHaveText(text!, { useInnerText: true });
-            await expectReadableContents(scene, 9.5);
             if (name === 'host') {
+              await expect(scene.locator(selector!)).toContainText(text!);
+              await expect(scene.locator(`${selector} > span`)).toHaveText('100');
+            } else await expect(scene.locator(selector!)).toHaveText(text!, { useInnerText: true });
+            await expectReadableContents(scene, 9.5, true, true);
+            if (name === 'query')
+              await expect(scene.locator('[data-demo-query]')).toHaveText('nginx');
+            if (name === 'host') {
+              await expect(scene).toContainText('192.0.2.10');
+              await expect(scene).toContainText('node-1.example.com');
               await expect(scene).toContainText('nginx');
               await expect(scene).toContainText('HTTP/1.1 200 OK');
             }
@@ -262,14 +323,16 @@ for (const locale of locales) {
               const addresses = await scene
                 .locator('.application-result-address:visible')
                 .allTextContents();
-              expect(addresses.length).toBeGreaterThan(0);
+              expect(addresses).toHaveLength(2);
+              expect(addresses[0]).toBe('192.0.2.10');
+              expect(addresses[1]).toMatch(/^(192\.0\.2|198\.51\.100|203\.0\.113)\.144$/);
               for (const address of addresses)
                 expect(address).toMatch(/^(192\.0\.2|198\.51\.100|203\.0\.113)\.\d+$/);
             }
             if (name === 'evidence') {
-              await expect(scene).toContainText('example.com');
+              await expect(scene).toContainText('node-1.example.com');
               await expect(scene).toContainText(locale.issuer);
-              await expect(scene).toContainText('SHA-256');
+              await expect(scene).toContainText('TLS 1.3');
               await expect(scene).not.toContainText(/OpenSSH|SSH-2\.0|CVE-\d{4}-\d+/);
             }
           });
@@ -283,7 +346,7 @@ for (const locale of locales) {
       // API and closing retain their existing endpoint coverage below.
       if (width === 390) continue;
 
-      test(`Figma API credentials and quotas remain readable without a live request: ${variant}`, async ({
+      test(`application API credentials and quotas remain readable without a live request: ${variant}`, async ({
         page,
       }) => {
         const requests: string[] = [];
@@ -294,32 +357,21 @@ for (const locale of locales) {
         const frame = page.locator('.api-demo-frame');
         await frame.scrollIntoViewIfNeeded();
         const demo = frame.locator('.application-scene[data-scene="api"]');
-        await expectFigmaScene(demo, '903:53837');
+        await expectApplicationScene(demo, '903:53837');
         await expect(demo.locator('.application-api__heading')).toHaveText(locale.apiHeading);
-        for (const [file, size] of [
-          ['copy-white.svg', 16],
-          ['copy-accent.svg', 16],
-          ['external.svg', 16],
-          ['code.svg', 24],
-        ] as const) {
-          const icon = demo.locator(`img[src$="/application/${file}"]`);
-          await expect(icon).toBeVisible();
-          const bounds = await icon.boundingBox();
-          expect(bounds, `${file} must render its intended icon geometry`).not.toBeNull();
-          expect(Math.abs(bounds!.width - size), `${file} rendered width`).toBeLessThanOrEqual(1);
-          expect(Math.abs(bounds!.height - size), `${file} rendered height`).toBeLessThanOrEqual(1);
-        }
-        await expect(demo.locator('[data-demo-target="api-key"]')).toHaveText(/^•{8,32}$/);
-        const endpoint = demo.locator('[data-demo-target="api-url"] > code');
-        await expect(endpoint).toHaveText('https://api.apcosys.net/api/v1');
-        expect(await endpoint.evaluate((element) => Boolean(element.closest('a')))).toBe(false);
-        await expect(demo.locator('.application-api__credit')).toHaveCount(2);
-        await expect(demo.locator('.application-api__credit-track')).toHaveCount(2);
-        const meters = demo.locator('[role="meter"]');
+        await expect(demo.locator('[data-demo-target="api-key"]')).toHaveText(/^•{16}$/);
+        await expect(demo.locator('[data-demo-target="api-url"]')).toHaveCount(0);
+        const keyPanel = demo.locator('[data-api-panel="key"]');
+        await expect(keyPanel).toBeVisible();
+        await expect(demo.locator('[data-api-panel="usage"]')).toBeHidden();
+        await expect(keyPanel.locator('.application-api__credit')).toHaveCount(2);
+        await expect(keyPanel.locator('.application-api__credit-track')).toHaveCount(2);
+        await expect(demo.locator('[role="meter"]:visible')).toHaveCount(2);
+        const meters = keyPanel.locator('[role="meter"]:visible');
         await expect(meters).toHaveCount(2);
         const number = new Intl.NumberFormat(locale.language);
         for (const [index, [current, maximum]] of [
-          [124850, 1500000],
+          [1240500, 1500000],
           [327680, 327680],
         ].entries()) {
           await expect(meters.nth(index)).toHaveAttribute('aria-valuenow', String(current));
@@ -328,13 +380,13 @@ for (const locale of locales) {
             'aria-label',
             new RegExp(`^${locale.quotas[index]!.split(' ').join('\\s+')}$`),
           );
-          const balance = demo.locator('.application-api__credit').nth(index);
+          const balance = keyPanel.locator('.application-api__credit').nth(index);
           await expect(balance.locator('.application-api__credit-value > span').first()).toHaveText(
             number.format(current!),
           );
-          await expect(balance.locator('.application-api__credit-value > span').last()).toHaveText(
-            number.format(maximum!),
-          );
+          await expect(
+            balance.locator('.application-api__credit-value > span').last(),
+          ).toContainText(number.format(maximum!));
           const ratio = await meters.nth(index).evaluate((track) => {
             const fill = track.querySelector('.application-api__credit-fill')!;
             return fill.getBoundingClientRect().width / track.getBoundingClientRect().width;

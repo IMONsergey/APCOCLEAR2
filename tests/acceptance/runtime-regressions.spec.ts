@@ -126,12 +126,6 @@ for (const locale of ['en', 'ru', 'zh-Hant'] as const) {
     await expect(form.locator('[name="message"]')).toHaveValue(
       'Please help evaluate our API research workflow.',
     );
-    await form.getByRole('button', { name: localized(locale, 'Clear draft'), exact: true }).click();
-    await page.reload();
-    await expect(form.locator('[name="name"]')).toHaveValue('');
-    await expect(form.locator('[name="message"]')).toHaveValue('');
-    await expect(form.locator('[name="topic"]')).toHaveValue('');
-    await expect(form.locator('[name="consent"]')).not.toBeChecked();
   });
 }
 
@@ -181,37 +175,18 @@ test('failed storage writes preserve the newest contact draft in memory', async 
   await expect(form.locator('[name="message"]')).toHaveValue(updated);
 });
 
-test('clipboard denial leaves the complete long email available for manual copying', async ({
+test('contact keeps a long message editable without duplicating it into a preview', async ({
   page,
 }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: async () => {
-          throw new DOMException('Clipboard denied', 'NotAllowedError');
-        },
-      },
-    });
-  });
   await page.goto('./contact');
   const message = 'Ж'.repeat(6000);
   const form = await fillContact(page, message);
-  await form.getByRole('button', { name: 'Copy email text', exact: true }).click();
-  const preview = form.getByRole('textbox', { name: 'Prepared email', exact: true });
-  await expect(preview).toBeVisible();
-  await expect(preview).toHaveAttribute('readonly', '');
-  await expect(preview).toHaveValue(new RegExp(message + '$'));
-  await expect(preview).toBeFocused();
-  const selected = await preview.evaluate((node: HTMLTextAreaElement) =>
-    node.value.slice(node.selectionStart, node.selectionEnd),
-  );
-  expect(selected).toContain(message);
-  expect(selected).toContain('researcher@example.com');
-  await expect(form.locator('.stage-form-status')).toHaveText(
-    'Copy the prepared email below and send it from your email application.',
-  );
-  await expect(page.locator('main')).toHaveAttribute('data-route', '/contact');
+  await expect(form.locator('[name="message"]')).toHaveValue(message);
+  await expect(form.locator('[name="message"]')).toHaveAttribute('maxlength', '6000');
+  await expect(form.locator('.stage-form-actions button')).toHaveCount(1);
+  await expect(form.locator('.stage-prepared-email')).toHaveCount(0);
+  await form.locator('[name="topic"]').selectOption('Other');
+  await expect(form.locator('[name="message"]')).toHaveValue(message);
 });
 
 for (const motion of ['no-preference', 'reduce'] as const) {

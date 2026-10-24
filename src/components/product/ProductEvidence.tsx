@@ -174,7 +174,7 @@ export function ProductEvidence({
                     <LocaleText>{t('Evidence source')}</LocaleText>
                   </span>
                   <strong>
-                    <LocaleText>{t('Authored demonstration')}</LocaleText>
+                    <LocaleText>{t('Example record')}</LocaleText>
                   </strong>
                 </div>
                 <div>

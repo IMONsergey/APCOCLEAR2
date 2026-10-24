@@ -167,12 +167,9 @@ html[data-theme='dark'] .page-artwork img {
   max-width: 70ch;
 }
 .site .inner-pages .stage-workbench__bottom {
+  justify-content: flex-end;
   gap: var(--space-7);
   padding-top: var(--space-5);
-}
-.site .inner-pages .stage-workbench__bottom p {
-  max-width: 65ch;
-  line-height: 1.6;
 }
 /* Methodology: plain evidence levels, then readable definitions and a real table. */
 .site .inner-pages .evidence-levels {
@@ -363,11 +360,6 @@ html[data-theme='dark'] .page-artwork img {
 .site .inner-pages .stage-monitor-console__summary strong {
   font-size: var(--font-size-20);
 }
-.site .inner-pages .stage-monitor-console__footer {
-  padding: 18px var(--space-7);
-  font: 400 var(--font-size-12)/1.5 var(--font-sans);
-  color: var(--text-muted);
-}
 /* Teams: the handoff is the interaction; commercial details have no second workflow. */
 .site .inner-pages .team-workflow__layout {
   gap: var(--layout-gap);
@@ -463,9 +455,17 @@ html[data-theme='dark'] .page-artwork img {
   border-top: 1px solid var(--border-subtle);
   padding: 28px 0 0;
 }
-.site .inner-pages .stage-contact-form .stage-note {
-  margin: 0;
-  font-size: var(--font-size-12);
+@media (max-width: 1199px) {
+  .site .inner-pages .stage-workbench__stage {
+    grid-template-columns: 1fr;
+  }
+  .site .inner-pages .stage-workbench__steps {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0;
+    border-right: 0;
+  }
 }
 @media (max-width: 1000px) {
   .site .inner-pages .stage-page-hero {
@@ -544,15 +544,6 @@ html[data-theme='dark'] .page-artwork img {
     ) {
     grid-template-columns: 1fr;
     gap: var(--space-6);
-  }
-  .site .inner-pages .stage-workbench__stage {
-    grid-template-columns: 1fr;
-  }
-  .site .inner-pages .stage-workbench__steps {
-    display: flex;
-    overflow-x: auto;
-    padding: 0;
-    border-right: 0;
   }
   .site .inner-pages .stage-workbench__step {
     min-height: 60px;

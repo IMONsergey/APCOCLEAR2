@@ -38,11 +38,6 @@ export function ApiSection() {
         </div>
         <div className="api-visual">
           <ApiIllustration />
-          <p className="api-visual-note">
-            <LocaleText>
-              {t('Illustrative data shape. The API contract comes from the product documentation.')}
-            </LocaleText>
-          </p>
         </div>
       </div>
     </section>
