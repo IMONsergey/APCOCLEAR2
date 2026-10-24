@@ -85,7 +85,7 @@ test('language selection keeps the equivalent route, query and hash', async ({ p
   await expect(page.locator('[data-language-selector]')).toContainText('RU');
 });
 
-test('same-locale navigation includes legal pages and exposes the English source', async ({
+test('same-locale navigation includes legal pages and the language menu opens the English source', async ({
   page,
 }) => {
   await page.goto('./ru/teams');
@@ -101,7 +101,9 @@ test('same-locale navigation includes legal pages and exposes the English source
   await expect(page).toHaveURL(/\/ru\/legal\/privacy-policy\/?$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
   await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(4);
-  await page.locator('.legal-translation a[hreflang="en"]').click();
+  await expect(page.locator('.legal-translation')).toHaveCount(0);
+  const languages = await openLanguageMenu(page);
+  await languages.english.click();
   await expect(page).toHaveURL(/\/legal\/privacy-policy\/?$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('.legal-translation')).toHaveCount(0);
