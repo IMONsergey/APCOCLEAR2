@@ -161,19 +161,22 @@ test('Russian use-case conclusions retain full words and all verification stages
     await ready(page, './ru/use-cases/osint-threat-investigation');
     const conclusion = page.locator('.stage-example-journey > div').last().locator('p');
     await expectTextWithinParent(conclusion);
-    const lastLine = await conclusion.evaluate((element) => {
-      const range = document.createRange();
-      const node = element.firstChild!;
-      const text = node.textContent!;
-      const index = text.indexOf('исследования');
-      range.setStart(node, index);
-      range.setEnd(node, index + 'исследования'.length);
-      return {
-        height: range.getBoundingClientRect().height,
-        lineHeight: parseFloat(getComputedStyle(element).lineHeight),
-      };
+    const brokenWords = await conclusion.evaluate((element) => {
+      const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      const broken: string[] = [];
+      let node;
+      while ((node = walker.nextNode())) {
+        for (const match of node.textContent!.matchAll(/\p{L}{6,}/gu)) {
+          const range = document.createRange();
+          range.setStart(node, match.index);
+          range.setEnd(node, match.index + match[0].length);
+          if (range.getBoundingClientRect().height > lineHeight * 1.5) broken.push(match[0]);
+        }
+      }
+      return broken;
     });
-    expect(lastLine.height).toBeLessThan(lastLine.lineHeight * 1.5);
+    expect(brokenWords).toEqual([]);
   }
 });
 

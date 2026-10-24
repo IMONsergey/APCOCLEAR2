@@ -65,7 +65,7 @@ Use these for ordinary margins, padding and gaps. `--layout-gap`, `--gutter`, `-
 
 Corners: detail 2 px; control 5 px; panel 7 px; frame 12 px; scene 24 px; round 50%; pill 999 px. Most UI uses **control or panel**. Frame/scene belong to illustrated product screens. A straight edge is `0`; attached surfaces can inherit a parent radius. Do not introduce a new corner for one card.
 
-There are **five shared shadow recipes**, including effects: `--shadow-low`, `popover`, `modal`, `inset` and `accent`. Only the first three are elevation levels and have dark-theme overrides. Floating disclosures reuse popover elevation. Search hover/focus reuse one accent shadow; their masked gradient contour still carries the interaction. Product demonstrations do not paint decorative focus rectangles. Interactive demonstration controls use a quiet selected background or underline; their keyboard focus remains visible through a contrasting surface and underlined text. Decorative metric glows were removed.
+There are **five shared shadow recipes**, including effects: `--shadow-low`, `popover`, `modal`, `inset` and `accent`. Only the first three are elevation levels and have dark-theme overrides. Floating disclosures reuse popover elevation. Search uses the shared form border and low shadow at rest; only `:focus-within` adds the accent outline and shadow, without a persistent gradient contour. Product demonstrations do not paint decorative focus rectangles. Interactive demonstration controls use a quiet selected background or underline; their keyboard focus remains visible through a contrasting surface and underlined text. Decorative metric glows were removed.
 
 ## Palette
 

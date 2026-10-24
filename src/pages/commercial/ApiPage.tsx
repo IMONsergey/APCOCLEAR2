@@ -33,15 +33,15 @@ function ApiSample() {
           <Text as="li">
             <Text as="h3">Prepare a narrow request.</Text>
             <Text as="p">
-              Send JSON to POST /api/v1/search/hosts. Start with a small page size and the filters
-              your plan supports.
+              Send JSON to POST /api/v1/search/hosts. The example requests 20 hosts on page 1;
+              docs_per_page supports up to 100 records.
             </Text>
           </Text>
           <Text as="li">
             <Text as="h3">Inspect the response.</Text>
             <Text as="p">
-              Read the returned fields and their observation context before using them in a report
-              or wider workflow.
+              Read total for the number of matches and hosts for this page of results. Keep each
+              host's ports, protocols and update time with your research notes.
             </Text>
           </Text>
         </ol>
@@ -69,7 +69,7 @@ export default function ApiPage() {
       closing={{
         title: 'Bring the evidence into your workflow.',
         description:
-          'Explore access levels or talk to the team about the API reference and your integration requirements.',
+          'Start with the request example, compare API access and plan an integration around the fields your research needs.',
       }}
       links={[
         linkTo('View API Documentation', apiDocumentationPath),
@@ -80,24 +80,24 @@ export default function ApiPage() {
       <EditorialSection
         id="api-capabilities"
         title="What you can query."
-        intro="Use the same search and host context in your own tools. Build around the supported fields and request types in the current API reference."
+        intro="Search hosts, inspect individual systems and explore indexed storage records. Plus, Expert and Business include access to the public HTTP API."
       >
         <FeatureColumns
           items={[
             {
               title: 'Search infrastructure.',
-              text: 'Turn an IP, domain, service or technology question into a set of observations to review.',
-              detail: 'Useful for: focused enrichment and repeat lookups.',
+              text: 'Find hosts by IP, domain, service or technology. Request analytics with the same filters to understand the matching set.',
+              detail: 'POST /api/v1/search/hosts',
             },
             {
               title: 'Inspect a host.',
               text: 'Bring observed ports, services and detected products into the context of a single system.',
-              detail: 'Useful for: analyst tools and investigation reports.',
+              detail: 'GET /api/v1/search/hosts/:ip',
             },
             {
-              title: 'Keep the context.',
-              text: 'Carry the available observation dates and supporting attributes with the result.',
-              detail: 'Useful for: traceable research and careful interpretation.',
+              title: 'Explore buckets.',
+              text: 'Search indexed storage records by host, extension or size. Review their file metadata and update time.',
+              detail: 'POST /api/v1/search/buckets',
             },
           ]}
         />
@@ -151,15 +151,15 @@ export default function ApiPage() {
                 much capacity is available.
               </Text>
               <Text as="p">
-                The HTTP API documents method costs separately from plan request rates. Review the
-                current reference before scheduling larger workflows.
+                Each HTTP API method has a cost against the rate allowance. The usage guide shows
+                these costs separately from plan credits and Search Token packages.
               </Text>
               <a className="stage-text-link" href={siteHref('/pricing') + '#usage-guide'}>
                 {t('Understand usage and capacity')}
               </a>
               <Text as="p" className="editorial-note">
-                Published HTTP API limits are shown here. Check current plan details in your Apcosys
-                account before scheduling a larger workflow.
+                Fields and values also depend on your plan. HTTP 402 identifies a restriction; HTTP
+                429 identifies an exceeded request rate.
               </Text>
             </div>
           </aside>
@@ -173,16 +173,16 @@ export default function ApiPage() {
         <ReadingRows
           items={[
             {
-              title: 'Handle unsuccessful requests.',
-              text: 'Check status codes and the current API error guidance. Make failures visible in your own tool instead of treating an empty result as a confirmed absence.',
+              title: 'Read the error message.',
+              text: 'Errors return a JSON error field. Check your API key after HTTP 401 and your requested fields or values after HTTP 402. For a host lookup, HTTP 404 means the requested host was not found.',
             },
             {
-              title: 'Respect the request rate.',
-              text: 'Keep your workflow within its plan limit. Use the documented retry guidance and avoid repeating unsuccessful requests indefinitely.',
+              title: 'Slow down after HTTP 429.',
+              text: 'HTTP 429 means the plan rate was exceeded. Reduce request frequency before retrying; repeated immediate attempts do not resolve the limit.',
             },
             {
               title: 'Preserve the evidence.',
-              text: 'Store the fields your investigation needs alongside the source and observation context. Keep your own conclusions separate from the returned data.',
+              text: 'Keep the host, observed ports and protocols, and the uts update timestamp with each record. Use page and docs_per_page to continue through the results.',
             },
           ]}
         />

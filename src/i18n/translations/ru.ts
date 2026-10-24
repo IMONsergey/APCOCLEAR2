@@ -185,7 +185,7 @@ export default {
   'Bring supported observations into your workflow.':
     'Добавляйте доступные данные наблюдений в свои рабочие процессы.',
   'Bring the evidence into your workflow.': 'Внедрите доказательства в свой рабочий процесс.',
-  Buckets: 'Коллекции',
+  Buckets: 'Хранилища',
   'BUCKETS / CONCEPT': 'КОЛЛЕКЦИИ / КОНЦЕПЦИЯ',
   'Bug Bounty': 'Bug Bounty',
   'Build an evidence trail you can revisit.':
@@ -1704,4 +1704,101 @@ export default {
   'The terms governing access to the Apcosys website and services.':
     'Условия доступа к сайту и сервисам Apcosys.',
   OSINT: 'OSINT',
+
+  'Find matching hosts, then inspect their ports and service responses.':
+    'Найдите подходящие хосты, затем изучите их порты и ответы сервисов.',
+  'Explore files in context.': 'Изучайте файлы в контексте.',
+  'Group matching files by bucket and inspect their metadata.':
+    'Группируйте найденные файлы по хранилищам и изучайте их метаданные.',
+  'Locate the bucket': 'Найдите хранилище',
+  'See the storage host and container behind the files.':
+    'Определите хост хранилища и контейнер, где находятся файлы.',
+  'Inspect the records': 'Изучите записи',
+  'Compare file paths, formats and sizes.': 'Сравните пути к файлам, форматы и размеры.',
+  'Example bucket': 'Пример хранилища',
+  'Explore bucket search': 'О поиске хранилищ',
+  '{size} MB': '{size} МБ',
+  'Host analytics & API access': 'Аналитика хостов и доступ к API',
+  'Compare the tools and credit allowance first. HTTP API method costs and request-rate limits describe different parts of usage.':
+    'Сначала сравните возможности и включённый объём кредитов. Стоимость методов HTTP API и ограничение частоты запросов — разные показатели использования.',
+  'HTTP API method costs': 'Стоимость методов HTTP API',
+  'Host or bucket request': 'Запрос хостов или хранилищ',
+  'Host search, host details, bucket search or bucket analytics.':
+    'Поиск хостов, сведения о хосте, поиск хранилищ или аналитика хранилищ.',
+  'Host analytics': 'Аналитика хостов',
+  'Aggregated results for the same host-search filters.':
+    'Агрегированные результаты с теми же фильтрами поиска хостов.',
+  'These are method-cost units against the public HTTP API rate allowance. They do not specify a debit in plan credits or Search Tokens.':
+    'В публичной документации HTTP API это единицы стоимости методов в рамках лимита API (rate allowance). Они не задают списание кредитов тарифа или поисковых токенов.',
+  'What can I do with Plus?': 'Что можно сделать с Plus?',
+  'Example: search {domain}, then request analytics for the same filters. Two HTTP calls have a combined method cost of {cost} ({search} + {analytics}), returning host records and a breakdown to guide your next filter.':
+    'Пример: найдите {domain}, затем запросите аналитику с теми же фильтрами. Суммарная стоимость методов для двух HTTP-вызовов — {cost} ({search} + {analytics}). Вы получите записи хостов и сводку, которая поможет выбрать следующий фильтр.',
+  'Credits, tokens and API costs': 'Кредиты, токены и стоимость API',
+  'Plan allowances are listed in credits; additional packages are listed in Search Tokens. The HTTP API defines method costs against a rate allowance. No conversion between these measures is published.':
+    'Лимиты тарифов указаны в кредитах, дополнительные пакеты — в поисковых токенах. В HTTP API стоимость методов относится к лимиту API (rate allowance). Опубликованного пересчёта между этими величинами нет.',
+  'How do API rate limits work?': 'Как работает ограничение частоты запросов API?',
+  'Plus: {plus}. Expert: {expert}. Business: {business}. Requests above your plan’s rate receive HTTP 429. These limits control frequency, not the credit balance.':
+    'Plus: {plus}. Expert: {expert}. Business: {business}. При превышении частоты запросов тарифного плана API отвечает HTTP 429. Эти ограничения относятся к частоте, а не к балансу кредитов.',
+  'Plus adds API access, CVE context and bucket search. Expert adds full filters and leak-data context; Business adds team access and private scanning.':
+    'Plus добавляет доступ к API, контекст CVE и поиск хранилищ. Expert открывает полный набор фильтров и контекст данных утечек, а Business — командный доступ и приватное сканирование.',
+  'Packages are additional purchases. Confirm which balance receives the tokens and when they expire before payment.':
+    'Пакеты приобретаются отдельно. До оплаты уточните, на какой баланс поступят токены и каков срок их действия.',
+  'Annual pricing shows a monthly equivalent and the total billed for a year. The billing switch changes prices, not the credit amounts listed with each plan.':
+    'При годовой оплате показаны цена в пересчёте на месяц и общая сумма за год. Переключатель периода меняет цены, но не объём кредитов, указанный для каждого тарифа.',
+  'When do credits renew?': 'Когда обновляется лимит кредитов?',
+  'The published plan duration is 30 days. Annual credit renewal, expiry and rollover terms need confirmation before purchase.':
+    'Опубликованный срок тарифа — 30 дней. Перед годовой оплатой нужно уточнить, когда начисляются кредиты, каков срок их действия и переносятся ли остатки.',
+  'Free includes {credits} credits for one person, with basic search for personal, non-commercial use. Plus adds API access, CVE context and bucket search.':
+    'Free включает {credits} кредитов для одного человека и базовый поиск для личного некоммерческого использования. Plus добавляет доступ к API, контекст CVE и поиск хранилищ.',
+  'How do credits and API costs differ?': 'Чем отличаются кредиты и стоимость API?',
+  'Credits are the allowance listed on each plan. HTTP API methods have separate published costs: {search} for host search and {analytics} for host analytics. Those costs do not specify the debit in credits or Search Tokens.':
+    'Кредиты — включённый в тариф лимит. Для методов HTTP API отдельно опубликована стоимость: {search} за поиск хостов и {analytics} за аналитику хостов. Эти значения не определяют списание кредитов или поисковых токенов.',
+  'Compare usage units and API costs': 'Сравнить единицы и стоимость API',
+  'Example response. total counts matches; hosts contains this page. uts is the last update in Unix seconds.':
+    'Пример ответа. total — число совпадений, hosts — результаты текущей страницы. uts — время последнего обновления в секундах Unix.',
+  'Build a shortlist of candidate hosts, then check their services, observation dates and programme scope.':
+    'Составьте список подходящих хостов, затем проверьте их сервисы, даты наблюдений и разрешённую программой область тестирования.',
+  'Identify candidate hosts with a matching technology, then use service evidence and observation dates to plan advisory checks.':
+    'Найдите хосты с нужной технологией. Используйте ответы сервисов и даты наблюдений, чтобы спланировать проверку бюллетеней безопасности.',
+  'Turn an indicator into a next query, keeping the observed service, date and supporting response together.':
+    'Определите следующий запрос по индикатору; сохраните сведения о сервисе, дату наблюдения и его ответ.',
+  'Review ports, services and observation dates.': 'Изучите порты, сервисы и даты наблюдений.',
+  'Compare versions, responses and observation dates.':
+    'Сопоставьте версии, ответы и даты наблюдений.',
+  'Read services, technologies and observation dates.':
+    'Изучите сервисы, технологии и даты наблюдений.',
+  'Keep an in-scope shortlist with service evidence.':
+    'Сохраните список разрешённых целей с данными сервисов.',
+  'Keep candidates for advisory and configuration checks.':
+    'Отберите кандидатов для сверки с бюллетенями и проверки конфигурации.',
+  'Record the next query and its supporting evidence.':
+    'Запишите следующий запрос и данные, на которых он основан.',
+  'Send JSON to POST /api/v1/search/hosts. The example requests 20 hosts on page 1; docs_per_page supports up to 100 records.':
+    'Отправьте JSON на POST /api/v1/search/hosts. В примере запрошены 20 хостов на странице 1; docs_per_page поддерживает до 100 записей.',
+  "Read total for the number of matches and hosts for this page of results. Keep each host's ports, protocols and update time with your research notes.":
+    'Поле total содержит число совпадений, а hosts — результаты текущей страницы. Сохраните порты, протоколы и время обновления каждого хоста в исследовательских заметках.',
+  'Start with the request example, compare API access and plan an integration around the fields your research needs.':
+    'Начните с примера запроса, сравните доступ к API в тарифах и спланируйте интеграцию с нужными для исследования полями.',
+  'Search hosts, inspect individual systems and explore indexed storage records. Plus, Expert and Business include access to the public HTTP API.':
+    'Ищите хосты, изучайте отдельные системы и индексированные данные хранилищ. Plus, Expert и Business включают доступ к публичному HTTP API.',
+  'Find hosts by IP, domain, service or technology. Request analytics with the same filters to understand the matching set.':
+    'Ищите хосты по IP, домену, сервису или технологии. Запросите аналитику с теми же фильтрами, чтобы изучить состав найденной выборки.',
+  'POST /api/v1/search/hosts': 'POST /api/v1/search/hosts',
+  'GET /api/v1/search/hosts/:ip': 'GET /api/v1/search/hosts/:ip',
+  'Explore buckets.': 'Изучайте хранилища.',
+  'Search indexed storage records by host, extension or size. Review their file metadata and update time.':
+    'Ищите индексированные записи хранилищ по хосту, расширению или размеру файла. Изучайте метаданные файлов и время обновления.',
+  'POST /api/v1/search/buckets': 'POST /api/v1/search/buckets',
+  'Each HTTP API method has a cost against the rate allowance. The usage guide shows these costs separately from plan credits and Search Token packages.':
+    'У каждого метода HTTP API есть стоимость, учитываемая в лимите API (rate allowance). Руководство по использованию показывает эти значения отдельно от кредитов тарифа и пакетов поисковых токенов.',
+  'Fields and values also depend on your plan. HTTP 402 identifies a restriction; HTTP 429 identifies an exceeded request rate.':
+    'Доступные поля и значения также зависят от тарифа. HTTP 402 сообщает об ограничении доступа, HTTP 429 — о превышении частоты запросов.',
+  'Read the error message.': 'Прочитайте сообщение об ошибке.',
+  'Errors return a JSON error field. Check your API key after HTTP 401 and your requested fields or values after HTTP 402. For a host lookup, HTTP 404 means the requested host was not found.':
+    'Ошибки возвращаются в поле error JSON-ответа. При HTTP 401 проверьте API-ключ, при HTTP 402 — запрошенные поля и значения. При запросе сведений о хосте HTTP 404 означает, что этот хост не найден.',
+  'Slow down after HTTP 429.': 'Снизьте частоту при HTTP 429.',
+  'HTTP 429 means the plan rate was exceeded. Reduce request frequency before retrying; repeated immediate attempts do not resolve the limit.':
+    'HTTP 429 означает превышение лимита частоты запросов по тарифу. Перед повтором уменьшите частоту: немедленные повторные попытки не устраняют ограничение.',
+  'Keep the host, observed ports and protocols, and the uts update timestamp with each record. Use page and docs_per_page to continue through the results.':
+    'Сохраняйте в каждой записи хост, наблюдаемые порты и протоколы, а также метку времени обновления uts. Для перехода к следующим результатам используйте page и docs_per_page.',
 } satisfies Record<string, string>;

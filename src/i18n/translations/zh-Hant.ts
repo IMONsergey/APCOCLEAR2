@@ -180,7 +180,7 @@ export default {
     '將觀測到的連接埠、服務及偵測到的產品帶入單一系統的背景資訊中。',
   'Bring supported observations into your workflow.': '將支援的觀測結果帶入您的工作流程。',
   'Bring the evidence into your workflow.': '將證據帶入您的工作流程。',
-  Buckets: '集合',
+  Buckets: '儲存貯體',
   'BUCKETS / CONCEPT': '集合 / 概念',
   'Bug Bounty': '漏洞賞金計畫',
   'Build an evidence trail you can revisit.': '建立一條您可以重新檢視的證據軌跡。',
@@ -1638,4 +1638,94 @@ export default {
     '了解 Apcosys 如何收集、使用及分享個人資訊，以及您可以做出的選擇。',
   'The terms governing access to the Apcosys website and services.':
     '規範存取 Apcosys 網站與服務的條款。',
+
+  'Find matching hosts, then inspect their ports and service responses.':
+    '尋找符合條件的主機，再查看其連接埠與服務回應。',
+  'Explore files in context.': '查看檔案及其所在位置。',
+  'Group matching files by bucket and inspect their metadata.':
+    '依儲存貯體分組符合條件的檔案，並查看其中繼資料。',
+  'Locate the bucket': '找出儲存貯體',
+  'See the storage host and container behind the files.': '查看檔案所在的儲存主機與容器。',
+  'Inspect the records': '查看檔案記錄',
+  'Compare file paths, formats and sizes.': '比較檔案路徑、格式與大小。',
+  'Example bucket': '儲存貯體範例',
+  'Explore bucket search': '探索儲存貯體搜尋',
+  '{size} MB': '{size} MB',
+  'Host analytics & API access': '主機分析與 API 存取',
+  'Compare the tools and credit allowance first. HTTP API method costs and request-rate limits describe different parts of usage.':
+    '先比較功能與方案額度。HTTP API 方法成本和請求速率限制衡量的是不同的使用面向。',
+  'HTTP API method costs': 'HTTP API 方法成本',
+  'Host or bucket request': '主機或儲存貯體請求',
+  'Host search, host details, bucket search or bucket analytics.':
+    '搜尋主機、查詢主機詳情、搜尋儲存貯體或取得儲存貯體分析。',
+  'Host analytics': '主機分析',
+  'Aggregated results for the same host-search filters.': '依相同主機搜尋條件取得彙總結果。',
+  'These are method-cost units against the public HTTP API rate allowance. They do not specify a debit in plan credits or Search Tokens.':
+    '這些是公開 HTTP API 以速率配額（rate allowance）計算的方法成本單位，並未說明方案額度或搜尋權杖的扣除量。',
+  'What can I do with Plus?': 'Plus 可以用來做什麼？',
+  'Example: search {domain}, then request analytics for the same filters. Two HTTP calls have a combined method cost of {cost} ({search} + {analytics}), returning host records and a breakdown to guide your next filter.':
+    '例如：搜尋 {domain}，再用相同條件請求分析。這兩次 HTTP 呼叫的方法成本合計為 {cost}（{search} + {analytics}），可取得主機紀錄與彙總資訊，作為下一步篩選的依據。',
+  'Credits, tokens and API costs': '額度、權杖與 API 成本',
+  'Plan allowances are listed in credits; additional packages are listed in Search Tokens. The HTTP API defines method costs against a rate allowance. No conversion between these measures is published.':
+    '各方案列出可用額度，加購套件則列出搜尋權杖數量。HTTP API 依速率配額（rate allowance）定義方法成本，目前沒有公開的換算關係。',
+  'How do API rate limits work?': 'API 速率限制如何運作？',
+  'Plus: {plus}. Expert: {expert}. Business: {business}. Requests above your plan’s rate receive HTTP 429. These limits control frequency, not the credit balance.':
+    'Plus：{plus}。Expert：{expert}。Business：{business}。超過方案請求速率時，API 會回傳 HTTP 429。這些限制規範請求頻率，並非額度餘額。',
+  'Plus adds API access, CVE context and bucket search. Expert adds full filters and leak-data context; Business adds team access and private scanning.':
+    'Plus 提供 API 存取、CVE 背景資訊與儲存貯體搜尋。Expert 再加入完整篩選器與外洩資料背景資訊；Business 則提供團隊存取與私人掃描。',
+  'Packages are additional purchases. Confirm which balance receives the tokens and when they expire before payment.':
+    '套件需另外購買。付款前，請確認權杖會加入哪個餘額，以及何時到期。',
+  'Annual pricing shows a monthly equivalent and the total billed for a year. The billing switch changes prices, not the credit amounts listed with each plan.':
+    '年繳價格會顯示每月均價與全年總額。切換計費週期只會改變價格，不會改變各方案列出的額度數量。',
+  'When do credits renew?': '額度何時更新？',
+  'The published plan duration is 30 days. Annual credit renewal, expiry and rollover terms need confirmation before purchase.':
+    '公開資料列出的方案期間為 30 天。選擇年繳前，需確認額度更新、到期與餘額結轉的規則。',
+  'Free includes {credits} credits for one person, with basic search for personal, non-commercial use. Plus adds API access, CVE context and bucket search.':
+    'Free 包含供一人使用的 {credits} 額度，提供個人非商業用途的基本搜尋。Plus 再加入 API 存取、CVE 背景資訊與儲存貯體搜尋。',
+  'How do credits and API costs differ?': '額度與 API 成本有何不同？',
+  'Credits are the allowance listed on each plan. HTTP API methods have separate published costs: {search} for host search and {analytics} for host analytics. Those costs do not specify the debit in credits or Search Tokens.':
+    '各方案列有可用額度。HTTP API 方法另有公開成本：主機搜尋為 {search}，主機分析為 {analytics}。這些數值並未說明額度或搜尋權杖的扣除量。',
+  'Compare usage units and API costs': '比較用量單位與 API 成本',
+  'Example response. total counts matches; hosts contains this page. uts is the last update in Unix seconds.':
+    '回應範例。total 是符合條件的總數；hosts 是此頁結果；uts 是以 Unix 秒數表示的最近更新時間。',
+  'Build a shortlist of candidate hosts, then check their services, observation dates and programme scope.':
+    '整理候選主機清單，再檢查其服務、觀測日期，以及計畫授權的測試範圍。',
+  'Identify candidate hosts with a matching technology, then use service evidence and observation dates to plan advisory checks.':
+    '找出使用相符技術的候選主機，再依服務證據與觀測日期規劃漏洞公告的核對工作。',
+  'Turn an indicator into a next query, keeping the observed service, date and supporting response together.':
+    '從指標找出下一個查詢方向，並保留觀測到的服務、日期與作為依據的回應。',
+  'Review ports, services and observation dates.': '查看連接埠、服務與觀測日期。',
+  'Compare versions, responses and observation dates.': '比較版本、回應與觀測日期。',
+  'Read services, technologies and observation dates.': '查看服務、技術與觀測日期。',
+  'Keep an in-scope shortlist with service evidence.': '保留授權範圍內的候選清單與服務證據。',
+  'Keep candidates for advisory and configuration checks.': '保留候選主機，以便核對公告與組態。',
+  'Record the next query and its supporting evidence.': '記錄下一個查詢及其依據。',
+  'Send JSON to POST /api/v1/search/hosts. The example requests 20 hosts on page 1; docs_per_page supports up to 100 records.':
+    '以 POST /api/v1/search/hosts 傳送 JSON。範例請求第 1 頁的 20 個主機；docs_per_page 最多支援 100 筆記錄。',
+  "Read total for the number of matches and hosts for this page of results. Keep each host's ports, protocols and update time with your research notes.":
+    'total 表示符合條件的總數，hosts 則包含此頁結果。將各主機的連接埠、通訊協定與更新時間一併記入研究筆記。',
+  'Start with the request example, compare API access and plan an integration around the fields your research needs.':
+    '從請求範例開始，比較 API 存取權限，並依研究所需的欄位規劃整合。',
+  'Search hosts, inspect individual systems and explore indexed storage records. Plus, Expert and Business include access to the public HTTP API.':
+    '搜尋主機、查看個別系統，並探索已建立索引的儲存貯體記錄。Plus、Expert 與 Business 均提供公開 HTTP API 存取權限。',
+  'Find hosts by IP, domain, service or technology. Request analytics with the same filters to understand the matching set.':
+    '依 IP、網域、服務或技術搜尋主機，再以相同篩選條件請求分析，瞭解符合條件的結果分布。',
+  'POST /api/v1/search/hosts': 'POST /api/v1/search/hosts',
+  'GET /api/v1/search/hosts/:ip': 'GET /api/v1/search/hosts/:ip',
+  'Explore buckets.': '探索儲存貯體。',
+  'Search indexed storage records by host, extension or size. Review their file metadata and update time.':
+    '依主機、副檔名或檔案大小搜尋已建立索引的儲存貯體記錄，並查看檔案中繼資料與更新時間。',
+  'POST /api/v1/search/buckets': 'POST /api/v1/search/buckets',
+  'Each HTTP API method has a cost against the rate allowance. The usage guide shows these costs separately from plan credits and Search Token packages.':
+    '每個 HTTP API 方法都有計入速率配額（rate allowance）的成本。用量說明會將這些成本與方案額度及搜尋權杖套件分開列出。',
+  'Fields and values also depend on your plan. HTTP 402 identifies a restriction; HTTP 429 identifies an exceeded request rate.':
+    '可用欄位與值也取決於方案。HTTP 402 表示存取受限；HTTP 429 表示請求速率超過限制。',
+  'Read the error message.': '閱讀錯誤訊息。',
+  'Errors return a JSON error field. Check your API key after HTTP 401 and your requested fields or values after HTTP 402. For a host lookup, HTTP 404 means the requested host was not found.':
+    '錯誤會透過 JSON 的 error 欄位回傳。收到 HTTP 401 時請檢查 API 金鑰；HTTP 402 時請檢查請求的欄位或值。查詢主機時，HTTP 404 表示找不到所請求的主機。',
+  'Slow down after HTTP 429.': '收到 HTTP 429 後降低請求頻率。',
+  'HTTP 429 means the plan rate was exceeded. Reduce request frequency before retrying; repeated immediate attempts do not resolve the limit.':
+    'HTTP 429 表示已超過方案的請求速率。重試前請降低請求頻率；立即反覆重試無法解除限制。',
+  'Keep the host, observed ports and protocols, and the uts update timestamp with each record. Use page and docs_per_page to continue through the results.':
+    '每筆記錄都應保留主機、觀測到的連接埠與通訊協定，以及 uts 更新時間戳記。使用 page 與 docs_per_page 瀏覽後續結果。',
 } satisfies Record<string, string>;

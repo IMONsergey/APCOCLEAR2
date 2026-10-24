@@ -2,7 +2,7 @@
 
 ## Current operating guides
 
-Start with [Final readiness](FINAL-READINESS.md) for the current visual review and release status, and [Product integrations](reference/PRODUCT-INTEGRATIONS.md) for public-source boundaries.
+Start with [Final readiness](FINAL-READINESS.md) for recorded visual review and release evidence, and [Product integrations](reference/PRODUCT-INTEGRATIONS.md) for the dated public pricing/API sources and integration boundaries. A previous release record does not validate a later working-tree change.
 
 | Guide                               | Purpose                                                             |
 | ----------------------------------- | ------------------------------------------------------------------- |
@@ -10,7 +10,7 @@ Start with [Final readiness](FINAL-READINESS.md) for the current visual review a
 | [Migration](MIGRATION.md)           | Clean source transfer and destination-specific release verification |
 | [Architecture](ARCHITECTURE.md)     | Runtime structure, editing map and CSS order                        |
 | [Deployment](DEPLOYMENT.md)         | Hosting bases, public configuration, verification and rollback      |
-| [Quality review](QUALITY-REVIEW.md) | Audit fixes, verification status and remaining owner decisions      |
+| [Quality review](QUALITY-REVIEW.md) | Initial audit history and the decisions recorded at that stage      |
 | [QA](QA.md)                         | Browser suites, release gates and measurement limits                |
 | [Site grid](SITE-GRID.md)           | Shared rails, typography and responsive layout contract             |
 | [Assets](ASSETS.md)                 | Asset families, theme pairs, licenses and editing rules             |

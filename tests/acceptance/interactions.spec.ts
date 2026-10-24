@@ -167,7 +167,8 @@ test('documented HTTP API request and example response switch', async ({ page })
   );
   await page.getByRole('button', { name: 'Response', exact: true }).click();
   await expect(page.locator('.stage-code-window pre')).toContainText('"open_ports"');
-  await expect(page.locator('.stage-code-note')).toHaveText('Example response');
+  await expect(page.locator('.stage-code-note')).toContainText('Example response.');
+  await expect(page.locator('.stage-code-note')).toContainText('uts is the last update');
 });
 
 test('Homepage navigation reaches search syntax and respects history', async ({ page }) => {

@@ -23,7 +23,7 @@ const journeys: Record<'scope' | 'technology' | 'indicator', Journey> = {
     label: 'BUG BOUNTY / EXAMPLE INVESTIGATION',
     title: "Visibility isn't permission.",
     introduction:
-      'Follow one permitted starting point through candidate infrastructure to a responsible testing decision.',
+      'Build a shortlist of candidate hosts, then check their services, observation dates and programme scope.',
     scenario: 'domain',
     start: 'example.com — a reserved stand-in for a domain explicitly permitted by a programme.',
     query: 'Search that permitted domain using the currently supported query format.',
@@ -35,7 +35,7 @@ const journeys: Record<'scope' | 'technology' | 'indicator', Journey> = {
     label: 'VULNERABILITY RESEARCH / EXAMPLE INVESTIGATION',
     title: 'A version is a lead. Not a finding.',
     introduction:
-      'Move from a technology observation to candidate hosts, then separate potential CVE associations from validated vulnerabilities.',
+      'Identify candidate hosts with a matching technology, then use service evidence and observation dates to plan advisory checks.',
     scenario: 'technology',
     start: 'nginx 1.24.0, used here as a synthetic technology lead.',
     query:
@@ -48,7 +48,7 @@ const journeys: Record<'scope' | 'technology' | 'indicator', Journey> = {
     label: 'OSINT / EXAMPLE INVESTIGATION',
     title: 'Follow attributes. Keep attribution separate.',
     introduction:
-      'Take an indicator from an investigation, inspect its technical context and choose the next evidence-led query.',
+      'Turn an indicator into a next query, keeping the observed service, date and supporting response together.',
     scenario: 'indicator',
     start: 'An IP address present in an alert or investigation report.',
     query: 'Look up the address in the current Apcosys search.',
@@ -85,19 +85,19 @@ function EvidenceJourney({ kind }: { kind: keyof typeof journeys }) {
       '03',
       'Result',
       kind === 'scope'
-        ? 'Review exposed services.'
+        ? 'Review ports, services and observation dates.'
         : kind === 'technology'
-          ? 'Read the detection evidence.'
-          : 'Examine shared attributes.',
+          ? 'Compare versions, responses and observation dates.'
+          : 'Read services, technologies and observation dates.',
     ],
     [
       '04',
       'Next step',
       kind === 'scope'
-        ? 'Confirm scope before testing.'
+        ? 'Keep an in-scope shortlist with service evidence.'
         : kind === 'technology'
-          ? 'Validate applicability.'
-          : 'Record a new research lead.',
+          ? 'Keep candidates for advisory and configuration checks.'
+          : 'Record the next query and its supporting evidence.',
     ],
   ] as const;
   return (

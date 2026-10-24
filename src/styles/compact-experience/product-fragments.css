@@ -126,19 +126,8 @@
 }
 .site .search-scene__content > .search-form {
   height: 48px;
-  --search-border-gradient: linear-gradient(
-    110deg,
-    color-mix(in srgb, var(--accent-text) 55%, var(--surface-card)) 0%,
-    var(--accent-text) 28%,
-    color-mix(in srgb, var(--accent-text) 28%, var(--surface-card)) 50%,
-    var(--accent-text) 74%,
-    color-mix(in srgb, var(--accent-text) 55%, var(--surface-card)) 100%
-  );
   position: relative;
   margin-bottom: 14px;
-  outline: none;
-  border-color: transparent;
-  box-shadow: var(--shadow-accent);
 }
 .site .search-scene__results .product-evidence {
   max-width: none;

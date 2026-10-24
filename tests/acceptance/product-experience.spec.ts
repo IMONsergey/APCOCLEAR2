@@ -8,11 +8,44 @@ test('Hero keeps one real search and immediately visible connected examples', as
   const preview = page.locator('.search-scene__results');
   await expect(preview).toBeVisible();
   await expect(preview.locator('.product-evidence__details')).toContainText('nginx 1.24.0');
-  await page.getByRole('button', { name: 'Technology', exact: true }).click();
+  const examples = page.locator('.search-examples');
+  await expect(examples.getByRole('button')).toHaveText([
+    'example.com',
+    'nginx 1.24.0',
+    '198.51.100.24',
+  ]);
+  const form = page.locator('.search-preview .search-form');
+  const input = form.locator('input[name="search_value"]');
+  await expect(form).toHaveCSS('outline-style', 'none');
+  expect(
+    await form.evaluate((element) =>
+      ['::before', '::after'].map((pseudo) => getComputedStyle(element, pseudo).content),
+    ),
+  ).toEqual(['none', 'none']);
+  const idleSize = await form.evaluate((element) => [element.clientWidth, element.clientHeight]);
+  await page.locator('.summary-source a').press('Tab');
+  await expect(input).toBeFocused();
+  await expect(form).toHaveCSS('outline-style', 'solid');
+  expect(await form.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual(
+    idleSize,
+  );
+  await input.fill('research.example.org');
+  const currentUrl = page.url();
+  const productRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin === new URL(deploymentSettings.productUrl).origin)
+      productRequests.push(request.url());
+  });
+  await examples.getByRole('button', { name: 'Technology: nginx 1.24.0', exact: true }).click();
   await expect(preview.locator('.product-evidence__query')).toContainText('nginx 1.24.0');
   await expect(preview.locator('.product-evidence__cve')).toBeVisible();
-  await page.getByRole('button', { name: 'IP address', exact: true }).click();
+  await examples.getByRole('button', { name: 'IP address: 198.51.100.24', exact: true }).click();
   await expect(preview.locator('.product-evidence__result')).toHaveCount(1);
+  await examples.getByRole('button', { name: 'Domain: example.com', exact: true }).click();
+  await expect(preview.locator('.product-evidence__result')).toHaveCount(2);
+  await expect(input).toHaveValue('research.example.org');
+  await expect(page).toHaveURL(currentUrl);
+  expect(productRequests).toEqual([]);
 });
 
 test('investigation results, selected host and context share one UI fragment', async ({ page }) => {
@@ -124,13 +157,26 @@ test('Pricing explains units before comparison without changing the original car
   for (const plan of ['free', 'plus', 'expert', 'business']) {
     await expect(page.locator('#plan-' + plan)).toBeVisible();
   }
+  await expect(page.getByRole('radio', { name: 'Annually', exact: true })).toBeChecked();
+  await expect(page.locator('#plan-plus .plan-description')).toHaveText(
+    'Host analytics & API access',
+  );
+  await expect(page.locator('.request-costs > div > strong')).toHaveText(['1', '3']);
+  await expect(page.locator('.request-costs')).toContainText('HTTP API method costs');
+  await expect(page.locator('.request-costs')).toContainText(
+    'They do not specify a debit in plan credits or Search Tokens.',
+  );
   await expect(page.locator('.stage-usage-guide')).toContainText('Search Tokens');
   await expect(page.locator('.stage-usage-guide')).toContainText(
-    'Plan allowances use credits; additional packages use Search Tokens.',
+    'Two HTTP calls have a combined method cost of 4 (1 + 3)',
   );
   await expect(page.locator('.stage-usage-guide')).toContainText(
-    'Check the conversion, available balance and package terms in your account before adding capacity.',
+    'No conversion between these measures is published.',
   );
+  await expect(page.locator('.stage-usage-guide')).toContainText('HTTP 429');
+  await expect(page.locator('#billing-questions')).toContainText('When do credits renew?');
+  await expect(page.locator('#billing-questions')).toContainText('30 days');
+  await expect(page.locator('#plan-business dl > div').last().locator('dd')).toHaveText('5');
   const sequence = await page.evaluate(() => {
     const guide = document.querySelector('.stage-usage-guide');
     const compare = document.querySelector('#compare-plans');
@@ -169,7 +215,9 @@ test('API starts with the published HTTP request and labels the example response
     ],
   });
   expect(response).not.toHaveProperty('services');
-  await expect(code.locator('.stage-code-note')).toHaveText('Example response');
+  await expect(code.locator('.stage-code-note')).toHaveText(
+    'Example response. total counts matches; hosts contains this page. uts is the last update in Unix seconds.',
+  );
 });
 
 for (const locale of ['', 'ru/', 'zh-hant/']) {

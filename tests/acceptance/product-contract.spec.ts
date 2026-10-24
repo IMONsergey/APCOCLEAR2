@@ -21,11 +21,28 @@ test('home contains all new content, five animated scenes, one set of coverage f
   await expect(page.locator('.data-section')).not.toContainText('88 585 365');
   const collection = page.locator('#capabilities');
   await collection.getByRole('button', { name: /Buckets/ }).click();
-  await expect(collection).toContainText('Example collection.');
+  await expect(collection).toContainText(
+    'Group matching files by bucket and inspect their metadata.',
+  );
+  await expect(collection.locator('.capability-record__bar')).toContainText('Example bucket');
+  await expect(collection.locator('.capability-record__bar')).toContainText(
+    'storage.example.com/public',
+  );
   await expect(collection.locator('.capability-record__host')).toHaveCount(2);
-  await expect(
-    collection.getByRole('link', { name: 'Explore Search & Investigation' }),
-  ).toHaveAttribute('href', /search-investigation$/);
+  await expect(collection.locator('.capability-record__host').nth(0)).toContainText(
+    'reports/2026/summary.csv',
+  );
+  await expect(collection.locator('.capability-record__host').nth(0)).toContainText('CSV');
+  await expect(collection.locator('.capability-record__host').nth(0)).toContainText('1.2 MB');
+  await expect(collection.locator('.capability-record__host').nth(1)).toContainText(
+    'exports/hosts.ndjson',
+  );
+  await expect(collection.locator('.capability-record__host').nth(1)).toContainText('NDJSON');
+  await expect(collection.locator('.capability-record__host').nth(1)).toContainText('15.8 MB');
+  await expect(collection.getByRole('link', { name: 'Explore bucket search' })).toHaveAttribute(
+    'href',
+    /\/developers\/api#api-capabilities$/,
+  );
   await expect(page.locator('main .home-capabilities__tabs button')).toHaveCount(5);
   await expect(page.locator('main > #audiences')).toBeVisible();
   await expect(page.locator('#audiences .audience-art')).toHaveCount(2);
@@ -102,9 +119,7 @@ for (const width of [320, 390, 599, 768, 1024]) {
         expect(box!.x).toBeGreaterThanOrEqual(frame!.x - 1);
         expect(box!.x + box!.width).toBeLessThanOrEqual(frame!.x + frame!.width + 1);
         if (selector === '.search-form') {
-          // The approved invitation halo extends 4px outside the field. Measure
-          // actual controls independently so decorative overflow cannot conceal
-          // clipped inputs or buttons (or trigger a false content-overflow failure).
+          // Controls must fit the field independently of its focus indicator.
           for (const control of await content.locator('input, button:visible').all()) {
             const controlBox = await control.boundingBox();
             expect(controlBox!.x).toBeGreaterThanOrEqual(box!.x - 1);

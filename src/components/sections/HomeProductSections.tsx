@@ -6,7 +6,7 @@ import { DataLens, SearchFragment, HostFragment } from '../product/CompactFragme
 import { TeamSignal } from '../product/TeamSignal';
 import { DoubleButton } from '../ui/DoubleButton';
 import { ThemedArtwork } from '../ui/ThemedArtwork';
-import { demoHosts } from '../../content/product-demo';
+import { demoBucket, demoHosts } from '../../content/product-demo';
 import '../../styles/home-product.css';
 import { LocaleText } from '../../i18n/LocaleText';
 import { useLocale } from '../../i18n/context';
@@ -183,8 +183,8 @@ const capabilityNotes = [
     ['Check the detection', 'Compare the reported product with its evidence.'],
   ],
   [
-    ['Collect the leads', 'Keep related hosts in a research shortlist.'],
-    ['Pick up the investigation', 'Return to the observations you need to review.'],
+    ['Locate the bucket', 'See the storage host and container behind the files.'],
+    ['Inspect the records', 'Compare file paths, formats and sizes.'],
   ],
   [
     ['Use structured data', 'Bring supported observations into your workflow.'],
@@ -195,7 +195,7 @@ const capabilities = [
   {
     label: 'Search',
     title: 'Start with a technical attribute.',
-    text: 'An IP, domain, service or technology becomes your starting point.',
+    text: 'Find matching hosts, then inspect their ports and service responses.',
     mode: 'query',
   },
   {
@@ -212,8 +212,8 @@ const capabilities = [
   },
   {
     label: 'Buckets',
-    title: 'Keep a useful lead together.',
-    text: 'Example collection.',
+    title: 'Explore files in context.',
+    text: 'Group matching files by bucket and inspect their metadata.',
     mode: 'host',
   },
   {
@@ -275,10 +275,11 @@ function CapabilityResponse() {
 }
 
 export function CapabilitiesSection() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
   const [selected, setSelected] = useState(0);
   const [httpsOnly, setHttpsOnly] = useState(false);
   const item = capabilities[selected]!;
+  const fileSize = new Intl.NumberFormat(locale, { maximumFractionDigits: 3 });
   return (
     <section
       className="home-capabilities section-space"
@@ -328,10 +329,20 @@ export function CapabilitiesSection() {
                 variant="primary"
                 compact
                 href={siteHref(
-                  selected === 4 ? '/developers/api' : '/platform/search-investigation',
+                  selected === 3
+                    ? '/developers/api#api-capabilities'
+                    : selected === 4
+                      ? '/developers/api'
+                      : '/platform/search-investigation',
                 )}
               >
-                {t(selected === 4 ? 'Explore API integration' : 'Explore Search & Investigation')}
+                {t(
+                  selected === 3
+                    ? 'Explore bucket search'
+                    : selected === 4
+                      ? 'Explore API integration'
+                      : 'Explore Search & Investigation',
+                )}
               </DoubleButton>
             </div>
             <div className="home-capabilities__screen">
@@ -368,14 +379,19 @@ export function CapabilitiesSection() {
               ) : selected === 3 ? (
                 <div className="capability-record">
                   <div className="capability-record__bar">
-                    <span>{t('BUCKETS / CONCEPT')}</span>
-                    <span>{t('Research shortlist')}</span>
+                    <span>{t('Example bucket')}</span>
+                    <span>
+                      {demoBucket.host}/{demoBucket.container}
+                    </span>
                   </div>
-                  {demoHosts.map((host) => (
-                    <div className="capability-record__host" key={host.ip}>
-                      <strong>{host.hostname}</strong>
-                      <span>{host.ip}</span>
-                      <p>{t('Review service evidence and confirm authorised scope.')}</p>
+                  {demoBucket.files.map((file) => (
+                    <div className="capability-record__host" key={file.key}>
+                      <strong>{file.key.split('/').at(-1)}</strong>
+                      <span>{file.key}</span>
+                      <p>
+                        <code>{file.extension.toUpperCase()}</code>
+                        <span>{t('{size} MB', { size: fileSize.format(file.sizeMb) })}</span>
+                      </p>
                     </div>
                   ))}
                 </div>

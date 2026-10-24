@@ -20,7 +20,7 @@ function FullPlanComparison() {
       <div className="container">
         <EditorialHeading
           title="Compare plans."
-          intro="Compare the allowance, research tools and API access included at each level. Choose the capabilities you need before adding more capacity."
+          intro="Plus adds API access, CVE context and bucket search. Expert adds full filters and leak-data context; Business adds team access and private scanning."
         />
         <Text as="p" className="stage-helper stage-table-hint" id="plan-comparison-hint">
           Swipe the table horizontally on smaller screens to compare all four plans.
@@ -134,8 +134,8 @@ export default function PricingPage() {
             </div>
           </div>
           <Notice>
-            Check package eligibility, token balance, expiry and final purchase terms in your
-            account.
+            Packages are additional purchases. Confirm which balance receives the tokens and when
+            they expire before payment.
           </Notice>
         </div>
       </section>
@@ -152,7 +152,7 @@ export default function PricingPage() {
             },
             {
               title: 'Monthly or annual billing?',
-              text: 'Use the switch above the plans to compare billing periods. Annual prices show the discounted monthly equivalent; the annual total is shown on the plan.',
+              text: 'Annual pricing shows a monthly equivalent and the total billed for a year. The billing switch changes prices, not the credit amounts listed with each plan.',
             },
             {
               title: 'How can I pay?',
@@ -163,8 +163,8 @@ export default function PricingPage() {
               text: 'Applicable VAT or GST and the final payable amount are shown in checkout before you complete the purchase.',
             },
             {
-              title: 'What happens after cancellation?',
-              text: 'The proposed billing terms keep paid features available until the end of the current subscription period. Confirm the applicable terms in your account.',
+              title: 'When do credits renew?',
+              text: 'The published plan duration is 30 days. Annual credit renewal, expiry and rollover terms need confirmation before purchase.',
             },
             {
               title: 'How are refunds handled?',

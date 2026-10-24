@@ -92,7 +92,7 @@ export function ApiExample({ compact = false }: { compact?: boolean }) {
         </pre>
         <Text as="p" className="stage-code-note">
           {response
-            ? 'Example response'
+            ? 'Example response. total counts matches; hosts contains this page. uts is the last update in Unix seconds.'
             : 'Documented HTTP request. Set APCOSYS_API_KEY in your server environment before running it.'}
         </Text>
       </MorphPanel>
