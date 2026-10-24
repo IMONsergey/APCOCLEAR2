@@ -253,29 +253,88 @@ test('browser history restores scroll after lazy route navigation', async ({ pag
     .toBeLessThan(80);
 });
 
-test('API documentation uses its verified destination or supported on-site guidance', async ({
-  page,
-}) => {
-  await page.goto('./');
-  await page.getByText('Can I use the API?', { exact: true }).click();
-  if (deploymentSettings.apiDocumentationUrl) {
-    await expect(
-      page.locator('#faq').getByRole('link', { name: 'View API Documentation' }),
-    ).toHaveAttribute('href', deploymentSettings.apiDocumentationUrl);
-    await page.goto('./developers/api');
-    await expect(
-      page.getByRole('link', { name: 'View API Documentation' }).first(),
-    ).toHaveAttribute('href', deploymentSettings.apiDocumentationUrl);
-    return;
-  }
-  await page.locator('#faq').getByRole('link', { name: 'Read API integration guidance' }).click();
-  await expect(page).toHaveURL(/\/developers\/api#documentation$/);
-  await expect(page.locator('#documentation')).toBeInViewport();
-  await page.getByRole('link', { name: 'Read API integration guidance' }).first().click();
-  await expect(page).toHaveURL(/\/developers\/api#documentation$/);
-  await expect(page.locator('#documentation')).toBeInViewport();
-  await expect(page.locator('.stage-code-note')).toContainText('Documented HTTP request.');
-});
+for (const locale of [
+  {
+    language: 'en',
+    prefix: '',
+    developers: 'Developers',
+    documentation: 'Documentation',
+    action: 'View API Documentation',
+    question: 'Can I use the API?',
+  },
+  {
+    language: 'ru',
+    prefix: 'ru/',
+    developers: 'Разработчикам',
+    documentation: 'Документация',
+    action: 'Посмотреть документацию API',
+    question: 'Могу ли я использовать API?',
+  },
+  {
+    language: 'zh-Hant',
+    prefix: 'zh-hant/',
+    developers: '開發者',
+    documentation: '文件',
+    action: '查看 API 文件',
+    question: '我可以使用 API 嗎？',
+  },
+]) {
+  test(`${locale.language} documentation links open the localized on-site API section`, async ({
+    page,
+    baseURL,
+  }) => {
+    const home = `./${locale.prefix}`;
+    const destination = new URL(`${home}developers/api#documentation`, baseURL!);
+    const href = destination.pathname + destination.hash;
+    const expectDocumentation = async () => {
+      await expect(page).toHaveURL(destination.href);
+      await expect(page.locator('html')).toHaveAttribute('lang', locale.language);
+      await expect(page.locator('#documentation')).toBeInViewport();
+    };
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(home);
+    await expect(page.locator('main h1')).toBeVisible();
+    await page.locator('.desktop-nav').getByRole('button', { name: locale.developers }).click();
+    const desktopLink = page
+      .locator('.desktop-nav')
+      .getByRole('link', { name: locale.documentation, exact: true });
+    await expect(desktopLink).toHaveAttribute('href', href);
+    await desktopLink.click();
+    await expectDocumentation();
+
+    const actions = page.locator('main').getByRole('link', { name: locale.action, exact: true });
+    await expect(actions).toHaveCount(2);
+    for (const action of await actions.all()) await expect(action).toHaveAttribute('href', href);
+    await actions.last().click();
+    await expectDocumentation();
+    const footerLink = page
+      .locator('footer')
+      .getByRole('link', { name: locale.documentation, exact: true });
+    await expect(footerLink).toHaveAttribute('href', href);
+    await footerLink.click();
+    await expectDocumentation();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(home);
+    await expect(page.locator('main h1')).toBeVisible();
+    await page.locator('.menu-toggle').click();
+    const drawer = page.locator('dialog.mobile-navigation');
+    const mobileLink = drawer.getByRole('link', { name: locale.documentation, exact: true });
+    await expect(mobileLink).toHaveAttribute('href', href);
+    await mobileLink.click();
+    await expect(drawer).toBeHidden();
+    await expectDocumentation();
+
+    await page.goto(home);
+    await page.getByText(locale.question, { exact: true }).click();
+    const faqLink = page.locator('#faq a[href$="/developers/api#documentation"]');
+    await expect(faqLink).toHaveAttribute('href', href);
+    await faqLink.click();
+    await expectDocumentation();
+    await expect(page.locator('.api-first-request pre')).toBeVisible();
+  });
+}
 
 test('investigation page leads with one connected product scene, not another search widget', async ({
   page,

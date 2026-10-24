@@ -14,7 +14,6 @@ env:
   VITE_APCO_PRODUCT_URL: ${{ vars.VITE_APCO_PRODUCT_URL }}
   VITE_APCO_SUPPORT_EMAIL: ${{ vars.VITE_APCO_SUPPORT_EMAIL }}
   VITE_APCO_SIGN_IN_URL: ${{ vars.VITE_APCO_SIGN_IN_URL }}
-  VITE_APCO_API_DOCS_URL: ${{ vars.VITE_APCO_API_DOCS_URL }}
   APCO_PUBLIC_SITE_ORIGIN: ${{ vars.APCO_PUBLIC_SITE_ORIGIN }}
   APCO_SITE_INDEXABLE: ${{ vars.APCO_SITE_INDEXABLE || 'false' }}
 
@@ -232,7 +231,6 @@ jobs:
         env:
           VITE_APCO_PRODUCT_URL: https://product.example.org
           VITE_APCO_SIGN_IN_URL: https://product.example.org/login
-          VITE_APCO_API_DOCS_URL: https://docs.example.org/api
           APCO_TEST_BASE_PATH: /
         run: |
           npm run build:root

@@ -1689,10 +1689,6 @@ export default {
   'Last updated': 'Последнее обновление',
   'Print document': 'Распечатать документ',
   'Legal documents': 'Юридические документы',
-  'About this translation': 'Об этом переводе',
-  'This translation is provided for reference. The English original is the authoritative published text.':
-    'Перевод предоставлен для ознакомления. Официальный опубликованный текст — английский оригинал.',
-  'Read the English original': 'Читать английский оригинал',
   'Back to top': 'К началу',
   'Questions? {email}': 'Есть вопросы? {email}',
   'Terms for accessing the Apcosys API and using its data.':

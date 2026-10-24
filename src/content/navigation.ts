@@ -1,7 +1,4 @@
-import { apiDocumentationUrl } from '../config/site';
-
-/** Custom installations without a documentation URL retain the local guide. */
-const documentationHref = apiDocumentationUrl ?? '/developers/api#documentation';
+import { apiDocumentationPath } from '../config/site';
 
 export const navigation = [
   {
@@ -27,7 +24,7 @@ export const navigation = [
     label: 'Developers',
     items: [
       { label: 'API', href: '/developers/api' },
-      { label: 'Documentation', href: documentationHref },
+      { label: 'Documentation', href: apiDocumentationPath },
     ],
   },
 ] as const;
@@ -54,7 +51,7 @@ export const footerGroups = [
     title: 'Developers',
     links: [
       ['API', '/developers/api'],
-      ['Documentation', documentationHref],
+      ['Documentation', apiDocumentationPath],
     ],
   },
   {

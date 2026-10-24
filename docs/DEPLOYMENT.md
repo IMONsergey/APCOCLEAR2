@@ -44,7 +44,7 @@ Pull requests run the same three-browser validation without publishing. Their `h
 
 Every browser job installs Traditional Chinese fonts. Jobs retain their own test reports, screenshots and failure traces under distinct artifact names. A successful build alone does not establish a successful deployment: require the intended commit, all browser gates, `deploy` and `production-smoke` to succeed in the same release run. These instructions describe the workflow; they do not assert that the current working copy has been pushed or deployed.
 
-Public product settings come from repository variables `VITE_APCO_PRODUCT_URL`, `VITE_APCO_SUPPORT_EMAIL`, `VITE_APCO_SIGN_IN_URL` and `VITE_APCO_API_DOCS_URL`. Unset values use the defaults documented in [Handoff](HANDOFF.md). Set `APCO_PUBLIC_SITE_ORIGIN` and `APCO_SITE_BASE=/` when moving to a custom root domain. None of these variables is a secret store; do not place API keys in `VITE_*` settings.
+Public product settings come from repository variables `VITE_APCO_PRODUCT_URL`, `VITE_APCO_SUPPORT_EMAIL` and `VITE_APCO_SIGN_IN_URL`. Unset values use the defaults documented in [Handoff](HANDOFF.md). Documentation stays within the localized site at `/developers/api#documentation`; it has no external destination override. Set `APCO_PUBLIC_SITE_ORIGIN` and `APCO_SITE_BASE=/` when moving to a custom root domain. None of these variables is a secret store; do not place API keys in `VITE_*` settings.
 
 ## Other hosts
 

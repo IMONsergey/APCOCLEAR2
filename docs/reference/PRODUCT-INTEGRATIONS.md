@@ -41,12 +41,12 @@ Paid-plan dialogs retain the selected plan and monthly/annual period. Users can 
 
 ## Boundaries requiring owner information
 
-| Area                            | Remaining external decision                                                                                                                                          |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Usage rights, earlier issue B29 | Map Free/Plus/Expert/Business to the legal Personal/Free and Business/Enterprise categories. No rights for Plus or Expert are inferred.                              |
-| Automatic checkout              | Supply a supported checkout/plan-selection contract before automatic transfer is implemented.                                                                        |
-| Contact delivery                | Provide a backend only if direct server delivery is required. Current actions prepare/copy an email and never claim delivery.                                        |
-| Legal approval                  | English policy originals are unchanged. RU/ZH bodies are labelled reference translations; owner/legal approval remains distinct from structural and semantic checks. |
-| Domain and indexing             | Configure the final marketing origin and explicitly enable indexing there. Review copies stay noindex.                                                               |
+| Area                            | Remaining external decision                                                                                                                                                                                      |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Usage rights, earlier issue B29 | Map Free/Plus/Expert/Business to the legal Personal/Free and Business/Enterprise categories. No rights for Plus or Expert are inferred.                                                                          |
+| Automatic checkout              | Supply a supported checkout/plan-selection contract before automatic transfer is implemented.                                                                                                                    |
+| Contact delivery                | Provide a backend only if direct server delivery is required. Current actions prepare/copy an email and never claim delivery.                                                                                    |
+| Legal approval                  | English policy originals are unchanged. RU/ZH document bodies display directly, with English available through the language selector; owner/legal approval remains distinct from structural and semantic checks. |
+| Domain and indexing             | Configure the final marketing origin and explicitly enable indexing there. Review copies stay noindex.                                                                                                           |
 
 Public sources support the specific technical facts above; they do not establish contractual approval, ownership of a host, monitoring availability or all commercial billing semantics.

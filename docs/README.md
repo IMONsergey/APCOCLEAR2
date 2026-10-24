@@ -22,4 +22,4 @@ Start with [Final readiness](FINAL-READINESS.md) for the current visual review a
 
 ## Legal source files
 
-`legal-sources/` contains the unchanged English legal Markdown documents. `legal-translations/` supplies complete Russian and Traditional Chinese reference translations, linked to the authoritative English originals. The build checks hashes, editions, structure, numbers, URLs and compiled output. Amend legal terms only with approval from their owner; do not edit generated JSON directly.
+`legal-sources/` contains the unchanged English legal Markdown documents. `legal-translations/` supplies complete Russian and Traditional Chinese reference translations, with matching English originals available through the language selector. The build checks hashes, editions, structure, numbers, URLs and compiled output. Amend legal terms only with approval from their owner; do not edit generated JSON directly.

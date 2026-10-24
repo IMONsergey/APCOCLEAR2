@@ -112,20 +112,6 @@
   max-width: 720px;
   min-width: 0;
 }
-.legal-translation {
-  margin-bottom: var(--space-8);
-  padding: var(--space-5);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-panel);
-  background: var(--surface-card);
-  color: var(--color-text-body);
-  font: 400 var(--font-size-14)/1.6 var(--font-sans);
-}
-.legal-translation a {
-  color: var(--accent-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
 .legal-copy {
   font: 400 var(--font-size-18)/1.7 var(--font-sans);
   color: var(--color-text-body);
@@ -337,11 +323,6 @@
   }
   .legal-reading {
     max-width: none;
-  }
-  .legal-translation {
-    background: transparent;
-    color: #222;
-    border-color: #555;
   }
   .legal-copy {
     font-size: 11pt;

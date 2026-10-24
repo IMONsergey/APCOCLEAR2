@@ -35,17 +35,18 @@ The remaining commercial content decision is the mapping between Free/Plus/Exper
 
 ## Configuration
 
-Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` values are public. Vite validates product URLs, documentation URLs and the support email before serving or building, then embeds the validated values in the application. Invalid settings fail the build. Rebuild after changing them.
+Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` values are public. Vite validates product/sign-in URLs and the support email before serving or building, then embeds the validated values in the application. Invalid settings fail the build. Rebuild after changing them.
 
-| Setting                   | Default or behavior                                                                                                                                            |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `VITE_APCO_PRODUCT_URL`   | `https://apcosys.net`; an origin without a path, query or fragment                                                                                             |
-| `VITE_APCO_SIGN_IN_URL`   | `/login` on the product origin; an override must stay on that origin                                                                                           |
-| `VITE_APCO_API_DOCS_URL`  | `https://apcosys.net/docs/api` for the default product; custom product origins fall back to the site's API guide unless an HTTPS documentation URL is supplied |
-| `VITE_APCO_SUPPORT_EMAIL` | `info@apcosys.net`                                                                                                                                             |
-| `APCO_PUBLIC_SITE_ORIGIN` | Optional locally; GitHub workflows default to the repository owner's Pages origin; controls static canonical/OG/alternate URLs and sitemap                     |
-| `APCO_SITE_INDEXABLE`     | `false` by default; `true` requires a valid HTTPS marketing origin                                                                                             |
-| `APCO_SITE_BASE`          | GitHub workflow destination path; local builds use the `--base` option                                                                                         |
+| Setting                   | Default or behavior                                                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `VITE_APCO_PRODUCT_URL`   | `https://apcosys.net`; an origin without a path, query or fragment                                                                         |
+| `VITE_APCO_SIGN_IN_URL`   | `/login` on the product origin; an override must stay on that origin                                                                       |
+| `VITE_APCO_SUPPORT_EMAIL` | `info@apcosys.net`                                                                                                                         |
+| `APCO_PUBLIC_SITE_ORIGIN` | Optional locally; GitHub workflows default to the repository owner's Pages origin; controls static canonical/OG/alternate URLs and sitemap |
+| `APCO_SITE_INDEXABLE`     | `false` by default; `true` requires a valid HTTPS marketing origin                                                                         |
+| `APCO_SITE_BASE`          | GitHub workflow destination path; local builds use the `--base` option                                                                     |
+
+Documentation links use the localized on-site API section at `/developers/api#documentation`, including the hosting base path. The former `VITE_APCO_API_DOCS_URL` override is no longer used.
 
 Changing the support email updates site UI, not the preserved legal document bodies. Legal amendments require review. See [Deployment](DEPLOYMENT.md) for origin, indexing and host configuration.
 

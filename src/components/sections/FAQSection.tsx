@@ -1,7 +1,6 @@
 import { LocaleText } from '../../i18n/LocaleText';
 import { useLocale } from '../../i18n/context';
-import { supportEmail } from '../../config/site';
-import { apiDocumentationUrl } from '../../config/site';
+import { supportEmail, apiDocumentationPath } from '../../config/site';
 import { siteHref } from '../../app/paths';
 import { AnimatedDetails } from '../ui/AnimatedDetails';
 export function FAQSection() {
@@ -38,14 +37,8 @@ export function FAQSection() {
               <LocaleText>
                 {t('API access is available on Plus, Expert and Business plans.')}
               </LocaleText>{' '}
-              <a href={apiDocumentationUrl ?? siteHref('/developers/api') + '#documentation'}>
-                <LocaleText>
-                  {t(
-                    apiDocumentationUrl
-                      ? 'View API documentation'
-                      : 'Read API integration guidance',
-                  )}
-                </LocaleText>
+              <a href={siteHref(apiDocumentationPath)}>
+                <LocaleText>{t('View API documentation')}</LocaleText>
               </a>
               .
             </p>

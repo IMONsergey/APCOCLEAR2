@@ -1624,10 +1624,6 @@ export default {
   'Last updated': '最後更新',
   'Print document': '列印文件',
   'Legal documents': '法律文件',
-  'About this translation': '關於本翻譯',
-  'This translation is provided for reference. The English original is the authoritative published text.':
-    '本翻譯僅供參考。英文原文為正式公布的權威文本。',
-  'Read the English original': '閱讀英文原文',
   'Back to top': '回到頂端',
   'Questions? {email}': '有疑問嗎？{email}',
   'Terms for accessing the Apcosys API and using its data.':

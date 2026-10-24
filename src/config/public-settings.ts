@@ -1,11 +1,5 @@
 type PublicEnvironment = Partial<
-  Record<
-    | 'VITE_APCO_PRODUCT_URL'
-    | 'VITE_APCO_SUPPORT_EMAIL'
-    | 'VITE_APCO_SIGN_IN_URL'
-    | 'VITE_APCO_API_DOCS_URL',
-    string
-  >
+  Record<'VITE_APCO_PRODUCT_URL' | 'VITE_APCO_SUPPORT_EMAIL' | 'VITE_APCO_SIGN_IN_URL', string>
 >;
 
 function httpUrl(input: string, setting: string) {
@@ -46,23 +40,13 @@ export function readPublicSettings(env: PublicEnvironment) {
     );
   }
   const signIn = env.VITE_APCO_SIGN_IN_URL?.trim();
-  const docs = env.VITE_APCO_API_DOCS_URL?.trim();
   const signInUrl = signIn ? httpUrl(signIn, 'VITE_APCO_SIGN_IN_URL') : null;
   if (signInUrl && signInUrl.origin !== product.origin) {
     throw new Error('VITE_APCO_SIGN_IN_URL must stay on the product origin.');
-  }
-  const apiDocumentationUrl = docs
-    ? httpUrl(docs, 'VITE_APCO_API_DOCS_URL')
-    : product.origin === 'https://apcosys.net'
-      ? new URL('/docs/api', product)
-      : null;
-  if (apiDocumentationUrl && apiDocumentationUrl.protocol !== 'https:') {
-    throw new Error('VITE_APCO_API_DOCS_URL must be a verified HTTPS URL.');
   }
   return {
     productUrl: product.origin,
     supportEmail,
     signInUrl: signInUrl?.href ?? new URL('/login', product).href,
-    apiDocumentationUrl: apiDocumentationUrl?.href ?? null,
   };
 }

@@ -1,7 +1,7 @@
 import { use } from 'react';
 import { useReadingPosition } from '../hooks/useReadingPosition';
 import { supportEmail } from '../config/site';
-import { localeHref, siteHref } from '../app/paths';
+import { siteHref } from '../app/paths';
 import { legalRoutes } from '../content/legal-routes';
 import type { LegalDocument as LegalPolicy } from '../content/legal-types';
 import { loadLegalDocuments } from '../i18n/legal-documents';
@@ -108,19 +108,6 @@ function LegalDocument({
             {contents}
           </aside>
           <div className="legal-reading">
-            {locale !== 'en' && (
-              <aside className="legal-translation" aria-label={t('About this translation')}>
-                <strong>{t('About this translation')}</strong>
-                <p>
-                  {t(
-                    'This translation is provided for reference. The English original is the authoritative published text.',
-                  )}
-                </p>
-                <a href={localeHref(path, 'en') ?? undefined} hrefLang="en">
-                  {t('Read the English original')}
-                </a>
-              </aside>
-            )}
             <div className="legal-copy" dangerouslySetInnerHTML={{ __html: html }} />
             <div className="legal-end">
               <a href="#document-top">{t('Back to top')}</a>

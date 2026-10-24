@@ -3,7 +3,7 @@ import { plans } from '../../content/plans';
 import { formatApiRate } from '../../lib/pricing';
 import { linkTo } from '../../components/layout/pageLinks';
 import { ApiExample } from '../../components/product/ApiExample';
-import { apiDocumentationUrl } from '../../config/site';
+import { apiDocumentationPath } from '../../config/site';
 import { siteHref } from '../../app/paths';
 import { PageFrame } from '../../components/layout/PageFrame';
 import {
@@ -12,13 +12,6 @@ import {
   FeatureColumns,
 } from '../../components/layout/PageSections';
 import { useLocale } from '../../i18n/context';
-
-const documentationLink = apiDocumentationUrl
-  ? { label: 'View API Documentation', href: apiDocumentationUrl }
-  : {
-      label: 'Read API integration guidance',
-      href: siteHref('/developers/api') + '#documentation',
-    };
 
 function ApiSample() {
   return (
@@ -78,7 +71,10 @@ export default function ApiPage() {
         description:
           'Explore access levels or talk to the team about the API reference and your integration requirements.',
       }}
-      links={[documentationLink, linkTo('Compare plans', '/pricing', true)]}
+      links={[
+        linkTo('View API Documentation', apiDocumentationPath),
+        linkTo('Compare plans', '/pricing', true),
+      ]}
     >
       <ApiSample />
       <EditorialSection

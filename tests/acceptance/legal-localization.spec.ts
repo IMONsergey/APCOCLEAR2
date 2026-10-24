@@ -20,10 +20,7 @@ for (const locale of ['ru', 'zh-Hant'] as const) {
   const t = (source: string) => formatTypography(catalogs[locale]![source] ?? source, locale);
 
   for (const route of legalRoutes) {
-    test(`${locale} ${route.path}: full translated text, source link and stable anchors`, async ({
-      page,
-      baseURL,
-    }) => {
+    test(`${locale} ${route.path}: full translated text and stable anchors`, async ({ page }) => {
       const slug = route.path.split('/').pop();
       const source = await readFile(`docs/legal-translations/${locale}/${slug}.md`, 'utf8');
       await page.goto('./' + prefix + route.path);
@@ -63,17 +60,7 @@ for (const locale of ['ru', 'zh-Hant'] as const) {
           new Date(original.updatedISO + 'T00:00:00Z'),
         ),
       );
-      const notice = page.locator('.legal-translation');
-      await expect(notice).toContainText(
-        t(
-          'This translation is provided for reference. The English original is the authoritative published text.',
-        ),
-      );
-      await expect(notice.getByRole('link')).toHaveAttribute(
-        'href',
-        new URL(route.path.slice(1), baseURL!).pathname,
-      );
-      await expect(notice.getByRole('link')).toHaveAttribute('hreflang', 'en');
+      await expect(page.locator('.legal-translation')).toHaveCount(0);
       const navigation = page.getByRole('navigation', { name: t('Legal documents'), exact: true });
       await expect(navigation.getByRole('link')).toHaveCount(6);
       await expect
@@ -130,7 +117,7 @@ for (const locale of ['ru', 'zh-Hant'] as const) {
     expect(email.searchParams.get('body')).toContain(t('My role in managing these networks:'));
   });
 
-  test(`${locale} translated legal notice stays readable when printed from dark mode`, async ({
+  test(`${locale} translated legal text stays readable when printed from dark mode`, async ({
     page,
   }) => {
     await page.goto('./' + prefix + '/legal/privacy-policy');
@@ -138,12 +125,10 @@ for (const locale of ['ru', 'zh-Hant'] as const) {
       document.documentElement.dataset.theme = 'dark';
     });
     await page.emulateMedia({ media: 'print' });
-    const notice = page.locator('.legal-translation');
-    await expect(notice).toBeVisible();
-    await expect(notice.getByRole('link')).toBeVisible();
+    await expect(page.locator('.legal-copy')).toBeVisible();
+    await expect(page.locator('.legal-translation')).toHaveCount(0);
     await expect(page.locator('.legal-page')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
-    await expect(notice).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
-    await expect(notice).toHaveCSS('color', 'rgb(34, 34, 34)');
+    await expect(page.locator('.legal-copy')).toHaveCSS('color', 'rgb(34, 34, 34)');
   });
 }
 
