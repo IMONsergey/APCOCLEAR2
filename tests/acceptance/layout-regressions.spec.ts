@@ -158,9 +158,13 @@ for (const width of [320, 768, 1440]) {
     ).toBeLessThanOrEqual(1);
     await page.goto('./legal/privacy-policy');
     if (width >= 768) {
-      const heights = await page
-        .locator('.legal-sidebar a')
-        .evaluateAll((els) => els.map((e) => e.getBoundingClientRect().height));
+      const contentsLinks = page.locator('.legal-sidebar a');
+      await expect(contentsLinks.first()).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      const heights = await contentsLinks.evaluateAll((els) =>
+        els.map((e) => e.getBoundingClientRect().height),
+      );
+      expect(heights.length).toBeGreaterThan(0);
       expect(Math.min(...heights)).toBeGreaterThanOrEqual(44);
     }
   });

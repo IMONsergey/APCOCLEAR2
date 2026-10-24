@@ -73,14 +73,16 @@ test('mobile detail paragraphs return to the page rail, without a hanging number
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('./use-cases/bug-bounty');
-  const offsets = await page
-    .locator('.reading-row')
-    .evaluateAll((rows) =>
-      rows.map(
-        (row) =>
-          row.querySelector('p')!.getBoundingClientRect().left - row.getBoundingClientRect().left,
-      ),
-    );
+  const rows = page.locator('.reading-row');
+  await expect(rows.first()).toBeVisible();
+  await page.evaluate(() => document.fonts.ready);
+  const offsets = await rows.evaluateAll((elements) =>
+    elements.map(
+      (row) =>
+        row.querySelector('p')!.getBoundingClientRect().left - row.getBoundingClientRect().left,
+    ),
+  );
+  expect(offsets.length).toBeGreaterThan(0);
   for (const offset of offsets) expect(Math.abs(offset)).toBeLessThanOrEqual(1);
 });
 
