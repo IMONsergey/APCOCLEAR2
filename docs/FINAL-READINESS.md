@@ -98,14 +98,14 @@ Those causes are corrected in this checkpoint. A production-preview Chromium pas
 
 ### Visual inspection completed at this checkpoint
 
-| View                          | Inspected in the current correction                                                                     |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------- |
-| English desktop               | Audience section and both illustrations, all five walkthrough scenes, API scene and Closing section     |
-| Russian at 320 px             | All five walkthrough scenes, Audience, API and Closing, including the corrected narrow heading behavior |
-| Mobile at 390 px              | Expanded mobile-menu layout and scrolling; RU About, Responsible Scanning and Contact in dark mode       |
+| View                          | Inspected in the current correction                                                                            |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| English desktop               | Audience section and both illustrations, all five walkthrough scenes, API scene and Closing section            |
+| Russian at 320 px             | All five walkthrough scenes, Audience, API and Closing, including the corrected narrow heading behavior        |
+| Mobile at 390 px              | Expanded mobile-menu layout and scrolling; RU About, Responsible Scanning and Contact in dark mode             |
 | Russian legal pages           | All six documents at 390 px: page headers and long-body samples; API contents disclosure/anchor; desktop Terms |
-| Traditional Chinese desktop   | All five walkthrough scenes, API, Closing and both Audience illustrations; balanced audience headings   |
-| Traditional Chinese at 320 px | All five walkthrough scenes, API and Closing; last-card alignment matches the first card                |
+| Traditional Chinese desktop   | All five walkthrough scenes, API, Closing and both Audience illustrations; balanced audience headings          |
+| Traditional Chinese at 320 px | All five walkthrough scenes, API and Closing; last-card alignment matches the first card                       |
 
 The Traditional Chinese views above were inspected in Chrome with Chinese glyphs rendered on the connected device. Earlier local test screenshots without CJK fonts were not treated as visual typography evidence. This table records the inspected current views without treating historical captures as a new complete visual matrix. Automated all-locale light/dark coverage is retained in the acceptance suite; the complete new three-engine run is pending at this pre-publication checkpoint.
 
