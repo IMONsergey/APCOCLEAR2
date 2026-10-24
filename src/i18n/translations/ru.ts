@@ -145,7 +145,7 @@ export default {
   'Bring observed ports, services and detected products into the context of a single system.':
     'Перенесите наблюдаемые порты, сервисы и обнаруженные продукты в контекст одной системы.',
   'Bring supported observations into your workflow.':
-    'Внедрите поддерживаемые наблюдения в свой рабочий процесс.',
+    'Добавляйте доступные данные наблюдений в свои рабочие процессы.',
   'Bring the evidence into your workflow.': 'Внедрите доказательства в свой рабочий процесс.',
   Buckets: 'Коллекции',
   'BUCKETS / CONCEPT': 'КОЛЛЕКЦИИ / КОНЦЕПЦИЯ',
@@ -182,7 +182,7 @@ export default {
     'Проверяйте коды состояния и актуальные рекомендации по ошибкам API. Делайте сбои видимыми в вашем инструменте, а не воспринимайте пустой результат как подтвержденное отсутствие данных.',
   'Check the affected versions, required configuration and vendor guidance. Account for backported patches.':
     'Проверьте затронутые версии, требуемую конфигурацию и рекомендации производителя. Учитывайте бэкпортированные патчи.',
-  'Check the detection': 'Проверьте обнаружение',
+  'Check the detection': 'Проверьте признаки технологии',
   'Check the evidence behind a detected version. A potential CVE association is a lead to validate against patches, configuration and observation time.':
     'Проверьте доказательства, стоящие за обнаруженной версией. Потенциальная связь с CVE — это зацепка, которую нужно проверить с учетом патчей, конфигурации и времени наблюдения.',
   'Check the observation time and collection context. An absent response alone does not prove that a service has been retired.':
@@ -233,7 +233,7 @@ export default {
   'Compare the allowance, research tools and API access included at each level. Choose the capabilities you need before adding more capacity.':
     'Сравните лимиты, исследовательские инструменты и доступ к API, включенные в каждый уровень. Выберите функции, которые вам нужны, прежде чем добавлять больше ресурсов.',
   'Compare the reported product with its evidence.':
-    'Сравните заявленный продукт с его признаками.',
+    'Сопоставьте обнаруженный продукт с признаками в ответе сервиса.',
   'Compare the service response, detected software and observation time before escalating a lead.':
     'Сравните ответ сервиса, обнаруженное программное обеспечение и время наблюдения, прежде чем передавать зацепку наверх.',
   'Compare the supporting service evidence. A different banner may reflect a configuration change rather than a software upgrade.':
@@ -254,7 +254,7 @@ export default {
   Context: 'Контекст',
   'Context, not conclusions.': 'Контекст, а не выводы.',
   'Continue in Apcosys': 'Продолжить в Apcosys',
-  'Continue in your own tools.': 'Продолжайте в своих собственных инструментах.',
+  'Continue in your own tools.': 'Продолжайте работу в своих инструментах.',
   'Continue in your tools': 'Продолжить в своих инструментах',
   'Continue the investigation.': 'Продолжайте исследование.',
   'Cookie Policy': 'Политика использования файлов cookie',
@@ -352,7 +352,7 @@ export default {
     'Изучайте наблюдаемые сервисы и технологии, связанные с инфраструктурой, которую вы уполномочены оценивать.',
   'Explore OSINT': 'Изучить OSINT',
   'Explore plans': 'Изучить тарифы',
-  'Explore Search & Investigation': 'Изучить поиск и расследование',
+  'Explore Search & Investigation': 'Изучить поиск и исследование',
   'Explore Security Teams': 'Решения для команд безопасности',
   'Explore the concept': 'Концепция',
   'Explore the distribution.': 'Изучите распространение.',
@@ -394,7 +394,7 @@ export default {
   'Follow shared attributes.': 'Следуйте по общим атрибутам.',
   'Follow the next evidence-led question.':
     'Следуйте за следующим вопросом, основанным на доказательствах.',
-  'Follow the result': 'Следуйте за результатом',
+  'Follow the result': 'Изучите результат',
   'Follow what you find.': 'Исследуйте найденное.',
   Footer: 'Нижняя навигация',
   'For security\nresearchers': 'Для исследователей безопасности',
@@ -544,7 +544,7 @@ export default {
   'Move from detection to evidence.': 'Переходите от обнаружения к доказательствам.',
   'Move the next task forward.': 'Продвиньте следующую задачу вперед.',
   Name: 'Имя',
-  'Narrow the view': 'Сузьте обзор',
+  'Narrow the view': 'Уточните выборку',
   Navigation: 'Навигация',
   'Need more search capacity without changing your level of access? A package adds capacity; a plan upgrade changes capabilities.':
     'Нужно больше возможностей для поиска без изменения уровня доступа? Пакет добавляет ресурсы (объем); обновление тарифа меняет функциональные возможности.',
@@ -613,7 +613,7 @@ export default {
     'Тарифы Plus, Expert и Business включают доступ к API. Выберите скорость и лимит, которые соответствуют объему и темпу вашего рабочего процесса.',
   'Ports & Services': 'Порты и сервисы',
   'Ports, services and detected versions belong to one selected host.':
-    'Порты, сервисы и обнаруженные версии принадлежат одному выбранному хосту.',
+    'Порты, сервисы и обнаруженные версии относятся к выбранному хосту.',
   'Potential links between detected products and CVEs':
     'Потенциальные связи между обнаруженными продуктами и CVE',
   'Prefer a direct email?': 'Предпочитаете написать напрямую?',
@@ -646,7 +646,7 @@ export default {
   'Read from the observation outward.': 'Начинайте с наблюдений, затем переходите к выводам.',
   'Read methodology': 'Прочитать методологию',
   'Read the detection evidence.': 'Прочитать доказательства обнаружения.',
-  'Read the evidence in context.': 'Читайте доказательства в контексте.',
+  'Read the evidence in context.': 'Изучайте данные в контексте хоста.',
   'Read the observed ports and services together with the response evidence. Keep detected products and versions in the context of that host.':
     'Читайте наблюдаемые порты и сервисы вместе с доказательствами ответа. Держите обнаруженные продукты и версии в контексте этого хоста.',
   'Read the response': 'Прочитайте ответ',
@@ -757,7 +757,7 @@ export default {
   'SELECT A HOST': 'ВЫБЕРИТЕ ХОСТ',
   'Select a topic': 'Выберите тему',
   'Select HTTPS to narrow this demonstration to the service you want to inspect.':
-    'Выберите HTTPS, чтобы сузить эту демонстрацию до сервиса, который вы хотите изучить.',
+    'Включите «Только HTTPS», чтобы оставить в примере HTTPS-сервисы.',
   'Separate a lead from a finding.': 'Отделите зацепку от находки.',
   'Service attribute': 'Атрибут сервиса',
   'Service discovery': 'Обнаружение сервисов',
@@ -818,7 +818,7 @@ export default {
   'Take an indicator from an investigation, inspect its technical context and choose the next evidence-led query.':
     'Возьмите индикатор из расследования, изучите его технический контекст и выберите следующий запрос, основанный на доказательствах.',
   'Take supported search and host data into scripts and internal workflows.':
-    'Переносите поддерживаемые данные поиска и хостов в скрипты и внутренние рабочие процессы.',
+    'Используйте доступные результаты поиска и данные о хостах в скриптах и внутренних процессах.',
   'Talk to the Apcosys team.': 'Свяжитесь с командой Apcosys.',
   'Talk to Us': 'Связаться с нами',
   'Team research & API access': 'Исследование для команд и доступ к API',
@@ -980,7 +980,7 @@ export default {
   'with annual billing': 'при годовой оплате',
   'Work email': 'Рабочий email',
   'Work with the documented request and response format.':
-    'Работайте с задокументированным форматом запросов и ответов.',
+    'Используйте формат запросов и ответов из документации.',
   'Write to': 'Напишите на',
   'Write your message': 'Напишите ваше сообщение',
   Yes: 'Да',
