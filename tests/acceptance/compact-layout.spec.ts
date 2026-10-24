@@ -1,4 +1,80 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function expectStyledCapabilityPanels(page: Page) {
+  const tabs = page.locator('.home-capabilities__tabs button');
+  await tabs.nth(0).click();
+  const query = page.locator('.home-capabilities .query-fragment');
+  await expect(query).toBeVisible();
+  await expect(query.getByRole('button')).toHaveCount(3);
+  const search = await query.evaluate((panel) => {
+    const frame = panel.getBoundingClientRect();
+    const input = panel.querySelector('.query-fragment__input')!.getBoundingClientRect();
+    const style = getComputedStyle(panel);
+    return {
+      framed: parseFloat(style.borderTopWidth) > 0 && style.borderTopStyle !== 'none',
+      insets: [input.left - frame.left, frame.right - input.right],
+      input: { left: input.left, right: input.right },
+      rows: Array.from(panel.querySelectorAll('button'), (button) => {
+        const box = button.getBoundingClientRect();
+        return {
+          left: box.left,
+          right: box.right,
+          top: box.top,
+          bottom: box.bottom,
+          height: box.height,
+        };
+      }),
+    };
+  });
+  expect(search.framed, 'Search remains a visibly framed workspace').toBe(true);
+  expect(
+    Math.min(...search.insets),
+    'Search content has space inside its panel',
+  ).toBeGreaterThanOrEqual(12);
+  for (const [index, row] of search.rows.entries()) {
+    expect(row.height, 'Each query choice is a full touch target').toBeGreaterThanOrEqual(44);
+    expect(Math.abs(row.left - search.input.left)).toBeLessThanOrEqual(1);
+    expect(Math.abs(row.right - search.input.right)).toBeLessThanOrEqual(1);
+    if (index > 0)
+      expect(row.top, 'Query choices form separate vertical rows').toBeGreaterThanOrEqual(
+        search.rows[index - 1]!.bottom - 1,
+      );
+  }
+
+  await tabs.nth(2).click();
+  const host = page.locator('.home-capabilities .host-fragment');
+  await expect(host).toBeVisible();
+  await expect(host.locator('.host-fragment__facts > div')).toHaveCount(3);
+  const record = await host.evaluate((panel) => {
+    const facts = Array.from(panel.querySelectorAll('.host-fragment__facts > div'), (fact) => {
+      const box = fact.getBoundingClientRect();
+      return { top: box.top, left: box.left, right: box.right };
+    });
+    const response = panel.querySelector('pre')!;
+    const style = getComputedStyle(response);
+    return {
+      facts,
+      responseSurface:
+        style.backgroundColor !== 'transparent' && style.backgroundColor !== 'rgba(0, 0, 0, 0)',
+      responseInset: Math.min(parseFloat(style.paddingTop), parseFloat(style.paddingLeft)),
+    };
+  });
+  const tops = record.facts.map((fact) => fact.top);
+  expect(Math.max(...tops) - Math.min(...tops), 'Host facts remain in one row').toBeLessThanOrEqual(
+    1,
+  );
+  for (let index = 1; index < record.facts.length; index++)
+    expect(record.facts[index]!.left).toBeGreaterThan(record.facts[index - 1]!.right);
+  expect(record.responseSurface, 'The service response has its own readable surface').toBe(true);
+  expect(
+    record.responseInset,
+    'The service response has internal reading space',
+  ).toBeGreaterThanOrEqual(8);
+  await expect(host.locator('pre')).toContainText('HTTP/1.1 200 OK');
+
+  await tabs.nth(0).click();
+  await expect(query).toBeVisible();
+}
 
 for (const width of [390, 1440, 1920]) {
   test(`compact home composition at ${width}`, async ({ page }) => {
@@ -26,7 +102,9 @@ for (const width of [390, 1440, 1920]) {
       expect(Math.abs(canvas.height - canvases[0]!.height)).toBeLessThanOrEqual(1);
     }
     await expect(page.locator('.application-toolbar')).toHaveCount(0);
-    await expect(page.locator('[data-scene="query"] .application-query-art')).toHaveCount(0);
+    await expect(
+      page.locator('[data-scene="query"] img[src$="/application/aperture.svg"]'),
+    ).toHaveCount(0);
     await expect(page.locator('.home-searchable .double-button')).toHaveAttribute(
       'href',
       /data-methodology/,
@@ -46,6 +124,7 @@ for (const width of [390, 1440, 1920]) {
         ),
       )
       .toBe(true);
+    await expectStyledCapabilityPanels(page);
     const buttons = page.locator('#plan-business .plan-button');
     await expect(buttons).toHaveCount(2);
     const a = await buttons.first().boundingBox(),

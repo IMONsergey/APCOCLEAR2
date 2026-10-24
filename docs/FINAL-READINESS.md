@@ -20,7 +20,7 @@ The current 24 October correction builds on that published revision. Its local s
 
 Home restores the original **13 top-level blocks** from the [reference site](https://imonsergey.github.io/apcoseb-clear/). The independent Capabilities section and the “For security researchers and teams” audience section are restored. The audience section again contains **both original illustrations**. Its two audience cards are separate from the use-case section.
 
-The previous reduction to 11 blocks is no longer the intended composition. This correction preserves the original section structure while refining alignment, typography, spacing and responsive behavior. Audience headings use balanced wrapping; this removes the single-character final line found during Traditional Chinese desktop inspection. On narrow screens the original illustrations move above the copy so that Russian words retain their full available width.
+The previous reduction to 11 blocks is no longer the intended composition. This correction preserves the original section structure while refining alignment, typography, spacing and responsive behavior. Audience and capability headings use balanced wrapping; this removes the single-character final line found during Traditional Chinese desktop inspection. On narrow screens the original illustrations move above the copy so that Russian words retain their full available width. The restored Search and Host View capability panels retain their complete fragment styling, including full-width query choices and grouped host facts. Unused CSS for the retired image-based closing panel is removed, keeping the Home CSS graph within the existing 29 KiB budget.
 
 ### Five walkthrough scenes and API
 

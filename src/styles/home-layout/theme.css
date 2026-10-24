@@ -91,24 +91,6 @@ html[data-theme='dark'] .closing-scene::after {
   html[data-theme='dark'] .search-free-note {
     color: var(--accent-text);
   }
-  html[data-theme='dark'] .closing-scene--compact,
-  html[data-theme='dark'] .closing-scene--compact .closing-copy {
-    background: var(--surface-card);
-    color: var(--text-primary);
-  }
-  html[data-theme='dark'] .closing-account {
-    color: var(--color-text-body);
-  }
-  html[data-theme='dark'] .closing-account > span {
-    background: var(--surface-elevated);
-  }
-  html[data-theme='dark'] .closing-account b,
-  html[data-theme='dark'] .closing-account .closing-account__upgrade {
-    color: var(--accent-text);
-  }
-  html[data-theme='dark'] .closing-account .closing-account__upgrade {
-    background: var(--surface-tint);
-  }
   html[data-theme='dark'] .closing-copy > .eyebrow,
   html[data-theme='dark'] .closing-copy__note {
     color: var(--color-text-body);
