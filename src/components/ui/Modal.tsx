@@ -210,7 +210,6 @@ export function Modal({ open, onClose, title, children, className = '', fallback
           className="icon-button"
           onClick={onClose}
           aria-label={t('Close dialog')}
-          autoFocus
         >
           <Icon name="close" />
         </button>

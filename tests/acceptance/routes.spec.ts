@@ -15,6 +15,7 @@ for (const route of siteRoutes) {
 
 test('Navigation changes URL and supports browser back', async ({ page }) => {
   await page.goto('./');
+  await expect(page.locator('main h1')).toBeVisible();
   const group = page.getByRole('button', { name: 'Platform', exact: true });
   await group.click();
   await page.getByRole('link', { name: 'Search & Investigation' }).first().click();
@@ -22,6 +23,59 @@ test('Navigation changes URL and supports browser back', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Every investigation');
   await page.goBack();
   await expect(page.locator('main')).toHaveAttribute('data-route', '/');
+});
+
+test('Early navigation stays open when Home commits during a link press', async ({ page }) => {
+  let release: () => void = () => undefined;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route(/\/HomePage-[\w-]+\.js$/, async (route) => {
+    await held;
+    await route.continue();
+  });
+  try {
+    const navigation = page.goto('./');
+    await expect(page.locator('main .route-fallback')).toBeVisible();
+    await expect(page.locator('footer')).toHaveCount(0);
+    await page.evaluate(() => document.fonts.ready);
+    const group = page.getByRole('button', { name: 'Platform', exact: true });
+    await group.click();
+    const link = page
+      .locator('#nav-panel-0')
+      .getByRole('link', { name: 'Search & Investigation', exact: true });
+    await expect(group).toHaveAttribute('aria-expanded', 'true');
+    await expect(link).toBeVisible();
+    const before = await link.boundingBox();
+    expect(before).not.toBeNull();
+    await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2);
+    await page.mouse.down();
+
+    // A lazy page and its footer must not close or move the navigation mid-gesture.
+    release();
+    await navigation;
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('footer')).toBeVisible();
+    await expect(group).toHaveAttribute('aria-expanded', 'true');
+    await expect(link).toBeVisible();
+    const after = await link.boundingBox();
+    expect(after).not.toBeNull();
+    for (const axis of ['x', 'y', 'width', 'height'] as const) {
+      expect(
+        Math.abs(after![axis] - before![axis]),
+        `Navigation link ${axis} stays stable`,
+      ).toBeLessThanOrEqual(1);
+    }
+    await page.mouse.up();
+    await expect(page).toHaveURL(/\/platform\/search-investigation$/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Every investigation');
+    await page.goBack();
+    await expect(page.locator('main')).toHaveAttribute('data-route', '/');
+    await expect(page.locator('main h1')).toBeVisible();
+  } finally {
+    release();
+    await page.mouse.up();
+  }
 });
 
 test('Protected preview keeps unverified monitoring visibly conceptual', async ({ page }) => {

@@ -79,7 +79,10 @@ test('Teams keeps one stage rail and carries the selected evidence into the hand
   await stages.nth(1).click();
   await expect(stages.nth(1)).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.team-workflow__record')).toContainText('HTTP Server header');
-  await stages.nth(2).focus();
+  // Safari does not focus buttons on click; begin Tab navigation on the prior step.
+  await stages.nth(1).press('Tab');
+  await expect(stages.nth(2)).toBeFocused();
+  await expect(stages.nth(2)).toHaveCSS('text-decoration-line', 'underline');
   await stages.nth(2).press('Enter');
   await expect(page.locator('.team-workflow__record')).toContainText('Check vendor advisory');
   await expect(stages.nth(2)).toHaveCSS('text-decoration-line', 'underline');

@@ -1,4 +1,5 @@
 import { Text } from '../ui/Text';
+import { Icon } from '../ui/Icon';
 import { useState, useRef, useEffect } from 'react';
 import { MorphPanel } from '../ui/MorphPanel';
 import { siteHref } from '../../app/paths';
@@ -127,7 +128,7 @@ export function MonitoringConcept() {
                       }
                     >
                       <LocaleText>{t('Explore Search & Investigation')}</LocaleText>
-                      <span aria-hidden="true">↗</span>
+                      <Icon name="external" />
                     </a>
                   </div>
                   <div className="stage-monitor-console__evidence" aria-live="polite">

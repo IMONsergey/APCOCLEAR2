@@ -30,6 +30,70 @@ for (const path of ['./', './about/', './legal/privacy-policy/']) {
   });
 }
 
+for (const width of [390, 1280]) {
+  test(`delayed related artwork preserves footer geometry and pointer activation at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 720 });
+    let release: () => void = () => undefined;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let requested = 0;
+    await page.route(/\/assets\/inner\/(?:search|methodology)\.webp$/, async (route) => {
+      requested += 1;
+      await held;
+      await route.continue();
+    });
+    try {
+      await page.goto('./about/');
+      await expect(page.locator('main h1')).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      const images = page.locator('.related-reading img');
+      await expect(images).toHaveCount(2);
+      await page.locator('.related-reading').scrollIntoViewIfNeeded();
+      await expect.poll(() => requested).toBe(2);
+
+      const trigger = page.getByRole('button', { name: 'Cookie Preferences' });
+      await trigger.scrollIntoViewIfNeeded();
+      const geometry = () =>
+        page.locator('.related-reading, .stage-related, footer').evaluateAll((elements) =>
+          elements.map((element) => {
+            const rect = element.getBoundingClientRect();
+            return { top: rect.top + scrollY, height: rect.height };
+          }),
+        );
+      const before = await geometry();
+      const button = (await trigger.boundingBox())!;
+      await page.mouse.move(button.x + button.width / 2, button.y + button.height / 2);
+      await page.mouse.down();
+      release();
+      await images.evaluateAll((elements) =>
+        Promise.all(elements.map((element) => (element as HTMLImageElement).decode())),
+      );
+      const after = await geometry();
+      await page.mouse.up();
+
+      for (let i = 0; i < before.length; i++) {
+        expect(
+          Math.abs(after[i]!.top - before[i]!.top),
+          'Image loading moves content',
+        ).toBeLessThanOrEqual(1);
+        expect(
+          Math.abs(after[i]!.height - before[i]!.height),
+          'Image loading resizes content',
+        ).toBeLessThanOrEqual(1);
+      }
+      const dialog = page.getByRole('dialog', { name: 'Cookie Preferences' });
+      await expect(dialog).toBeVisible();
+      await dialog.getByRole('button', { name: 'Save Preferences' }).click();
+      await expect(dialog).toBeHidden();
+    } finally {
+      release();
+    }
+  });
+}
+
 // Delay route code deliberately: a fast development machine must not hide a collapsing fallback.
 for (const width of [390, 1440]) {
   for (const path of ['./', './about/', './legal/privacy-policy/']) {

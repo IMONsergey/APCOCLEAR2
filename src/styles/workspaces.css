@@ -503,7 +503,7 @@
 }
 .team-workflow__tabs button[aria-pressed='true'] {
   background: color-mix(in srgb, var(--surface-tint) 45%, transparent);
-  color: var(--accent-text);
+  color: var(--text-primary);
 }
 .team-workflow__tabs button > span:first-child {
   font: 400 var(--font-size-12)/1.5 var(--font-mono);

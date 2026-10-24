@@ -269,14 +269,20 @@
   max-width: 55ch;
   color: var(--color-text-body);
 }
-.related-reading__image {
+.related-reading__media {
+  /* Reserve the subgrid row before the lazy image gains an intrinsic size. */
+  position: relative;
   width: 100%;
-  height: auto;
   aspect-ratio: 3 / 2;
-  object-fit: contain;
-  background: transparent;
-  border-radius: var(--radius-panel);
   margin-bottom: 26px;
+}
+.related-reading__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-panel);
 }
 .site .inner-pages .related-reading h3 {
   font-size: var(--font-size-24);
@@ -390,9 +396,6 @@
   }
   .site .inner-pages .about-statement p {
     font-size: var(--font-size-18);
-  }
-  .related-reading__image {
-    height: auto;
   }
   .site .inner-pages .stage-related {
     padding-block: var(--space-8) var(--space-10);
