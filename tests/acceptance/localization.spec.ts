@@ -108,7 +108,7 @@ test('same-locale navigation includes legal pages and exposes the English source
   await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(4);
 });
 
-test('language menu exposes native radio semantics and a region-neutral Chinese mark', async ({
+test('language menu retains Traditional Chinese and uses the requested PRC flag', async ({
   page,
 }) => {
   await page.goto('./zh-hant/pricing');
@@ -116,7 +116,16 @@ test('language menu exposes native radio semantics and a region-neutral Chinese 
   const chinese = page.getByRole('menuitemradio', { name: '繁體中文', exact: true });
   await expect(chinese).toHaveAttribute('aria-checked', 'true');
   await expect(chinese).toHaveAttribute('lang', 'zh-Hant');
-  expect((await chinese.locator('svg').innerHTML()).toLowerCase()).not.toContain('#de2910');
+  await expect(chinese.locator('svg path[fill="#de2910"]')).toHaveCount(1);
+  await expect(chinese.locator('svg g[fill="#ffde00"] > path')).toHaveCount(5);
+  await expect(page.locator('[data-language-selector] svg path[fill="#de2910"]')).toHaveCount(1);
+  await expect(page.locator('[data-language-selector]')).toContainText('繁中');
+  await page.locator('.language-control').screenshot({
+    path: test.info().outputPath('chinese-flag-trigger.png'),
+  });
+  await page.locator('.language-panel').screenshot({
+    path: test.info().outputPath('language-menu.png'),
+  });
   await chinese.focus();
   await page.keyboard.press('ArrowUp');
   await expect(page.getByRole('menuitemradio', { name: 'Русский', exact: true })).toBeFocused();

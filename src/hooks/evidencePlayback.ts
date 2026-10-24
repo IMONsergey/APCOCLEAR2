@@ -1,9 +1,4 @@
-import {
-  createPlaybackClock,
-  easeInOutCubic,
-  easeOutCubic,
-  playbackProgress,
-} from '../lib/playback';
+import { createPlaybackClock, easeInOutCubic, playbackProgress } from '../lib/playback';
 
 const phases = [
   ['.product-evidence__query strong', 'Read the query'],
@@ -29,7 +24,7 @@ export function mountEvidencePlayback(
     opacity: cursor.style.opacity,
     visibility: cursor.style.visibility,
   };
-  const focusTargets = phases.flatMap(([selector, caption], index) => {
+  const targets = phases.flatMap(([selector, caption], index) => {
     const element = root.querySelector<HTMLElement>(selector);
     return element
       ? [
@@ -37,7 +32,6 @@ export function mountEvidencePlayback(
             element,
             caption,
             index,
-            focus: element.style.getPropertyValue('--evidence-focus'),
             x: 0,
             y: 0,
           },
@@ -67,8 +61,6 @@ export function mountEvidencePlayback(
   function restore() {
     Object.assign(cursor!.style, cursorStyle);
     if (progress) progress.style.transform = progressTransform;
-    for (const { element, focus } of focusTargets)
-      element.style.setProperty('--evidence-focus', focus);
     for (const { element, clipPath } of typing) element.style.clipPath = clipPath;
   }
 
@@ -78,7 +70,7 @@ export function mountEvidencePlayback(
 
   function measure() {
     const bounds = root.getBoundingClientRect();
-    for (const target of focusTargets) {
+    for (const target of targets) {
       const element = target.element.getBoundingClientRect();
       target.x = element.left - bounds.left + Math.min(target.element.clientWidth * 0.7, 190);
       target.y = element.top - bounds.top + Math.min(target.element.clientHeight * 0.55, 48);
@@ -99,13 +91,9 @@ export function mountEvidencePlayback(
     let position = previous;
     let scale = 1;
     let nextCaption = caption;
-    for (const target of focusTargets) {
+    for (const target of targets) {
       const start = target.index * 2.2;
       const local = time - start;
-      const entering = easeOutCubic(playbackProgress(time, start + 0.65, 0.5));
-      const leaving = playbackProgress(time, start + 1.6, 0.55);
-      const focus = local < 1.6 ? entering : (1 - leaving) ** 2;
-      target.element.style.setProperty('--evidence-focus', focus.toFixed(4));
       if (target.index <= phase) {
         nextCaption = target.caption;
         const move = easeInOutCubic(playbackProgress(time, start + 0.1, 0.7));
@@ -187,7 +175,7 @@ export function mountEvidencePlayback(
     });
   });
   resize.observe(root);
-  for (const { element } of focusTargets) resize.observe(element);
+  for (const { element } of targets) resize.observe(element);
   root.addEventListener('pointerenter', enter);
   root.addEventListener('pointerleave', leave);
   root.addEventListener('focusin', focus);

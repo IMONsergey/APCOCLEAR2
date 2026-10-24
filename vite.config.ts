@@ -4,6 +4,9 @@ import { readPublicSettings } from './src/config/public-settings.ts';
 export default defineConfig(({ mode }) => {
   const publicSettings = readPublicSettings(loadEnv(mode, process.cwd(), 'VITE_APCO_'));
   return {
+    define: {
+      __APCO_PUBLIC_SETTINGS__: JSON.stringify(publicSettings),
+    },
     plugins: [
       react(),
       {

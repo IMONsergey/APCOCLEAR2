@@ -12,7 +12,7 @@ export default function ContactPage() {
   const { t } = useLocale();
   const [topic, setTopic] = useState(() => {
     const initial = new URLSearchParams(window.location.search).get('topic');
-    return topics.some((item) => item === initial) ? initial! : readContactDraft().topic;
+    return topics.find((item) => item === initial) ?? readContactDraft().topic;
   });
   const chooseTopic = (value: string) => {
     setTopic(value);

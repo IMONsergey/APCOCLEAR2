@@ -138,39 +138,6 @@ html[data-theme='dark'] .page-artwork img {
   justify-content: flex-end;
 }
 /* Search: one working example; the explanation is subordinate to the record. */
-.site .inner-pages .stage-workbench__stage {
-  max-width: none;
-  grid-template-columns: 240px minmax(0, 1fr);
-}
-.site .inner-pages .stage-workbench__steps {
-  background: transparent;
-  padding: var(--space-3) 0;
-}
-.site .inner-pages .stage-workbench__step {
-  padding: var(--space-5);
-  min-height: 68px;
-}
-.site .inner-pages .stage-workbench__step span {
-  font-size: var(--font-size-12);
-}
-.site .inner-pages .stage-workbench__insight {
-  padding: var(--space-6);
-  background: transparent;
-}
-.site .inner-pages .stage-workbench__insight h3 {
-  font-size: var(--font-size-24);
-  margin: 0 0 var(--space-3);
-}
-.site .inner-pages .stage-workbench__insight p {
-  font-size: var(--font-size-16);
-  line-height: 1.7;
-  max-width: 70ch;
-}
-.site .inner-pages .stage-workbench__bottom {
-  justify-content: flex-end;
-  gap: var(--space-7);
-  padding-top: var(--space-5);
-}
 /* Methodology: plain evidence levels, then readable definitions and a real table. */
 .site .inner-pages .evidence-levels {
   padding: var(--space-3) 0;
@@ -283,115 +250,7 @@ html[data-theme='dark'] .page-artwork img {
   line-height: 1.6;
 }
 /* Monitoring: horizontal stages and one concise observation workspace. */
-.site .inner-pages .stage-monitor-console {
-  max-width: none;
-  background: var(--surface-card);
-}
-.site .inner-pages .stage-monitor-console__body {
-  display: block;
-}
-.site .inner-pages .stage-monitor-console__sidebar {
-  display: flex;
-  flex-direction: row;
-  padding: 0 var(--space-6);
-  gap: var(--space-6);
-  border: 0;
-  border-bottom: 1px solid var(--border-subtle);
-  background: transparent;
-  overflow-x: auto;
-}
-.site .inner-pages .stage-monitor-console__nav {
-  flex: 0 0 auto;
-  width: auto;
-  padding: var(--space-5) 0;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  font: 500 var(--font-size-16)/1.5 var(--font-sans);
-  color: var(--color-text-body);
-}
-.site .inner-pages .stage-monitor-console__nav[aria-pressed='true'] {
-  color: var(--accent-text);
-  border-bottom-color: var(--accent-text);
-}
-.site .inner-pages .stage-monitor-console__main {
-  padding: var(--space-7);
-}
-.site .inner-pages .stage-monitor-console__main h3 {
-  font-size: var(--font-size-24);
-  margin: 0 0 14px;
-}
-.site .inner-pages .stage-monitor-console__main > p {
-  max-width: 68ch;
-  line-height: 1.7;
-}
-.site .inner-pages .stage-monitor-assets {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-7);
-  margin-block: 28px;
-  padding: 0;
-  border: 0;
-}
-.site .inner-pages .stage-monitor-assets__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-.site .inner-pages .stage-monitor-assets__list button {
-  padding: var(--space-4);
-}
-.site .inner-pages .stage-monitor-assets__details {
-  padding: var(--space-3) 0;
-  border: 0;
-  background: transparent;
-}
-.site .inner-pages .stage-monitor-assets__details > strong {
-  font-size: var(--font-size-20);
-}
-.site .inner-pages .stage-monitor-console__summary {
-  gap: var(--space-8);
-  margin-block: var(--space-5);
-}
-.site .inner-pages .stage-monitor-console__summary > div {
-  border: 0;
-  padding: var(--space-5) 0;
-}
-.site .inner-pages .stage-monitor-console__summary strong {
-  font-size: var(--font-size-20);
-}
 /* Teams: the handoff is the interaction; commercial details have no second workflow. */
-.site .inner-pages .team-workflow__layout {
-  gap: var(--layout-gap);
-  margin-top: 0;
-  align-items: start;
-}
-.site .inner-pages .team-workflow__visual {
-  background: var(--surface-card);
-  padding: 0;
-}
-.site .inner-pages .team-workflow__tabs {
-  gap: 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-.site .inner-pages .team-workflow__tabs button {
-  border: 0;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  background: transparent;
-  padding: 14px var(--space-3);
-  padding-left: 0;
-}
-.site .inner-pages .team-workflow__tabs button[aria-pressed='true'] {
-  border-bottom-color: var(--accent-text);
-  color: var(--accent-text);
-}
-.site .inner-pages .team-workflow__detail {
-  padding: 28px 0 0;
-}
-.site .inner-pages .team-workflow__detail h3 {
-  font-size: var(--font-size-24);
-}
 .site .inner-pages .stage-team-operations__business {
   padding: 0;
   border: 0;
@@ -418,20 +277,6 @@ html[data-theme='dark'] .page-artwork img {
   margin: 0;
   max-width: none;
 }
-.site .inner-pages .stage-api-limits .stage-data-table {
-  min-width: 0;
-  table-layout: fixed;
-}
-.site .inner-pages .stage-api-limits .stage-data-table :is(th, td) {
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-.site .inner-pages .stage-api-limits .stage-data-table thead th:first-child {
-  width: 28%;
-}
-.site .inner-pages .stage-api-limits .stage-data-table thead th:nth-child(2) {
-  width: 30%;
-}
 .site .inner-pages .stage-code-window pre {
   font-size: var(--font-size-14);
   padding: 28px;
@@ -455,18 +300,6 @@ html[data-theme='dark'] .page-artwork img {
   border-top: 1px solid var(--border-subtle);
   padding: 28px 0 0;
 }
-@media (max-width: 1199px) {
-  .site .inner-pages .stage-workbench__stage {
-    grid-template-columns: 1fr;
-  }
-  .site .inner-pages .stage-workbench__steps {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 0;
-    border-right: 0;
-  }
-}
 @media (max-width: 1000px) {
   .site .inner-pages .stage-page-hero {
     /* Reserve the longest typographed copy at the two-column tablet breakpoint. */
@@ -480,18 +313,11 @@ html[data-theme='dark'] .page-artwork img {
     font-size: var(--type-page-size);
   }
   .site .inner-pages .stage-case-experience,
-  .site .inner-pages .team-workflow__layout,
   .site .inner-pages .stage-contact-layout {
     gap: var(--layout-gap);
   }
 }
 @media (max-width: 767px) {
-  .site .inner-pages .stage-api-limits .stage-data-table :is(th, td) {
-    padding: 18px var(--space-2);
-    font-size: var(--font-size-14);
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
   .site .inner-pages .stage-page-hero {
     /* Keep the longest narrow-screen copy intact, then release space as it wraps less. */
     --hero-min-height: clamp(680px, calc(1080px - 80vw), 800px);
@@ -545,39 +371,11 @@ html[data-theme='dark'] .page-artwork img {
     grid-template-columns: 1fr;
     gap: var(--space-6);
   }
-  .site .inner-pages .stage-workbench__step {
-    min-height: 60px;
-    padding: var(--space-4);
-    flex: 0 0 150px;
-  }
-  .site .inner-pages .stage-workbench__insight {
-    padding: var(--space-5);
-  }
   .site .inner-pages .stage-example-footer {
     display: block;
   }
   .site .inner-pages .stage-example-footer a {
     margin-top: var(--space-4);
-  }
-  .site .inner-pages .stage-monitor-console__sidebar {
-    padding-inline: var(--space-5);
-    gap: var(--space-6);
-  }
-  .site .inner-pages .stage-monitor-console__main {
-    padding: var(--space-6) var(--space-5);
-  }
-  .site .inner-pages .stage-monitor-console__main h3 {
-    font-size: var(--font-size-24);
-  }
-  .site .inner-pages .stage-monitor-assets {
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
-  }
-  .site .inner-pages .stage-monitor-console__summary {
-    gap: var(--space-5);
-  }
-  .site .inner-pages .stage-monitor-console__summary strong {
-    font-size: var(--font-size-18);
   }
   .site .inner-pages .stage-usage-guide__questions {
     margin-top: var(--space-3);

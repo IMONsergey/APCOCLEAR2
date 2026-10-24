@@ -71,13 +71,32 @@ test('monitoring asset selection follows the width of its panel', async ({ page 
   const assets = page.locator('.stage-monitor-assets').first();
   await expect(assets).toBeVisible();
   const list = assets.locator('.stage-monitor-assets__list');
-  const columns = () => list.evaluate((element) => getComputedStyle(element).gridTemplateColumns);
-  await expect.poll(columns).toMatch(/repeat\(2/);
+  const positions = () =>
+    list.locator('button').evaluateAll((buttons) =>
+      buttons.map((button) => {
+        const box = button.getBoundingClientRect();
+        return { x: box.x, y: box.y, width: box.width, bottom: box.bottom };
+      }),
+    );
+  await expect
+    .poll(async () => {
+      const [first, second] = await positions();
+      return Math.abs(first!.y - second!.y) <= 1 && second!.x > first!.x + first!.width;
+    })
+    .toBe(true);
   await assets.evaluate((element: HTMLElement) => {
     element.style.width = '460px';
   });
-  await expect.poll(columns).toBe('1fr');
+  await expect
+    .poll(async () => {
+      const [first, second] = await positions();
+      return Math.abs(first!.x - second!.x) <= 1 && second!.y > first!.bottom;
+    })
+    .toBe(true);
   await expect(assets.locator('button')).toHaveCount(2);
+  expect(
+    await assets.evaluate((element) => element.scrollWidth - element.clientWidth),
+  ).toBeLessThanOrEqual(1);
 });
 
 for (const width of [320, 600, 768, 1200]) {

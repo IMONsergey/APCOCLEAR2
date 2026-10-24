@@ -1,6 +1,6 @@
 /* Mobile layout */
 @media (max-width: 599px) {
-  .search-chrome {
+  .search-preview .search-chrome {
     mask-image: linear-gradient(black 0 53%, #000e 67%, #0005 88%, transparent 100%);
   }
   .search-scene__content {

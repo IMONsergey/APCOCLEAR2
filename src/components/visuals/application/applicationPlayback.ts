@@ -10,7 +10,7 @@ const targets: Record<ApplicationScene, readonly string[]> = {
   api: ['api-key', 'api-copy', 'api-usage', 'api-limits'],
 };
 
-// The outline can explain a group while the pointer identifies its selected item.
+// Keep the pointer on the relevant item without painting a focus rectangle around it.
 const cursorTargets: Readonly<Record<string, string>> = {
   'country-filter': '.application-facet--de',
   'host-address': 'strong',
@@ -31,7 +31,7 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
   };
   const query = root.querySelector<HTMLElement>('[data-demo-query]');
   const queryText = query?.textContent ?? '';
-  const focusTargets = targets[scene].flatMap((name, index) => {
+  const pointerTargets = targets[scene].flatMap((name, index) => {
     const element = root.querySelector<HTMLElement>(`[data-demo-target="${name}"]`);
     if (!element) return [];
     const selector = cursorTargets[name];
@@ -41,7 +41,6 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
         element,
         cursorElement: cursorElement ?? element,
         index,
-        emphasis: element.style.getPropertyValue('--demo-emphasis'),
         x: 0,
         y: 0,
       },
@@ -54,8 +53,6 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
 
   function restore() {
     if (cursor && cursorStyle) Object.assign(cursor.style, cursorStyle);
-    for (const { element, emphasis } of focusTargets)
-      element.style.setProperty('--demo-emphasis', emphasis);
     root.dataset.demoPhase = '0';
     delete root.dataset.demoFilter;
     delete root.dataset.demoCopied;
@@ -66,7 +63,7 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
 
   function measure() {
     const bounds = root.getBoundingClientRect();
-    for (const target of focusTargets) {
+    for (const target of pointerTargets) {
       const element = target.cursorElement.getBoundingClientRect();
       target.x = element.left - bounds.left + Math.min(element.width - 8, element.width * 0.75);
       target.y = element.top - bounds.top + Math.min(element.height - 6, element.height * 0.65);
@@ -97,16 +94,8 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
 
     let previous = { x: 0, y: 0 };
     let position = previous;
-    const activeElement = focusTargets[phase]?.element;
-    for (const target of focusTargets) {
+    for (const target of pointerTargets) {
       const start = target.index * 1.8;
-      const local = time - start;
-      const entering = playbackProgress(time, start + 0.4, 0.25);
-      const leaving = playbackProgress(time, start + 1.35, 0.35);
-      const emphasis = local < 1.35 ? 1 - (1 - entering) ** 2 : (1 - leaving) ** 2;
-      // A repeated reading target must not be cleared by its inactive phase.
-      if (target.element !== activeElement || target.index === phase)
-        target.element.style.setProperty('--demo-emphasis', emphasis.toFixed(4));
       if (target.index <= phase) {
         const move = easeInOutCubic(playbackProgress(time, start, 0.5));
         position = {
@@ -164,7 +153,7 @@ export function startApplicationPlayback(root: HTMLElement, scene: ApplicationSc
     });
   });
   resize.observe(root);
-  for (const { element, cursorElement } of focusTargets) {
+  for (const { element, cursorElement } of pointerTargets) {
     resize.observe(element);
     if (cursorElement !== element) resize.observe(cursorElement);
   }

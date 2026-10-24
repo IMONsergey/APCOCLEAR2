@@ -112,51 +112,62 @@ export default function ApiPage() {
         intro="Plus, Expert and Business include API access. Choose a rate and allowance that fit the volume and pace of your workflow."
         className="stage-api-limits"
       >
-        <div className="api-access-layout">
-          <div
-            role="region"
-            aria-label={t('API rate limits')}
-            tabIndex={0}
-            className="stage-table-scroll"
-          >
-            <table className="stage-data-table">
-              <thead>
-                <tr>
-                  <th scope="col">{t('Plan')}</th>
-                  <th scope="col">{t('API access')}</th>
-                  <th scope="col">{t('Plan rate limit')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {plans.map((plan) => (
-                  <tr key={plan.id}>
-                    <th scope="row">{t(plan.name[0] + plan.name.slice(1).toLowerCase())}</th>
-                    <td>{t(plan.api ? 'Yes' : 'No')}</td>
-                    <td>{formatApiRate(plan, t)}</td>
+        <div className="api-access-layout editorial-pair">
+          <div className="api-plan-access">
+            <Text as="h3" id="api-rate-limits-title">
+              API rate limits
+            </Text>
+            <div
+              role="region"
+              aria-labelledby="api-rate-limits-title"
+              tabIndex={0}
+              className="stage-table-scroll"
+            >
+              <table className="stage-data-table stage-api-table">
+                <thead>
+                  <tr>
+                    <th scope="col">{t('Plan')}</th>
+                    <th scope="col">{t('API access')}</th>
+                    <th scope="col">{t('Plan rate limit')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {plans.map((plan) => (
+                    <tr key={plan.id}>
+                      <th scope="row">{t(plan.name[0] + plan.name.slice(1).toLowerCase())}</th>
+                      <td>
+                        <span className="api-access-status" data-available={plan.api}>
+                          {t(plan.api ? 'Yes' : 'No')}
+                        </span>
+                      </td>
+                      <td>{formatApiRate(plan, t)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
           <aside className="api-usage">
             <Text as="h3">Usage and credits.</Text>
-            <Text as="p">
-              Request rate controls how quickly you can query. Your usage allowance controls how
-              much capacity is available.
-            </Text>
-            <Text as="p">
-              The HTTP API documents method costs separately from plan request rates. Review the
-              current reference before scheduling larger workflows.
-            </Text>
-            <a className="stage-text-link" href={siteHref('/pricing') + '#usage-guide'}>
-              {t('Understand usage and capacity')}
-            </a>
+            <div className="editorial-pair__body">
+              <Text as="p">
+                Request rate controls how quickly you can query. Your usage allowance controls how
+                much capacity is available.
+              </Text>
+              <Text as="p">
+                The HTTP API documents method costs separately from plan request rates. Review the
+                current reference before scheduling larger workflows.
+              </Text>
+              <a className="stage-text-link" href={siteHref('/pricing') + '#usage-guide'}>
+                {t('Understand usage and capacity')}
+              </a>
+              <Text as="p" className="editorial-note">
+                Published HTTP API limits are shown here. Check current plan details in your Apcosys
+                account before scheduling a larger workflow.
+              </Text>
+            </div>
           </aside>
         </div>
-        <Text as="p" className="editorial-note">
-          Published HTTP API limits are shown here. Check current plan details in your Apcosys
-          account before scheduling a larger workflow.
-        </Text>
       </EditorialSection>
       <EditorialSection
         id="api-integration"

@@ -62,11 +62,11 @@ export function readContactDraft(): ContactDraft {
           memory = {
             updatedAt,
             draft: {
-              name: String(fields.name).slice(0, 100),
-              email: String(fields.email).slice(0, 200),
-              company: String(fields.company).slice(0, 120),
-              topic: topics.some((topic) => topic === fields.topic) ? String(fields.topic) : '',
-              message: String(fields.message).slice(0, 6000),
+              name: (fields.name as string).slice(0, 100),
+              email: (fields.email as string).slice(0, 200),
+              company: (fields.company as string).slice(0, 120),
+              topic: topics.find((topic) => topic === fields.topic) ?? '',
+              message: (fields.message as string).slice(0, 6000),
               consent: fields.consent === true,
             },
           };

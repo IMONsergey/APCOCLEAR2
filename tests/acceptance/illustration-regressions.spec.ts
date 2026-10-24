@@ -398,6 +398,19 @@ for (const locale of locales) {
         }
         await expect(demo).not.toContainText(/Revenue Transactions|\/v1\/datasets/);
         await expectReadableContents(demo);
+        if (width >= 1200) {
+          const top = await page.locator('.api-copy h2').boundingBox();
+          const action = await page.locator('.api-copy > .double-button').boundingBox();
+          const screen = await frame.boundingBox();
+          expect(
+            Math.abs(screen!.y - top!.y),
+            'API screen shares the heading top edge',
+          ).toBeLessThanOrEqual(1);
+          expect(
+            Math.abs(screen!.y + screen!.height - action!.y - action!.height),
+            'API screen shares the action bottom edge',
+          ).toBeLessThanOrEqual(1);
+        }
         expect(requests, 'illustrations must not execute an API request').toEqual([]);
       });
 
@@ -418,6 +431,9 @@ for (const locale of locales) {
         // Font glyphs can extend beyond a heading's line box without being clipped.
         await expectReadableContents(heading, 24, false);
         await expectReadableContents(closing.locator('.closing-scene'), 9.5);
+        const surface = closing.locator('.search-chrome');
+        await expect(surface).toHaveCSS('mask-image', 'none');
+        await expect(surface).toHaveCSS('z-index', '0');
         await expectReadableContents(action, 13.5);
         const destination = new URL((await action.getAttribute('href'))!, page.url());
         expect(destination.protocol).toBe('https:');

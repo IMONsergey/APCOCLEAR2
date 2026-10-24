@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { wcagAxe } from '../helpers/accessibility';
 import { openLanguageMenu } from '../helpers/locale';
+import { chooseSelectOption } from '../helpers/select';
 
 for (const prefix of ['ru', 'zh-hant']) {
   for (const theme of ['light', 'dark']) {
@@ -40,7 +41,7 @@ for (const prefix of ['ru', 'zh-hant']) {
       await page.goto(`./${prefix}/contact`);
       await page.locator('[name="name"]').fill('Test');
       await page.locator('[name="email"]').fill('test@example.com');
-      await page.locator('[name="topic"]').selectOption('Other');
+      await chooseSelectOption(page.locator('#contact-form'), 'Other');
       await page.locator('[name="message"]').fill('     ok     ');
       await page.locator('#contact-form [name="consent"]').check();
       await page.locator('.stage-contact-submit').click();

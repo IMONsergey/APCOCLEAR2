@@ -21,7 +21,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  align-items: center;
+  align-items: stretch;
   min-height: calc(796px * var(--media-density));
   padding-block: clamp(48px, calc(100px * var(--space-density)), 100px);
   grid-template-columns: var(--layout-half);
@@ -29,6 +29,12 @@
 }
 .api-copy {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.api-copy > .double-button {
+  margin-top: auto;
 }
 .api-copy h2 {
   font-size: var(--type-section-size);
@@ -44,17 +50,23 @@
   text-shadow: 0 1px 4px #014b58a0;
 }
 .api-visual {
-  width: calc(100% * var(--media-density));
+  display: flex;
+  width: 100%;
   justify-self: end;
   min-width: 0;
-  padding: 0 var(--space-4) var(--space-4) 0;
+  padding-right: var(--space-4);
 }
 .api-demo-frame {
   position: relative;
   isolation: isolate;
+  display: flex;
+  width: 100%;
   background: white;
   pointer-events: none;
   border-radius: var(--radius-frame);
+}
+.api-demo-frame > .application-scene {
+  display: flex;
 }
 .api-demo-frame::before,
 .api-demo-frame::after {
@@ -74,6 +86,7 @@
   .api-grid {
     min-height: 0;
     padding-block: 72px;
+    grid-template-columns: minmax(0, 1fr);
   }
   .api-copy h2 {
     font-size: var(--font-size-48);
@@ -84,11 +97,6 @@
   .api-copy > svg {
     margin: var(--space-7) 0 var(--space-5);
   }
-}
-@container api (max-width: 899px) {
-  .api-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .api-copy h2 {
     max-width: 680px;
   }
@@ -98,6 +106,7 @@
   .api-visual {
     max-width: 712px;
     margin-inline: auto;
+    padding-bottom: var(--space-4);
   }
 }
 @container api (max-width: 599px) {

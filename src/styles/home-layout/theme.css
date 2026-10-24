@@ -21,7 +21,7 @@ html[data-theme='dark'] .search-preview .turquoise-flow {
     linear-gradient(110deg, #0c4150 0%, #419cab 67%, #2996ab 100%);
 }
 @media (min-width: 600px) {
-  html[data-theme='dark'] .search-chrome {
+  html[data-theme='dark'] .search-preview .search-chrome {
     mask-image: linear-gradient(
       180deg,
       #000 0%,

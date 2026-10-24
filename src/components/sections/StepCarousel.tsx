@@ -98,6 +98,11 @@ export function StepCarousel() {
         </ul>
       </div>
       <div className="container step-evidence-note">
+        <p>
+          <LocaleText>
+            {t('Query, results, host, technical context and the next search.')}
+          </LocaleText>
+        </p>
         <DoubleButton compact href={siteHref('/platform/search-investigation')}>
           <LocaleText>{t('Explore Search & Investigation')}</LocaleText>
         </DoubleButton>

@@ -223,6 +223,57 @@ const capabilities = [
     mode: 'host',
   },
 ] as const;
+
+function CapabilityResponse() {
+  const { t } = useLocale();
+  const host = demoHosts[0]!;
+  const services = host.services
+    .map(
+      (service) =>
+        `    { "port": ${service.port}, "technology": ${JSON.stringify(service.technology)} }`,
+    )
+    .join(',\n');
+  const snippet = `{\n  "host": "${host.ip}",\n  "services": [\n${services}\n  ]\n}`;
+  return (
+    <div className="capability-record capability-record--api">
+      <div className="capability-record__bar">
+        <span>{t('Host context')}</span>
+        <code>JSON</code>
+      </div>
+      <pre>
+        <code>
+          {snippet.split(/("(?:\\.|[^"\\])*"\s*:?|\b\d+\b)/g).map((token, index) => (
+            <span
+              key={index}
+              className={
+                token.endsWith(':')
+                  ? 'capability-code-key'
+                  : token.startsWith('"')
+                    ? 'capability-code-string'
+                    : /^\d+$/.test(token)
+                      ? 'capability-code-number'
+                      : undefined
+              }
+            >
+              {token}
+            </span>
+          ))}
+        </code>
+      </pre>
+      <div className="capability-record__summary">
+        <span>{t('Services')}</span>
+        <div>
+          {host.services.map((service) => (
+            <code key={service.port}>
+              {service.port} / {service.protocol}
+            </code>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function CapabilitiesSection() {
   const { t } = useLocale();
   const [selected, setSelected] = useState(0);
@@ -260,6 +311,19 @@ export function CapabilitiesSection() {
             <div className="home-capabilities__copy">
               <h3>{t(item.title)}</h3>
               <p>{t(item.text)}</p>
+              <div className="capability-notes">
+                {capabilityNotes[selected]!.map(([title, text], i) => (
+                  <div className="capability-notes__tile" key={title}>
+                    <span className="capability-notes__mark" aria-hidden="true">
+                      {i === 0 ? '01' : '02'}
+                    </span>
+                    <div>
+                      <h4>{t(title!)}</h4>
+                      <p>{t(text!)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
               <DoubleButton
                 variant="primary"
                 compact
@@ -316,43 +380,12 @@ export function CapabilitiesSection() {
                   ))}
                 </div>
               ) : selected === 4 ? (
-                <div className="capability-record">
-                  <div className="capability-record__bar">
-                    <span>{t('INTEGRATION / EXAMPLE')}</span>
-                    <span>{t('Host context')}</span>
-                  </div>
-                  <pre>
-                    <code>
-                      {JSON.stringify(
-                        {
-                          host: demoHosts[0]!.ip,
-                          services: demoHosts[0]!.services.map((s) => ({
-                            port: Number(s.port),
-                            technology: s.technology,
-                          })),
-                        },
-                        null,
-                        2,
-                      )}
-                    </code>
-                  </pre>
-                </div>
+                <CapabilityResponse />
               ) : selected === 0 ? (
                 <SearchFragment />
               ) : (
                 <HostFragment />
               )}
-            </div>
-            <div className="capability-notes">
-              {capabilityNotes[selected]!.map(([title, text], i) => (
-                <div className="capability-notes__tile" key={title}>
-                  <span className="capability-notes__mark" aria-hidden="true">
-                    {i === 0 ? '01' : '02'}
-                  </span>
-                  <h4>{t(title!)}</h4>
-                  <p>{t(text!)}</p>
-                </div>
-              ))}
             </div>
           </div>
         </MorphPanel>

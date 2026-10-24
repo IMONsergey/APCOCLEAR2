@@ -35,7 +35,7 @@ The remaining commercial content decision is the mapping between Free/Plus/Exper
 
 ## Configuration
 
-Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` values are public and embedded at build time. Both Vite and the application validate product URLs, documentation URLs and the support email. Invalid settings fail the build. Rebuild after changing them.
+Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` values are public. Vite validates product URLs, documentation URLs and the support email before serving or building, then embeds the validated values in the application. Invalid settings fail the build. Rebuild after changing them.
 
 | Setting                   | Default or behavior                                                                                                                                            |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |

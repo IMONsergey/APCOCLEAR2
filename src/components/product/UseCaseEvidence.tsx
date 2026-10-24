@@ -117,6 +117,11 @@ function EvidenceJourney({ kind }: { kind: keyof typeof journeys }) {
           >
             {stages.map(([number, title, description]) => (
               <div key={number}>
+                {kind === 'scope' && (
+                  <b className="stage-example-journey__number" aria-hidden="true">
+                    {number}
+                  </b>
+                )}
                 <span>
                   <LocaleText>{t(title)}</LocaleText>
                 </span>

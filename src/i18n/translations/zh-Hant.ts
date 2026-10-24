@@ -1,4 +1,9 @@
 export default {
+  'Begin with infrastructure you own or are authorised to assess.':
+    '從您擁有或獲授權評估的基礎設施開始。',
+  'Compare two recorded snapshots of the selected host.': '比較所選主機的兩份記錄快照。',
+  'Query, results, host, technical context and the next search.':
+    '從查詢、結果、主機與技術背景，到下一次搜尋。',
   'Follow a reserved example domain through scope checks and host evidence.':
     '以保留的範例網域，逐步檢查授權範圍並查看主機證據。',
   'Review an example technology, matching hosts and potential vulnerability context.':

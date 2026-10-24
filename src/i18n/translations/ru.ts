@@ -1,4 +1,10 @@
 export default {
+  'Begin with infrastructure you own or are authorised to assess.':
+    'Начните с инфраструктуры, которой вы владеете или которую уполномочены исследовать.',
+  'Compare two recorded snapshots of the selected host.':
+    'Сравните два сохранённых снимка выбранного хоста.',
+  'Query, results, host, technical context and the next search.':
+    'Запрос, результаты, хост, технический контекст и следующий поиск.',
   'Follow a reserved example domain through scope checks and host evidence.':
     'На примере зарезервированного домена пройдите от проверки границ программы к данным хоста.',
   'Review an example technology, matching hosts and potential vulnerability context.':

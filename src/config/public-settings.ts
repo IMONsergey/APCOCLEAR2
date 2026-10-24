@@ -26,7 +26,7 @@ function httpUrl(input: string, setting: string) {
   return url;
 }
 
-/** Shared by Vite and the browser: invalid public configuration fails before deployment. */
+/** Invalid public configuration fails before Vite serves or builds the site. */
 export function readPublicSettings(env: PublicEnvironment) {
   const product = httpUrl(
     env.VITE_APCO_PRODUCT_URL?.trim() || 'https://apcosys.net',

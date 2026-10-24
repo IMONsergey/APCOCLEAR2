@@ -29,6 +29,15 @@ test('investigation results, selected host and context share one UI fragment', a
   await expect(page.locator('.stage-workbench .product-evidence__cve')).toBeVisible();
   await expect(results.locator('.product-evidence__details h3')).toContainText('203.0.113.42');
   await expect(page.locator('.stage-workbench')).toContainText('No CVE is asserted');
+  await expect(results.locator('.product-evidence__result[aria-pressed="true"]')).toHaveCSS(
+    'outline-style',
+    'none',
+  );
+  await steps.nth(3).focus();
+  await steps.nth(3).press('ArrowRight');
+  await expect(steps.nth(4)).toBeFocused();
+  await expect(steps.nth(4)).toHaveCSS('text-decoration-line', 'underline');
+  await expect(results.locator('.product-evidence__next')).toContainText('gateway.example.com');
 });
 
 test('Monitoring has five meaningful concept states and selectable example assets', async ({
@@ -44,6 +53,12 @@ test('Monitoring has five meaningful concept states and selectable example asset
   await expect(page.locator('.stage-monitor-console__summary')).toContainText(
     '443 / HTTPS + 22 / SSH',
   );
+  await steps.nth(3).click();
+  await expect(page.locator('.monitor-context pre')).toHaveText('SSH-2.0-OpenSSH_9.6');
+  await expect(page.locator('.stage-monitor-assets__list [aria-pressed="true"]')).toHaveCSS(
+    'outline-style',
+    'none',
+  );
   await steps.nth(4).click();
   await expect(page.locator('.stage-monitor-console__link')).toHaveAttribute(
     'href',
@@ -51,6 +66,32 @@ test('Monitoring has five meaningful concept states and selectable example asset
   );
   await expect(page.locator('.stage-concept-label')).toBeVisible();
   await expect(page.locator('.stage-concept-label')).toContainText('Not a live product capability');
+});
+
+test('Teams keeps one stage rail and carries the selected evidence into the handoff', async ({
+  page,
+}) => {
+  await page.goto('./teams');
+  const stages = page.locator('.team-workflow__tabs button');
+  await expect(stages).toHaveCount(4);
+  await expect(page.locator('.team-workflow__tabs')).toHaveCount(1);
+  await expect(page.locator('.team-workflow__record')).toContainText('portal.example.com');
+  await stages.nth(1).click();
+  await expect(stages.nth(1)).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.team-workflow__record')).toContainText('HTTP Server header');
+  await stages.nth(2).focus();
+  await stages.nth(2).press('Enter');
+  await expect(page.locator('.team-workflow__record')).toContainText('Check vendor advisory');
+  await expect(stages.nth(2)).toHaveCSS('text-decoration-line', 'underline');
+  await stages.nth(3).click();
+  await expect(page.locator('.team-workflow__record')).toContainText(
+    'Scripts and internal reports',
+  );
+  await expect(page.locator('.team-workflow__record')).toContainText('198.51.100.24');
+  await expect(page.locator('.team-workflow__tabs [aria-pressed="true"]')).toHaveCSS(
+    'outline-style',
+    'none',
+  );
 });
 
 for (const [route, label] of [

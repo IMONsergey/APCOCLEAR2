@@ -3,7 +3,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 test.use({ reducedMotion: 'no-preference' });
 
 for (const width of [390, 1440]) {
-  test(`application pointers identify the selected item inside a highlighted group at ${width}px`, async ({
+  test(`application pointers identify the selected item without focus rectangles at ${width}px`, async ({
     page,
   }) => {
     test.setTimeout(60000);
@@ -59,9 +59,6 @@ for (const width of [390, 1440]) {
                 const cursor = root.querySelector('.application-demo-cursor')!;
                 const style = getComputedStyle(cursor);
                 if (style.visibility !== 'visible' || Number(style.opacity) < 0.8) return false;
-                const group = root.querySelector(`[data-demo-target="${target.group}"]`)!;
-                if (Number(getComputedStyle(group).getPropertyValue('--demo-emphasis')) < 0.8)
-                  return false;
                 const bounds = cursor.getBoundingClientRect();
                 const point = {
                   x: bounds.left + bounds.width / 2,
@@ -84,6 +81,15 @@ for (const width of [390, 1440]) {
           },
         )
         .toBe(true);
+      const outlines = await scene
+        .locator('[data-demo-target]')
+        .evaluateAll((elements) =>
+          elements.map((element) => getComputedStyle(element).outlineStyle),
+        );
+      expect(
+        outlines.every((outline) => outline === 'none'),
+        'no decorative focus rectangles',
+      ).toBe(true);
     }
   });
 }

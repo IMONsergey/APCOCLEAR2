@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { chooseSelectOption } from '../helpers/select';
 
 for (const reduced of [false, true]) {
   test(`same-page navigation preserves focus and uses appropriate motion: ${reduced}`, async ({
@@ -99,7 +100,7 @@ test('contact requirements are explicit and whitespace cannot bypass message len
   await expect(page.getByLabel('Company (optional)')).not.toHaveAttribute('required');
   await page.getByRole('textbox', { name: 'Name', exact: true }).fill('Audit');
   await page.getByRole('textbox', { name: 'Work email', exact: true }).fill('audit@example.com');
-  await page.getByRole('combobox', { name: 'Topic' }).selectOption('Other');
+  await chooseSelectOption(page.locator('#contact-form'), 'Other');
   await page.getByRole('textbox', { name: 'Message', exact: true }).fill('         ok         ');
   // No real email is sent: the invalid message must be rejected before the mailto action.
   await page.getByRole('checkbox').check();
@@ -140,8 +141,8 @@ for (const width of [320, 768, 1440]) {
       'primary action starts at the form edge',
     ).toBeLessThan(1);
     await expect(form.locator('.stage-form-actions button')).toHaveCount(1);
-    const topic = (await form.locator('select[name="topic"]').boundingBox())!;
-    const chevron = (await form.locator('.stage-select > svg').boundingBox())!;
+    const topic = (await form.getByRole('combobox', { name: 'Topic' }).boundingBox())!;
+    const chevron = (await form.locator('.select-field__trigger > svg').boundingBox())!;
     expect(Math.abs(chevron.y + chevron.height / 2 - topic.y - topic.height / 2)).toBeLessThan(1);
     expect(topic.x + topic.width - chevron.x - chevron.width).toBeGreaterThanOrEqual(14);
     expect(topic.x + topic.width - chevron.x - chevron.width).toBeLessThanOrEqual(18);

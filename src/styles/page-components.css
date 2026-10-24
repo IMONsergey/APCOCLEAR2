@@ -343,7 +343,6 @@
   min-width: 0;
 }
 .stage-contact-form input:not([type='checkbox']),
-.stage-contact-form select,
 .stage-contact-form textarea {
   width: 100%;
   min-width: 0;
@@ -355,27 +354,9 @@
   font: 400 var(--font-size-16)/1.5 var(--font-sans);
   resize: vertical;
 }
-.stage-contact-form :is(input, select, textarea):focus-visible {
+.stage-contact-form :is(input, textarea):focus-visible {
   outline: 2px solid var(--accent-text);
   outline-offset: 2px;
-}
-.stage-select {
-  position: relative;
-  display: block;
-  min-width: 0;
-}
-.stage-contact-form .stage-select select {
-  appearance: none;
-  padding-inline-end: 48px;
-}
-.stage-select > svg {
-  position: absolute;
-  inset-inline-end: 16px;
-  top: 50%;
-  width: 18px;
-  height: 18px;
-  transform: translateY(-50%);
-  pointer-events: none;
 }
 .stage-contact-form .stage-consent {
   grid-template-columns: auto 1fr;

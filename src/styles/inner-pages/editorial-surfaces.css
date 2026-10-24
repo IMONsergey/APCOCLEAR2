@@ -68,6 +68,14 @@
 .site .inner-pages .editorial-opening--illustrated .editorial-heading {
   margin-bottom: 0;
 }
+.site .inner-pages .editorial-opening--illustrated > *,
+.site .inner-pages .about-statement > *,
+.site .inner-pages .related-reading > a {
+  min-width: 0;
+}
+.site .inner-pages .editorial-section :is(h2, h3, p, dt, dd) {
+  overflow-wrap: break-word;
+}
 .site .inner-pages .editorial-opening--illustrated h2 {
   max-width: 18ch;
 }
@@ -324,9 +332,6 @@
 }
 .site .inner-pages .stage-usage-guide__questions h3 {
   font-size: var(--font-size-24);
-}
-.site .inner-pages .stage-data-table tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--surface-card) 60%, transparent);
 }
 .site .inner-pages .stage-related {
   padding-block: var(--space-10) 88px;

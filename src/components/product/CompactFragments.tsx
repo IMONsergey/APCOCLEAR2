@@ -171,14 +171,16 @@ export function CaseFragment({ kind }: { kind: 'scope' | 'technology' | 'indicat
           <strong>example.com</strong>
         </header>
         <div className="scope-boundary">
-          {demoHosts.map((h) => (
+          {demoHosts.map((h, index) => (
             <div key={h.ip}>
-              <i />
+              <span className="scope-boundary__number" aria-hidden="true">
+                0{index + 1}
+              </span>
               <span>
                 <strong>{h.hostname}</strong>
                 <small>{h.ip}</small>
               </span>
-              <span>{t('Review scope')}</span>
+              <span className="scope-boundary__status">{t('Requires verification')}</span>
             </div>
           ))}
         </div>

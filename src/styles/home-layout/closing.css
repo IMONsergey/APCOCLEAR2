@@ -14,9 +14,11 @@
   border: 1px solid var(--border-subtle);
 }
 .closing-scene--live .search-chrome {
+  z-index: 0;
   mask-image: none;
   border-radius: inherit;
   overflow: hidden;
+  background: var(--surface-card);
 }
 .closing-scene--live .search-chrome__surface {
   border: 0;

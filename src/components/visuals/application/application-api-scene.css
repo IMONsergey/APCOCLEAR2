@@ -1,7 +1,10 @@
 .application-api-scene {
   display: grid;
-  gap: 18px;
-  padding: var(--space-4);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  flex: 1;
+  min-width: 0;
+  gap: var(--space-6);
+  padding: var(--space-6);
   font-size: var(--font-size-12);
   line-height: 1.5;
 }
@@ -40,23 +43,23 @@
 .application-api__panel {
   display: grid;
   grid-area: 1 / 1;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-  align-content: start;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: stretch;
+  align-content: stretch;
   min-width: 0;
 }
 .application-api__credentials,
 .application-api__credits,
 .application-api__limits {
-  padding: 14px;
+  padding: var(--space-4);
   border: 1px solid var(--app-line);
   border-radius: var(--radius-panel);
 }
 .application-api__credentials {
   display: grid;
-  align-content: start;
-  gap: 14px;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: var(--space-5);
   min-width: 0;
 }
 .application-api__card-heading {
@@ -106,8 +109,8 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  min-height: 32px;
-  padding: 7px 10px;
+  min-height: 40px;
+  padding: 10px 12px;
   border: 1px solid var(--app-line);
   border-radius: var(--radius-control);
   background: var(--app-surface);
@@ -141,6 +144,7 @@
   gap: 8px;
   padding-top: 12px;
   border-top: 1px solid var(--app-line);
+  align-self: end;
 }
 .application-api__copy-label {
   display: grid;
@@ -159,7 +163,7 @@
 }
 .application-api__credits {
   display: grid;
-  gap: 16px;
+  gap: var(--space-6);
   min-width: 0;
   background: var(--app-soft);
 }
@@ -174,7 +178,8 @@
 }
 .application-api__credit {
   display: grid;
-  gap: 7px;
+  align-content: center;
+  gap: var(--space-3);
   min-width: 0;
 }
 .application-api__credit-value {
@@ -185,7 +190,7 @@
   font-variant-numeric: tabular-nums;
 }
 .application-api__credit-value > span:first-child {
-  font-size: var(--font-size-18);
+  font-size: var(--font-size-24);
   font-weight: 500;
   letter-spacing: -0.03em;
 }
@@ -202,7 +207,7 @@
 }
 .application-api__limits h4 {
   font-size: var(--font-size-14);
-  margin-bottom: 10px;
+  margin-bottom: var(--space-4);
 }
 .application-api__limits dl {
   display: grid;
@@ -227,6 +232,7 @@
 }
 .application-api__panel--usage {
   grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   visibility: hidden;
 }
 .application-api__panel--usage .application-api__credits {
@@ -241,10 +247,11 @@
 }
 @container application (max-width: 479px) {
   .application-api-scene {
-    gap: 12px;
+    gap: var(--space-4);
+    padding: var(--space-4);
   }
   .application-api__panel {
-    gap: 10px;
+    gap: var(--space-3);
     grid-template-columns: minmax(0, 1fr);
   }
   .application-api__credentials,

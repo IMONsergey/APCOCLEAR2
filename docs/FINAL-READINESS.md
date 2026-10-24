@@ -1,6 +1,38 @@
 # Frontend revision and release readiness — 24 October 2026
 
-## Current revision — SaaS alignment and UI cleanup
+## Current revision — component composition and responsive alignment
+
+This correction implements the thirteen screenshots supplied after the SaaS-alignment release. It builds on [`3457fd200ba4ce816f1b7ea9cedaefabe49a2629`](https://github.com/IMONsergey/APCOCLEAR2/commit/3457fd200ba4ce816f1b7ea9cedaefabe49a2629), whose [release workflow 40082043765](https://github.com/IMONsergey/APCOCLEAR2/actions/runs/40082043765) completed successfully. The active repository remains **IMONsergey/APCOCLEAR2**, with the review site at <https://imonsergey.github.io/APCOCLEAR2/>.
+
+### Implemented correction
+
+- The Chinese language badge uses the five-star Chinese flag in both the active language button and language list. The available Chinese locale remains Traditional Chinese.
+- Decorative focus rectangles are removed from both native animation systems, including their CSS and runtime writes. Real interactive controls retain visible keyboard feedback through their selected surface and underlined text.
+- Home Capabilities keeps its five separate tabs. Each view now pairs a clear text hierarchy and numbered notes with one coherent product record; the API view uses a compact, syntax-colored response and service summary.
+- The Home API screen stretches from the top of the left headline to the bottom of its CTA on desktop. Below 1200 px it becomes a stacked composition. Both API panels reserve the same height and preserve their 12 px minimum interface text.
+- The dark closing screen is opaque and has an explicit stacking context. Its colored layers remain behind the front screen; preview-only masks cannot affect it.
+- The Contact Topic field uses a themed custom listbox with viewport-aware positioning, wrapping mobile labels, selected checkmark, full keyboard navigation, required validation and cancellation on outside click. It was the only visible native select on the site.
+- Search & Investigation uses a horizontal stage rail and a full-width connected record. Monitoring uses one host selector, a stage explanation and the corresponding snapshot, service response or next research step. Bug Bounty uses a numbered scope sequence and candidate rows. Teams uses one interactive workflow, with changing evidence fields rather than two duplicate diagrams.
+- Responsible Scanning uses aligned editorial columns and consistent definition rows. The developer API rates table has a shared heading baseline, stable column proportions and readable mobile values. Shared responsive rules remove the competing tablet and phone overrides that caused the misalignment.
+- The explanatory caption below the five Home research scenes is restored in English, Russian and Traditional Chinese.
+
+All 13 Home sections, the two Audience illustrations, annual billing defaults, About-first navigation and existing contact handoff remain in place. No new dependency, GSAP runtime, live API request, commercial-domain change or indexing change is introduced.
+
+### Validation scope
+
+`npm run check` passes, including 19 route definitions and all 1,348 messages in each translated catalog. The production build generates 57 localized route documents plus the 404 document; all 58 use the current entry bundle, resolve their referenced assets and retain `noindex, nofollow`. Existing bundle limits remain unchanged and pass in Node 22 with the release environment's public-setting placeholders. Home's static graph is approximately 130.7 KiB gzip JavaScript and 28.5 KiB gzip CSS; the Corporate graph is 114.4 KiB gzip JavaScript against its existing 115 KiB limit. Vite validates the public destinations before serving or building and embeds that validated result, avoiding duplicate configuration parsing in the browser.
+
+The focused checks cover native animation pointers and lifecycle, API panel stability and desktop alignment, dark closing layers, custom select keyboard behavior and validation, all three locales and both themes, and the revised workspaces. Scanner and API editorial checks measure the rendered geometry at 320, 768 and 1440 px in Firefox and WebKit; their existing typography thresholds are retained. Visual captures include English desktop, Russian tablet and Traditional Chinese phone layouts.
+
+The production accessibility check also identified insufficient contrast in the selected example-result title in the light theme. It now inherits the primary text color on its selected surface; the selection and keyboard underline remain visible without restoring decorative outlines.
+
+The new site-integrity suite traverses all 19 routes for each language, theme and 320/768/1440 px viewport combination. It checks heading visibility and fit, horizontal overflow, loaded images and runtime errors. The intentional optical offset of the Home display heading is measured against its own box and the viewport.
+
+The [Validate and deploy APCOSYS workflow](https://github.com/IMONsergey/APCOCLEAR2/actions/workflows/deploy.yml) remains the publication record for the exact commit. The entire Chromium, Firefox and WebKit acceptance suite must pass before deployment, followed by the Chromium suite against the deployed site. A successful older workflow does not establish deployment of this correction.
+
+## Historical revision — SaaS alignment and UI cleanup
+
+The following checkpoint describes the preceding release and is retained as implementation history.
 
 The active repository is **IMONsergey/APCOCLEAR2**, branch **main**, with the review site at <https://imonsergey.github.io/APCOCLEAR2/>. This revision builds on [`91f3605115594749230a699ebc71c89f063fa1f5`](https://github.com/IMONsergey/APCOCLEAR2/commit/91f3605115594749230a699ebc71c89f063fa1f5), whose [release workflow 40073737122](https://github.com/IMONsergey/APCOCLEAR2/actions/runs/40073737122) completed successfully. The old `apcoweb` and `apcoseb-clear` repositories are historical references. `Assaasdev` supplies the product interface reference and is not modified by this website revision.
 

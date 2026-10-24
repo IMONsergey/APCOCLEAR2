@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 're
 import { supportEmail } from '../../config/site';
 import { siteHref } from '../../app/paths';
 import { DoubleButton } from '../../components/ui/DoubleButton';
-import { Icon } from '../../components/ui/Icon';
+import { SelectField } from '../../components/ui/SelectField';
 import { LinkLanguageHint } from '../../components/ui/LinkLanguageHint';
 import { MorphPanel } from '../../components/ui/MorphPanel';
 import { useLocale } from '../../i18n/context';
@@ -18,21 +18,14 @@ export default function ContactForm({
   onTopicChange: (topic: string) => void;
 }) {
   const { t } = useLocale();
-  const [status, setStatus] = useState('');
+  // A string is field feedback; true requests the direct-email fallback.
+  const [status, setStatus] = useState<string | true>('');
   const [opening, setOpening] = useState(false);
   const [draft, setDraft] = useState(readContactDraft);
-  const [emailError, setEmailError] = useState(false);
   const openingTimer = useRef<number | null>(null);
-  const handledTopic = useRef(topic);
 
   useLayoutEffect(() => {
-    if (handledTopic.current === topic) return;
-    handledTopic.current = topic;
-    setEmailError(false);
     setStatus('');
-  }, [topic]);
-
-  useEffect(() => {
     saveContactDraft({ ...readContactDraft(), topic });
   }, [topic]);
 
@@ -40,7 +33,6 @@ export default function ContactForm({
     const next = { ...draft, ...values, topic };
     setDraft(next);
     saveContactDraft(next);
-    setEmailError(false);
     setStatus('');
   };
 
@@ -54,11 +46,12 @@ export default function ContactForm({
   function prepare(form: HTMLFormElement) {
     if (!form.reportValidity()) return;
     const data = new FormData(form);
-    const name = String(data.get('name') || '').trim();
-    const email = String(data.get('email') || '').trim();
-    const company = String(data.get('company') || '').trim();
-    const topic = String(data.get('topic') || '').trim();
-    const message = String(data.get('message') || '').trim();
+    const read = (field: string) => String(data.get(field) || '').trim();
+    const name = read('name');
+    const email = read('email');
+    const company = read('company');
+    const topic = read('topic');
+    const message = read('message');
     if (!name || message.length < 10) {
       setStatus(
         t(
@@ -93,7 +86,6 @@ export default function ContactForm({
     if (!email) return;
     setOpening(true);
     setStatus('');
-    setEmailError(false);
     try {
       window.location.href =
         'mailto:' +
@@ -103,7 +95,7 @@ export default function ContactForm({
         '&body=' +
         encodeURIComponent(email.body);
     } catch {
-      setEmailError(true);
+      setStatus(true);
     }
     openingTimer.current = window.setTimeout(() => {
       openingTimer.current = null;
@@ -111,17 +103,14 @@ export default function ContactForm({
     }, 700);
   }
 
-  const privacyMarker = '__APCOSYS_PRIVACY_POLICY__';
+  const privacyMarker = '__p__';
   const privacyConsent = t(
     'I agree to the processing of my data in line with the {privacyPolicy}.',
     { privacyPolicy: privacyMarker },
   );
-  const markerIndex = privacyConsent.indexOf(privacyMarker);
-  const privacyBefore = markerIndex >= 0 ? privacyConsent.slice(0, markerIndex) : privacyConsent;
-  const privacyAfter =
-    markerIndex >= 0 ? privacyConsent.slice(markerIndex + privacyMarker.length) : '';
+  const [privacyBefore, privacyAfter] = privacyConsent.split(privacyMarker);
   return (
-    <form id="contact-form" className="stage-contact-form" onSubmit={submit} noValidate={false}>
+    <form id="contact-form" className="stage-contact-form" onSubmit={submit}>
       <div className="stage-form-row">
         <label>
           {t('Name')}{' '}
@@ -160,32 +149,15 @@ export default function ContactForm({
             onChange={(event) => updateDraft({ company: event.target.value })}
           />
         </label>
-        <label>
-          {t('Topic')}{' '}
-          <span className="stage-select">
-            <select
-              name="topic"
-              required
-              value={topic}
-              onChange={(event) => {
-                handledTopic.current = event.target.value;
-                onTopicChange(event.target.value);
-                setEmailError(false);
-                setStatus('');
-              }}
-            >
-              <option value="" disabled>
-                {t('Select a topic')}
-              </option>
-              {topics.map((topic) => (
-                <option value={topic} key={topic}>
-                  {t(topic)}
-                </option>
-              ))}
-            </select>
-            <Icon name="chevron" />
-          </span>
-        </label>
+        <SelectField
+          name="topic"
+          label={t('Topic')}
+          placeholder={t('Select a topic')}
+          required
+          value={topic}
+          options={topics.map((value) => ({ value, label: t(value) }))}
+          onChange={onTopicChange}
+        />
       </div>
       <label>
         <span id="contact-message-label">{t('Message')}</span>
@@ -223,18 +195,15 @@ export default function ContactForm({
           {t(opening ? 'Opening email…' : 'Email us')}
         </DoubleButton>
       </div>
-      {(status || emailError) && (
+      {status && (
         <MorphPanel className="stage-form-feedback">
-          {status && (
-            <Text as="p" className="stage-form-status" role="status">
-              {status}
-            </Text>
-          )}
-          {emailError && (
-            <p className="stage-form-status" role="status">
+          <Text as="p" className="stage-form-status" role="status">
+            {typeof status === 'string' ? (
+              status
+            ) : (
               <a href={'mailto:' + supportEmail}>{t('Email {email}', { email: supportEmail })}</a>
-            </p>
-          )}
+            )}
+          </Text>
         </MorphPanel>
       )}
     </form>

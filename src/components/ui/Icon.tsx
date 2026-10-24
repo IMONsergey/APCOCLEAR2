@@ -5,6 +5,7 @@ export type IconName =
   | 'chevron'
   | 'search'
   | 'plus'
+  | 'check'
   | 'minus'
   | 'close'
   | 'menu'
@@ -25,6 +26,7 @@ const paths: Record<IconName, string> = {
   chevron: 'M4 6l4 4 4-4',
   search: 'm11.4 11.4 3.2 3.2M12.5 7A5.5 5.5 0 1 1 1.5 7a5.5 5.5 0 0 1 11 0',
   plus: 'M3 8h10M8 3v10',
+  check: 'm3 8 3 3 7-7',
   minus: 'M3 8h10',
   close: 'm4 4 8 8M12 4l-8 8',
   menu: 'M2 4h12M2 8h12M2 12h12',

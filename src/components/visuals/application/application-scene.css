@@ -605,12 +605,6 @@ html[data-theme='dark'] .application-scene {
 .application-refine-scene .application-result {
   grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.65fr) minmax(0, 0.75fr);
 }
-.application-scene [data-demo-target] {
-  --demo-emphasis: 0;
-  outline: 1px solid
-    color-mix(in srgb, var(--app-accent) calc(var(--demo-emphasis) * 35%), transparent);
-  outline-offset: 2px;
-}
 .application-demo-cursor {
   position: absolute;
   z-index: 5;

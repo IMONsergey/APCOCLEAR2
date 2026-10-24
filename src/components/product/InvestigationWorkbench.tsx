@@ -194,6 +194,12 @@ export function InvestigationWorkbench({ story = 'search' }: { story?: Story }) 
             id={'stage-panel-' + story}
             aria-labelledby={'stage-step-' + story + '-' + selected}
           >
+            <MorphPanel>
+              <div className="stage-workbench__insight" data-morph-enter>
+                <Text as="h3">{data.captions[selected]}</Text>
+                <Text as="p">{data.detail[selected]}</Text>
+              </div>
+            </MorphPanel>
             <div className="stage-workbench__record">
               <ProductEvidence
                 compact
@@ -207,17 +213,6 @@ export function InvestigationWorkbench({ story = 'search' }: { story?: Story }) 
                 scenario={(story === 'team' ? 'indicator' : 'domain') as EvidenceScenario}
               />
             </div>
-            <MorphPanel>
-              <div className="stage-workbench__insight" data-morph-enter>
-                <div>
-                  <Text as="h3">{data.captions[selected]}</Text>
-                  <Text as="p">{data.detail[selected]}</Text>
-                </div>
-                <span className="stage-workbench__query" title={t('Example only')}>
-                  {data.query}
-                </span>
-              </div>
-            </MorphPanel>
           </div>
         </div>
         <div className="stage-workbench__bottom">

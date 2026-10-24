@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import ru from '../../src/i18n/translations/ru';
 import zhHant from '../../src/i18n/translations/zh-Hant';
 import { formatTypography } from '../../src/i18n/typography';
+import { chooseSelectOption } from '../helpers/select';
 
 const catalogs: Record<string, Record<string, string>> = { ru, 'zh-Hant': zhHant };
 const localized = (locale: 'en' | 'ru' | 'zh-Hant', source: string) =>
@@ -17,7 +18,7 @@ async function fillContact(
   await form.locator('[name="name"]').fill('Audit Researcher');
   await form.locator('[name="email"]').fill('researcher@example.com');
   await form.locator('[name="company"]').fill('Example Research');
-  await form.locator('[name="topic"]').selectOption('API access');
+  await chooseSelectOption(form, 'API access');
   await form.locator('[name="message"]').fill(message);
   await form.locator('[name="consent"]').check();
   return form;
@@ -185,7 +186,7 @@ test('contact keeps a long message editable without duplicating it into a previe
   await expect(form.locator('[name="message"]')).toHaveAttribute('maxlength', '6000');
   await expect(form.locator('.stage-form-actions button')).toHaveCount(1);
   await expect(form.locator('.stage-prepared-email')).toHaveCount(0);
-  await form.locator('[name="topic"]').selectOption('Other');
+  await chooseSelectOption(form, 'Other');
   await expect(form.locator('[name="message"]')).toHaveValue(message);
 });
 
