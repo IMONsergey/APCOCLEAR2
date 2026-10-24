@@ -1642,6 +1642,8 @@ export default {
   'Find matching hosts, then inspect their ports and service responses.':
     '尋找符合條件的主機，再查看其連接埠與服務回應。',
   'Explore files in context.': '查看檔案及其所在位置。',
+  'Search reads the public index. Private scans are available by request for hosts you own, with consent and verified ownership; results are shared only with you.':
+    '搜尋使用公開索引。私人掃描須提出申請，僅針對您擁有的主機，並須取得您的同意及驗證所有權；結果僅提供給您。',
   'Group matching files by bucket and inspect their metadata.':
     '依儲存貯體分組符合條件的檔案，並查看其中繼資料。',
   'Locate the bucket': '找出儲存貯體',

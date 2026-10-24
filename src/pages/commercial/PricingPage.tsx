@@ -69,6 +69,10 @@ function FullPlanComparison() {
             </tbody>
           </table>
         </div>
+        <Text as="p" className="stage-helper">
+          Search reads the public index. Private scans are available by request for hosts you own,
+          with consent and verified ownership; results are shared only with you.
+        </Text>
         <p className="stage-helper">
           {t(
             'Need to use data commercially? Confirm the permitted use for your selected plan with Apcosys before purchasing.',

@@ -1708,6 +1708,8 @@ export default {
   'Find matching hosts, then inspect their ports and service responses.':
     'Найдите подходящие хосты, затем изучите их порты и ответы сервисов.',
   'Explore files in context.': 'Изучайте файлы в контексте.',
+  'Search reads the public index. Private scans are available by request for hosts you own, with consent and verified ownership; results are shared only with you.':
+    'Поиск использует публичный индекс. Приватное сканирование ваших хостов доступно по запросу, с вашего согласия и после подтверждения владения. Результаты доступны только вам.',
   'Group matching files by bucket and inspect their metadata.':
     'Группируйте найденные файлы по хранилищам и изучайте их метаданные.',
   'Locate the bucket': 'Найдите хранилище',
