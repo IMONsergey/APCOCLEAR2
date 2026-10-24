@@ -67,5 +67,4 @@ export const demoScenarios: Record<
     next: 'Use the HTTPS service or hostname as a new lead. Shared attributes do not establish ownership.',
   },
 };
-export const demoNotice =
-  'Synthetic demonstration. Reserved example addresses and authored service records; no live scan or CVE finding.';
+export const demoNotice = 'Example records';

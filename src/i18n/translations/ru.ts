@@ -1373,8 +1373,7 @@ export default {
   Selected: 'Выбрано',
   'SSH identification': 'Идентификация SSH',
   'SSH identification banner': 'Идентификационный баннер SSH',
-  'Synthetic demonstration. Reserved example addresses and authored service records; no live scan or CVE finding.':
-    'Синтетическая демонстрация. Зарезервированные примеры адресов и авторские записи о сервисах; без реального сканирования или вывода о CVE.',
+  'Example records': 'Примеры записей',
   'Write at least 10 characters, excluding surrounding spaces.':
     'Введите не менее 10 символов без учета пробелов в начале и конце.',
   'nginx 1.24.0 · HTTP Server header': 'nginx 1.24.0 · заголовок HTTP-сервера',

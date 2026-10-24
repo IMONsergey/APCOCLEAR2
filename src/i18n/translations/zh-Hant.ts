@@ -1316,8 +1316,7 @@ export default {
   Selected: '已選取',
   'SSH identification': 'SSH 識別資訊',
   'SSH identification banner': 'SSH 識別橫幅',
-  'Synthetic demonstration. Reserved example addresses and authored service records; no live scan or CVE finding.':
-    '合成示範。使用保留的範例位址與編寫的服務記錄；不包含即時掃描或 CVE 發現。',
+  'Example records': '範例記錄',
   'Write at least 10 characters, excluding surrounding spaces.':
     '請輸入至少 10 個字元，不計前後空格。',
   'nginx 1.24.0 · HTTP Server header': 'nginx 1.24.0 · HTTP 伺服器標頭',

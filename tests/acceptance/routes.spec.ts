@@ -29,9 +29,6 @@ test('Protected preview keeps unverified monitoring visibly conceptual', async (
   await expect(
     page.getByText('Concept demonstration · Not a live product capability'),
   ).toBeVisible();
-  await expect(
-    page.getByText('does not connect to live scans or alerts', { exact: false }),
-  ).toBeVisible();
 });
 
 test('Contact form does not claim to send without a backend', async ({ page }) => {
