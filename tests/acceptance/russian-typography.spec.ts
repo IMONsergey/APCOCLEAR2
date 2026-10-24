@@ -39,6 +39,13 @@ for (const width of [320, 375, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of localizedRoutes) {
       await page.goto(`./ru${route}`);
+      const main = page.locator('main');
+      await expect(main).toHaveAttribute('data-route', route);
+      await expect(main.locator('h1')).toBeVisible();
+      await expect(main.locator('.route-fallback, .route-error')).toHaveCount(0);
+      if (route.startsWith('/legal/')) {
+        await expect(main.locator('.legal-copy')).toBeVisible();
+      }
       await page.evaluate(() => document.fonts.ready);
       const layout = await page.evaluate(() => ({
         documentOverflow: document.documentElement.scrollWidth - innerWidth,

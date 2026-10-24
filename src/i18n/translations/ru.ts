@@ -875,7 +875,7 @@ export default {
   Topic: 'Тема',
   'Try Apcosys public search': 'Попробовать публичный поиск Apcosys',
   'Try free search': 'Попробовать бесплатный поиск',
-  'Try Search': 'Попробовать поиск',
+  'Try Search': 'Начать поиск',
   'TRY THE PUBLIC SEARCH BEFORE CREATING AN ACCOUNT':
     'ПОПРОБУЙТЕ ПУБЛИЧНЫЙ ПОИСК ПЕРЕД РЕГИСТРАЦИЕЙ',
   'Turn a technical question into a query, review the hosts that match and open each one to see the services, technologies and context behind it.':
