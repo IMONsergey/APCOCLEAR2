@@ -311,7 +311,7 @@ export default {
   'Domain, IP or technical attribute. It’s free':
     'Домен, IP или технический атрибут. Это бесплатно',
   Domains: 'Домены',
-  'Email us': 'Написать нам',
+  'Email us': 'Написать на почту',
   'Enter a domain, IP or technical attribute.': 'Введите домен, IP-адрес или технический атрибут.',
   'Enter an observed attribute': 'Введите наблюдаемый атрибут',
   'Evaluate it with your own research question.':
