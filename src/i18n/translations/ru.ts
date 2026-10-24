@@ -1736,8 +1736,8 @@ export default {
   'Example: search {domain}, then request analytics for the same filters. Two HTTP calls have a combined method cost of {cost} ({search} + {analytics}), returning host records and a breakdown to guide your next filter.':
     'Пример: найдите {domain}, затем запросите аналитику с теми же фильтрами. Суммарная стоимость методов для двух HTTP-вызовов — {cost} ({search} + {analytics}). Вы получите записи хостов и сводку, которая поможет выбрать следующий фильтр.',
   'Credits, tokens and API costs': 'Кредиты, токены и стоимость API',
-  'Plan allowances are listed in credits; additional packages are listed in Search Tokens. The HTTP API defines method costs against a rate allowance. No conversion between these measures is published.':
-    'Лимиты тарифов указаны в кредитах, дополнительные пакеты — в поисковых токенах. В HTTP API стоимость методов относится к лимиту API (rate allowance). Опубликованного пересчёта между этими величинами нет.',
+  'Each plan includes a credit allowance. Search Token packages add capacity. HTTP API method costs apply to the API rate allowance. Contact our team to confirm credit usage for your workflow.':
+    'В каждый тариф входит определённое количество кредитов. Пакеты поисковых токенов увеличивают доступный объём. Стоимость методов HTTP API относится к лимиту API (rate allowance). Уточните у нашей команды расход кредитов для ваших задач.',
   'How do API rate limits work?': 'Как работает ограничение частоты запросов API?',
   'Plus: {plus}. Expert: {expert}. Business: {business}. Requests above your plan’s rate receive HTTP 429. These limits control frequency, not the credit balance.':
     'Plus: {plus}. Expert: {expert}. Business: {business}. При превышении частоты запросов тарифного плана API отвечает HTTP 429. Эти ограничения относятся к частоте, а не к балансу кредитов.',
@@ -1748,8 +1748,8 @@ export default {
   'Annual pricing shows a monthly equivalent and the total billed for a year. The billing switch changes prices, not the credit amounts listed with each plan.':
     'При годовой оплате показаны цена в пересчёте на месяц и общая сумма за год. Переключатель периода меняет цены, но не объём кредитов, указанный для каждого тарифа.',
   'When do credits renew?': 'Когда обновляется лимит кредитов?',
-  'The published plan duration is 30 days. Annual credit renewal, expiry and rollover terms need confirmation before purchase.':
-    'Опубликованный срок тарифа — 30 дней. Перед годовой оплатой нужно уточнить, когда начисляются кредиты, каков срок их действия и переносятся ли остатки.',
+  'Contact our team to confirm annual credit renewal, expiry and unused-credit terms before purchase.':
+    'Перед покупкой уточните у нашей команды, как обновляется лимит кредитов при годовой оплате, каков срок их действия и что происходит с неиспользованным остатком.',
   'Free includes {credits} credits for one person, with basic search for personal, non-commercial use. Plus adds API access, CVE context and bucket search.':
     'Free включает {credits} кредитов для одного человека и базовый поиск для личного некоммерческого использования. Plus добавляет доступ к API, контекст CVE и поиск хранилищ.',
   'How do credits and API costs differ?': 'Чем отличаются кредиты и стоимость API?',

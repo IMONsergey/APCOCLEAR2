@@ -171,11 +171,13 @@ test('Pricing explains units before comparison without changing the original car
     'Two HTTP calls have a combined method cost of 4 (1 + 3)',
   );
   await expect(page.locator('.stage-usage-guide')).toContainText(
-    'No conversion between these measures is published.',
+    'Contact our team to confirm credit usage for your workflow.',
   );
   await expect(page.locator('.stage-usage-guide')).toContainText('HTTP 429');
   await expect(page.locator('#billing-questions')).toContainText('When do credits renew?');
-  await expect(page.locator('#billing-questions')).toContainText('30 days');
+  await expect(page.locator('#billing-questions')).toContainText(
+    'Contact our team to confirm annual credit renewal, expiry and unused-credit terms before purchase.',
+  );
   await expect(page.locator('#plan-business dl > div').last().locator('dd')).toHaveText('5');
   const sequence = await page.evaluate(() => {
     const guide = document.querySelector('.stage-usage-guide');

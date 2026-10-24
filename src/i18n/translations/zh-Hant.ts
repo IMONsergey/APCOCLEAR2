@@ -1668,8 +1668,8 @@ export default {
   'Example: search {domain}, then request analytics for the same filters. Two HTTP calls have a combined method cost of {cost} ({search} + {analytics}), returning host records and a breakdown to guide your next filter.':
     '例如：搜尋 {domain}，再用相同條件請求分析。這兩次 HTTP 呼叫的方法成本合計為 {cost}（{search} + {analytics}），可取得主機紀錄與彙總資訊，作為下一步篩選的依據。',
   'Credits, tokens and API costs': '額度、權杖與 API 成本',
-  'Plan allowances are listed in credits; additional packages are listed in Search Tokens. The HTTP API defines method costs against a rate allowance. No conversion between these measures is published.':
-    '各方案列出可用額度，加購套件則列出搜尋權杖數量。HTTP API 依速率配額（rate allowance）定義方法成本，目前沒有公開的換算關係。',
+  'Each plan includes a credit allowance. Search Token packages add capacity. HTTP API method costs apply to the API rate allowance. Contact our team to confirm credit usage for your workflow.':
+    '每個方案都包含可用額度。加購搜尋權杖套件可擴充使用容量。HTTP API 的方法成本計入 API 速率配額（rate allowance）。請聯絡我們的團隊，確認您的工作流程所需的額度用量。',
   'How do API rate limits work?': 'API 速率限制如何運作？',
   'Plus: {plus}. Expert: {expert}. Business: {business}. Requests above your plan’s rate receive HTTP 429. These limits control frequency, not the credit balance.':
     'Plus：{plus}。Expert：{expert}。Business：{business}。超過方案請求速率時，API 會回傳 HTTP 429。這些限制規範請求頻率，並非額度餘額。',
@@ -1680,8 +1680,8 @@ export default {
   'Annual pricing shows a monthly equivalent and the total billed for a year. The billing switch changes prices, not the credit amounts listed with each plan.':
     '年繳價格會顯示每月均價與全年總額。切換計費週期只會改變價格，不會改變各方案列出的額度數量。',
   'When do credits renew?': '額度何時更新？',
-  'The published plan duration is 30 days. Annual credit renewal, expiry and rollover terms need confirmation before purchase.':
-    '公開資料列出的方案期間為 30 天。選擇年繳前，需確認額度更新、到期與餘額結轉的規則。',
+  'Contact our team to confirm annual credit renewal, expiry and unused-credit terms before purchase.':
+    '購買前，請聯絡我們的團隊，確認年繳方案的額度更新、到期及未使用額度處理規則。',
   'Free includes {credits} credits for one person, with basic search for personal, non-commercial use. Plus adds API access, CVE context and bucket search.':
     'Free 包含供一人使用的 {credits} 額度，提供個人非商業用途的基本搜尋。Plus 再加入 API 存取、CVE 背景資訊與儲存貯體搜尋。',
   'How do credits and API costs differ?': '額度與 API 成本有何不同？',

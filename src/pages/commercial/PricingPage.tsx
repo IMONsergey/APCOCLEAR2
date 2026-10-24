@@ -168,7 +168,7 @@ export default function PricingPage() {
             },
             {
               title: 'When do credits renew?',
-              text: 'The published plan duration is 30 days. Annual credit renewal, expiry and rollover terms need confirmation before purchase.',
+              text: 'Contact our team to confirm annual credit renewal, expiry and unused-credit terms before purchase.',
             },
             {
               title: 'How are refunds handled?',

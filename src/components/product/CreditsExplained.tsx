@@ -66,9 +66,9 @@ export function CreditsExplained() {
               <div>
                 <Text as="h3">Credits, tokens and API costs</Text>
                 <Text as="p">
-                  Plan allowances are listed in credits; additional packages are listed in Search
-                  Tokens. The HTTP API defines method costs against a rate allowance. No conversion
-                  between these measures is published.
+                  Each plan includes a credit allowance. Search Token packages add capacity. HTTP
+                  API method costs apply to the API rate allowance. Contact our team to confirm
+                  credit usage for your workflow.
                 </Text>
               </div>
             </article>
