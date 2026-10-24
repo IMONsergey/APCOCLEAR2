@@ -159,7 +159,10 @@ for (const locale of ['ru', 'zh-Hant'] as const) {
     }
 
     await page.goto('./' + prefix + '/pricing');
-    const aboutLink = page.locator('a[href$="/about"]').first();
+    const aboutLink = page
+      .getByRole('navigation', { name: translated(locale, 'Footer'), exact: true })
+      .getByRole('link', { name: translated(locale, 'About'), exact: true });
+    await expect(aboutLink).toBeVisible();
     await expect(aboutLink).toHaveAttribute('href', new RegExp('/' + prefix + '/about$'));
     await aboutLink.click();
     await expect(page).toHaveURL(new RegExp('/' + prefix + '/about/?$'));

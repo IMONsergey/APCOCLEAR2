@@ -208,6 +208,10 @@ td {
 th {
   font-weight: 500;
 }
+/* A full-height drawer must cover the viewport, including Chromium's reserved page gutter. */
+html:has(.mobile-navigation[open]) {
+  scrollbar-gutter: auto;
+}
 .mobile-navigation {
   width: min(560px, 100vw);
   max-width: 100vw;

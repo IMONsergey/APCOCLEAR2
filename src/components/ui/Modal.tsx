@@ -70,9 +70,9 @@ export function Modal({ open, onClose, title, children, className = '', fallback
         dialog
           .querySelector<HTMLButtonElement>('.modal__header button')
           ?.focus({ preventScroll: true });
-      dialog.dataset.modalPhase = 'opening';
+      dialog.dataset.modalPhase = reduced ? 'open' : 'opening';
       if (!reduced) {
-        animation.current = dialog.animate(
+        const openAnimation = dialog.animate(
           navigation
             ? [
                 interrupted
@@ -90,6 +90,10 @@ export function Modal({ open, onClose, title, children, className = '', fallback
               ],
           { duration: navigation ? 380 : 220, easing: 'cubic-bezier(.16,1,.3,1)' },
         );
+        animation.current = openAnimation;
+        openAnimation.onfinish = () => {
+          if (animation.current === openAnimation) dialog.dataset.modalPhase = 'open';
+        };
         if (navigation) {
           contentAnimations.current = [...dialog.querySelectorAll<HTMLElement>('nav > *')].map(
             (item, index) =>

@@ -228,7 +228,7 @@ for (const locale of locales) {
     expect(errors).toEqual([]);
   });
 
-  for (const width of [320, 1440]) {
+  for (const width of [320, 390, 1440]) {
     for (const theme of ['light', 'dark'] as const) {
       const variant = `${locale.language} ${width}px ${theme}`;
 
@@ -278,6 +278,10 @@ for (const locale of locales) {
           await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
         ).toBeLessThanOrEqual(1);
       });
+
+      // The intermediate phone width also covers the compact research-scene breakpoint.
+      // API and closing retain their existing endpoint coverage below.
+      if (width === 390) continue;
 
       test(`Figma API credentials and quotas remain readable without a live request: ${variant}`, async ({
         page,

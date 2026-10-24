@@ -88,6 +88,7 @@ for (const locale of [
     await toggle.click();
     const drawer = page.locator('dialog.mobile-navigation');
     await expect(drawer).toBeVisible();
+    await expect(drawer).toHaveAttribute('data-modal-phase', 'open');
     await expect(drawer).toBeInViewport({ ratio: 1 });
     const bounds = await drawer.boundingBox();
     expect(bounds).not.toBeNull();
@@ -117,6 +118,15 @@ for (const locale of [
         'the focused Platform link must remain below the sticky drawer heading',
       ).toBe(true);
     }
+    await page.keyboard.press('Escape');
+    await expect(drawer).not.toBeVisible();
+    await expect(toggle).toBeFocused();
+
+    // The same viewport contract holds after the native entrance animation.
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await toggle.click();
+    await expect(drawer).toHaveAttribute('data-modal-phase', 'open');
+    await expect(drawer).toBeInViewport({ ratio: 1 });
     await page.keyboard.press('Escape');
     await expect(drawer).not.toBeVisible();
     await expect(toggle).toBeFocused();

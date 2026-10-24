@@ -552,13 +552,19 @@ html[data-theme='dark'] .application-scene {
     padding: 2.5cqw;
   }
   .application-product-scene > div {
-    gap: 3px;
+    gap: 2px;
   }
   .application-query-intro .application-query-title {
     font-size: var(--font-size-16);
   }
   .application-query-scene {
-    row-gap: var(--space-2);
+    padding-inline: 0;
+  }
+  .application-query-examples {
+    gap: 4px;
+  }
+  .application-query-examples > span {
+    padding: 2px 4px;
   }
   .application-query-bar {
     min-height: 22px;
@@ -572,10 +578,20 @@ html[data-theme='dark'] .application-scene {
     padding-inline: var(--space-1);
   }
   .application-result {
-    padding: var(--space-1);
+    row-gap: 2px;
+    padding: 2px;
   }
   .application-result-list {
-    gap: 3px;
+    gap: 2px;
+  }
+  .application-result-identity {
+    row-gap: 0;
+  }
+  .application-result-services {
+    gap: 2px;
+  }
+  .application-ports > span {
+    padding-block: 0;
   }
   .application-facet-country img {
     display: none;
@@ -587,11 +603,21 @@ html[data-theme='dark'] .application-scene {
     gap: 6px;
   }
   .application-object-tabs > span {
-    padding-block: 3px;
+    padding-block: 2px;
+  }
+  .application-services,
+  .application-response {
+    gap: 2px;
   }
   .application-services > span {
     gap: 3px;
-    padding: 3px;
+    padding: 2px 3px;
+  }
+  .application-response pre {
+    padding: 2px 4px;
+  }
+  .application-product {
+    padding-top: 1px;
   }
   .application-certificate,
   .application-validity,

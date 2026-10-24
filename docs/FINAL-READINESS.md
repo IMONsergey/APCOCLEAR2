@@ -24,7 +24,7 @@ The previous reduction to 11 blocks is no longer the intended composition. This 
 
 ### Five walkthrough scenes and API
 
-All five “One query, step by step” scenes use the same compact **3:2 frame**. Their extra top panels are removed, and their text, controls and data rows use a consistent smaller scale. The first query scene contains the query interface without its former illustration.
+All five “One query, step by step” scenes use the same compact **3:2 frame**. Their extra top panels are removed, and their text, controls and data rows use a consistent smaller scale. The first query scene contains the query interface without its former illustration. Phone cards use the full available content rail; compact internal gaps and padding keep all text and both search results visible even with a classic browser scrollbar. The five scene proportions and font-size requirements remain unchanged.
 
 The separate API scene uses a compact **12 px text base** and smaller interface spacing. The scenes retain readable complete content before animation starts and when reduced motion is enabled.
 
@@ -47,7 +47,7 @@ The Platform group now contains the following six destinations in the desktop he
 | Responsible Scanning   | `/responsible-scanning`          |
 | Talk to Us             | `/contact`                       |
 
-Mobile navigation accommodates the expanded group with viewport-aware height, internal scrolling and corrected focus handling. The update adds three Platform regression scenarios, bringing the acceptance inventory to **702 cases per engine**, or **2,106 across Chromium, Firefox and WebKit**. An inventory count is separate from a completed run.
+Mobile navigation accommodates the expanded group with viewport-aware height, internal scrolling and corrected focus handling. Its fullscreen drawer clears the reserved page scrollbar gutter only while open, preventing a 15 px Chromium offset. The native modal phase reaches `open` after the entrance animation or immediately with reduced motion. Three Platform regression scenarios and six intermediate-phone scene checks bring the acceptance inventory to **708 cases per engine**, or **2,124 across Chromium, Firefox and WebKit**. An inventory count is separate from a completed run.
 
 ## Russian client-copy integration
 
@@ -55,7 +55,7 @@ The supplied `правки (1).docx` was reviewed against the current implementa
 
 ### Marketing and interface copy
 
-The review covers **99 marketing items: 29 screenshot/freeform corrections and 70 table entries** for About and Responsible Scanning. The supplied wording is used with corrections to grammar, terminology and natural Russian phrasing. Placeholder values and split source keys remain consistent. Six legal-page hero summaries are included in the interface-copy review; the legal bodies are reviewed separately below.
+The review covers **99 marketing items: 29 screenshot/freeform corrections and 70 table entries** for About and Responsible Scanning. The supplied wording is used with corrections to grammar, terminology and natural Russian phrasing. Placeholder values and split source keys remain consistent. Six legal-page hero summaries are included in the interface-copy review; the legal bodies are reviewed separately below. A further pass over the restored capability tabs corrected 12 literal Russian formulations while preserving the supplied collection wording and aligning the shared search CTA with the page name. Contact distinguishes its form anchor from its direct email link.
 
 All 19 page identities remain available in English, Russian and Traditional Chinese, producing 57 normal localized URLs. The current catalog checks cover 749 required authored messages and 1,317 entries in each translated catalog.
 
@@ -92,7 +92,9 @@ The build retains 57 static route metadata documents and the existing configured
 
 The first focused Firefox run contained **95 cases: 93 passed and two failed**. The failures exposed Russian heading-word layout at **320 px**. Both issues were corrected, and both targeted reruns passed. A subsequent compact-layout run passed all five cases. Independent checks of the restored column rails and responsive containers passed all 18 cases, including the shared page rails from 320 to 2560 px, with no skips, retries or flaky results.
 
-These focused results establish the reported fixes. The new full acceptance workflow still needs to run against the exact committed revision before its result can be added here. The previous suite's six unsupported Layout Instability API measurements in each of Firefox and WebKit remain explicitly identified in the historical record; they do not waive general layout, navigation or accessibility checks.
+The subsequent [candidate workflow 40071324997](https://github.com/IMONsergey/APCOCLEAR2/actions/runs/40071324997), commit `a5e23ce`, found three regression groups before deployment: compact-scene clipping with Chromium classic scrollbars, the fullscreen drawer gutter offset, and an ambiguous About test locator selecting a hidden Platform link. Its results were Chromium 691 passed / 11 failed, Firefox 694 passed / 2 failed / 6 skipped, and WebKit 694 passed / 2 failed / 6 skipped. Deployment was blocked.
+
+Those causes are corrected in this checkpoint. A production-preview Chromium pass across illustration, compact-layout, localization, responsive navigation, column-rail and responsive-container suites passed **90/90** cases. All five scenes at the additional **390 px** width then passed all **six** language/theme cases. The drawer and focus checks separately passed **10/10** cases across Chromium and Firefox, including normal and reduced motion. The corrected About-link scenarios also passed in Firefox. No glyph-size requirement, clipping tolerance or viewport-coverage requirement was reduced. The new full acceptance workflow still needs to run against the exact committed revision before its result can be added here. The previous suite's six unsupported Layout Instability API measurements in each of Firefox and WebKit remain explicitly identified in the historical record; they do not waive general layout, navigation or accessibility checks.
 
 ### Visual inspection completed at this checkpoint
 
@@ -100,7 +102,8 @@ These focused results establish the reported fixes. The new full acceptance work
 | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
 | English desktop               | Audience section and both illustrations, all five walkthrough scenes, API scene and Closing section     |
 | Russian at 320 px             | All five walkthrough scenes, Audience, API and Closing, including the corrected narrow heading behavior |
-| Mobile at 390 px              | Expanded mobile-menu layout and scrolling                                                               |
+| Mobile at 390 px              | Expanded mobile-menu layout and scrolling; RU About, Responsible Scanning and Contact in dark mode       |
+| Russian legal pages           | All six documents at 390 px: page headers and long-body samples; API contents disclosure/anchor; desktop Terms |
 | Traditional Chinese desktop   | All five walkthrough scenes, API, Closing and both Audience illustrations; balanced audience headings   |
 | Traditional Chinese at 320 px | All five walkthrough scenes, API and Closing; last-card alignment matches the first card                |
 
