@@ -67,7 +67,7 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  min-height: 560px;
+  min-height: 0;
   aspect-ratio: auto;
   background: white;
   pointer-events: none;
@@ -88,7 +88,7 @@
   inset: 16px -16px -16px 16px;
 }
 .api-demo-frame > .application-scene {
-  min-height: 560px;
+  min-height: 0;
 }
 .application-api-scene {
   padding: var(--space-4);
@@ -158,10 +158,6 @@
   .api-copy .double-button__label {
     flex: 1;
     justify-content: flex-start;
-  }
-  .api-demo-frame,
-  .api-demo-frame > .application-scene {
-    min-height: 600px;
   }
   .api-demo-frame,
   .api-demo-frame::before,

@@ -20,14 +20,33 @@ test('home contains all new content, five animated scenes, one set of coverage f
   );
   await expect(page.locator('.data-section')).not.toContainText('88 585 365');
   const collection = page.locator('#capabilities');
+  await collection.getByRole('button', { name: /Buckets/ }).click();
   await expect(collection).toContainText('Confirm current availability and plan access');
   await expect(collection.locator('.capability-record__host')).toHaveCount(2);
-  await expect(collection.getByRole('link', { name: 'Talk to Us' })).toHaveAttribute(
-    'href',
-    /contact$/,
-  );
-  await expect(page.locator('main .home-capabilities__tabs')).toHaveCount(0);
-  await expect(page.locator('#use-cases #audiences')).toBeVisible();
+  await expect(
+    collection.getByRole('link', { name: 'Explore Search & Investigation' }),
+  ).toHaveAttribute('href', /search-investigation$/);
+  await expect(page.locator('main .home-capabilities__tabs button')).toHaveCount(5);
+  await expect(page.locator('main > #audiences')).toBeVisible();
+  await expect(page.locator('#audiences .audience-art')).toHaveCount(2);
+  const sequence = await page
+    .locator('main section')
+    .evaluateAll((sections) => sections.map((section) => section.id || section.classList[0]));
+  expect(sequence).toEqual([
+    'hero',
+    'search-preview',
+    'what-you-can-search',
+    'how-it-works',
+    'use-cases',
+    'capabilities',
+    'audiences',
+    'data',
+    'api',
+    'pricing',
+    'home-team-cta',
+    'faq',
+    'closing-section',
+  ]);
   await expect(page.locator('.api-section .api-demo-frame')).toBeVisible();
 });
 

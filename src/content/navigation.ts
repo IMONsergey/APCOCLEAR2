@@ -10,6 +10,9 @@ export const navigation = [
       { label: 'Search & Investigation', href: '/platform/search-investigation' },
       { label: 'Data & Methodology', href: '/platform/data-methodology' },
       { label: 'Monitoring', href: '/platform/monitoring' },
+      { label: 'About', href: '/about' },
+      { label: 'Responsible Scanning', href: '/responsible-scanning' },
+      { label: 'Talk to Us', href: '/contact' },
     ],
   },
   {
@@ -43,7 +46,7 @@ export const footerGroups = [
     links: [
       ['Bug Bounty', '/use-cases/bug-bounty'],
       ['Vulnerability Research', '/use-cases/vulnerability-research'],
-      ['OSINT & Threat Investigation', '/use-cases/osint-threat-investigation'],
+      ['OSINT', '/use-cases/osint-threat-investigation'],
     ],
   },
   { title: 'For Teams', links: [['Security Teams', '/teams']] },

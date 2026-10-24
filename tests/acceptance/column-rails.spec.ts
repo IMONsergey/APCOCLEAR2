@@ -11,7 +11,7 @@ const structures = [
   '.summary-grid',
   '.home-searchable__layout',
   '.home-usecases__grid',
-  '.home-collection__layout',
+  '.home-capabilities__stage',
   '.audience-grid',
   '.api-grid',
   '.plan-grid',

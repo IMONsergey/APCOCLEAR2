@@ -7,7 +7,6 @@ import { Visual } from '../visuals/Visual';
 import { StepIllustration } from '../visuals/StepIllustration';
 import { DoubleButton } from '../ui/DoubleButton';
 import { siteHref } from '../../app/paths';
-import { ResearchCollection } from './HomeProductSections';
 export function StepCarousel() {
   const { locale, t } = useLocale();
   const { track, position, positions, move, goTo } = useCarousel();
@@ -110,7 +109,6 @@ export function StepCarousel() {
           <LocaleText>{t('Explore Search & Investigation')}</LocaleText>
         </DoubleButton>
       </div>
-      <ResearchCollection />
     </section>
   );
 }

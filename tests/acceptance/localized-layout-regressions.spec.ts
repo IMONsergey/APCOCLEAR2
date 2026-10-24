@@ -83,7 +83,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme });
     await ready(page, './ru/');
     await expectTextWithinParent(page.locator('.metric-card > dt, .metric-card > dd'));
-    await expectTextWithinParent(page.locator('.home-collection__copy h3'));
+    await expectTextWithinParent(page.locator('.home-capabilities__copy h3'));
     await expectTextWithinParent(page.locator('.footer-columns a > .locale-text'));
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),

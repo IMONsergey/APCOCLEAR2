@@ -29,7 +29,7 @@ const locales = [
     apiHeading: 'Создавайте с Apcosys',
     quotas: ['Остаток кредитов на запросы', 'Остаток кредитов на сканирование'],
     closing: 'Начните с первого запроса.',
-    action: 'Попробовать бесплатный поиск',
+    action: 'Попробовать бесплатно',
   },
   {
     route: './zh-hant/',
@@ -208,7 +208,7 @@ for (const locale of locales) {
       await expect(scene).toHaveAttribute('data-demo-phase', String(phase));
       await expect(scene.locator('.application-certificate-title')).toHaveText(locale.certificate);
       await expect(scene.locator('.application-tls-service[data-demo-service="443"]')).toHaveText(
-        '443 / HTTPS · example.com',
+        '443 / HTTPS',
       );
       await expect(scene.locator('.application-certificate dl dd')).toHaveText([
         'example.com',
@@ -216,10 +216,14 @@ for (const locale of locales) {
       ]);
       await expect(scene.locator('.application-fingerprint > span')).toHaveText('SHA-256');
       await expect(scene.locator('.application-fingerprint code')).toHaveText(
+        /^7A:3C:91:0F:26:5E.+AE:0C:62:98:F3$/,
+      );
+      await expect(scene.locator('.application-fingerprint code')).toHaveAttribute(
+        'title',
         /^(?:[0-9A-F]{2}:){31}[0-9A-F]{2}$/,
       );
       await expect(scene).not.toContainText(/OpenSSH|SSH-2\.0|CVE-\d{4}-\d+/);
-      await expectReadableContents(scene);
+      await expectReadableContents(scene, 9.5);
     }
     expect(errors).toEqual([]);
   });
@@ -249,7 +253,7 @@ for (const locale of locales) {
             await expectFigmaScene(scene, node!);
             await expect(scene.locator(selector!)).toBeVisible();
             await expect(scene.locator(selector!)).toHaveText(text!, { useInnerText: true });
-            await expectReadableContents(scene);
+            await expectReadableContents(scene, 9.5);
             if (name === 'host') {
               await expect(scene).toContainText('nginx');
               await expect(scene).toContainText('HTTP/1.1 200 OK');
@@ -289,10 +293,10 @@ for (const locale of locales) {
         await expectFigmaScene(demo, '903:53837');
         await expect(demo.locator('.application-api__heading')).toHaveText(locale.apiHeading);
         for (const [file, size] of [
-          ['copy-white.svg', 20],
-          ['copy-accent.svg', 20],
-          ['external.svg', 20],
-          ['code.svg', 36],
+          ['copy-white.svg', 16],
+          ['copy-accent.svg', 16],
+          ['external.svg', 16],
+          ['code.svg', 24],
         ] as const) {
           const icon = demo.locator(`img[src$="/application/${file}"]`);
           await expect(icon).toBeVisible();

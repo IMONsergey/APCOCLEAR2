@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { MorphPanel } from '../ui/MorphPanel';
 import { demoHosts } from '../../content/product-demo';
 import { Icon } from '../ui/Icon';
@@ -101,6 +102,61 @@ export function DataLens({ selected }: { selected: number }) {
         </div>
       </MorphPanel>
       <div className="data-lens__footer">{t('One observation, with its technical context.')}</div>
+    </div>
+  );
+}
+
+export function SearchFragment() {
+  const { t } = useLocale();
+  const [query, setQuery] = useState('example.com');
+  return (
+    <div className="query-fragment" aria-label={t('Search starting points')}>
+      <div className="query-fragment__input">
+        <Icon name="search" />
+        <code>{query}</code>
+        <span>↵</span>
+      </div>
+      <p>{t('Start with an attribute you already know.')}</p>
+      <div className="query-fragment__options">
+        {['example.com', '198.51.100.24', 'nginx 1.24.0'].map((q, i) => (
+          <button type="button" key={q} aria-pressed={query === q} onClick={() => setQuery(q)}>
+            <span>{t(['Domain', 'IP address', 'Technology'][i]!)}</span>
+            <code>{q}</code>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function HostFragment() {
+  const { t } = useLocale();
+  const host = demoHosts[0]!;
+  return (
+    <div className="host-fragment">
+      <header>
+        <span>{t('Host view')}</span>
+        <strong>{host.ip}</strong>
+        <small>{host.hostname}</small>
+      </header>
+      <div className="host-fragment__facts">
+        <div>
+          <span>HTTPS</span>
+          <strong>443</strong>
+        </div>
+        <div>
+          <span>HTTP</span>
+          <strong>80</strong>
+        </div>
+        <div>
+          <span>{t('Technology')}</span>
+          <strong>nginx</strong>
+        </div>
+      </div>
+      <pre>
+        <code>{'HTTP/1.1 200 OK\nServer: nginx/1.24.0'}</code>
+      </pre>
+      <p>{t('Service response · illustrative record')}</p>
     </div>
   );
 }

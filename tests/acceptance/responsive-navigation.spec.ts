@@ -7,6 +7,122 @@ async function visit(page: Page, width = 1440, height = 1000) {
   await page.evaluate(() => document.fonts.ready);
 }
 
+const platformDestinations = [
+  'platform/search-investigation',
+  'platform/data-methodology',
+  'platform/monitoring',
+  'about',
+  'responsible-scanning',
+  'contact',
+];
+
+for (const locale of [
+  {
+    language: 'en',
+    prefix: '',
+    platform: 'Platform',
+    labels: [
+      'Search & Investigation',
+      'Data & Methodology',
+      'Monitoring',
+      'About',
+      'Responsible Scanning',
+      'Talk to Us',
+    ],
+  },
+  {
+    language: 'ru',
+    prefix: 'ru/',
+    platform: 'Платформа',
+    labels: [
+      'Поиск и исследование',
+      'Данные и методология',
+      'Мониторинг',
+      'О нас',
+      'Ответственное сканирование',
+      'Связаться с нами',
+    ],
+  },
+  {
+    language: 'zh-Hant',
+    prefix: 'zh-hant/',
+    platform: '平台',
+    labels: ['搜尋與調查', '資料與方法論', '監控', '關於我們', '負責任的掃描', '聯絡我們'],
+  },
+]) {
+  test(`${locale.language} keeps all six Platform links reachable in short desktop and mobile menus`, async ({
+    page,
+    baseURL,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 1440, height: 320 });
+    await page.goto(`./${locale.prefix}`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator('html')).toHaveAttribute('lang', locale.language);
+    const expectedHrefs = platformDestinations.map(
+      (path) => new URL(`./${locale.prefix}${path}`, baseURL!).pathname,
+    );
+
+    const trigger = page
+      .locator('.desktop-nav')
+      .getByRole('button', { name: locale.platform, exact: true });
+    await trigger.focus();
+    await page.keyboard.press('ArrowDown');
+    const panel = page.locator('#nav-panel-0');
+    const desktopLinks = panel.getByRole('link');
+    await expect(desktopLinks).toHaveCount(6);
+    await expect(desktopLinks).toHaveText(locale.labels);
+    expect(
+      await desktopLinks.evaluateAll((links) => links.map((link) => link.getAttribute('href'))),
+    ).toEqual(expectedHrefs);
+    await expect(panel).toBeInViewport({ ratio: 1 });
+    await expect(desktopLinks.first()).toBeFocused();
+    await page.keyboard.press('End');
+    await expect(desktopLinks.last()).toBeFocused();
+    await expect(desktopLinks.last()).toBeInViewport({ ratio: 1 });
+    await page.keyboard.press('Escape');
+    await expect(trigger).toBeFocused();
+
+    await page.setViewportSize({ width: 390, height: 600 });
+    const toggle = page.locator('.menu-toggle');
+    await toggle.click();
+    const drawer = page.locator('dialog.mobile-navigation');
+    await expect(drawer).toBeVisible();
+    await expect(drawer).toBeInViewport({ ratio: 1 });
+    const bounds = await drawer.boundingBox();
+    expect(bounds).not.toBeNull();
+    expect(bounds!.x).toBeCloseTo(0, 0);
+    expect(bounds!.y).toBeCloseTo(0, 0);
+    expect(bounds!.width).toBeCloseTo(390, 0);
+    expect(bounds!.height).toBeCloseTo(600, 0);
+
+    const mobilePlatform = drawer.locator('.mobile-nav-group').first();
+    await expect(mobilePlatform.locator('.eyebrow')).toHaveText(locale.platform);
+    const mobileLinks = mobilePlatform.getByRole('link');
+    await expect(mobileLinks).toHaveCount(6);
+    await expect(mobileLinks).toHaveText(locale.labels);
+    expect(
+      await mobileLinks.evaluateAll((links) => links.map((link) => link.getAttribute('href'))),
+    ).toEqual(expectedHrefs);
+    await expect(drawer.locator('.modal__header button')).toBeFocused();
+    for (const link of await mobileLinks.all()) {
+      await page.keyboard.press('Tab');
+      await expect(link).toBeFocused();
+      await expect(link).toBeInViewport({ ratio: 1 });
+      expect(
+        await link.evaluate((element) => {
+          const header = element.closest('dialog')!.querySelector('.modal__header')!;
+          return element.getBoundingClientRect().top >= header.getBoundingClientRect().bottom - 1;
+        }),
+        'the focused Platform link must remain below the sticky drawer heading',
+      ).toBe(true);
+    }
+    await page.keyboard.press('Escape');
+    await expect(drawer).not.toBeVisible();
+    await expect(toggle).toBeFocused();
+  });
+}
+
 for (const width of [320, 390, 768, 1200, 1440, 1920]) {
   test('English content remains readable and intrinsic at ' + width + 'px', async ({ page }) => {
     await visit(page, width);

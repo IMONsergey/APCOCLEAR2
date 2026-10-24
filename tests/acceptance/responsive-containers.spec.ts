@@ -51,7 +51,8 @@ test('data lens adapts its internal columns to its own width', async ({ page }) 
 test('research collection stays readable in a narrow desktop slot', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('./');
-  const collection = page.locator('.home-collection .capability-record');
+  await page.locator('.home-capabilities__tabs button').nth(3).click();
+  const collection = page.locator('.home-capabilities .capability-record');
   await expect(collection).toBeVisible();
   await collection.evaluate((element: HTMLElement) => {
     element.style.width = '240px';

@@ -210,12 +210,14 @@ th {
 }
 .mobile-navigation {
   width: min(560px, 100vw);
+  max-width: 100vw;
   max-height: 100dvh;
   height: 100dvh;
   margin: 0 0 0 auto;
   border-radius: 0;
   border: 0;
   padding: var(--space-6);
+  scroll-padding-block: calc(2 * var(--space-6) + 44px) var(--space-8);
 }
 .mobile-navigation .modal__header {
   position: sticky;
@@ -319,6 +321,7 @@ th {
   }
   .mobile-navigation {
     width: 100vw;
+    max-height: 100dvh;
   }
 }
 @media (max-width: 340px) {

@@ -1,4 +1,5 @@
 export default {
+  OSINT: 'OSINT',
   'Team & Business plan': '團隊與 Business 方案',
   'Billing & invoices': '帳單與發票',
   'Responsible scanning': '負責任的掃描',
@@ -1423,8 +1424,8 @@ export default {
   'Open documentation': '開啟文件',
   'API access and rate limits depend on your plan.': 'API 存取權限與請求速率限制依方案而定。',
   '{percent} left': '剩餘 {percent}',
-  'Search workspace with filters, a query field and supported query types.':
-    '含篩選條件、查詢欄位與支援查詢類型的搜尋工作區。',
+  'Search workspace with a query field and supported query types.':
+    '含查詢欄位與支援查詢類型的搜尋工作區。',
   'Review the service response, certificate and observed technical context.':
     '檢視服務回應、憑證及觀測到的技術背景資訊。',
   'Illustrative TLS certificate, issuer, validity period and fingerprint for an individual host.':

@@ -99,10 +99,9 @@
   position: relative;
   isolation: isolate;
   margin-top: 0;
-  padding: clamp(20px, calc(40px * var(--space-density)), 40px) 0
-    clamp(18px, calc(34px * var(--space-density)), 34px) 32px;
+  padding: var(--space-6) var(--space-3) var(--space-3);
   background: linear-gradient(180deg, white, var(--surface-tint));
-  min-height: calc(345px * var(--media-density));
+  min-height: 0;
 }
 .step-media > .visual {
   z-index: 0;
@@ -111,21 +110,17 @@
   position: relative;
   width: 100%;
   margin-inline-start: auto;
-  min-height: 440px;
+  min-height: 0;
   max-width: 100%;
-  aspect-ratio: auto;
-  border-radius: var(--radius-panel) 0 0 var(--radius-panel);
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-panel);
   z-index: 1;
   overflow: clip;
   transition: transform 320ms var(--ease);
 }
 .step-illustration > .application-scene {
-  min-height: 440px;
-}
-@container research (min-width: 1800px) {
-  .step-media {
-    min-height: calc(395px * var(--media-density));
-  }
+  min-height: 0;
+  height: 100%;
 }
 @container research (max-width: 1199px) {
   .section-heading-row {
@@ -145,9 +140,6 @@
   .step-copy {
     min-height: 218px;
     padding-inline: var(--space-7);
-  }
-  .step-media {
-    min-height: 320px;
   }
 }
 @container research (max-width: 899px) {
@@ -175,17 +167,13 @@
   .step-copy p {
     margin-top: var(--space-6);
   }
-  .step-media {
-    padding: var(--space-7) 0 var(--space-6) var(--space-6);
-    min-height: 246px;
-  }
 }
 @media (max-width: 599px) {
   .steps {
     padding-top: var(--space-10);
   }
 }
-@container research (max-width: 599px) {
+@container research (max-width: 767px) {
   .steps-intro {
     gap: var(--space-4);
   }
@@ -203,6 +191,7 @@
   .step-track {
     --card-width: calc(100cqw - 2 * var(--gutter) - 16px);
     gap: var(--space-4);
+    padding-right: calc(var(--gutter) + 16px);
   }
   .step-copy {
     padding: var(--space-6) var(--space-6) 0;

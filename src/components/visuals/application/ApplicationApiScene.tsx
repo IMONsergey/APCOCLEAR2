@@ -40,9 +40,10 @@ export function ApplicationApiScene() {
             <div
               className="application-api__action application-api__action--primary"
               data-demo-target="api-copy"
+              title={t('Copy API key')}
             >
               <span className="application-api__copy-label">
-                <span className="application-api__copy-default">{t('Copy API key')}</span>
+                <span className="application-api__copy-default">{t('Copy')}</span>
                 <span data-demo-copy-state>{t('Copied')}</span>
               </span>
               <img src={assetUrl('application', 'copy-white.svg')} width="20" height="20" alt="" />
@@ -64,8 +65,10 @@ export function ApplicationApiScene() {
                 </code>
               </div>
             </div>
-            <div className="application-api__action">
-              <span>{t('Copy base URL')}</span>
+            <div
+              className="application-api__action application-api__icon-action"
+              title={t('Copy base URL')}
+            >
               <img src={assetUrl('application', 'copy-accent.svg')} width="20" height="20" alt="" />
             </div>
           </div>

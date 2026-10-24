@@ -9,12 +9,24 @@ for (const width of [390, 1440, 1920]) {
     expect(box!.height).toBeLessThan(width < 600 ? 460 : 300);
     await expect(page.locator('main .eyebrow')).toHaveCount(0);
     await expect(page.locator('.home-searchable .product-evidence')).toHaveCount(0);
-    await expect(page.locator('.home-collection .product-evidence')).toHaveCount(0);
+    await expect(page.locator('.home-capabilities .product-evidence')).toHaveCount(0);
     const sceneTops = await page
       .locator('.step-illustration')
       .evaluateAll((scenes) => scenes.map((scene) => scene.getBoundingClientRect().top));
     expect(sceneTops).toHaveLength(5);
     expect(Math.max(...sceneTops) - Math.min(...sceneTops)).toBeLessThanOrEqual(1);
+    const canvases = await page.locator('.step-illustration').evaluateAll((scenes) =>
+      scenes.map((scene) => {
+        const rect = scene.getBoundingClientRect();
+        return { width: rect.width, height: rect.height };
+      }),
+    );
+    for (const canvas of canvases) {
+      expect(Math.abs(canvas.width / canvas.height - 1.5)).toBeLessThan(0.01);
+      expect(Math.abs(canvas.height - canvases[0]!.height)).toBeLessThanOrEqual(1);
+    }
+    await expect(page.locator('.application-toolbar')).toHaveCount(0);
+    await expect(page.locator('[data-scene="query"] .application-query-art')).toHaveCount(0);
     await expect(page.locator('.home-searchable .double-button')).toHaveAttribute(
       'href',
       /data-methodology/,
@@ -81,5 +93,6 @@ test('data selectors are keyboard operable and section actions use the shared bu
   await expect(page.locator('#plan-business .plan-button--accent')).toContainText('Talk to Us');
   await expect(page.locator('.home-searchable .double-button--primary')).toBeVisible();
   await expect(page.locator('.step-evidence-note .double-button')).toBeVisible();
+  await page.locator('.home-capabilities__tabs button').nth(3).click();
   await expect(page.locator('.capability-record__host')).toHaveCount(2);
 });

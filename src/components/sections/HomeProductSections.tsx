@@ -1,8 +1,8 @@
 import '../../styles/compact-experience.css';
 import { useState } from 'react';
+import { MorphPanel } from '../ui/MorphPanel';
 import { siteHref } from '../../app/paths';
-import { DataLens } from '../product/CompactFragments';
-import { AudienceSection } from './AudienceSection';
+import { DataLens, SearchFragment, HostFragment } from '../product/CompactFragments';
 import { TeamSignal } from '../product/TeamSignal';
 import { DoubleButton } from '../ui/DoubleButton';
 import { ThemedArtwork } from '../ui/ThemedArtwork';
@@ -165,42 +165,204 @@ export function HomeUseCases() {
             </article>
           ))}
         </div>
-        <AudienceSection />
       </div>
     </section>
   );
 }
-export function ResearchCollection() {
+const capabilityNotes = [
+  [
+    ['Start with what you know', 'An address, domain or product name.'],
+    ['Follow the result', 'Open a host to inspect its service evidence.'],
+  ],
+  [
+    ['Narrow the view', 'Keep only the protocol relevant to your question.'],
+    ['Keep the context', 'The host and its other observations remain connected.'],
+  ],
+  [
+    ['Read the response', 'Inspect what the service actually returned.'],
+    ['Check the detection', 'Compare the reported product with its evidence.'],
+  ],
+  [
+    ['Collect the leads', 'Keep related hosts in a research shortlist.'],
+    ['Pick up the investigation', 'Return to the observations you need to review.'],
+  ],
+  [
+    ['Use structured data', 'Bring supported observations into your workflow.'],
+    ['Connect your tools', 'Work with the documented request and response format.'],
+  ],
+];
+const capabilities = [
+  {
+    label: 'Search',
+    title: 'Start with a technical attribute.',
+    text: 'An IP, domain, service or technology becomes your starting point.',
+    mode: 'query',
+  },
+  {
+    label: 'Filter',
+    title: 'Focus on the relevant service.',
+    text: 'Select HTTPS to narrow this demonstration to the service you want to inspect.',
+    mode: 'services',
+  },
+  {
+    label: 'Host View',
+    title: 'Read the evidence in context.',
+    text: 'Ports, services and detected versions belong to one selected host.',
+    mode: 'host',
+  },
+  {
+    label: 'Buckets',
+    title: 'Keep a useful lead together.',
+    text: 'An illustrative saved collection. Confirm current availability and plan access with the team.',
+    mode: 'host',
+  },
+  {
+    label: 'API',
+    title: 'Continue in your own tools.',
+    text: 'Take supported search and host data into scripts and internal workflows.',
+    mode: 'host',
+  },
+] as const;
+export function CapabilitiesSection() {
   const { t } = useLocale();
+  const [selected, setSelected] = useState(0);
+  const [httpsOnly, setHttpsOnly] = useState(false);
+  const item = capabilities[selected]!;
   return (
-    <div id="capabilities" className="container home-collection" aria-labelledby="collection-title">
-      <div className="home-collection__layout">
-        <div className="home-collection__copy">
-          <h3 id="collection-title">{t('Keep a useful lead together.')}</h3>
-          <p>
-            {t(
-              'An illustrative saved collection. Confirm current availability and plan access with the team.',
-            )}
-          </p>
-          <DoubleButton compact variant="secondary" href={siteHref('/contact')}>
-            {t('Talk to Us')}
-          </DoubleButton>
+    <section
+      className="home-capabilities section-space"
+      id="capabilities"
+      aria-labelledby="capabilities-title"
+    >
+      <div className="container">
+        <div className="home-product-heading">
+          <h2 id="capabilities-title">{t('The tools to go deeper.')}</h2>
         </div>
-        <div className="capability-record">
-          <div className="capability-record__bar">
-            <span>{t('BUCKETS / CONCEPT')}</span>
-            <span>{t('Research shortlist')}</span>
-          </div>
-          {demoHosts.map((host) => (
-            <div className="capability-record__host" key={host.ip}>
-              <strong>{host.hostname}</strong>
-              <span>{host.ip}</span>
-              <p>{t('Review service evidence and confirm authorised scope.')}</p>
-            </div>
+        <div
+          className="home-capabilities__tabs"
+          role="group"
+          aria-label={t('Investigation capabilities')}
+        >
+          {capabilities.map((cap, i) => (
+            <button
+              type="button"
+              key={cap.label}
+              aria-pressed={selected === i}
+              onClick={() => setSelected(i)}
+            >
+              <span>0{i + 1}</span>
+              {t(cap.label)}
+            </button>
           ))}
         </div>
+        <MorphPanel>
+          <div className="home-capabilities__stage" data-morph-enter>
+            <div className="home-capabilities__copy">
+              <h3>{t(item.title)}</h3>
+              <p>{t(item.text)}</p>
+              <DoubleButton
+                variant="primary"
+                compact
+                href={siteHref(
+                  selected === 4 ? '/developers/api' : '/platform/search-investigation',
+                )}
+              >
+                {t(selected === 4 ? 'Explore API integration' : 'Explore Search & Investigation')}
+              </DoubleButton>
+            </div>
+            <div className="home-capabilities__screen">
+              {selected === 1 ? (
+                <div className="capability-record">
+                  <div className="capability-record__bar">
+                    <span>{t('SERVICE FILTER / SYNTHETIC DEMO')}</span>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={httpsOnly}
+                        onChange={(e) => setHttpsOnly(e.target.checked)}
+                      />
+                      {t('HTTPS only')}
+                    </label>
+                  </div>
+                  {demoHosts.map((host) => (
+                    <div className="capability-record__host" key={host.ip}>
+                      <strong>{host.ip}</strong>
+                      <span>{host.hostname}</span>
+                      {host.services
+                        .filter((s) => !httpsOnly || s.protocol === 'HTTPS')
+                        .map((s) => (
+                          <p key={s.port}>
+                            <code>
+                              {s.port} / {s.protocol}
+                            </code>
+                            <span>{s.technology}</span>
+                          </p>
+                        ))}
+                    </div>
+                  ))}
+                </div>
+              ) : selected === 3 ? (
+                <div className="capability-record">
+                  <div className="capability-record__bar">
+                    <span>{t('BUCKETS / CONCEPT')}</span>
+                    <span>{t('Research shortlist')}</span>
+                  </div>
+                  {demoHosts.map((host) => (
+                    <div className="capability-record__host" key={host.ip}>
+                      <strong>{host.hostname}</strong>
+                      <span>{host.ip}</span>
+                      <p>{t('Review service evidence and confirm authorised scope.')}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : selected === 4 ? (
+                <div className="capability-record">
+                  <div className="capability-record__bar">
+                    <span>{t('INTEGRATION / EXAMPLE')}</span>
+                    <span>{t('Host context')}</span>
+                  </div>
+                  <pre>
+                    <code>
+                      {JSON.stringify(
+                        {
+                          host: demoHosts[0]!.ip,
+                          services: demoHosts[0]!.services.map((s) => ({
+                            port: Number(s.port),
+                            technology: s.technology,
+                          })),
+                        },
+                        null,
+                        2,
+                      )}
+                    </code>
+                  </pre>
+                  <p className="home-product-caption">
+                    {t(
+                      'Illustrative data shape. The API contract comes from the product documentation.',
+                    )}
+                  </p>
+                </div>
+              ) : selected === 0 ? (
+                <SearchFragment />
+              ) : (
+                <HostFragment />
+              )}
+            </div>
+            <div className="capability-notes">
+              {capabilityNotes[selected]!.map(([title, text], i) => (
+                <div className="capability-notes__tile" key={title}>
+                  <span className="capability-notes__mark" aria-hidden="true">
+                    {i === 0 ? '01' : '02'}
+                  </span>
+                  <h4>{t(title!)}</h4>
+                  <p>{t(text!)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </MorphPanel>
       </div>
-    </div>
+    </section>
   );
 }
 export function SecurityTeamsCTA() {

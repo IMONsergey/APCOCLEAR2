@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { assetUrl } from '../../../content/assets';
 import type { ResearchScene } from '../../../content/research';
 import { useLocale } from '../../../i18n/context';
@@ -42,10 +41,7 @@ function ResultRow({ secondary = false }: { secondary?: boolean }) {
         <strong className="application-result-address">
           {secondary ? '192.0.2.11' : '192.0.2.10'}
         </strong>
-        <span className="application-link">
-          {secondary ? 'host-02.example.com' : 'example.com'}
-        </span>
-        {!secondary && <span className="application-muted">{t('Example Network')} · AS64496</span>}
+        <span className="application-link">{secondary ? 'cdn.example.com' : 'example.com'}</span>
       </div>
       <div className="application-result-services">
         <span className="application-ports">
@@ -57,6 +53,11 @@ function ResultRow({ secondary = false }: { secondary?: boolean }) {
           nginx
         </span>
       </div>
+      {!secondary && (
+        <span className="application-result-network application-muted">
+          {t('Example Network')} · AS64496
+        </span>
+      )}
       {!secondary && <Country />}
     </div>
   );
@@ -92,13 +93,6 @@ function QueryScene() {
   return (
     <div className="application-query-scene">
       <div className="application-query-intro">
-        <img
-          className="application-aperture"
-          src={assetUrl('application', 'aperture.svg')}
-          width="100"
-          height="95"
-          alt=""
-        />
         <h4 className="application-query-title">{t('Search internet infrastructure.')}</h4>
         <p>{t('Find hosts, services and networks.')}</p>
       </div>
@@ -212,7 +206,7 @@ function EvidenceScene() {
       <HostHeading />
       <ObjectTabs tls />
       <div className="application-tls-service" data-demo-service="443">
-        443 / HTTPS · example.com
+        443 / HTTPS
       </div>
       <div className="application-certificate" data-demo-target="tls-identity">
         <h4 className="application-certificate-title">
@@ -244,17 +238,7 @@ function EvidenceScene() {
       <div className="application-fingerprint" data-demo-target="tls-fingerprint">
         <strong>{t('Certificate fingerprint')}</strong>
         <span>SHA-256</span>
-        <code>
-          {fingerprint.split(':').map((byte, index, bytes) => (
-            <Fragment key={index}>
-              <span>
-                {byte}
-                {index < bytes.length - 1 ? ':' : ''}
-              </span>
-              <wbr />
-            </Fragment>
-          ))}
-        </code>
+        <code title={fingerprint}>7A:3C:91:0F:26:5E ··· AE:0C:62:98:F3</code>
       </div>
     </div>
   );

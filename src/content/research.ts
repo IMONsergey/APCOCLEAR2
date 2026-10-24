@@ -4,7 +4,7 @@ export const researchSteps = [
     title: 'Query.',
     scene: 'query',
     description: 'Search internet-facing hosts, services and technologies.',
-    alt: 'Search workspace with filters, a query field and supported query types.',
+    alt: 'Search workspace with a query field and supported query types.',
   },
   {
     title: 'Results.',
