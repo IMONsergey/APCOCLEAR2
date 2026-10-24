@@ -87,4 +87,20 @@
   .site .inner-pages .stage-example-journey {
     grid-template-columns: minmax(0, 1fr);
   }
+  /* Keep a complete plan beside the pinned labels at every horizontal stop. */
+  .site .inner-pages .stage-plan-comparison .stage-table-scroll {
+    container-type: inline-size;
+  }
+  .site .inner-pages .stage-plan-table {
+    table-layout: fixed;
+    min-width: 0;
+    width: 262cqi;
+  }
+  .site .inner-pages .stage-plan-table th:first-child {
+    min-width: 0;
+    width: 46cqi;
+  }
+  .site .inner-pages .stage-plan-table :is(th, td) {
+    padding-right: var(--space-3);
+  }
 }

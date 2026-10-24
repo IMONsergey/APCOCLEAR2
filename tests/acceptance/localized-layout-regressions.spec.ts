@@ -222,6 +222,45 @@ test('Russian pricing uses translated filters, plural units and an early compari
   expect((await hint.boundingBox())!.y).toBeLessThan((await comparison.boundingBox())!.y);
 });
 
+for (const locale of ['', 'ru/', 'zh-hant/']) {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`plan comparison values stay visible beside pinned labels: ${locale || 'en'} ${theme}`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      for (const width of [320, 390]) {
+        await page.setViewportSize({ width, height: 900 });
+        await ready(page, './' + locale + 'pricing');
+        const scroll = page.locator('#compare-plans .stage-table-scroll');
+        for (let column = 1; column <= 4; column++) {
+          await scroll.evaluate((element, index) => {
+            const headings = element.querySelectorAll('thead th');
+            const label = headings[0]!.getBoundingClientRect();
+            const plan = headings[index]!.getBoundingClientRect();
+            element.scrollLeft += plan.left - label.right;
+          }, column);
+          const clipped = await scroll.evaluate((element, index) => {
+            const viewport = element.getBoundingClientRect();
+            return [...element.querySelectorAll('tr')].flatMap((row) => {
+              const label = row.children[0]!.getBoundingClientRect();
+              const cell = row.children[index]!;
+              const range = document.createRange();
+              range.selectNodeContents(cell);
+              const outside = [...range.getClientRects()].some(
+                (rect) =>
+                  rect.width > 0 &&
+                  (rect.left < label.right - 1 || rect.right > viewport.right + 1),
+              );
+              return outside ? [cell.textContent] : [];
+            });
+          }, column);
+          expect(clipped, `${locale || 'en'} ${width}px plan column ${column}`).toEqual([]);
+        }
+      }
+    });
+  }
+}
+
 test('the homepage comparison offers a route to the complete feature table', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 });
   await ready(page, './');
