@@ -32,6 +32,9 @@ for (const [locale, labels] of Object.entries(topicLabels)) {
       });
     });
     await page.goto(`./${locale}/contact`);
+    // Static hosts may canonicalize directory routes with a trailing slash.
+    await expect(page).toHaveURL(new RegExp(`/${locale}/contact/?$`));
+    const contactUrl = page.url();
     const form = page.locator('#contact-form');
     await expect(form.locator('select option:not([value=""])')).toHaveText(labels);
     await form.locator('[name="name"]').fill('Contact review');
@@ -54,7 +57,7 @@ for (const [locale, labels] of Object.entries(topicLabels)) {
       await expect.poll(draftText).toContain(`Apcosys: ${label}`);
       expect((await draftText()).split(label!).length - 1).toBe(2);
       await expect(prepared).toBeFocused();
-      await expect(page).toHaveURL(new RegExp(`/${locale}/contact$`));
+      await expect(page).toHaveURL(contactUrl);
     }
   });
 }

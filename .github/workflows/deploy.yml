@@ -87,8 +87,8 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Audit production dependencies
-        run: npm run audit:production
+      - name: Audit all dependencies
+        run: npm audit --audit-level=high
       - name: Lint and typecheck
         run: npm run check
       - name: Build

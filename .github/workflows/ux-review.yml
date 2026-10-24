@@ -36,7 +36,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm run audit:production
+      - run: npm audit --audit-level=high
       - run: npm run check
       - name: Resolve review destination
         id: target
