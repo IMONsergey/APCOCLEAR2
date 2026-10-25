@@ -8,6 +8,11 @@ import { hasLocalizedCopy } from '../i18n/localized-routes';
 import { localizedMetadataSource } from '../i18n/route-metadata';
 import { getRoutePath, isRouteAvailable, localeHref, resolveSiteLocation } from './paths';
 
+function savedScrollY(): number | undefined {
+  const value: unknown = history.state?.apcoScrollY;
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : undefined;
+}
+
 function resolveScroll({ smooth = false, focus = false } = {}) {
   let targetId: string;
   try {
@@ -41,23 +46,30 @@ export function useSiteRoute(locale: Locale) {
     let navigating = false;
     let activeTransition: ViewTransition | undefined;
     let fallbackAnimation: Animation | undefined;
+    const saveScroll = () => {
+      if (!navigating) history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
+    };
     const recordScroll = () => {
       if (navigating) return;
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        if (!navigating) history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
-      });
+      frame = requestAnimationFrame(saveScroll);
     };
     const waitForPage = async (targetPath: string, version: number) =>
       (await waitForRouteReady(targetPath, readiness.signal)) && version === navigationVersion;
-    const applyScroll = (y: number, smooth = false, focus = false) => {
-      if (!location.hash || !resolveScroll({ smooth, focus }))
-        scrollTo({ top: y, behavior: 'instant' });
+    const applyScroll = (rememberedY?: number, smooth = false, focus = false) => {
+      // A history entry remembers where reading stopped, even if its URL has a hash.
+      if (rememberedY !== undefined) {
+        scrollTo({ top: rememberedY, behavior: 'instant' });
+        return false;
+      }
+      if (location.hash && resolveScroll({ smooth, focus })) return true;
+      scrollTo({ top: 0, behavior: 'instant' });
+      return false;
     };
     const navigate = async (
       targetPath: string,
       url?: URL,
-      rememberedY = 0,
+      rememberedY?: number,
       originDialog: HTMLDialogElement | null = null,
     ) => {
       const version = ++navigationVersion;
@@ -85,8 +97,8 @@ export function useSiteRoute(locale: Locale) {
           currentPath = targetPath;
           startTransition(() => setPath(targetPath));
           if (!(await waitForPage(targetPath, version))) return;
-          applyScroll(rememberedY, samePage && !!url, samePage && !!url);
-          if (!samePage) {
+          const anchored = applyScroll(rememberedY, samePage && !!url, !!url);
+          if (!samePage && !anchored) {
             const heading = document.querySelector<HTMLElement>('main h1');
             heading?.setAttribute('tabindex', '-1');
             heading?.focus({ preventScroll: true });
@@ -129,8 +141,7 @@ export function useSiteRoute(locale: Locale) {
       }
     };
     const sync = () => {
-      const rememberedY = Number(history.state?.apcoScrollY) || 0;
-      void navigate(getRoutePath(), undefined, rememberedY);
+      void navigate(getRoutePath(), undefined, savedScrollY());
     };
     const internalAnchor = (target: EventTarget | null) => {
       if (!(target instanceof Element)) return null;
@@ -174,20 +185,21 @@ export function useSiteRoute(locale: Locale) {
       const anchor = internalAnchor(event.target);
       if (!anchor) return;
       event.preventDefault();
-      if (anchor.url.href === location.href && !navigating) {
-        if (anchor.url.hash) resolveScroll({ smooth: true, focus: true });
-        return;
-      }
-      void navigate(anchor.targetPath, anchor.url, 0, anchor.originDialog);
+      void navigate(anchor.targetPath, anchor.url, undefined, anchor.originDialog);
     };
     window.addEventListener('popstate', sync);
     window.addEventListener('scroll', recordScroll, { passive: true });
+    window.addEventListener('pagehide', saveScroll);
     document.addEventListener('click', intercept);
     document.addEventListener('pointerover', warm, { passive: true });
     document.addEventListener('focusin', warm);
-    if (location.hash)
+    const initialY = savedScrollY();
+    if (location.hash || initialY !== undefined)
       void waitForPage(getRoutePath(), navigationVersion).then((ready) => {
-        if (ready) resolveScroll();
+        if (ready) {
+          applyScroll(initialY);
+          recordScroll();
+        }
       });
     return () => {
       navigationVersion++;
@@ -198,6 +210,7 @@ export function useSiteRoute(locale: Locale) {
       cancelAnimationFrame(frame);
       window.removeEventListener('popstate', sync);
       window.removeEventListener('scroll', recordScroll);
+      window.removeEventListener('pagehide', saveScroll);
       document.removeEventListener('click', intercept);
       document.removeEventListener('pointerover', warm);
       document.removeEventListener('focusin', warm);

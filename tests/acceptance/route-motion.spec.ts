@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { revealHeader } from '../helpers/locale';
 
 for (const mode of ['native', 'fallback', 'reduced'] as const) {
   test(`navigation keeps the current page while loading and restores history: ${mode}`, async ({
@@ -103,3 +104,64 @@ test('returning to the current page cancels an unfinished navigation', async ({ 
   await expect(page.locator('main')).toHaveAttribute('data-route', '/');
   await expect(page).not.toHaveURL(/\/pricing$/);
 });
+
+for (const mode of ['native', 'fallback', 'reduced'] as const) {
+  test(`history restores the reading position beyond a URL anchor: ${mode}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: mode === 'reduced' ? 'reduce' : 'no-preference' });
+    if (mode === 'fallback')
+      await page.addInitScript(() => {
+        Object.defineProperty(document, 'startViewTransition', { value: undefined });
+      });
+    await page.goto('./platform/search-investigation#search-syntax');
+    await expect(page.locator('#search-syntax')).toBeInViewport();
+    await page.evaluate(() => document.fonts.ready);
+    for (const y of [0, 800]) {
+      await page.evaluate((top) => scrollTo({ top, behavior: 'instant' }), y);
+      await expect.poll(() => page.evaluate(() => history.state?.apcoScrollY)).toBe(y);
+      await page.evaluate(() => {
+        document.querySelector<HTMLAnchorElement>('.site-header a[href$="/pricing"]')!.click();
+      });
+      await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
+      await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+      await page.goBack();
+      await expect(page.locator('main')).toHaveAttribute(
+        'data-route',
+        '/platform/search-investigation',
+      );
+      await expect(page).toHaveURL(/#search-syntax$/);
+      await expect.poll(() => page.evaluate((top) => Math.abs(scrollY - top), y)).toBeLessThan(2);
+    }
+    await page.reload();
+    await expect(page.locator('#search-syntax')).toBeAttached();
+    await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 800))).toBeLessThan(2);
+  });
+}
+
+for (const width of [390, 1440]) {
+  test(`reselecting the current route returns to its start without another history entry: ${width}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('./');
+    await expect(page.locator('.hero h1')).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(() => scrollTo({ top: 900, behavior: 'instant' }));
+    await revealHeader(page);
+    const entries = await page.evaluate(() => history.length);
+    await page.locator('.brand').click();
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    expect(await page.evaluate(() => history.length)).toBe(entries);
+    if (width < 1200) {
+      await page.goto('./pricing');
+      await expect(page.locator('main h1')).toBeVisible();
+      await page.evaluate(() => scrollTo({ top: 500, behavior: 'instant' }));
+      await revealHeader(page);
+      await page.locator('.menu-toggle').click();
+      await page.locator('.mobile-navigation .mobile-pricing[href$="/pricing"]').click();
+      await expect(page.locator('dialog[open]')).toHaveCount(0);
+      await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+      await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+    }
+  });
+}

@@ -196,3 +196,47 @@ test('a missing route canonically identifies itself instead of the homepage', as
     url.origin + url.pathname,
   );
 });
+
+for (const width of [390, 1440]) {
+  for (const [route, anchor] of [
+    ['', 'api'],
+    ['platform/search-investigation', 'search-syntax'],
+    ['pricing', 'compare-plans'],
+    ['docs/investors', 'investor-platform'],
+    ['developers/api/docs', 'errors'],
+    ['legal/terms', 'governing-law'],
+  ] as const) {
+    test(`language round trip keeps the visible anchor: ${route || 'home'} at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      await page.goto(`./${route}?source=language#${anchor}`);
+      for (const [language, label] of [
+        ['ru', 'Русский'],
+        ['zh-Hant', '繁體中文'],
+        ['en', 'English'],
+      ] as const) {
+        await expect(page.locator(`[id="${anchor}"]`)).toBeInViewport();
+        await openLanguageMenu(page);
+        await page.getByRole('menuitemradio', { name: label, exact: true }).click();
+        await expect(page.locator('html')).toHaveAttribute('lang', language);
+        await expect(page.locator(`[id="${anchor}"]`)).toBeInViewport();
+        await page.evaluate(() => document.fonts.ready);
+        const destination = new URL(page.url());
+        expect(destination.search).toBe('?source=language');
+        expect(destination.hash).toBe(`#${anchor}`);
+        await expect
+          .poll(() =>
+            page
+              .locator(`[id="${anchor}"]`)
+              .evaluate((element) => element.getBoundingClientRect().top),
+          )
+          .toBeGreaterThanOrEqual(-1);
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth - innerWidth),
+        ).toBeLessThanOrEqual(1);
+      }
+    });
+  }
+}

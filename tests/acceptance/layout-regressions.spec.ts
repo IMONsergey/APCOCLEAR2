@@ -54,6 +54,7 @@ test('Business action lands on the named plan', async ({ page }) => {
   await page.getByRole('link', { name: 'View Business Plan', exact: true }).first().click();
   await expect(page).toHaveURL(/\/pricing#plan-business$/);
   await expect(page.locator('#plan-business')).toBeInViewport();
+  await expect(page.locator('#plan-business')).toBeFocused();
 });
 
 for (const denied of [false, true]) {
