@@ -70,6 +70,30 @@ test('home contains all new content, five animated scenes, one set of coverage f
   await expect(page.locator('.api-section .api-demo-frame')).toBeVisible();
 });
 
+for (const locale of ['', 'ru/', 'zh-hant/']) {
+  test(`${locale || 'en'} investigation fits the complete desktop workbench within 650px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`./${locale}platform/search-investigation`);
+    await page.evaluate(() => document.fonts.ready);
+    const workbench = page.locator('.stage-workbench');
+    await expect(workbench.locator('.stage-workbench__step')).toHaveCount(3);
+    for (const step of await workbench.locator('.stage-workbench__step').all()) {
+      await step.click();
+      await expect(step).toHaveAttribute('aria-selected', 'true');
+      const height = (await workbench.boundingBox())!.height;
+      expect(
+        height,
+        'the full section includes its heading, controls, active scene and footnotes',
+      ).toBeLessThanOrEqual(650);
+    }
+    await workbench.locator('.investigation-detail-tabs button').last().click();
+    expect((await workbench.boundingBox())!.height).toBeLessThanOrEqual(650);
+    await expect(workbench.locator('.investigation-tls')).toBeVisible();
+  });
+}
+
 for (const width of [320, 390, 599, 768, 1024]) {
   test(
     'compact investigation active tab and search content remain visible at ' + width,
@@ -85,6 +109,9 @@ for (const width of [320, 390, 599, 768, 1024]) {
           width: stage.clientWidth,
           navWidth: navBox.width,
           viewerWidth: viewerBox.width,
+          queryOverflow:
+            stage.querySelector('.stage-workbench__viewer')!.scrollWidth -
+            stage.querySelector('.stage-workbench__viewer')!.clientWidth,
           viewerClearance: viewerBox.top - navBox.bottom,
           tabTops: [...navigation.querySelectorAll('[role="tab"]')].map(
             (tab) => tab.getBoundingClientRect().top,
@@ -95,6 +122,10 @@ for (const width of [320, 390, 599, 768, 1024]) {
       // This also guards the tablet breakpoint against a leftover desktop sidebar.
       expect(Math.abs(layout.navWidth - layout.width)).toBeLessThanOrEqual(1);
       expect(Math.abs(layout.viewerWidth - layout.width)).toBeLessThanOrEqual(1);
+      expect(
+        layout.queryOverflow,
+        'the query field and example actions fit their viewport',
+      ).toBeLessThanOrEqual(1);
       expect(layout.viewerClearance).toBeGreaterThanOrEqual(-1);
       expect(Math.max(...layout.tabTops) - Math.min(...layout.tabTops)).toBeLessThanOrEqual(1);
       const first = nav.getByRole('tab').first();
@@ -104,12 +135,34 @@ for (const width of [320, 390, 599, 768, 1024]) {
       const last = nav.getByRole('tab').last();
       await expect(last).toBeFocused();
       await expect(last).toHaveAttribute('aria-selected', 'true');
+      for (const selector of [
+        '.stage-workbench__viewer',
+        '.investigation-host__services',
+        '.investigation-service-detail__body',
+      ]) {
+        const spill = await page
+          .locator(selector)
+          .evaluate((element) => element.scrollWidth - element.clientWidth);
+        expect(spill, selector + ' has no clipped service content').toBeLessThanOrEqual(1);
+      }
+      await expect(page.locator('.investigation-service-detail__body pre')).toHaveCSS(
+        'font-size',
+        '14px',
+      );
       const n = await nav.boundingBox(),
         a = await last.boundingBox();
       expect(a!.x).toBeGreaterThanOrEqual(n!.x - 1);
       expect(a!.x + a!.width).toBeLessThanOrEqual(n!.x + n!.width + 1);
       await last.press('Home');
       expect(await nav.evaluate((e) => e.scrollLeft)).toBeLessThanOrEqual(1);
+      await nav.getByRole('tab').nth(1).click();
+      const resultOverflow = await page
+        .locator('.stage-workbench__viewer')
+        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      expect(resultOverflow, 'results reflow without a clipped desktop table').toBeLessThanOrEqual(
+        1,
+      );
+      await expect(page.locator('.investigation-result')).toHaveCount(2);
       await page.goto('./');
       const scene = page.locator('.search-scene');
       await scene.scrollIntoViewIfNeeded();
@@ -196,7 +249,11 @@ test('Monitoring carries selected synthetic host into investigation', async ({ p
   await page.locator('.stage-monitor-assets__list button').nth(1).click();
   await page.locator('.stage-monitor-console__nav').last().click();
   await page.locator('.stage-monitor-console__link').click();
-  await expect(page.locator('.product-evidence__details h3')).toContainText('203.0.113.42');
+  await expect(page.locator('.investigation-host__heading h3')).toContainText('203.0.113.42');
+  await expect(page.locator('.stage-workbench__step').last()).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
 });
 
 test('new components have no decorative unicode arrows', () => {

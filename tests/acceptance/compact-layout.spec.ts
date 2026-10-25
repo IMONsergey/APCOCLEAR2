@@ -128,7 +128,10 @@ for (const width of [390, 1440, 1920]) {
       }),
     );
     for (const canvas of canvases) {
-      expect(Math.abs(canvas.width / canvas.height - 1.5)).toBeLessThan(0.01);
+      expect(canvas.height, 'Compact excerpts reserve a readable canvas').toBeGreaterThanOrEqual(
+        300,
+      );
+      expect(canvas.height).toBeLessThanOrEqual(360);
       expect(Math.abs(canvas.height - canvases[0]!.height)).toBeLessThanOrEqual(1);
       expect(
         Math.abs(canvas.left - canvas.copyLeft),
@@ -138,9 +141,9 @@ for (const width of [390, 1440, 1920]) {
         canvas.cardLeft,
       );
       expect(
-        canvas.width,
-        'the preserved screen size permits only a small crop at the card right edge',
-      ).toBeLessThanOrEqual(canvas.cardWidth);
+        canvas.left + canvas.width,
+        'the complete application screen fits inside its card',
+      ).toBeLessThanOrEqual(canvas.cardLeft + canvas.cardWidth);
     }
     await expect(page.locator('.application-toolbar')).toHaveCount(0);
     await expect(

@@ -1,16 +1,17 @@
 .application-api-scene {
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
+  align-content: start;
   flex: 1;
   min-width: 0;
-  gap: var(--space-6);
+  gap: var(--space-4);
   padding: var(--space-6);
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
   line-height: 1.5;
 }
 .application-api__intro {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
 }
@@ -24,9 +25,10 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  font-size: var(--font-size-12);
 }
 .application-api__tabs {
-  gap: 20px;
+  gap: var(--space-4);
 }
 .application-api__tabs > span {
   padding-block: 0 10px;
@@ -38,6 +40,7 @@
 }
 .application-api__workspace {
   display: grid;
+  align-items: start;
   min-width: 0;
 }
 .application-api__panel {
@@ -45,12 +48,13 @@
   grid-area: 1 / 1;
   grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: var(--space-4);
-  align-items: stretch;
-  align-content: stretch;
+  align-items: start;
+  align-content: start;
   min-width: 0;
 }
 .application-api__credentials,
-.application-api__credits,
+.application-api__summary,
+.application-api__credit,
 .application-api__limits {
   padding: var(--space-4);
   border: 1px solid var(--app-line);
@@ -58,8 +62,8 @@
 }
 .application-api__credentials {
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: var(--space-5);
+  align-content: start;
+  gap: var(--space-4);
   min-width: 0;
 }
 .application-api__card-heading {
@@ -94,8 +98,13 @@
 .application-api__card-heading p,
 .application-api__credit-label,
 .application-api__credit-total,
+.application-api__summary dt,
 .application-api__limits dt {
   color: var(--app-muted);
+}
+.application-api__card-heading p,
+.application-api__credit-label {
+  line-height: 1.5;
 }
 .application-api__field-group {
   display: grid;
@@ -117,6 +126,7 @@
 }
 .application-api__field code {
   min-width: 0;
+  font-family: 'IBM Plex Mono', monospace;
   letter-spacing: 1px;
 }
 .application-api__actions {
@@ -155,31 +165,24 @@
 }
 .application-api__credits {
   display: grid;
-  gap: var(--space-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: var(--space-3);
   min-width: 0;
-  background: var(--app-soft);
 }
 .application-api__access {
   grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 6px;
-}
-.application-api__access > span {
-  color: var(--app-accent);
+  font-size: var(--font-size-14);
 }
 .application-api__credit {
   display: grid;
-  align-content: center;
+  grid-template-rows: subgrid;
+  grid-row: span 4;
+  align-content: start;
   gap: var(--space-3);
   min-width: 0;
 }
 .application-api__credit-value {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 2px 4px;
   font-variant-numeric: tabular-nums;
 }
 .application-api__credit-value > span:first-child {
@@ -198,6 +201,46 @@
   border-radius: inherit;
   background: var(--app-accent);
 }
+.application-api__credit-total {
+  font-variant-numeric: tabular-nums;
+}
+.application-api__summary {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-width: 0;
+  background: var(--app-soft);
+}
+.application-api__summary h4 {
+  font-size: var(--font-size-14);
+}
+.application-api__summary dl {
+  display: grid;
+  min-width: 0;
+}
+.application-api__summary dl > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  row-gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--app-line);
+}
+.application-api__summary dt {
+  flex: 1 1 90px;
+  min-width: 0;
+}
+.application-api__summary dd {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.application-api__summary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
 .application-api__limits h4 {
   font-size: var(--font-size-14);
   margin-bottom: var(--space-4);
@@ -214,6 +257,7 @@
 }
 .application-api__limits dd {
   font-weight: 500;
+  white-space: nowrap;
 }
 .application-scene[data-api-view='usage'] .application-api__key-tab {
   color: var(--app-muted);
@@ -225,12 +269,7 @@
 }
 .application-api__panel--usage {
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) auto;
   visibility: hidden;
-}
-.application-api__panel--usage .application-api__credits {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  background: var(--app-surface);
 }
 .application-scene[data-api-view='usage'] .application-api__panel--key {
   visibility: hidden;
@@ -248,22 +287,20 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .application-api__credentials,
-  .application-api__credits,
+  .application-api__summary,
+  .application-api__credit,
   .application-api__limits {
     padding: 12px;
   }
   .application-api__credentials,
-  .application-api__credits {
+  .application-api__summary {
     gap: 12px;
   }
-  .application-api__credits {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .application-api__access {
-    grid-column: 1 / -1;
+  .application-api__summary dl > div {
+    padding-block: 8px;
   }
   .application-api__credit-value > span:first-child {
-    font-size: var(--font-size-16);
+    font-size: var(--font-size-18);
   }
   .application-api__limits dl {
     grid-template-columns: minmax(0, 1fr);
@@ -274,5 +311,14 @@
     gap: 12px;
     padding-block: 7px;
     border-bottom: 1px solid var(--app-line);
+  }
+}
+@container application (max-width: 319px) {
+  .application-api__credits {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .application-api__credit {
+    grid-template-rows: none;
+    grid-row: auto;
   }
 }

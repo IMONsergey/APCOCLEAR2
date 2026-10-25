@@ -1,6 +1,6 @@
 # Apcosys website
 
-React 19 + TypeScript + Vite marketing website: all 19 pages in English, Russian and Traditional Chinese (57 localized URLs), Light/Dark/System themes, reference legal translations and application-based product demonstrations. The authenticated product is a separate system. Start developer onboarding with [Handoff](docs/HANDOFF.md) and inspect the latest [readiness review](docs/FINAL-READINESS.md).
+React 19 + TypeScript + Vite marketing website: all 20 pages in English, Russian and Traditional Chinese (60 localized URLs), Light/Dark/System themes, reference legal translations and application-based product demonstrations. The authenticated product is a separate system. Start developer onboarding with [Handoff](docs/HANDOFF.md) and inspect the latest [readiness review](docs/FINAL-READINESS.md).
 
 ## Local setup
 

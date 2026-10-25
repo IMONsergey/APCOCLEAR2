@@ -12,6 +12,13 @@ for (const width of [390, 1440]) {
     const targets = [
       {
         scene: 'results',
+        phase: '0',
+        group: 'query-filters',
+        item: '[data-demo-target="query-filters"]',
+        text: '',
+      },
+      {
+        scene: 'results',
         phase: '1',
         group: 'country-filter',
         item: '.application-facet--de',
@@ -20,6 +27,13 @@ for (const width of [390, 1440]) {
       {
         scene: 'results',
         phase: '2',
+        group: 'filter-apply',
+        item: '[data-demo-target="filter-apply"]',
+        text: 'Apply conditions',
+      },
+      {
+        scene: 'results',
+        phase: '3',
         group: 'result-first',
         item: '[data-demo-target="result-first"]',
         text: /192\.0\.2\.10[\s\S]*Germany/,
@@ -90,9 +104,66 @@ for (const width of [390, 1440]) {
         outlines.every((outline) => outline === 'none'),
         'no decorative focus rectangles',
       ).toBe(true);
+      if (target.scene === 'results' && target.phase === '3') {
+        await expect(scene).toHaveAttribute('data-demo-filter', 'country');
+        await expect(scene.locator('.application-results-filtered')).toHaveText('1 result');
+        await expect(scene.locator('.application-result--secondary')).toBeHidden();
+        await expect(scene.locator('.application-facets')).toBeHidden();
+      }
     }
   });
 }
+
+test('evidence pointer follows the last visible target when responsive DNS details are hidden', async ({
+  page,
+}) => {
+  await page.goto('./');
+  const scene = page.locator('.application-scene[data-scene="evidence"]');
+  for (const width of [320, 390, 1440, 390]) {
+    await page.setViewportSize({ width, height: 950 });
+    await scene.scrollIntoViewIfNeeded();
+    const hidden = width < 1440;
+    if (hidden) await expect(scene.locator('[data-demo-target="tls-names"]')).toBeHidden();
+    else await expect(scene.locator('[data-demo-target="tls-names"]')).toBeVisible();
+    const target = hidden ? 'tls-validity' : 'tls-names';
+    await expect
+      .poll(
+        () =>
+          scene.evaluate((root, name) => {
+            if (
+              root.getAttribute('data-demo-phase') !== '3' ||
+              root.getAttribute('data-demo-action') !== '3'
+            )
+              return false;
+            const cursor = root.querySelector('.application-demo-cursor')!;
+            const style = getComputedStyle(cursor);
+            if (style.visibility !== 'visible' || Number(style.opacity) < 0.8) return false;
+            const frame = root.getBoundingClientRect();
+            const pointer = cursor.getBoundingClientRect();
+            const destination = root
+              .querySelector(`[data-demo-target="${name}"]`)!
+              .getBoundingClientRect();
+            const x = pointer.left + pointer.width / 2;
+            const y = pointer.top + pointer.height / 2;
+            return (
+              pointer.left >= frame.left - 1 &&
+              pointer.right <= frame.right + 1 &&
+              pointer.top >= frame.top - 1 &&
+              pointer.bottom <= frame.bottom + 1 &&
+              x >= destination.left - 1 &&
+              x <= destination.right + 1 &&
+              y >= destination.top - 1 &&
+              y <= destination.bottom + 1
+            );
+          }, target),
+        {
+          timeout: 12000,
+          message: `${width}px: TLS phase 3 stays on the visible ${target} record after resizing`,
+        },
+      )
+      .toBe(true);
+  }
+});
 
 test('a live reduced-motion change restores the complete query while it is being typed', async ({
   page,
@@ -117,6 +188,35 @@ test('a live reduced-motion change restores the complete query while it is being
   await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
   await expect(scene.locator('.application-demo-cursor')).toBeVisible();
   await expect(scene).toHaveAttribute('data-demo-phase', '1');
+});
+
+test('the research carousel pauses every scene and resumes the current action', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 950 });
+  await page.goto('./');
+  const carousel = page.locator('#how-it-works');
+  const query = carousel.locator('.application-scene[data-scene="query"]');
+  await query.scrollIntoViewIfNeeded();
+  await expect(query).toHaveAttribute('data-demo-action', '1');
+  await carousel.getByRole('button', { name: 'Pause product animation', exact: true }).click();
+  const phase = await query.getAttribute('data-demo-phase');
+  const action = await query.getAttribute('data-demo-action');
+  await expect(query).toHaveAttribute('data-demo-playback', 'paused');
+  await expect(query.locator('[data-demo-query]')).toHaveText('nginx');
+  await page.waitForTimeout(800);
+  await expect(query).toHaveAttribute('data-demo-phase', phase!);
+  await expect(query).toHaveAttribute('data-demo-action', action!);
+  for (const scene of await carousel.locator('.application-scene').all()) {
+    await expect(scene).not.toHaveAttribute('data-demo-playback', 'playing');
+    await expect(scene.locator('.application-demo-cursor')).toBeHidden();
+  }
+  await carousel.getByRole('button', { name: 'Play product animation', exact: true }).click();
+  await expect(query).toHaveAttribute('data-demo-playback', 'playing');
+  await expect(query).toHaveAttribute('data-demo-phase', phase!);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(carousel.locator('.demo-playback-toggle')).toBeHidden();
+  await expect(query).toHaveAttribute('data-demo-playback', 'static');
 });
 
 for (const width of [390, 1440]) {
@@ -151,7 +251,9 @@ for (const width of [390, 1440]) {
       await expect(usageMeters.nth(index)).toHaveAttribute('aria-valuemax', String(maximum));
       const value = usagePanel.locator('.application-api__credit-value').nth(index);
       await expect(value.locator('span').first()).toHaveText(number.format(current!));
-      await expect(value.locator('span').last()).toContainText(number.format(maximum!));
+      await expect(usagePanel.locator('.application-api__credit-total').nth(index)).toContainText(
+        number.format(maximum!),
+      );
     }
     const usageFrame = await scene.boundingBox();
     expect(usageFrame).not.toBeNull();
@@ -179,9 +281,83 @@ for (const width of [390, 1440]) {
   });
 }
 
+test('API actions follow the pointer and manual pause preserves the usage view', async ({
+  page,
+}) => {
+  await page.goto('./');
+  const scene = page.locator('.application-scene[data-scene="api"]');
+  await scene.scrollIntoViewIfNeeded();
+  await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
+  const actions = await scene.evaluate(async (root) => {
+    const observed = new Map<string, boolean>();
+    return new Promise<Record<string, boolean>>((resolve) => {
+      const check = (records: MutationRecord[]) => {
+        for (const [state, attribute, value, selector] of [
+          ['copy', 'data-demo-copied', 'true', '[data-demo-target="api-copy"]'],
+          ['usage', 'data-api-view', 'usage', '[data-demo-target="api-usage"]'],
+        ] as const) {
+          if (
+            observed.has(state) ||
+            root.getAttribute(attribute) !== value ||
+            !records.some(
+              (record) => record.attributeName === attribute && record.oldValue !== value,
+            )
+          )
+            continue;
+          const cursor = root.querySelector('.application-demo-cursor')!.getBoundingClientRect();
+          const target = root.querySelector(selector)!.getBoundingClientRect();
+          const x = cursor.left + cursor.width / 2;
+          const y = cursor.top + cursor.height / 2;
+          observed.set(
+            state,
+            x >= target.left - 1 &&
+              x <= target.right + 1 &&
+              y >= target.top - 1 &&
+              y <= target.bottom + 1,
+          );
+        }
+        if (observed.size === 2) finish();
+      };
+      const observer = new MutationObserver(check);
+      const timer = setTimeout(finish, 12000);
+      function finish() {
+        clearTimeout(timer);
+        observer.disconnect();
+        resolve(Object.fromEntries(observed));
+      }
+      observer.observe(root, {
+        attributes: true,
+        attributeOldValue: true,
+        attributeFilter: ['data-demo-copied', 'data-api-view'],
+      });
+    });
+  });
+  expect(actions).toEqual({ copy: true, usage: true });
+  await expect(scene).toHaveAttribute('data-demo-phase', '2');
+  await expect(scene).toHaveAttribute('data-api-view', 'usage');
+  const toggle = page.locator('.api-illustration').getByRole('button');
+  await expect(toggle).toHaveAccessibleName('Pause product animation');
+  await toggle.click();
+  await expect(toggle).toBeFocused();
+  await expect(scene).toHaveAttribute('data-demo-playback', 'paused');
+  await expect(scene.locator('.application-demo-cursor')).toBeHidden();
+  const paused = await scene.getAttribute('data-demo-action');
+  await page.waitForTimeout(1800);
+  await expect(scene).toHaveAttribute('data-demo-action', paused!);
+  await expect(scene).toHaveAttribute('data-api-view', 'usage');
+  await toggle.press('Enter');
+  await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
+  await expect(scene).toHaveAttribute('data-api-view', 'usage');
+  await expect(scene.locator('.application-demo-cursor')).toBeVisible();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(scene).toHaveAttribute('data-demo-playback', 'static');
+  await expect(scene.locator('[data-api-panel="key"]')).toBeVisible();
+  await expect(toggle).toBeHidden();
+});
+
 async function openEvidence(page: Page) {
-  await page.goto('./platform/search-investigation');
-  const sample = page.locator('.stage-workbench__record .product-evidence');
+  await page.goto('./');
+  const sample = page.locator('.search-scene__results .product-evidence');
   await sample.scrollIntoViewIfNeeded();
   await page.mouse.move(1, 1);
   await expect(sample).toBeVisible();
@@ -191,7 +367,6 @@ async function openEvidence(page: Page) {
 async function readPlayback(sample: Locator) {
   return sample.evaluate((root) => {
     const cursor = getComputedStyle(root.querySelector('.evidence-cursor')!);
-    const progress = getComputedStyle(root.querySelector('[data-playback-progress]')!);
     const matrix = new DOMMatrixReadOnly(
       cursor.transform === 'none' ? undefined : cursor.transform,
     );
@@ -199,7 +374,6 @@ async function readPlayback(sample: Locator) {
       x: matrix.m41,
       y: matrix.m42,
       transform: cursor.transform,
-      progress: progress.transform,
       visibility: cursor.visibility,
       opacity: Number(cursor.opacity),
       clips: [
@@ -221,7 +395,6 @@ async function expectMoving(sample: Locator) {
       { timeout: 6000, message: 'the rendered evidence cursor travels between real targets' },
     )
     .toBeGreaterThan(8);
-  await expect.poll(async () => (await readPlayback(sample)).progress).not.toBe(before.progress);
 }
 
 async function expectReadableAndPaused(sample: Locator) {
@@ -232,25 +405,6 @@ async function expectReadableAndPaused(sample: Locator) {
   await sample.page().waitForTimeout(1800);
   expect(await readPlayback(sample)).toEqual(before);
 }
-
-test('evidence playback moves, explicitly pauses with readable text and resumes', async ({
-  page,
-}) => {
-  const sample = await openEvidence(page);
-  await expectMoving(sample);
-  await sample.getByRole('button', { name: 'Pause product animation' }).click();
-  await page.mouse.move(1, 1);
-  await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
-  await expect(sample.getByRole('button', { name: 'Play product animation' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
-  await expectReadableAndPaused(sample);
-  await sample.getByRole('button', { name: 'Play product animation' }).click();
-  await page.mouse.move(1, 1);
-  await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
-  await expectMoving(sample);
-});
 
 test('pointer and keyboard interaction independently suspend evidence playback', async ({
   page,
@@ -281,7 +435,6 @@ test('evidence playback freezes in a hidden tab and outside the viewport without
     const descriptor = Object.getOwnPropertyDescriptor(document, 'hidden');
     const read = () => ({
       cursor: getComputedStyle(root.querySelector('.evidence-cursor')!).transform,
-      progress: getComputedStyle(root.querySelector('[data-playback-progress]')!).transform,
     });
     try {
       Object.defineProperty(document, 'hidden', { configurable: true, value: true });

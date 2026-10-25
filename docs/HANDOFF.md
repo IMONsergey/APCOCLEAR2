@@ -26,7 +26,7 @@ This repository contains the Apcosys marketing website and its informational pag
 | Contact           | Required-field validation, accessible Topic selector, per-tab draft for up to 24 hours and one Email us action preparing mailto  | Message delivery through the user's email application; a backend is needed for direct website delivery |
 | Cookies           | Essential preference storage; no optional analytics or marketing trackers enabled                                                | Consent/tracking design if optional analytics is added                                                 |
 | Legal pages       | Six preserved English Markdown sources and full RU/Traditional Chinese reference translations, compiled separately by locale     | Legal approval and deliberate amendments to the authoritative English text                             |
-| Languages         | All 19 routes in EN, RU and Traditional Chinese; 57 authored URL variants plus localized 404 handling                            | Editorial approval of terminology and final-host verification                                          |
+| Languages         | All 20 routes in EN, RU and Traditional Chinese; 60 authored URL variants plus localized 404 handling                            | Editorial approval of terminology and final-host verification                                          |
 | Themes and motion | System/manual theme choice, paired artwork, six rebuilt application scenes, complete reduced-motion frames                       | Physical-device acceptance and future asset changes                                                    |
 
 The six legacy product/API scenes have been replaced by React HTML and the approved vector assets. Both remaining GSAP playback modules now use native browser animation, and the GSAP dependency is removed. Preserve the remaining asset notices and integrity checks. Synthetic demonstrations must remain clearly labelled, and animation failure must not hide readable content.
@@ -46,7 +46,7 @@ Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` va
 | `APCO_SITE_INDEXABLE`     | `false` by default; `true` requires a valid HTTPS marketing origin                                                                         |
 | `APCO_SITE_BASE`          | GitHub workflow destination path; local builds use the `--base` option                                                                     |
 
-Documentation links use the localized on-site API section at `/developers/api#documentation`, including the hosting base path. The former `VITE_APCO_API_DOCS_URL` override is no longer used.
+Documentation links use the localized page at `/developers/api/docs`, including the hosting base path. The legacy `/developers/api#documentation` anchor still opens the overview’s short first-request section, with a link to the full reference. The former `VITE_APCO_API_DOCS_URL` override is no longer used.
 
 Changing the support email updates site UI, not the preserved legal document bodies. Legal amendments require review. See [Deployment](DEPLOYMENT.md) for origin, indexing and host configuration.
 

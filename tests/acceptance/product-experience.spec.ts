@@ -48,29 +48,68 @@ test('Hero keeps one real search and immediately visible connected examples', as
   expect(productRequests).toEqual([]);
 });
 
-test('investigation results, selected host and context share one UI fragment', async ({ page }) => {
+test('manual investigation carries a query through results, service evidence and refinement', async ({
+  page,
+}) => {
   await page.goto('./platform/search-investigation');
-  const steps = page.locator('.stage-workbench__step');
-  await expect(steps).toHaveCount(5);
-  await steps.nth(1).click();
-  const results = page.locator('.stage-workbench .product-evidence');
-  await expect(results).toBeVisible();
-  await expect(results.locator('.product-evidence__result')).toHaveCount(2);
-  await results.locator('.product-evidence__result').nth(1).click();
-  await expect(results.locator('.product-evidence__details h3')).toContainText('203.0.113.42');
-  await steps.nth(3).click();
-  await expect(page.locator('.stage-workbench .product-evidence__cve')).toBeVisible();
-  await expect(results.locator('.product-evidence__details h3')).toContainText('203.0.113.42');
-  await expect(page.locator('.stage-workbench')).toContainText('No CVE is asserted');
-  await expect(results.locator('.product-evidence__result[aria-pressed="true"]')).toHaveCSS(
-    'outline-style',
-    'none',
+  const workbench = page.locator('.stage-workbench');
+  const steps = workbench.locator('.stage-workbench__step');
+  await expect(steps).toHaveCount(3);
+  await expect(workbench.locator('.product-evidence, .evidence-cursor')).toHaveCount(0);
+  const productRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin === new URL(deploymentSettings.productUrl).origin)
+      productRequests.push(request.url());
+  });
+  await workbench.getByRole('button', { name: 'Search examples' }).click();
+  await expect(steps.nth(1)).toHaveAttribute('aria-selected', 'true');
+  await expect(workbench.locator('.stage-workbench__viewer')).toBeFocused();
+  const results = workbench.locator('.investigation-result');
+  await expect(results).toHaveCount(2);
+  await results.nth(1).focus();
+  await results.nth(1).press('Enter');
+  await expect(steps.nth(2)).toHaveAttribute('aria-selected', 'true');
+  await expect(workbench.locator('.investigation-host__heading')).toContainText('203.0.113.42');
+  await expect(workbench.locator('.investigation-query, .investigation-results')).toHaveCount(0);
+
+  const services = workbench.locator('.investigation-service-catalog button');
+  await services.first().focus();
+  await services.first().press('Tab');
+  await expect(services.nth(1)).toBeFocused();
+  await services.nth(1).press('Enter');
+  await expect(services.nth(1)).toHaveAttribute('aria-pressed', 'true');
+  await expect(workbench.locator('.investigation-service-detail__body')).toContainText(
+    'SSH-2.0-OpenSSH_9.6',
   );
-  await steps.nth(3).focus();
-  await steps.nth(3).press('ArrowRight');
-  await expect(steps.nth(4)).toBeFocused();
-  await expect(steps.nth(4)).toHaveCSS('text-decoration-line', 'underline');
-  await expect(results.locator('.product-evidence__next')).toContainText('gateway.example.com');
+  const detailTabs = workbench.locator('.investigation-detail-tabs');
+  await expect(detailTabs.getByRole('tab', { name: 'TLS', exact: true })).toBeDisabled();
+  await services.first().click();
+  const response = detailTabs.getByRole('tab', { name: 'Response', exact: true });
+  await response.focus();
+  await response.press('ArrowRight');
+  const tls = detailTabs.getByRole('tab', { name: 'TLS', exact: true });
+  await expect(tls).toBeFocused();
+  await expect(tls).toHaveAttribute('aria-selected', 'true');
+  await expect(workbench.locator('.investigation-tls')).toContainText('gateway.example.com');
+  await expect(workbench.locator('.investigation-tls')).toContainText(
+    'Example Certificate Authority',
+  );
+  await tls.press('Home');
+  await expect(response).toBeFocused();
+  await expect(workbench.locator('.investigation-service-detail__body')).toContainText(
+    'Server: nginx/1.24.0',
+  );
+
+  await workbench.getByRole('button', { name: 'Search this hostname' }).click();
+  await expect(steps.nth(1)).toHaveAttribute('aria-selected', 'true');
+  await expect(results).toHaveCount(1);
+  await expect(results).toContainText('203.0.113.42');
+  await expect(workbench.locator('.investigation-results__bar code')).toHaveText(
+    'gateway.example.com',
+  );
+  await steps.first().click();
+  await expect(workbench.locator('input[name="example_query"]')).toHaveValue('gateway.example.com');
+  expect(productRequests).toEqual([]);
 });
 
 test('Monitoring has five meaningful concept states and selectable example assets', async ({

@@ -9,21 +9,45 @@ const creditBalances = [
   { label: 'Scan credits remaining', remaining: 327_680, total: 327_680 },
 ] as const;
 
-function CreditBalances({ showAccess = false }: { showAccess?: boolean }) {
+function AccessSummary() {
+  const { locale, t } = useLocale();
+  const number = new Intl.NumberFormat(locale);
+  return (
+    <div className="application-api__summary">
+      <h4>{t('Example balances')}</h4>
+      <dl>
+        <div>
+          <dt>{t('Plan')}</dt>
+          <dd>{t('Business')}</dd>
+        </div>
+        <div>
+          <dt>{t(creditBalances[0].label)}</dt>
+          <dd>{number.format(creditBalances[0].remaining)}</dd>
+        </div>
+        <div>
+          <dt>{t('API rate limit')}</dt>
+          <dd>{formatApiRate(businessPlan, t)}</dd>
+        </div>
+      </dl>
+      <span className="application-api__summary-link">
+        {t('Usage & limits')}
+        <Glyph name="arrow" />
+      </span>
+    </div>
+  );
+}
+
+function CreditBalances() {
   const { locale, t } = useLocale();
   const number = new Intl.NumberFormat(locale);
   return (
     <div className="application-api__credits">
-      <div className="application-api__access">
-        <strong>{t('Example balances')}</strong>
-        {showAccess && <span>{t('Business')}</span>}
-      </div>
+      <h4 className="application-api__access">{t('Example balances')}</h4>
       {creditBalances.map(({ label, remaining, total }) => (
         <div className="application-api__credit" key={label}>
           <p className="application-api__credit-label">{t(label)}</p>
           <p className="application-api__credit-value">
             <span>{number.format(remaining)}</span>
-            <span className="application-api__credit-total"> / {number.format(total)}</span>
           </p>
           <div
             className="application-api__credit-track"
@@ -38,6 +62,7 @@ function CreditBalances({ showAccess = false }: { showAccess?: boolean }) {
               style={{ width: `${(remaining / total) * 100}%` }}
             />
           </div>
+          <p className="application-api__credit-total">/ {number.format(total)}</p>
         </div>
       ))}
     </div>
@@ -101,7 +126,7 @@ export function ApplicationApiScene() {
               </span>
             </div>
           </div>
-          <CreditBalances showAccess />
+          <AccessSummary />
         </div>
         <div
           className="application-api__panel application-api__panel--usage"

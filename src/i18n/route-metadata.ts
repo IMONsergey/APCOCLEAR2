@@ -47,6 +47,10 @@ export const localizedMetadata = {
     description:
       'Query hosts, services and technologies programmatically and use the results in scripts, pipelines, reports and internal tools.',
   },
+  '/developers/api/docs': {
+    title: 'API documentation.',
+    description: 'HTTP endpoints, filters, response fields and errors for Apcosys integrations.',
+  },
   '/pricing': {
     title: 'Choose the access your research needs.',
     description:

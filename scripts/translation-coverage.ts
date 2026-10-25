@@ -32,6 +32,8 @@ const translatedProps: Readonly<Record<string, readonly string[]>> = {
   RelatedReading: ['items'],
   AnimatedDetails: ['title'],
   Modal: ['title'],
+  ApiDocsSection: ['title'],
+  DocCode: ['label'],
 };
 const translatedRecordFields = new Set([
   'title',
@@ -47,6 +49,8 @@ const translatedRecordFields = new Set([
 // from passing simply because the renderer calls t(plan.searchFilters).
 const translatedDataFields: Readonly<Record<string, readonly string[]>> = {
   'src/content/plans.ts': ['name', 'description', 'action', 'searchFilters'],
+  'src/content/api-documentation.ts': ['title', 'description', 'label'],
+  'src/components/product/investigationDemo.ts': ['tag', 'heading', 'context'],
 };
 // Contact topics are translated in selects and generated email text. Their
 // values are source keys even though the renderer calls t(topic) dynamically.
@@ -171,6 +175,13 @@ export function collectTranslationSources(root = process.cwd()): TranslationSour
       }
     }
     function visit(node: ts.Node): void {
+      if (
+        name === 'src/content/api-documentation.ts' &&
+        ts.isCallExpression(node) &&
+        ts.isIdentifier(node.expression) &&
+        node.expression.text === 'field'
+      )
+        for (const message of staticStrings(node.arguments[2])) add(message, node);
       if (
         ts.isVariableDeclaration(node) &&
         translatedDataArrays[name]?.includes(node.name.getText(source)) &&

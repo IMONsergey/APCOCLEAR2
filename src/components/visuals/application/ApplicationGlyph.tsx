@@ -1,4 +1,6 @@
 const paths = {
+  plus: 'M12 5v14M5 12h14',
+  clock: 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-5v5l3 2',
   search: 'm16 16 4 4M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
   filter: 'M3 4h18l-7 8v7l-4 2v-9L3 4Z',
   arrow: 'M4 12h16m-6-6 6 6-6 6',

@@ -1,6 +1,6 @@
 # Content and integration ownership
 
-All 19 pages are available in English, Russian and Traditional Chinese, including reference legal translations. Coverage values are a dated public statistics snapshot; plan values and synthetic interface demonstrations are not a live product feed. Keep demo labels and reserved example addresses when editing scenes.
+All 20 pages are available in English, Russian and Traditional Chinese, including reference legal translations. Coverage values are a dated public statistics snapshot; plan values and synthetic interface demonstrations are not a live product feed. Keep demo labels and reserved example addresses when editing scenes.
 
 | Content                                               | Authoritative project location                                       |
 | ----------------------------------------------------- | -------------------------------------------------------------------- |

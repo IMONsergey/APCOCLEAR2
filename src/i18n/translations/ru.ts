@@ -1877,4 +1877,369 @@ export default {
     'После входа выберите тариф и период оплаты.',
   'Opens a draft in your email app.': 'Откроется черновик в вашей почтовой программе.',
   'Example balances': 'Пример баланса',
+  History: 'История',
+  'Products & CVE': 'Продукты и CVE',
+  Try: 'Например',
+  Overview: 'Обзор',
+  'DNS & domains': 'DNS и домены',
+  Authentication: 'Аутентификация',
+  Endpoints: 'Методы API',
+  'Search buckets': 'Поиск в хранилищах',
+  'Bucket analytics': 'Аналитика хранилищ',
+  'Private search': 'Поиск по приватным данным',
+  'Filter syntax & fields': 'Синтаксис и поля фильтров',
+  Errors: 'Ошибки',
+  'Integration guidance': 'Рекомендации по интеграции',
+  'Private hosts': 'Приватные хосты',
+  'Private host details': 'Данные приватного хоста',
+  'Private analytics': 'Аналитика приватных данных',
+  'Result page number.': 'Номер страницы результатов.',
+  'Records per page; at most 100 for host search.':
+    'Записей на странице; для поиска хостов — не более 100.',
+  'Ignored for host search: results use uts in descending order.':
+    'В поиске хостов не учитывается: результаты отсортированы по uts по убыванию.',
+  'Ignored for host search: the order is always descending.':
+    'В поиске хостов не учитывается: порядок всегда по убыванию.',
+  'Search banners, bodies, domains and headers; IP or CIDR text also searches addresses.':
+    'Поиск по баннерам, телам ответов, доменам и заголовкам. IP-адрес или CIDR также ищется среди адресов.',
+  'Search exposed-data content; requires Expert or Business.':
+    'Поиск по содержимому открытых данных; нужен Expert или Business.',
+  'Search security.txt content; requires Business.':
+    'Поиск по содержимому security.txt; нужен Business.',
+  'Combine field/value filters and nested groups.':
+    'Объединение фильтров «поле/значение» и вложенных групп.',
+  'Minimum exposed-data size in MB; requires Expert or Business.':
+    'Минимальный размер открытых данных в МБ; нужен Expert или Business.',
+  'Maximum exposed-data size in MB; requires Expert or Business.':
+    'Максимальный размер открытых данных в МБ; нужен Expert или Business.',
+  'Inclusive numeric or time ranges; field restrictions still apply.':
+    'Числовые или временные диапазоны с включёнными границами; ограничения полей сохраняются.',
+  'Total matching hosts across the result pages.':
+    'Общее число подходящих хостов на всех страницах.',
+  'Page size.': 'Размер страницы.',
+  'Host summaries for this page.': 'Краткие записи хостов на этой странице.',
+  'IP address or host identifier; a domain may appear when the IP is empty.':
+    'IP-адрес или идентификатор хоста; при пустом IP здесь может быть домен.',
+  'Operating system, when available.': 'Операционная система, если определена.',
+  'Organisation associated with the autonomous system.':
+    'Организация, связанная с автономной системой.',
+  'City name.': 'Название города.',
+  'Country code.': 'Код страны.',
+  'Region name.': 'Название региона.',
+  'Last update time in Unix seconds.': 'Время последнего обновления в секундах Unix.',
+  'Labels attached to the host.': 'Метки хоста.',
+  'Service summaries with protocol and port.': 'Краткие записи сервисов с протоколом и портом.',
+  'IP address or host identifier.': 'IP-адрес или идентификатор хоста.',
+  'Record type: ipv4, ipv6 or domain.': 'Тип записи: ipv4, ipv6 или domain.',
+  'Autonomous-system network block, when available.':
+    'Сетевой блок автономной системы, если известен.',
+  'Country name.': 'Название страны.',
+  'Continent name.': 'Название континента.',
+  'Region code.': 'Код региона.',
+  'Autonomous system number.': 'Номер автономной системы.',
+  'Creation time in Unix seconds.': 'Время создания в секундах Unix.',
+  'Detailed service records.': 'Подробные записи сервисов.',
+  'Port number.': 'Номер порта.',
+  'Observed application protocol.': 'Наблюдаемый прикладной протокол.',
+  'Service banner.': 'Баннер сервиса.',
+  'Transport protocol.': 'Транспортный протокол.',
+  'Observation status, such as closed_port.': 'Статус наблюдения, например closed_port.',
+  'TLS and certificate fields in one flat object.':
+    'Поля TLS и сертификата в одном объекте без дополнительной вложенности.',
+  'Detected technologies and associated context.': 'Обнаруженные технологии и связанные сведения.',
+  'SHA-256 of the banner bytes, encoded as hexadecimal.':
+    'SHA-256 байтов баннера в шестнадцатеричном виде.',
+  'MD5 of the favicon bytes, encoded as hexadecimal.':
+    'MD5 байтов favicon в шестнадцатеричном виде.',
+  'Observed response body.': 'Сохранённое тело ответа.',
+  'SHA-256 of the response body bytes, encoded as hexadecimal.':
+    'SHA-256 байтов тела ответа в шестнадцатеричном виде.',
+  'Page or service title.': 'Заголовок страницы или сервиса.',
+  'HTTP response status.': 'HTTP-статус ответа.',
+  'Header names mapped to arrays of values.':
+    'Имена заголовков и соответствующие массивы значений.',
+  'Domains found in the certificate.': 'Домены из сертификата.',
+  'Redirect chain; it may start with the constructed origin URL.':
+    'Цепочка перенаправлений; может начинаться с URL исходного сервиса.',
+  'Final URL, or the service origin when no redirect occurred.':
+    'Конечный URL; если перенаправлений не было — адрес исходного сервиса.',
+  'Observed security.txt data.': 'Сохранённые данные security.txt.',
+  'Domains found in response headers.': 'Домены из заголовков ответа.',
+  'Observation error, if present.': 'Ошибка наблюдения, если возникла.',
+  'TLS version.': 'Версия TLS.',
+  'Negotiated cipher suite.': 'Согласованный набор шифров.',
+  'Server name indication (SNI).': 'Имя сервера, переданное через SNI.',
+  'SHA-256 of the certificate DER bytes, encoded as hexadecimal.':
+    'SHA-256 байтов сертификата в формате DER, в шестнадцатеричном виде.',
+  'JA4S fingerprint.': 'Отпечаток JA4S.',
+  'Certificate serial number.': 'Серийный номер сертификата.',
+  'Certificate issuer.': 'Издатель сертификата.',
+  'Certificate subject.': 'Субъект сертификата.',
+  'Certificate validity start.': 'Начало срока действия сертификата.',
+  'Certificate validity end.': 'Окончание срока действия сертификата.',
+  'DNS names in the certificate.': 'DNS-имена из сертификата.',
+  'Email addresses in the certificate.': 'Адреса электронной почты из сертификата.',
+  'IP addresses in the certificate.': 'IP-адреса из сертификата.',
+  'URIs in the certificate.': 'URI из сертификата.',
+  'Public-key algorithm.': 'Алгоритм открытого ключа.',
+  'Certificate signature algorithm.': 'Алгоритм подписи сертификата.',
+  'Certificate key usage.': 'Назначение ключа сертификата.',
+  'Extended certificate key usage.': 'Расширенное назначение ключа сертификата.',
+  'Whether the certificate belongs to a certificate authority.':
+    'Принадлежит ли сертификат центру сертификации.',
+  'OCSP server addresses.': 'Адреса серверов OCSP.',
+  'Certificate revocation-list locations.': 'Адреса списков отозванных сертификатов.',
+  'Whether a security.txt file was found.': 'Найден ли файл security.txt.',
+  'Contents of the observed file.': 'Содержимое сохранённого файла.',
+  'URLs or email addresses from Contact entries.':
+    'URL или адреса электронной почты из полей Contact.',
+  'Full URL of the observed file.': 'Полный URL сохранённого файла.',
+  'File path, such as /.well-known/security.txt.':
+    'Путь к файлу, например /.well-known/security.txt.',
+  'Detected product name.': 'Название обнаруженного продукта.',
+  'Detected vendor name.': 'Название обнаруженного производителя.',
+  'Detected product version.': 'Обнаруженная версия продукта.',
+  'Labels attached to the detection.': 'Метки обнаруженной технологии.',
+  'Product name used for CVE context.': 'Название продукта для сопоставления с CVE.',
+  'Vendor name used for CVE context.': 'Название производителя для сопоставления с CVE.',
+  'Identifier used for CVE context.': 'Идентификатор для сопоставления с CVE.',
+  'Associated entries containing cve_id and base_score.':
+    'Связанные записи с полями cve_id и base_score.',
+  'Expert/Business only: field_headers (string[]) and field_value (string[][]).':
+    'Только Expert/Business: field_headers (string[]) и field_value (string[][]).',
+  'Aggregation groups.': 'Группы агрегации.',
+  'Group name, such as type, port, products or country_name.':
+    'Название группы, например type, port, products или country_name.',
+  'Values and their counts for this group.': 'Значения и их количество в этой группе.',
+  'Aggregation value.': 'Значение агрегации.',
+  'Count reported for this value.': 'Количество, возвращённое для этого значения.',
+  'Sort by cts, uts or size_mb.': 'Сортировка по cts, uts или size_mb.',
+  'Sort direction: asc or desc.': 'Направление сортировки: asc или desc.',
+  'Storage host to match.': 'Хост хранилища для поиска.',
+  'Stop words.': 'Стоп-слова.',
+  'Minimum size in MB.': 'Минимальный размер в МБ.',
+  'Maximum size in MB.': 'Максимальный размер в МБ.',
+  'Keywords to match.': 'Ключевые слова для поиска.',
+  'File extensions.': 'Расширения файлов.',
+  'Alphabets, such as latin or cyrillic.': 'Алфавиты, например latin или cyrillic.',
+  'Exclude the listed extensions instead of including them.': 'Исключать перечисленные расширения.',
+  'Inclusive lower bound for update time, in Unix seconds.':
+    'Нижняя граница времени обновления включительно, в секундах Unix.',
+  'Inclusive upper bound for update time, in Unix seconds.':
+    'Верхняя граница времени обновления включительно, в секундах Unix.',
+  'Inclusive lower bound for creation time, in Unix seconds.':
+    'Нижняя граница времени создания включительно, в секундах Unix.',
+  'Inclusive upper bound for creation time, in Unix seconds.':
+    'Верхняя граница времени создания включительно, в секундах Unix.',
+  'Country codes to include.': 'Коды стран для включения.',
+  'Country codes to exclude.': 'Коды стран для исключения.',
+  'Buckets to exclude.': 'Хранилища для исключения.',
+  'Product names to match.': 'Названия продуктов для поиска.',
+  'Number of items in this response.': 'Число записей в этом ответе.',
+  'Matching storage records.': 'Подходящие записи хранилищ.',
+  'Storage host.': 'Хост хранилища.',
+  'HTTP or HTTPS.': 'HTTP или HTTPS.',
+  'Storage key or name.': 'Ключ или имя хранилища.',
+  'Container name, when present.': 'Имя контейнера, если есть.',
+  'Detected alphabets.': 'Обнаруженные алфавиты.',
+  'Alternative hostnames, when present.': 'Альтернативные имена хоста, если есть.',
+  'Size in MB.': 'Размер в МБ.',
+  'File extension.': 'Расширение файла.',
+  'Storage hosts and file counts.': 'Хосты хранилищ и количество файлов.',
+  'File count for this host.': 'Число файлов на этом хосте.',
+  'Required for a leaf filter: the field name.': 'Обязательное поле конечного фильтра: имя поля.',
+  'Required for a leaf filter: a non-empty value.':
+    'Обязательное поле конечного фильтра: непустое значение.',
+  'AND, OR or NOT.': 'AND, OR или NOT.',
+  'Nested filters with the same structure.': 'Вложенные фильтры той же структуры.',
+  'Numeric or time field, such as uts, cts, port_count or base_score.':
+    'Числовое или временное поле, например uts, cts, port_count или base_score.',
+  'Inclusive lower bound (gte).': 'Нижняя граница включительно (gte).',
+  'Inclusive upper bound (lte).': 'Верхняя граница включительно (lte).',
+  'Optional task IDs that limit private host search or analytics to those scans.':
+    'Необязательные ID задач: ограничивают приватный поиск хостов или аналитику указанными сканированиями.',
+  'Plain values use the matching rules of the field.':
+    'Обычное значение сопоставляется по правилам выбранного поля.',
+  'Quoted text matches a phrase in text fields.':
+    'Текст в кавычках ищется как фраза в текстовых полях.',
+  'Parentheses require all words in a text field.':
+    'Скобки требуют наличия всех слов в текстовом поле.',
+  'Asterisks and question marks are wildcards for keyword fields.':
+    'Звёздочка и вопросительный знак — подстановочные символы для полей типа keyword.',
+  'Comma-separated values match any listed value.':
+    'Значения через запятую: достаточно совпадения с любым из них.',
+  'Host and location': 'Хост и местоположение',
+  'Products and vulnerability context': 'Продукты и сведения об уязвимостях',
+  'HTTP headers and TLS': 'HTTP-заголовки и TLS',
+  'Security contact and time': 'Контакты безопасности и время',
+  'Invalid request': 'Некорректный запрос',
+  'Check the JSON body, parameter types and host identifier.':
+    'Проверьте JSON-тело, типы параметров и идентификатор хоста.',
+  'Invalid API key': 'Некорректный API-ключ',
+  'Check that X-API-Key contains a valid account key.':
+    'Убедитесь, что X-API-Key содержит действующий ключ аккаунта.',
+  'Plan restriction': 'Ограничение тарифа',
+  'A field or value is unavailable on the current plan. Read the error message before changing the query.':
+    'Поле или значение недоступно на текущем тарифе. Прочитайте сообщение об ошибке перед изменением запроса.',
+  'Host not found': 'Хост не найден',
+  'The individual host lookup did not find the requested address or domain.':
+    'При поиске отдельного хоста указанный адрес или домен не найден.',
+  'Rate limit exceeded': 'Превышена частота запросов',
+  'Reduce request frequency before retrying.': 'Снизьте частоту запросов перед повторной попыткой.',
+  'Search or server error': 'Ошибка поиска или сервера',
+  'Read the error message; an unsupported search field can also produce this status.':
+    'Прочитайте сообщение об ошибке: неподдерживаемое поле поиска тоже может вызвать этот статус.',
+  Default: 'По умолчанию',
+  'API overview': 'Обзор API',
+  'API documentation.': 'Документация API.',
+  'HTTP endpoints, filters, response fields and errors for Apcosys integrations.':
+    'HTTP-методы, фильтры, поля ответов и ошибки для интеграций с Apcosys.',
+  'Connect to the API.': 'Подключитесь к API.',
+  'Send your account API key in the X-API-Key header. Plus, Expert and Business include HTTP API access; Free does not.':
+    'Передайте API-ключ аккаунта в заголовке X-API-Key. HTTP API доступен на тарифах Plus, Expert и Business; на Free доступа нет.',
+  'Set APCOSYS_API_KEY in your server environment before using the cURL examples. Keep credentials outside browser code. Examples on this page are copied as text and are never executed here.':
+    'Перед использованием примеров cURL задайте APCOSYS_API_KEY в окружении сервера. Не размещайте ключи в браузерном коде. Примеры на этой странице копируются как текст и здесь не выполняются.',
+  'First host search': 'Первый поиск хостов',
+  'Example responses use synthetic records and documentation addresses. Stored observations describe the collection time, not a live check of the host.':
+    'В примерах ответов используются синтетические записи и адреса для документации. Сохранённые наблюдения описывают момент сбора данных, а не состояние хоста прямо сейчас.',
+  'Access and request limits.': 'Доступ и лимиты запросов.',
+  'API access by plan': 'Доступ к API по тарифам',
+  'Method costs count against the HTTP rate allowance: host search uses 1 unit, analytics 3, bucket search 1 and bucket analytics 1. Other endpoints use 1 unit. These units do not define a conversion to plan credits or Search Tokens.':
+    'Вес метода учитывается в лимите частоты HTTP-запросов: поиск хостов — 1 единица, аналитика — 3, поиск в хранилищах — 1, аналитика хранилищ — 1. Остальные методы — 1. Эти единицы не задают курс пересчёта в кредиты тарифа или Search Tokens.',
+  'Field and value restrictions also apply inside filters and ranges. A restricted field or value returns HTTP 402. Exceeding the request rate returns HTTP 429.':
+    'Ограничения полей и значений действуют и внутри фильтров и диапазонов. Недоступное поле или значение возвращает HTTP 402. Превышение частоты запросов возвращает HTTP 429.',
+  'Restricted search fields': 'Ограничения полей поиска',
+  'Minimum plan': 'Минимальный тариф',
+  'Restricted search values': 'Ограничения значений поиска',
+  Values: 'Значения',
+  'Private search requires Business. Exposed-data values in detected-product records are returned only for Expert and Business.':
+    'Для поиска по приватным данным нужен Business. Значения открытых данных в записях обнаруженных продуктов возвращаются только на Expert и Business.',
+  'Endpoint reference.': 'Справочник методов.',
+  'Append these paths to the base URL. POST requests use a JSON body and Content-Type: application/json.':
+    'Добавьте эти пути к базовому URL. POST-запросы используют JSON-тело и Content-Type: application/json.',
+  'Search hosts.': 'Поиск хостов.',
+  'Find host summaries with pagination and optional filters. A type filter selects ipv4, ipv6 or domain records; without it, all types are searched. Port, HTTP, TLS and product filters select the ports index automatically.':
+    'Получайте краткие записи хостов с пагинацией и необязательными фильтрами. Фильтр type выбирает записи ipv4, ipv6 или domain; без него поиск идёт по всем типам. Фильтры портов, HTTP, TLS и продуктов автоматически выбирают индекс ports.',
+  'Request body · all fields optional': 'Тело запроса · все поля необязательны',
+  'Host summary · hosts[]': 'Краткая запись хоста · hosts[]',
+  'Example host-search response': 'Пример ответа поиска хостов',
+  'To continue, increase page and keep the same filters. Compare total with the records already returned. The first example requests 20 records; the documented default is 50.':
+    'Для продолжения увеличьте page и сохраните фильтры. Сравнивайте total с числом полученных записей. Первый пример запрашивает 20 записей; значение по умолчанию в документации — 50.',
+  'Inspect one host.': 'Данные одного хоста.',
+  'Replace :ip with an IP address or domain. The response is one detailed host object. A missing record returns 404; an invalid host identifier returns 400.':
+    'Замените :ip на IP-адрес или домен. Ответ — объект с подробными данными одного хоста. Если запись не найдена, возвращается 404; при некорректном идентификаторе хоста — 400.',
+  'Host lookup': 'Запрос одного хоста',
+  'Host detail response': 'Подробный ответ о хосте',
+  'Service fields': 'Поля сервиса',
+  'TLS and certificate fields': 'Поля TLS и сертификата',
+  'Certificate and handshake properties are directly inside tls_info. There is no nested certificate_info object.':
+    'Свойства сертификата и TLS-соединения находятся непосредственно в tls_info. Вложенного объекта certificate_info нет.',
+  'Security contact fields': 'Поля контактов безопасности',
+  'Detected product fields': 'Поля обнаруженного продукта',
+  'Each cve_list entry contains cve_id (string) and base_score (number). An associated CVE still needs validation against patches and configuration.':
+    'Каждая запись cve_list содержит cve_id (строка) и base_score (число). Применимость связанной CVE нужно проверить с учётом патчей и конфигурации.',
+  'Aggregate host results.': 'Агрегация результатов по хостам.',
+  'Use the same search filters as host search to request facets. The type filter controls the same IPv4, IPv6 and domain scope.':
+    'Используйте те же фильтры, что и в поиске хостов, чтобы получить группы агрегации. Фильтр type так же задаёт область IPv4, IPv6 или доменов.',
+  'Host analytics request': 'Запрос аналитики хостов',
+  'Analytics response': 'Ответ аналитики',
+  'Facet names include type, port, status_code, org, country_name, protocol, products, title, cve_id, vendors, labels and redirects.':
+    'Названия групп включают type, port, status_code, org, country_name, protocol, products, title, cve_id, vendors, labels и redirects.',
+  'Example analytics response': 'Пример ответа аналитики',
+  'Search storage records.': 'Поиск записей хранилищ.',
+  'Search indexed bucket records by host, file metadata, size and time. Bucket sorting supports the fields below; it differs from host-search sorting.':
+    'Ищите индексированные записи хранилищ по хосту, метаданным файлов, размеру и времени. Сортировка поддерживает перечисленные ниже поля и отличается от сортировки поиска хостов.',
+  'Bucket search request': 'Запрос поиска в хранилищах',
+  'Bucket request fields': 'Поля запроса к хранилищам',
+  'Bucket response': 'Ответ поиска в хранилищах',
+  'Storage record · result[]': 'Запись хранилища · result[]',
+  'Aggregate bucket results.': 'Агрегация результатов по хранилищам.',
+  'Send the same request fields as bucket search. The response groups file counts by storage host.':
+    'Передайте те же поля, что и в поиске хранилищ. Ответ группирует количество файлов по хостам хранилищ.',
+  'Bucket analytics request': 'Запрос аналитики хранилищ',
+  'Bucket analytics response': 'Ответ аналитики хранилищ',
+  'Query private scan data.': 'Запрос приватных сканирований.',
+  'Business accounts can query their own private scan data with the three methods below. Their public equivalents define the request and response shapes. The private dataset is selected automatically; a type filter is not required.':
+    'Аккаунты Business могут запрашивать данные своих приватных сканирований тремя методами ниже. Структура запросов и ответов соответствует публичным аналогам. Приватный набор данных выбирается автоматически; фильтр type не нужен.',
+  'Additional private-search field': 'Дополнительное поле приватного поиска',
+  'Private host search': 'Поиск приватных хостов',
+  'Private host lookup': 'Запрос приватного хоста',
+  'Private analytics request': 'Запрос приватной аналитики',
+  'Filter syntax and field names.': 'Синтаксис фильтров и имена полей.',
+  'Filter item · simple_search_filters[]': 'Элемент фильтра · simple_search_filters[]',
+  'Leaf filters specify a field and a non-empty value. Group filters contain nested filters with AND, OR or NOT. AND is the default operator.':
+    'Конечный фильтр задаёт поле и непустое значение. Группа содержит вложенные фильтры с AND, OR или NOT. Оператор по умолчанию — AND.',
+  'Nested filter example': 'Пример вложенного фильтра',
+  'Value syntax': 'Синтаксис значений',
+  Example: 'Пример',
+  'Range item · range_filter[]': 'Элемент диапазона · range_filter[]',
+  'Use headers.k for a header name, headers.v for a value, or headers.Server to match a specific header and value together. The header.{Name} alias is also supported.':
+    'Используйте headers.k для имени заголовка, headers.v для значения или headers.Server для совместного поиска конкретного заголовка и его значения. Также поддерживается алиас header.{Name}.',
+  'HTTP header filter': 'Фильтр HTTP-заголовка',
+  'security_body searches security.txt content and may be a top-level field or a filter field. It requires Business. Time filters use Unix seconds.':
+    'security_body ищет содержимое security.txt и может быть полем верхнего уровня или полем фильтра. Требуется Business. Временные фильтры используют секунды Unix.',
+  'Values or format': 'Значения или формат',
+  'redirect_paths is accepted as an alias for redirects. To search across service fields, use the full_text_search request field.':
+    'redirect_paths поддерживается как алиас redirects. Для поиска по нескольким полям сервисов используйте поле запроса full_text_search.',
+  'Handle API errors.': 'Обработка ошибок API.',
+  'Errors return a JSON object with an error string. Read that message together with the HTTP status.':
+    'Ошибка возвращается как JSON-объект со строкой error. Рассматривайте сообщение вместе с HTTP-статусом.',
+  'Example error response': 'Пример ответа с ошибкой',
+  'HTTP status codes': 'HTTP-статусы',
+  Status: 'Статус',
+  'Meaning and next step': 'Значение и следующий шаг',
+  'Build an integration you can inspect.': 'Сделайте интеграцию проверяемой.',
+  'Keep API keys in your server environment and handle 401, 402 and 429 explicitly.':
+    'Храните API-ключи в окружении сервера и отдельно обрабатывайте 401, 402 и 429.',
+  'Start with a small page and paginate through the results. Preserve the returned identifiers, service evidence and observation timestamps.':
+    'Начните с небольшой страницы и последовательно обходите результаты. Сохраняйте полученные идентификаторы, данные сервисов и время наблюдений.',
+  'Use current filter names: products, vendors, cve_id, headers and security_body. Check field restrictions before expanding a query.':
+    'Используйте актуальные имена фильтров: products, vendors, cve_id, headers и security_body. Проверьте ограничения полей перед расширением запроса.',
+  'Treat product and CVE associations as research context. Confirm applicability before reporting a vulnerability.':
+    'Используйте связи продуктов и CVE как контекст исследования. Перед сообщением об уязвимости подтвердите её применимость.',
+  'The published reference lists a Postman collection and further examples in the Apcosys dashboard.':
+    'В опубликованной справке указаны коллекция Postman и дополнительные примеры в личном кабинете Apcosys.',
+  'Read the full API reference': 'Открыть полный справочник API',
+  'Try a domain, IP address or technology from these examples.':
+    'Попробуйте домен, IP-адрес или технологию из этих примеров.',
+  'Example query': 'Пример запроса',
+  'Search examples': 'Поиск по примерам',
+  'Example queries': 'Примеры запросов',
+  'Start with a target explicitly permitted by programme rules.':
+    'Начните с цели, явно разрешённой правилами программы.',
+  'Example matches': 'Примеры совпадений',
+  'Edit query': 'Изменить запрос',
+  'Select a host to inspect its observed services.':
+    'Выберите хост, чтобы изучить наблюдаемые сервисы.',
+  'No matching example hosts': 'Подходящих примеров хостов нет',
+  'This example searches two synthetic records. Try example.com, nginx or one of the listed IP addresses.':
+    'В примере поиск идёт по двум синтетическим записям. Попробуйте example.com, nginx или один из указанных IP-адресов.',
+  'Show example hosts': 'Показать примеры хостов',
+  'Search this hostname': 'Найти это имя хоста',
+  'Service evidence': 'Данные сервиса',
+  TLS: 'TLS',
+  'Server name': 'Имя сервера',
+  'Valid until': 'Действует до',
+  'Confirm the scope and rules again before interacting with the host.':
+    'Перед взаимодействием с хостом ещё раз проверьте границы и правила программы.',
+  'Detected banners and versions can be incomplete or misleading.':
+    'Обнаруженные баннеры и версии могут быть неполными или неточными.',
+  'Technical similarities are not proof of shared ownership.':
+    'Техническое сходство не доказывает общего владельца.',
+  'Select a service, then inspect its response or TLS certificate.':
+    'Выберите сервис и изучите его ответ или TLS-сертификат.',
+  'Example records. Reserved addresses and synthetic responses.':
+    'Примеры записей. Зарезервированные адреса и синтетические ответы.',
+  'SEARCH & INVESTIGATION': 'ПОИСК И РАССЛЕДОВАНИЯ',
+  'Try a query, open a host and inspect its services in this interactive example.':
+    'Введите запрос, откройте хост и изучите его сервисы в интерактивном примере.',
+  'AUTHORISED BUG BOUNTY': 'BUG BOUNTY С РАЗРЕШЕНИЕМ',
+  'Stay inside the programme scope.': 'Работайте в пределах программы.',
+  'VULNERABILITY RESEARCH': 'ИССЛЕДОВАНИЕ УЯЗВИМОСТЕЙ',
+  'Technology signals need verification.': 'Технические признаки требуют проверки.',
+  'Find an example technology and inspect the response behind its detected version.':
+    'Найдите технологию в примерах и изучите ответ, по которому определена версия.',
+  'OSINT & THREAT INVESTIGATION': 'OSINT И ИССЛЕДОВАНИЕ УГРОЗ',
+  'Follow an indicator, not an assumption.': 'Следуйте индикаторам, а не предположениям.',
+  'SECURITY TEAM WORKFLOW': 'РАБОЧИЙ ПРОЦЕСС КОМАНДЫ БЕЗОПАСНОСТИ',
 } satisfies Record<string, string>;

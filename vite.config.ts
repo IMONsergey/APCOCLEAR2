@@ -32,6 +32,21 @@ export default defineConfig(({ mode }) => {
       // WebKit can retain failed modulepreload requests across reloads (#270357).
       // prepareRoute still warms actual imports before client navigation.
       modulePreload: false,
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            // React and typography are required on every route. One runtime chunk
+            // avoids separate compression overhead when adding lazy page entries.
+            groups: [
+              {
+                name: 'site-runtime',
+                test: /[\\/]node_modules[\\/](react|react-dom|scheduler|typograf)[\\/]/,
+                includeDependenciesRecursively: false,
+              },
+            ],
+          },
+        },
+      },
     },
     server: { host: '127.0.0.1', port: 5187, strictPort: true },
     preview: { host: '127.0.0.1', port: 4187, strictPort: true },

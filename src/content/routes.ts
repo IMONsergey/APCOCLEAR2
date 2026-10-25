@@ -58,6 +58,12 @@ export const siteRoutes = [
     description: 'Integrate Apcosys internet infrastructure data into your workflows.',
   },
   {
+    path: '/developers/api/docs',
+    group: 'documentation',
+    title: 'API Documentation',
+    description: 'HTTP endpoints, filters, response fields and errors for Apcosys integrations.',
+  },
+  {
     path: '/pricing',
     group: 'commercial',
     title: 'Pricing',

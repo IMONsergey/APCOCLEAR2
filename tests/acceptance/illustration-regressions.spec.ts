@@ -60,14 +60,9 @@ async function openHome(page: Page, route: string, theme: 'light' | 'dark', widt
  * This catches scaled-down desktop text and content below a fixed-height excerpt.
  * Invisible animation layers and intentionally omitted detail are not user-visible text.
  */
-async function expectReadableContents(
-  container: Locator,
-  minimumFont = 11.5,
-  checkBounds = true,
-  allowCardRightCrop = false,
-) {
+async function expectReadableContents(container: Locator, minimumFont = 11.5, checkBounds = true) {
   const result = await container.evaluate(
-    (host, { minimum, checkBounds, allowCardRightCrop }) => {
+    (host, { minimum, checkBounds }) => {
       const root = host.shadowRoot ?? host;
       const bounds = host.getBoundingClientRect();
       const describeOverflow = (rect: DOMRect, clip: DOMRect) =>
@@ -143,17 +138,8 @@ async function expectReadableContents(
             // The page viewport scrolls normally; the regression concerns component clipping.
             if (ancestor === document.documentElement || ancestor === document.body) continue;
             const clip = ancestor.getBoundingClientRect();
-            // The approved composition aligns the complete screen with the copy and lets
-            // only its right edge continue behind the card. Internal screen clipping,
-            // its left edge and every vertical boundary remain errors.
-            const permitsRightCrop =
-              allowCardRightCrop &&
-              Boolean(host.closest('.step-card')) &&
-              ancestor.matches('.step-card, .step-track');
             if (
-              (clipX &&
-                (rect.left < clip.left - 1 ||
-                  (!permitsRightCrop && rect.right > clip.right + 1))) ||
+              (clipX && (rect.left < clip.left - 1 || rect.right > clip.right + 1)) ||
               (clipY && (rect.top < clip.top - 1 || rect.bottom > clip.bottom + 1))
             )
               issues.push({
@@ -166,7 +152,7 @@ async function expectReadableContents(
       }
       return { count, issues, scene: host.getAttribute('data-scene') || host.className };
     },
-    { minimum: minimumFont, checkBounds, allowCardRightCrop },
+    { minimum: minimumFont, checkBounds },
   );
   expect(
     result.count,
@@ -277,7 +263,7 @@ for (const locale of locales) {
       await expect(scene.locator('.application-status')).toHaveText('TLS 1.3');
       await expect(scene.locator('.application-fingerprint')).toHaveCount(0);
       await expect(scene).not.toContainText(/OpenSSH|SSH-2\.0|CVE-\d{4}-\d+/);
-      await expectReadableContents(scene, 9.5, true, true);
+      await expectReadableContents(scene, 11.5, true);
     }
     expect(errors).toEqual([]);
   });
@@ -310,7 +296,7 @@ for (const locale of locales) {
               await expect(scene.locator(selector!)).toContainText(text!);
               await expect(scene.locator(`${selector} > span`)).toHaveText('100');
             } else await expect(scene.locator(selector!)).toHaveText(text!, { useInnerText: true });
-            await expectReadableContents(scene, 9.5, true, true);
+            await expectReadableContents(scene, 11.5, true);
             if (name === 'query')
               await expect(scene.locator('[data-demo-query]')).toHaveText('nginx');
             if (name === 'host') {
@@ -359,15 +345,17 @@ for (const locale of locales) {
         const demo = frame.locator('.application-scene[data-scene="api"]');
         await expectApplicationScene(demo, '903:53837');
         await expect(demo.locator('.application-api__heading')).toHaveText(locale.apiHeading);
+        await expect(demo.locator('.application-api__tabs > span:visible')).toHaveCount(2);
         await expect(demo.locator('[data-demo-target="api-key"]')).toHaveText(/^•{16}$/);
         await expect(demo.locator('[data-demo-target="api-url"]')).toHaveCount(0);
         const keyPanel = demo.locator('[data-api-panel="key"]');
         await expect(keyPanel).toBeVisible();
         await expect(demo.locator('[data-api-panel="usage"]')).toBeHidden();
-        await expect(keyPanel.locator('.application-api__credit')).toHaveCount(2);
-        await expect(keyPanel.locator('.application-api__credit-track')).toHaveCount(2);
-        await expect(demo.locator('[role="meter"]:visible')).toHaveCount(2);
-        const meters = keyPanel.locator('[role="meter"]:visible');
+        const summary = keyPanel.locator('.application-api__summary');
+        await expect(summary.locator('dl > div')).toHaveCount(3);
+        await expect(demo.locator('[role="meter"]:visible')).toHaveCount(0);
+        const usagePanel = demo.locator('[data-api-panel="usage"]');
+        const meters = usagePanel.locator('[role="meter"]');
         await expect(meters).toHaveCount(2);
         const number = new Intl.NumberFormat(locale.language);
         for (const [index, [current, maximum]] of [
@@ -380,13 +368,15 @@ for (const locale of locales) {
             'aria-label',
             new RegExp(`^${locale.quotas[index]!.split(' ').join('\\s+')}$`),
           );
-          const balance = keyPanel.locator('.application-api__credit').nth(index);
+          if (index === 0)
+            await expect(summary.locator('dd').nth(1)).toHaveText(number.format(current!));
+          const balance = usagePanel.locator('.application-api__credit').nth(index);
           await expect(balance.locator('.application-api__credit-value > span').first()).toHaveText(
             number.format(current!),
           );
-          await expect(
-            balance.locator('.application-api__credit-value > span').last(),
-          ).toContainText(number.format(maximum!));
+          await expect(balance.locator('.application-api__credit-total')).toContainText(
+            number.format(maximum!),
+          );
           const ratio = await meters.nth(index).evaluate((track) => {
             const fill = track.querySelector('.application-api__credit-fill')!;
             return fill.getBoundingClientRect().width / track.getBoundingClientRect().width;
@@ -400,17 +390,20 @@ for (const locale of locales) {
         await expectReadableContents(demo);
         if (width >= 1200) {
           const top = await page.locator('.api-copy h2').boundingBox();
-          const action = await page.locator('.api-copy > .double-button').boundingBox();
           const screen = await frame.boundingBox();
           expect(
             Math.abs(screen!.y - top!.y),
             'API screen shares the heading top edge',
           ).toBeLessThanOrEqual(1);
-          expect(
-            Math.abs(screen!.y + screen!.height - action!.y - action!.height),
-            'API screen shares the action bottom edge',
-          ).toBeLessThanOrEqual(1);
         }
+        const copyGaps = await page.locator('.api-copy').evaluate((copy) => {
+          const blocks = [...copy.children].map((element) => element.getBoundingClientRect());
+          return blocks.slice(1).map((block, index) => block.top - blocks[index]!.bottom);
+        });
+        expect(
+          Math.max(...copyGaps),
+          'API copy keeps bounded space between its content and action',
+        ).toBeLessThanOrEqual(32);
         expect(requests, 'illustrations must not execute an API request').toEqual([]);
       });
 

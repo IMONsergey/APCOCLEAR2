@@ -100,11 +100,11 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
       await expect(code).toBeVisible();
       await code.scrollIntoViewIfNeeded();
       await settle(page.locator('main'));
-      const request = await geometry(page, '#documentation', '#api-reference');
+      const request = await geometry(page, '#documentation', '#api-capabilities');
       const codeTabs = code.locator('.stage-code-tabs button');
       await codeTabs.last().click();
       await settle(code);
-      const response = await geometry(page, '#documentation', '#api-reference');
+      const response = await geometry(page, '#documentation', '#api-capabilities');
       expect(Math.abs(response.height - request.height)).toBeLessThanOrEqual(1);
       expect(Math.abs(response.followingTop - request.followingTop)).toBeLessThanOrEqual(1);
       if (
@@ -128,7 +128,7 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
       await codeTabs.first().click();
       await settle(code);
       expect(await viewport.evaluate((element) => element.scrollTop)).toBe(0);
-      const restored = await geometry(page, '#documentation', '#api-reference');
+      const restored = await geometry(page, '#documentation', '#api-capabilities');
       expect(Math.abs(restored.height - request.height)).toBeLessThanOrEqual(1);
       expect(Math.abs(restored.followingTop - request.followingTop)).toBeLessThanOrEqual(1);
     });

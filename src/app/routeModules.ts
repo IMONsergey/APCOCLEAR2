@@ -7,6 +7,7 @@ export const loadHome = () => import('../pages/HomePage');
 export const loadPlatform = () => import('../pages/PlatformPages');
 export const loadResearch = () => import('../pages/ResearchPages');
 export const loadCommercial = () => import('../pages/CommercialPages');
+export const loadDocumentation = () => import('../pages/ApiDocumentationPage');
 export const loadLegal = () => import('../pages/LegalPages');
 export const loadCorporate = () => import('../pages/CorporatePages');
 export const loadNotFound = () => import('../pages/NotFoundPage');
@@ -21,6 +22,7 @@ const loaders = {
   platform: loadPlatform,
   research: loadResearch,
   commercial: loadCommercial,
+  documentation: loadDocumentation,
   corporate: loadCorporate,
   notFound: loadNotFound,
 } satisfies Record<RouteGroup | 'notFound', () => Promise<unknown>>;

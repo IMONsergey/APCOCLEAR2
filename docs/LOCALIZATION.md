@@ -4,7 +4,7 @@ APCOSYS Website includes English, Russian and Traditional Chinese marketing page
 
 ## Route coverage
 
-`src/i18n/localized-routes.ts` defines all 19 page identities: Home, Search & Investigation, Data & Methodology, Monitoring, three use cases, Teams, API, Pricing, About, Responsible Scanning, Contact and six legal pages. Each has an English URL and RU/Traditional Chinese equivalents: 57 page URLs. The missing-page state is localized too. There is no automatic redirect based on country or browser language.
+`src/i18n/localized-routes.ts` defines all 20 page identities: Home, Search & Investigation, Data & Methodology, Monitoring, three use cases, Teams, API, API documentation, Pricing, About, Responsible Scanning, Contact and six legal pages. Each has an English URL and RU/Traditional Chinese equivalents: 60 page URLs. The missing-page state is localized too. There is no automatic redirect based on country or browser language.
 
 The router resolves locale and page identity independently. `siteHref` keeps query parameters and fragments, and language switching opens the corresponding localized URL. Static `index.html` is generated for each available variant, retaining direct-link refresh support on subdirectory and root deployments. `scripts/prerender-route-meta.ts` and `src/i18n/route-metadata.ts` provide translated titles/descriptions, correct `html lang`, canonical URLs and matching `hreflang` alternates for equivalent localized pages. The build emits sitemap URLs when `APCO_PUBLIC_SITE_ORIGIN` is configured. Review copies default to `noindex`; `APCO_SITE_INDEXABLE=true` requires a final HTTPS origin. Missing pages always stay `noindex`, including after client navigation.
 
@@ -27,7 +27,7 @@ Prefer whole-sentence translation keys over fragments around line breaks: word o
 ## Release review
 
 - Validate `npm run check`, `npm run verify:localization`, `npm run build`, `npm run build:root`, browser route/navigation, locale switching and translations in Pricing/Contact/API/product scenes.
-- Inspect all 19 routes per locale for untranslated visible copy or layout overflow; include `aria-label`, form validation, modals and dynamic states. Recheck English content and geometry after localization changes.
+- Inspect all 20 routes per locale for untranslated visible copy or layout overflow; include `aria-label`, form validation, modals and dynamic states. Recheck English content and geometry after localization changes.
 - Check localized static title, description, canonical URL, alternate URL, language tag and direct refresh on the deployment origin. Legal URLs must load the matching complete translation and retain clause anchors across language changes.
 - Confirm the supplementary editor-provided UI translations and ambiguous terminology with the content owner; confirm technical product values independently before production release.
 - Preserve the English legal originals and the matching localized document bodies. Deliberate source amendments must be approved, compiled and reviewed. The authenticated product and checkout remain separate systems.
