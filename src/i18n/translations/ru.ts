@@ -1026,12 +1026,16 @@ export default {
   '{count} service records': 'Записей о сервисах: {count}',
   '{name} interactive illustrated workflow': 'Интерактивный иллюстративный рабочий процесс: {name}',
   '{address} · Reserved example address.': '{address} · Зарезервированный адрес для примера.',
+  'A defined boundary surrounds infrastructure being observed.':
+    'Обозначенная граница окружает наблюдаемую инфраструктуру.',
   'A precise connection carries data between two software systems.':
     'Точное соединение передает данные между двумя программными системами.',
   'A single teal connection links three transparent layers of observations.':
     'Одна бирюзовая линия соединяет три прозрачных слоя наблюдений.',
   'Added in this example: {technology}': 'Добавлено в этом примере: {technology}',
   Analytics: 'Аналитика',
+  'An open structure makes the internet’s technical layers visible.':
+    'Открытая структура показывает технические слои интернета.',
   'An optical lens brings one infrastructure host into focus.':
     'Оптическая линза выделяет один хост инфраструктуры.',
   'API code example': 'Пример кода API',
