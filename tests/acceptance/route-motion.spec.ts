@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { revealHeader } from '../helpers/locale';
+import { openLanguageMenu, revealHeader } from '../helpers/locale';
 
 for (const mode of ['native', 'fallback', 'reduced'] as const) {
   test(`navigation keeps the current page while loading and restores history: ${mode}`, async ({
@@ -253,5 +253,52 @@ for (const storage of ['available', 'restricted'] as const) {
     await page.reload();
     await expect(page.locator('.legal-copy')).toBeVisible();
     await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 800))).toBeLessThan(2);
+  });
+}
+
+for (const input of ['pointer', 'keyboard'] as const) {
+  test(`Delayed route keeps a newly opened language menu and focus: ${input}`, async ({ page }) => {
+    let release = () => {};
+    let requested = false;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route(/\/legal-documents-[\w-]+\.js$/, async (route) => {
+      requested = true;
+      await held;
+      await route.continue();
+    });
+    try {
+      await page.goto('./contact');
+      await expect(page.locator('main h1')).toBeVisible();
+      await page.locator('.stage-consent a[href$="/legal/privacy-policy"]').click();
+      await expect.poll(() => requested).toBe(true);
+      if (input === 'pointer') await openLanguageMenu(page);
+      else {
+        await revealHeader(page);
+        await page.locator('[data-language-selector]').press('Enter');
+      }
+      await expect(page.locator('.language-panel')).toHaveCSS('opacity', '1');
+      release();
+      await expect(page.locator('.legal-copy')).toBeVisible();
+      await expect(page.locator('main')).toHaveAttribute('data-route', '/legal/privacy-policy');
+      await expect(page.locator('[data-language-selector]')).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+      await expect
+        .poll(() =>
+          page.evaluate(() =>
+            document.querySelector('.language-control')?.contains(document.activeElement),
+          ),
+        )
+        .toBe(true);
+      await page.getByRole('menuitemradio', { name: 'Русский', exact: true }).click();
+      await expect(page).toHaveURL(/\/ru\/legal\/privacy-policy\/?$/);
+      await expect(page.locator('.legal-copy')).toBeVisible();
+      await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+    } finally {
+      release();
+    }
   });
 }

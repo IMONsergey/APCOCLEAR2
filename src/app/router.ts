@@ -70,6 +70,10 @@ export function useSiteRoute(locale: Locale) {
       // History state remains available when session storage is restricted.
     }
     let navigationVersion = 0;
+    let interactionVersion = 0;
+    const recordInteraction = () => {
+      interactionVersion++;
+    };
     let readiness = new AbortController();
     let currentPath = getRoutePath();
     let navigating = false;
@@ -119,6 +123,7 @@ export function useSiteRoute(locale: Locale) {
       originDialog: HTMLDialogElement | null = null,
     ) => {
       const version = ++navigationVersion;
+      const focusVersion = interactionVersion;
       readiness.abort();
       readiness = new AbortController();
       activeTransition?.skipTransition();
@@ -151,8 +156,10 @@ export function useSiteRoute(locale: Locale) {
           currentPath = targetPath;
           startTransition(() => setPath(targetPath));
           if (!(await waitForPage(targetPath, version))) return;
-          const anchored = applyScroll(rememberedY, samePage && !!url, !!url);
-          if (!samePage && !anchored) {
+          // A control activated during loading owns focus when the route finishes.
+          const preserveFocus = focusVersion !== interactionVersion;
+          const anchored = applyScroll(rememberedY, samePage && !!url, !!url && !preserveFocus);
+          if (!samePage && !anchored && !preserveFocus) {
             const heading = document.querySelector<HTMLElement>('main h1');
             heading?.setAttribute('tabindex', '-1');
             heading?.focus({ preventScroll: true });
@@ -247,6 +254,9 @@ export function useSiteRoute(locale: Locale) {
     window.addEventListener('popstate', sync);
     window.addEventListener('scroll', recordScroll, { passive: true });
     window.addEventListener('pagehide', saveDeparture);
+    document.addEventListener('pointerdown', recordInteraction, true);
+    document.addEventListener('keydown', recordInteraction, true);
+    document.addEventListener('click', recordInteraction, true);
     document.addEventListener('click', intercept);
     document.addEventListener('pointerover', warm, { passive: true });
     document.addEventListener('focusin', warm);
@@ -267,6 +277,9 @@ export function useSiteRoute(locale: Locale) {
       window.removeEventListener('popstate', sync);
       window.removeEventListener('scroll', recordScroll);
       window.removeEventListener('pagehide', saveDeparture);
+      document.removeEventListener('pointerdown', recordInteraction, true);
+      document.removeEventListener('keydown', recordInteraction, true);
+      document.removeEventListener('click', recordInteraction, true);
       document.removeEventListener('click', intercept);
       document.removeEventListener('pointerover', warm);
       document.removeEventListener('focusin', warm);
