@@ -1,5 +1,60 @@
 import { expect, test } from '@playwright/test';
 
+test('Russian page styles and display fonts start before application code is available', async ({
+  page,
+}) => {
+  const requested: string[] = [];
+  page.on('request', (request) => requested.push(new URL(request.url()).pathname));
+  let release: () => void = () => undefined;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route(/\/assets\/index-[\w-]+\.js$/, async (route) => {
+    await held;
+    await route.continue();
+  });
+  try {
+    await page.goto('./ru/about/', { waitUntil: 'commit' });
+    await expect(page.locator('script[type="module"][src]')).toHaveAttribute(
+      'fetchpriority',
+      'high',
+    );
+    await expect(
+      page.locator('link[rel="modulepreload"], link[rel="preload"][as="script"]'),
+    ).toHaveCount(0);
+    await expect
+      .poll(() => requested.some((url) => /CorporatePages-[\w-]+\.css$/.test(url)))
+      .toBe(true);
+    await expect
+      .poll(() => requested.some((url) => url.endsWith('/fonts/onest-cyrillic.woff2')))
+      .toBe(true);
+    release();
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('main')).toHaveAttribute('data-route', '/about');
+  } finally {
+    release();
+  }
+});
+
+test('early resource hints do not transfer the same JavaScript twice', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'Check resource transfer accounting in Chromium.');
+  await page.goto('./ru/');
+  await expect(page.locator('main h1')).toBeVisible();
+  await page.evaluate(() => document.fonts.ready);
+  const duplicates = await page.evaluate(() => {
+    const transfers = new Map<string, number>();
+    for (const item of performance.getEntriesByType('resource') as PerformanceResourceTiming[]) {
+      if (!new URL(item.name).pathname.endsWith('.js') || item.transferSize === 0) continue;
+      transfers.set(item.name, (transfers.get(item.name) ?? 0) + 1);
+    }
+    return [...transfers].filter(([, count]) => count > 1);
+  });
+  expect(duplicates).toEqual([]);
+});
+
 for (const path of ['./', './about/', './legal/privacy-policy/']) {
   test(`footer actions appear only after delayed page content commits: ${path}`, async ({
     page,

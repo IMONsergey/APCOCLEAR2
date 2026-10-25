@@ -33,10 +33,10 @@ const render = (children: ReactNode) =>
 
 async function start() {
   try {
-    if (locale === 'ru') {
-      await Promise.all([import('./styles/onest.css'), import('./styles/russian-type.css')]);
-    }
-    await loadLocale(locale);
+    // Fetch the catalog and language styles together before rendering localized content.
+    const languageStyles =
+      locale === 'ru' ? [import('./styles/onest.css'), import('./styles/russian-type.css')] : [];
+    await Promise.all([loadLocale(locale), ...languageStyles]);
     render(
       <LocaleProvider locale={locale}>
         <App />

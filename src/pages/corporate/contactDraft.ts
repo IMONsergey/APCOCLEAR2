@@ -13,7 +13,7 @@ const key = 'apcosys-contact-draft-v1:' + import.meta.env.BASE_URL;
 const lifetime = 24 * 60 * 60 * 1000;
 let memory: { updatedAt: number; draft: ContactDraft } | undefined;
 
-export const emptyContactDraft = (): ContactDraft => ({
+const emptyContactDraft = (): ContactDraft => ({
   name: '',
   email: '',
   company: '',
@@ -22,7 +22,7 @@ export const emptyContactDraft = (): ContactDraft => ({
   consent: false,
 });
 
-export function clearContactDraft() {
+function clearContactDraft() {
   memory = undefined;
   try {
     sessionStorage.removeItem(key);

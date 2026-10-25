@@ -52,7 +52,7 @@ The shared `ApplicationFrame` contains the scene and decorative cursor without a
 
 ## Native playback and data boundaries
 
-`ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render their HTML before motion loads. `StepDemoMount` and `ApiDemoMount` load `applicationPlayback.ts` near the viewport. GSAP is still absent from runtime imports and the dependency manifest.
+`ApplicationFrame`, `ApplicationProductScene` and `ApplicationApiScene` render their HTML before motion loads. `useApplicationPlayback` loads the shared playback module near the viewport and skips it for reduced motion. Failed downloads leave the static HTML readable.
 
 The native clock retains its eight-second cycle: four 1.8-second phases followed by a 0.8-second reading pause. Each pointer move takes 0.5 seconds, followed by a short press and an action at 0.65 seconds; the remaining phase gives time to read. The cursor fades before the cycle restarts. Playback drives query typing, the country-filter panel/result state, copied state and the API key/usage switch without drawing focus rectangles. `data-demo-phase` identifies the movement phase and `data-demo-action` the last completed action (`-1` before the first action). `data-demo-playback` reports `static`, `playing` or `paused`; `data-api-view` identifies the API panel.
 

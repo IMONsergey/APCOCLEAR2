@@ -15,6 +15,23 @@ export function TeamSignal({ inverse = false }: { inverse?: boolean }) {
     const context = canvas?.getContext('2d');
     if (!canvas || !context) return;
     const state = { phase: 1.2 };
+    const tilt = 0.94;
+    const sinTilt = Math.sin(tilt);
+    const cosTilt = Math.cos(tilt);
+    const points = Array.from({ length: 17 * 27 }, (_, index) => {
+      const row = Math.floor(index / 27);
+      const col = index % 27;
+      return {
+        gridX: (col - 13) * 18,
+        gridZ: (row - 8) * 21,
+        edge: Math.min(1, (Math.min(col, 26 - col, row, 16 - row) + 1) / 3),
+        x: 0,
+        y: 0,
+        depth: 0,
+        radius: 0,
+        alpha: 0,
+      };
+    });
     let width = 600,
       height = 440,
       visible = false,
@@ -26,45 +43,32 @@ export function TeamSignal({ inverse = false }: { inverse?: boolean }) {
       context.clearRect(0, 0, width, height);
       const phase = state.phase;
       const turn = -0.24 + Math.sin(phase) * 0.035;
-      const tilt = 0.94;
+      const sinTurn = Math.sin(turn);
+      const cosTurn = Math.cos(turn);
       const scale = Math.min(width / 510, height / 410);
-      const project = (x: number, y: number, z: number) => {
-        const rx = x * Math.cos(turn) + z * Math.sin(turn);
-        const rz = z * Math.cos(turn) - x * Math.sin(turn);
-        const ry = y * Math.cos(tilt) - rz * Math.sin(tilt);
-        const depth = y * Math.sin(tilt) + rz * Math.cos(tilt);
-        const perspective = 820 / (820 + depth);
-        return {
-          x: width / 2 + rx * scale * perspective,
-          y: height / 2 + ry * scale * perspective,
-          depth,
-          perspective,
-        };
-      };
-      const rgb = inverse ? '219,251,253' : '3,122,143';
-      const points: (ReturnType<typeof project> & { radius: number; alpha: number })[] = [];
-      for (let row = 0; row < 17; row++) {
-        for (let col = 0; col < 27; col++) {
-          const x = (col - 13) * 18;
-          const z = (row - 8) * 21;
-          const wave = Math.sin(x * 0.016 - phase) * 58 + Math.cos(z * 0.02 + phase) * 18;
-          const point = project(x, wave, z);
-          const crest = (wave + 76) / 152;
-          const edge = Math.min(1, (Math.min(col, 26 - col, row, 16 - row) + 1) / 3);
-          points.push({
-            ...point,
-            radius: (1.45 + crest * 0.8) * scale * point.perspective,
-            alpha: (0.24 + crest * 0.62) * edge,
-          });
-        }
+      for (const point of points) {
+        const { gridX: x, gridZ: z } = point;
+        const wave = Math.sin(x * 0.016 - phase) * 58 + Math.cos(z * 0.02 + phase) * 18;
+        const rx = x * cosTurn + z * sinTurn;
+        const rz = z * cosTurn - x * sinTurn;
+        const ry = wave * cosTilt - rz * sinTilt;
+        point.depth = wave * sinTilt + rz * cosTilt;
+        const perspective = 820 / (820 + point.depth);
+        const crest = (wave + 76) / 152;
+        point.x = width / 2 + rx * scale * perspective;
+        point.y = height / 2 + ry * scale * perspective;
+        point.radius = (1.45 + crest * 0.8) * scale * perspective;
+        point.alpha = (0.24 + crest * 0.62) * point.edge;
       }
       points.sort((a, b) => b.depth - a.depth);
+      context.fillStyle = inverse ? 'rgb(219,251,253)' : 'rgb(3,122,143)';
       for (const point of points) {
+        context.globalAlpha = point.alpha;
         context.beginPath();
         context.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-        context.fillStyle = `rgba(${rgb},${point.alpha})`;
         context.fill();
       }
+      context.globalAlpha = 1;
     };
     let frame = 0;
     let lastTick = 0;

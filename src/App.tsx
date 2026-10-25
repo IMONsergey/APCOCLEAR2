@@ -1,5 +1,5 @@
 import { RouteReady } from './app/RouteReady';
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useMemo, useState } from 'react';
 import { useLocale } from './i18n/context';
 import { LocaleText } from './i18n/LocaleText';
 import { Header } from './components/Header';
@@ -39,6 +39,26 @@ export function App() {
   const [readyPath, setReadyPath] = useState<string | null>(null);
   const notFound = path === '/404';
   const Page = pages[routeGroup(path)];
+  const content = useMemo(
+    () => (
+      <main id="main" data-route={path}>
+        <RouteBoundary key={path} path={path} onReady={setReadyPath}>
+          <Suspense
+            fallback={
+              <div className="route-fallback" role="status" aria-label={t('Loading page')}>
+                <span className="sr-only">{t('Loading page…')}</span>
+              </div>
+            }
+          >
+            <RouteReady path={path} onReady={setReadyPath}>
+              <Page path={path} />
+            </RouteReady>
+          </Suspense>
+        </RouteBoundary>
+      </main>
+    ),
+    [Page, path, t],
+  );
   return (
     <MotionProvider>
       <div id="top" className={notFound ? 'site site--not-found' : 'site'} lang={locale}>
@@ -46,21 +66,7 @@ export function App() {
           <LocaleText>{t('Skip to content')}</LocaleText>
         </a>
         <Header forceVisible={notFound} />
-        <main id="main" data-route={path}>
-          <RouteBoundary key={path} path={path} onReady={setReadyPath}>
-            <Suspense
-              fallback={
-                <div className="route-fallback" role="status" aria-label={t('Loading page')}>
-                  <span className="sr-only">{t('Loading page…')}</span>
-                </div>
-              }
-            >
-              <RouteReady path={path} onReady={setReadyPath}>
-                <Page path={path} />
-              </RouteReady>
-            </Suspense>
-          </RouteBoundary>
-        </main>
+        {content}
         {!notFound && readyPath === path && <Footer />}
       </div>
     </MotionProvider>

@@ -1073,7 +1073,6 @@ export default {
     '需要將資料用於商業用途嗎？購買前，請向 Apcosys 確認所選方案允許的使用範圍。',
   'Confirm data usage': '確認資料使用條件',
   'View all plan features': '查看所有方案功能',
-  'Available in English': '提供英文版本',
   'API key': 'API 金鑰',
   'Query credits remaining': '剩餘查詢額度',
   'Scan credits remaining': '剩餘掃描額度',

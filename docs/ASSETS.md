@@ -2,17 +2,15 @@
 
 Static assets live in `public/assets/`; fonts and notices live in `public/fonts/`. URLs must include Vite's base. All URLs resolve through `src/content/assets.ts`. `src/content/asset-manifest.ts` is the shared inventory used by the browser resolver and asset verifier.
 
-| Folder                              | Content and variants                                                                          |
-| ----------------------------------- | --------------------------------------------------------------------------------------------- |
-| `assets/brand/`                     | Logo and favicon                                                                              |
-| `assets/application/`               | Fourteen exact SVG exports from the approved application Figma page; see APPLICATION-DEMOS.md |
-| `assets/inner/`                     | Hero illustrations with matching light and `-dark.webp` editions                              |
-| `assets/use-cases/`                 | Three families reused on homepage cards and relevant page heroes, light/dark                  |
-| `assets/editorial/`                 | Three editorial families: light, `-600`, `-dark`, `-dark-600`                                 |
-| `assets/illustrations/walkthrough/` | Retained source artwork; the current five application scenes use translated HTML              |
-| `assets/illustrations/api/`         | Retained source artwork; the current API workspace uses translated HTML in both themes        |
-| `assets/illustrations/closing/`     | Responsive closing artwork with light/dark editions                                           |
-| `fonts/`                            | Local Instrument Sans, Onest and IBM Plex Mono WOFF2 files and their notices                  |
+| Folder                          | Content and variants                                                                          |
+| ------------------------------- | --------------------------------------------------------------------------------------------- |
+| `assets/brand/`                 | Logo and favicon                                                                              |
+| `assets/application/`           | Fourteen exact SVG exports from the approved application Figma page; see APPLICATION-DEMOS.md |
+| `assets/inner/`                 | Hero illustrations with matching light and `-dark.webp` editions                              |
+| `assets/use-cases/`             | Three families reused on homepage cards and relevant page heroes, light/dark                  |
+| `assets/editorial/`             | Three editorial families: light, `-600`, `-dark`, `-dark-600`                                 |
+| `assets/illustrations/closing/` | Responsive closing artwork with light/dark editions                                           |
+| `fonts/`                        | Local Instrument Sans, Onest and IBM Plex Mono WOFF2 files and their notices                  |
 
 The `Logo` component preserves the original vector paths from `assets/brand/logo.svg`, including the custom wordmark. Never replace the wordmark with typeset text or apply capitalization requests to its geometry. Uppercase shell text labels are separate from the logo; theme colors remain controlled by existing tokens.
 

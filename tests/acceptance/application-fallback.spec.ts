@@ -5,13 +5,10 @@ test('all six application frames remain readable when their motion chunks fail',
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   const failed = new Set<string>();
-  await page.route(
-    /\/assets\/(?:StepDemoMount|ApiDemoMount|applicationPlayback)-[^/]+\.js$/,
-    async (route) => {
-      failed.add(route.request().url());
-      await route.abort('failed');
-    },
-  );
+  await page.route(/\/assets\/applicationPlayback-[^/]+\.js$/, async (route) => {
+    failed.add(route.request().url());
+    await route.abort('failed');
+  });
   await page.goto('./');
   for (const [scene, heading] of [
     ['query', '.application-query-title'],
@@ -67,8 +64,7 @@ test('all six application frames remain readable when their motion chunks fail',
         ),
     ).toBe(true);
   }
-  expect([...failed].some((url) => url.includes('/StepDemoMount-'))).toBe(true);
-  expect([...failed].some((url) => url.includes('/ApiDemoMount-'))).toBe(true);
+  expect([...failed].some((url) => url.includes('/applicationPlayback-'))).toBe(true);
   await expect(page.locator('.application-scene')).toHaveCount(6);
   await expect(page.locator('main[data-startup-error]')).toHaveCount(0);
 });

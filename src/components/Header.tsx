@@ -11,7 +11,6 @@ import { Modal } from './ui/Modal';
 import { LanguageBadge } from './ui/LanguageBadge';
 import { ThemeMenu, MobileThemeControl } from './ui/ThemeControl';
 import { Logo } from './ui/Logo';
-import { LinkLanguageHint } from './ui/LinkLanguageHint';
 import { useScrollHeader } from '../hooks/useScrollHeader';
 export function Header({ forceVisible = false }: { forceVisible?: boolean }) {
   const { t } = useLocale();
@@ -140,9 +139,6 @@ export function Header({ forceVisible = false }: { forceVisible?: boolean }) {
                       onClick={() => setActive(null)}
                     >
                       <LocaleText>{t(item.label)}</LocaleText>
-                      <LinkLanguageHint
-                        href={item.href.startsWith('/') ? siteHref(item.href) : item.href}
-                      />
                     </a>
                   ))}
                 </div>
@@ -205,9 +201,6 @@ export function Header({ forceVisible = false }: { forceVisible?: boolean }) {
                   onClick={() => setMobileOpen(false)}
                 >
                   <LocaleText>{t(item.label)}</LocaleText>
-                  <LinkLanguageHint
-                    href={item.href.startsWith('/') ? siteHref(item.href) : item.href}
-                  />
                   <Icon name="arrow" />
                 </a>
               ))}
