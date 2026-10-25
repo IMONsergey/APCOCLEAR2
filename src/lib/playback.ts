@@ -45,7 +45,5 @@ export function createPlaybackClock(render: (elapsed: number) => void) {
 export const playbackProgress = (time: number, start: number, duration: number) =>
   Math.max(0, Math.min(1, (time - start) / duration));
 
-export const easeOutCubic = (progress: number) => 1 - (1 - progress) ** 3;
-
 export const easeInOutCubic = (progress: number) =>
   progress < 0.5 ? 4 * progress ** 3 : 1 - (-2 * progress + 2) ** 3 / 2;

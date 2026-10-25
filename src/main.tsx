@@ -33,15 +33,12 @@ const render = (children: ReactNode) =>
   );
 
 async function start() {
-  // Start the page download alongside its language resources. Suspense owns failure recovery.
-  void prepareRoute(getRoutePath()).catch(() => undefined);
   try {
-    await Promise.all([
-      loadLocale(locale),
-      ...(locale === 'ru'
-        ? [import('./styles/onest.css'), import('./styles/russian-type.css')]
-        : []),
-    ]);
+    // Register language styles first to preserve the cascade while downloads run together.
+    const languageStyles =
+      locale === 'ru' ? [import('./styles/onest.css'), import('./styles/russian-type.css')] : [];
+    void prepareRoute(getRoutePath()).catch(() => undefined);
+    await Promise.all([loadLocale(locale), ...languageStyles]);
     render(
       <LocaleProvider locale={locale}>
         <App />

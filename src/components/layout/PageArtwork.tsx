@@ -2,7 +2,6 @@ import { observeViewportActivity } from '../../lib/visibility';
 import type { ThemedAsset } from '../../content/assets';
 import { useEffect, useRef } from 'react';
 import { useMotion } from '../../hooks/useMotion';
-import { useTheme } from '../../theme/ThemeProvider';
 import { ThemedArtwork } from '../ui/ThemedArtwork';
 import { useLocale } from '../../i18n/context';
 
@@ -79,7 +78,6 @@ const artwork: Record<ArtworkKey, { file: ThemedAsset; alt: string }> = {
 function SignalTrace() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const { reduced, paused } = useMotion();
-  const { theme } = useTheme();
   useEffect(() => {
     const el = canvas.current;
     const ctx = el?.getContext('2d');
@@ -91,7 +89,7 @@ function SignalTrace() {
       lastDraw = 0,
       width = 0,
       height = 0;
-    const ink = getComputedStyle(el).getPropertyValue('--accent-text');
+    let ink = getComputedStyle(el).getPropertyValue('--accent-text');
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = ink;
@@ -137,13 +135,22 @@ function SignalTrace() {
       draw();
     });
     resize.observe(el);
+    const palette = new MutationObserver(() => {
+      ink = getComputedStyle(el).getPropertyValue('--accent-text');
+      draw();
+    });
+    palette.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
     sync();
     return () => {
       cancelAnimationFrame(raf);
       stopActivity();
       resize.disconnect();
+      palette.disconnect();
     };
-  }, [reduced, paused, theme]);
+  }, [reduced, paused]);
   return <canvas ref={canvas} className="page-artwork__trace" aria-hidden="true" />;
 }
 

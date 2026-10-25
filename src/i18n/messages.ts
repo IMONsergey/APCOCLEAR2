@@ -23,10 +23,6 @@ function isCatalog(value: unknown): value is Catalog {
   );
 }
 
-export function isLocale(value: string): value is Locale {
-  return value === 'en' || value === 'ru' || value === 'zh-Hant';
-}
-
 /** Load and activate a catalog before React renders the corresponding document. */
 export async function loadLocale(locale: Locale): Promise<void> {
   if (locale === 'en') {
