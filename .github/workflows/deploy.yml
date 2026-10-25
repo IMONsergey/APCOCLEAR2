@@ -100,7 +100,7 @@ jobs:
         run: >-
           npm run test:release -- tests/acceptance/route-motion.spec.ts
           tests/acceptance/localization.spec.ts tests/acceptance/layout-regressions.spec.ts
-          --grep 'history restores the reading position|reselecting the current route|language round trip|Business action lands'
+          --grep 'continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
         env:
           APCO_TEST_BASE_PATH: ${{ needs.configuration.outputs.base }}
       - name: Full release acceptance
@@ -162,7 +162,7 @@ jobs:
           tests/acceptance/interactions.spec.ts
           tests/acceptance/route-motion.spec.ts tests/acceptance/localization.spec.ts
           tests/acceptance/layout-regressions.spec.ts
-          --grep 'Early navigation|failed initial page download|documentation links open the localized standalone API reference|history restores the reading position|reselecting the current route|language round trip|Business action lands'
+          --grep 'Early navigation|failed initial page download|documentation links open the localized standalone API reference|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
       - name: Repeated cold navigation
         run: >-
           npm test -- --project=${{ matrix.browser }} tests/acceptance/routes.spec.ts

@@ -39,7 +39,17 @@ export function useSiteRoute(locale: Locale) {
   useEffect(() => {
     const previousSetting = history.scrollRestoration;
     history.scrollRestoration = 'manual';
-    let frame = 0;
+    let scrollTimer = 0;
+    const scrollPositions = new Map<string, number>();
+    const newEntryKey = () => Math.random().toString(36).slice(2);
+    const entryKey = () => {
+      const stored: unknown = history.state?.apcoScrollKey;
+      if (typeof stored === 'string') return stored;
+      const key = newEntryKey();
+      history.replaceState({ ...history.state, apcoScrollKey: key }, '');
+      return key;
+    };
+    let currentKey = entryKey();
     let navigationVersion = 0;
     let readiness = new AbortController();
     let currentPath = getRoutePath();
@@ -47,24 +57,27 @@ export function useSiteRoute(locale: Locale) {
     let activeTransition: ViewTransition | undefined;
     let fallbackAnimation: Animation | undefined;
     const saveScroll = () => {
-      if (!navigating) history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
+      clearTimeout(scrollTimer);
+      scrollTimer = 0;
+      if (navigating) return;
+      scrollPositions.set(currentKey, scrollY);
+      if (history.state?.apcoScrollKey === currentKey && savedScrollY() !== scrollY)
+        history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
     };
     const recordScroll = () => {
       if (navigating) return;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(saveScroll);
+      // Keep exact positions in memory without writing History API state every frame.
+      scrollPositions.set(currentKey, scrollY);
+      if (!scrollTimer) scrollTimer = window.setTimeout(saveScroll, 500);
     };
     const waitForPage = async (targetPath: string, version: number) =>
       (await waitForRouteReady(targetPath, readiness.signal)) && version === navigationVersion;
     const applyScroll = (rememberedY?: number, smooth = false, focus = false) => {
       // A history entry remembers where reading stopped, even if its URL has a hash.
-      if (rememberedY !== undefined) {
-        scrollTo({ top: rememberedY, behavior: 'instant' });
-        return false;
-      }
-      if (location.hash && resolveScroll({ smooth, focus })) return true;
-      scrollTo({ top: 0, behavior: 'instant' });
-      return false;
+      const anchored =
+        rememberedY === undefined && !!location.hash && resolveScroll({ smooth, focus });
+      if (!anchored) scrollTo({ top: rememberedY ?? 0, behavior: 'instant' });
+      return anchored;
     };
     const navigate = async (
       targetPath: string,
@@ -77,7 +90,8 @@ export function useSiteRoute(locale: Locale) {
       readiness = new AbortController();
       activeTransition?.skipTransition();
       fallbackAnimation?.cancel();
-      cancelAnimationFrame(frame);
+      clearTimeout(scrollTimer);
+      scrollTimer = 0;
       navigating = true;
       try {
         await prepareRoute(targetPath);
@@ -89,8 +103,15 @@ export function useSiteRoute(locale: Locale) {
         const commit = async () => {
           if (version !== navigationVersion) return;
           if (url && url.href !== location.href) {
+            scrollPositions.set(currentKey, scrollY);
             history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
-            history.pushState({ apcoScrollY: 0 }, '', url.pathname + url.search + url.hash);
+            const key = newEntryKey();
+            history.pushState(
+              { apcoScrollKey: key, apcoScrollY: 0 },
+              '',
+              url.pathname + url.search + url.hash,
+            );
+            currentKey = key;
           }
           // Track the committed destination before waiting for its lazy subtree.
           // A second activation can arrive while that subtree is still mounting.
@@ -141,7 +162,8 @@ export function useSiteRoute(locale: Locale) {
       }
     };
     const sync = () => {
-      void navigate(getRoutePath(), undefined, savedScrollY());
+      currentKey = entryKey();
+      void navigate(getRoutePath(), undefined, scrollPositions.get(currentKey) ?? savedScrollY());
     };
     const internalAnchor = (target: EventTarget | null) => {
       if (!(target instanceof Element)) return null;
@@ -207,7 +229,7 @@ export function useSiteRoute(locale: Locale) {
       activeTransition?.skipTransition();
       fallbackAnimation?.cancel();
       history.scrollRestoration = previousSetting;
-      cancelAnimationFrame(frame);
+      clearTimeout(scrollTimer);
       window.removeEventListener('popstate', sync);
       window.removeEventListener('scroll', recordScroll);
       window.removeEventListener('pagehide', saveScroll);
