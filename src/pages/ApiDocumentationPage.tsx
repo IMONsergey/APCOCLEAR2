@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { siteHref } from '../app/paths';
 import { Text } from '../components/ui/Text';
+import { Icon } from '../components/ui/Icon';
 import { plans, httpApiMethodCosts } from '../content/plans';
 import { formatApiRate } from '../lib/pricing';
 import { useLocale } from '../i18n/context';
@@ -182,7 +183,7 @@ export default function ApiDocumentationPage() {
     <article className="api-docs">
       <header className="api-docs__header container">
         <a className="api-docs__back" href={siteHref('/developers/api')}>
-          {t('API overview')} <span aria-hidden="true">↗</span>
+          <Icon name="previous" /> {t('API overview')}
         </a>
         <Text as="h1">API documentation.</Text>
         <Text as="p">
@@ -620,8 +621,12 @@ export default function ApiDocumentationPage() {
               dashboard.
             </Text>
             <div className="api-docs__closing">
-              <a href={siteHref('/developers/api')}>{t('API overview')} →</a>
-              <a href={siteHref('/contact?topic=API%20access')}>{t('Talk to Us')} →</a>
+              <a href={siteHref('/developers/api')}>
+                {t('API overview')} <Icon name="arrow" />
+              </a>
+              <a href={siteHref('/contact?topic=API%20access')}>
+                {t('Talk to Us')} <Icon name="arrow" />
+              </a>
             </div>
           </ApiDocsSection>
         </div>

@@ -282,22 +282,8 @@
   }
 }
 
-.carousel-arrows .demo-playback-toggle {
-  min-height: 44px;
-  margin-inline-end: var(--space-2);
-  font-size: var(--font-size-14);
-}
-@media (prefers-reduced-motion: reduce) {
-  .demo-playback-toggle {
-    display: none;
-  }
-}
 @container research (max-width: 479px) {
   .carousel-arrows {
     gap: var(--space-2);
-  }
-  .carousel-arrows .demo-playback-toggle {
-    padding-inline: var(--space-2);
-    margin-inline-end: 0;
   }
 }

@@ -55,32 +55,8 @@
 .api-illustration {
   display: grid;
   justify-items: end;
-  gap: var(--space-5);
   width: 100%;
   min-width: 0;
-}
-.api-playback-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 40px;
-  padding: 8px 12px;
-  border: 1px solid #ffffff66;
-  border-radius: var(--radius-control);
-  background: #ffffff14;
-  color: white;
-  font: inherit;
-  font-size: var(--font-size-14);
-  cursor: pointer;
-}
-.api-playback-toggle svg {
-  width: 10px;
-  height: 12px;
-  fill: currentColor;
-}
-.api-playback-toggle:focus-visible {
-  outline: 2px solid white;
-  outline-offset: 4px;
 }
 .api-demo-frame {
   position: relative;
@@ -155,10 +131,5 @@
 @container api (max-width: 340px) {
   .api-copy h2 {
     line-height: 1.1;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .api-playback-toggle {
-    display: none;
   }
 }

@@ -72,25 +72,6 @@
   background: var(--accent-text);
   transform-origin: left;
 }
-.evidence-playback-toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  border: 0;
-  background: transparent;
-  color: var(--text-muted);
-  font: inherit;
-  padding: var(--space-2) 0 var(--space-2) 10px;
-  min-height: 32px;
-}
-.evidence-playback-toggle:hover {
-  color: var(--accent-text);
-}
-.evidence-playback-toggle svg {
-  width: 10px;
-  height: 12px;
-  fill: currentColor;
-}
 .stage-case-experience {
   display: grid;
   grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
@@ -133,13 +114,9 @@
     margin-inline: var(--space-5);
     padding: 14px;
   }
-  .evidence-playback-toggle {
-    min-height: 36px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .evidence-cursor,
-  .evidence-playback-toggle,
   .evidence-playback__track {
     display: none;
   }

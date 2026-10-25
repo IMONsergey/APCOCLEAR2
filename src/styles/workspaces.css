@@ -402,13 +402,7 @@
   ):hover {
   background: var(--surface-elevated);
 }
-.site
-  .inner-pages
-  :is(
-    .stage-monitor-console button,
-    .team-workflow__tabs button,
-    .evidence-playback-toggle
-  ):focus-visible {
+.site .inner-pages :is(.stage-monitor-console button, .team-workflow__tabs button):focus-visible {
   outline: 0;
   background: var(--surface-tint);
   text-decoration: underline;

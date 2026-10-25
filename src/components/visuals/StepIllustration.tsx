@@ -17,15 +17,7 @@ class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean
   }
 }
 
-export function StepIllustration({
-  scene,
-  alt,
-  paused = false,
-}: {
-  scene: ResearchScene;
-  alt: string;
-  paused?: boolean;
-}) {
+export function StepIllustration({ scene, alt }: { scene: ResearchScene; alt: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const mounted = useNearViewport(ref, '240px');
@@ -36,9 +28,7 @@ export function StepIllustration({
         <ApplicationProductScene scene={scene} />
       </ApplicationFrame>
       <SceneBoundary>
-        <Suspense fallback={null}>
-          {mounted && <Demo scene={scene} frameRef={frameRef} paused={paused} />}
-        </Suspense>
+        <Suspense fallback={null}>{mounted && <Demo scene={scene} frameRef={frameRef} />}</Suspense>
       </SceneBoundary>
     </div>
   );
