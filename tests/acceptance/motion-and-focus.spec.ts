@@ -109,7 +109,8 @@ test('reduced motion preserves the selected price without a running reel', async
   expect(await priceAnimations(page)).toBe(0);
 });
 
-test('marquee pauses for focus', async ({ page }) => {
+test('marquee keeps scrolling during hover and focus', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await visit(page);
 
   const trust = page.locator('.trust');
@@ -117,8 +118,14 @@ test('marquee pauses for focus', async ({ page }) => {
   await expect(trust).toHaveAttribute('data-running', 'true');
 
   const viewport = trust.locator('.trust-viewport');
+  await viewport.hover();
   await viewport.focus();
-  await expect(viewport.locator('.trust-track')).toHaveCSS('animation-play-state', 'paused');
+  const track = viewport.locator('.trust-track');
+  await expect(track).toHaveCSS('animation-play-state', 'running');
+  const transform = await track.evaluate((node) => getComputedStyle(node).transform);
+  await expect
+    .poll(() => track.evaluate((node) => getComputedStyle(node).transform))
+    .not.toBe(transform);
 });
 
 test('language controls have no serious accessibility violations', async ({ page }) => {

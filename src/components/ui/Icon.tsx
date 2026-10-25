@@ -12,8 +12,6 @@ export type IconName =
   | 'previous'
   | 'external'
   | 'focus'
-  | 'pause'
-  | 'play'
   | 'database'
   | 'scanner'
   | 'cube'
@@ -39,8 +37,6 @@ const paths: Record<IconName, string> = {
   book: 'M8 3C6 1 2 1 1 2v12c2-1 5-1 7 1 2-2 5-2 7-1V2c-1-1-5-1-7 1Zm0 0v12',
   bookmark: 'M3 2h10v13l-5-3-5 3V2Z',
   appearance: 'M8 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm0 0v11M8 5a3 3 0 0 0 0 6',
-  pause: 'M5 3v10M11 3v10',
-  play: 'm5 3 8 5-8 5Z',
 };
 export function Icon({ name, ...props }: SVGProps<SVGSVGElement> & { name: IconName }) {
   return (

@@ -1124,16 +1124,13 @@ export default {
   'On this page': 'На этой странице',
   'Open Apcosys Search': 'Открыть поиск Apcosys',
   'OSINT & Threat Investigation': 'OSINT и расследование угроз',
-  'Pause product animation': 'Приостановить анимацию продукта',
-  'Play product animation': 'Воспроизвести анимацию продукта',
   Port: 'Порт',
   'Private Scanner': 'Частный сканер',
   Protocol: 'Протокол',
   'Query, host, service, context': 'Запрос, хост, сервис, контекст',
   'Reload page': 'Перезагрузить страницу',
   'Required for site preferences': 'Требуется для настроек сайта',
-  'Research areas — focus to pause scrolling':
-    'Области исследования — фокус приостанавливает прокрутку',
+  'Research areas': 'Области исследования',
   'Research decision': 'Следующий шаг',
   'Response banner · authored example': 'Баннер ответа · авторский пример',
   'Return to the query with a more specific search.':
