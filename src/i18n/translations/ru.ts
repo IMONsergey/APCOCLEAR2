@@ -431,7 +431,7 @@ export default {
   'Follow shared attributes.': 'Продолжите поиск по общим признакам.',
   'Follow the next evidence-led question.': 'Продолжайте проверку по найденным данным.',
   'Follow the result': 'Изучите результат',
-  'Follow what you find.': 'Исследуйте найденное.',
+  'Follow what you find.': 'Исследуйте.',
   Footer: 'Нижняя навигация',
   'For security\nresearchers': 'Для исследователей безопасности',
   'For security\nteams': 'Для команд по безопасности',
@@ -822,7 +822,7 @@ export default {
   'Start from what you have.': 'Начните с того, что у вас есть.',
   'Start small. Make the result useful.': 'Начните с малого. Сделайте результат полезным.',
   'Start with a query.': 'Начните с запроса.',
-  'Start with a query. Follow what you find.': 'Начните с запроса. Исследуйте найденное.',
+  'Start with a query. Follow what you find.': 'Начните с запроса. Исследуйте.',
   'Start with a single query. See which hosts match, open one, review its technical context and decide where to look next.':
     'Начните с одного запроса. Посмотрите, какие хосты совпадают, выберите один, изучите его технический контекст и решите, что изучить дальше.',
   'Start with a small query. Use your account API key and the endpoint, authentication scheme and parameters from the current API reference.':
