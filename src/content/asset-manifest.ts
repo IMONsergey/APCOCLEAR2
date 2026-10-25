@@ -2,9 +2,7 @@
 export const assetDirectories = {
   application: 'assets/application',
   brand: 'assets/brand',
-  api: 'assets/illustrations/api',
   closing: 'assets/illustrations/closing',
-  walkthrough: 'assets/illustrations/walkthrough',
 } as const;
 
 export const artwork = {
@@ -84,10 +82,6 @@ export default {
       directory: assetDirectories.brand,
       files: ['favicon.svg', 'logo.svg', 'social-preview.svg', 'social-preview.png'],
     },
-    api: {
-      directory: assetDirectories.api,
-      files: ['api-layers.webp', 'api-layers-360.webp', 'api-layers-600.webp'],
-    },
     closing: {
       directory: assetDirectories.closing,
       files: [
@@ -105,29 +99,6 @@ export default {
         'start-360-dark.webp',
         'start-320.webp',
         'start-320-dark.webp',
-      ],
-    },
-    walkthrough: {
-      directory: assetDirectories.walkthrough,
-      files: [
-        'step-query.webp',
-        'step-query-dark.webp',
-        'step-query-360.webp',
-        'step-query-dark-360.webp',
-        'step-query-600.webp',
-        'step-query-dark-600.webp',
-        'step-results.webp',
-        'step-results-dark.webp',
-        'step-results-360.webp',
-        'step-results-dark-360.webp',
-        'step-results-600.webp',
-        'step-results-dark-600.webp',
-        'step-host.webp',
-        'step-host-dark.webp',
-        'step-host-360.webp',
-        'step-host-dark-360.webp',
-        'step-host-600.webp',
-        'step-host-dark-600.webp',
       ],
     },
   },

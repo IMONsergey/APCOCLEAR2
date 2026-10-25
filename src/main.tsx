@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { LocaleProvider } from './i18n/LocaleProvider';
 import { loadLocale } from './i18n/messages';
-import { getLocale } from './app/paths';
+import { getLocale, getRoutePath } from './app/paths';
+import { prepareRoute } from './app/routeModules';
 import { StartupFailure } from './app/StartupFailure';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './styles/instrument-sans.css';
@@ -32,11 +33,15 @@ const render = (children: ReactNode) =>
   );
 
 async function start() {
+  // Start the page download alongside its language resources. Suspense owns failure recovery.
+  void prepareRoute(getRoutePath()).catch(() => undefined);
   try {
-    if (locale === 'ru') {
-      await Promise.all([import('./styles/onest.css'), import('./styles/russian-type.css')]);
-    }
-    await loadLocale(locale);
+    await Promise.all([
+      loadLocale(locale),
+      ...(locale === 'ru'
+        ? [import('./styles/onest.css'), import('./styles/russian-type.css')]
+        : []),
+    ]);
     render(
       <LocaleProvider locale={locale}>
         <App />

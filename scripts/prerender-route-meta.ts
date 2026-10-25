@@ -1,72 +1,23 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, join, dirname } from 'node:path';
-import ts from 'typescript';
+import { siteRoutes, type RouteGroup } from '../src/content/routes';
+import { readBuildManifest, staticAssets, routeEntries } from './lib/build-manifest';
 import { loadLocale, translate, type Locale } from '../src/i18n/messages';
 import { hasLocalizedCopy } from '../src/i18n/localized-routes';
 import { localizedMetadataSource } from '../src/i18n/route-metadata';
 
-interface CommonJsModule {
-  exports: unknown;
-}
-
-interface SiteRoute {
-  path: string;
-  title: string;
-  description: string;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function isSiteRoute(value: unknown): value is SiteRoute {
-  return (
-    isRecord(value) &&
-    typeof value.path === 'string' &&
-    typeof value.title === 'string' &&
-    typeof value.description === 'string'
-  );
-}
-
-function isSiteRoutes(value: unknown): value is SiteRoute[] {
-  return Array.isArray(value) && value.every(isSiteRoute);
-}
-
-const source = await readFile(resolve('src/content/routes.ts'), 'utf8');
-const compiled = ts.transpileModule(source, {
-  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
-}).outputText;
-const routeModule: CommonJsModule = { exports: {} };
-const legalModule: CommonJsModule = { exports: {} };
-const legalCompiled = ts.transpileModule(
-  await readFile(resolve('src/content/legal-routes.ts'), 'utf8'),
-  { compilerOptions: { module: ts.ModuleKind.CommonJS } },
-).outputText;
-new Function('exports', 'module', legalCompiled)(legalModule.exports, legalModule);
-new Function('exports', 'module', 'require', compiled)(
-  routeModule.exports,
-  routeModule,
-  (specifier: string): unknown => {
-    if (specifier !== './legal-routes') {
-      throw new Error(`Unexpected route-manifest dependency: ${specifier}`);
-    }
-    return legalModule.exports;
-  },
-);
-const routesValue = isRecord(routeModule.exports) ? routeModule.exports.siteRoutes : undefined;
+const routes = siteRoutes;
 if (
-  !isSiteRoutes(routesValue) ||
-  !routesValue.length ||
-  new Set(routesValue.map((route) => route.path)).size !== routesValue.length ||
-  !routesValue.every(
-    (route) =>
-      /^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+)*)?$/.test(route.path) && route.title && route.description,
+  new Set(routes.map(({ path }) => path)).size !== routes.length ||
+  !routes.every(
+    ({ path, title, description }) =>
+      /^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+)*)?$/.test(path) && title && description,
   )
 )
-  throw new Error('Route manifest must contain unique safe paths, titles and descriptions');
-const routes = routesValue;
+  throw new Error('Routes must have unique safe paths, titles and descriptions.');
 const dist = resolve('dist');
 const template = await readFile(join(dist, 'index.html'), 'utf8');
+const manifest = await readBuildManifest();
 const escape = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 const replaceMeta = (html: string, attribute: string, key: string, value: string): string => {
@@ -107,6 +58,33 @@ const localizedPath = (path: string, locale: Locale): string => {
   return path.startsWith('/legal/') || pathname.endsWith('/') ? pathname : pathname + '/';
 };
 const locales: readonly Locale[] = ['en', 'ru', 'zh-Hant'];
+function preloadPage(html: string, group: RouteGroup, locale: Locale): string {
+  const entries: string[] = ['index.html', routeEntries[group]];
+  if (locale !== 'en') entries.push(`src/i18n/translations/${locale}.ts`);
+  if (locale === 'ru') entries.push('src/styles/onest.css', 'src/styles/russian-type.css');
+  if (group === 'legal')
+    entries.push(
+      locale === 'en'
+        ? 'src/content/legal-documents.json'
+        : `src/content/legal-translations/${locale}.json`,
+    );
+  // Warm the HTTP cache without putting failed responses in WebKit's module map.
+  const links = [...staticAssets(manifest, entries)]
+    .filter((file) => !html.includes(`"${base}/${file}"`))
+    .map(
+      (file) =>
+        `<link rel="preload" as="${file.endsWith('.css') ? 'style' : 'script'}" href="${base}/${file}" crossorigin />`,
+    );
+  if (locale !== 'en') {
+    html = html.replace(/<link\b(?=[^>]*rel="preload")(?=[^>]*as="font")[^>]*>/g, '');
+    if (locale === 'ru')
+      for (const subset of ['cyrillic', 'latin'])
+        links.push(
+          `<link rel="preload" as="font" type="font/woff2" href="${base}/fonts/onest-${subset}.woff2" crossorigin />`,
+        );
+  }
+  return html.replace('</head>', links.join('\n') + '\n</head>');
+}
 const sitemapEntries: string[] = [];
 let generated = 0;
 for (const locale of locales) {
@@ -126,6 +104,7 @@ for (const locale of locales) {
     html = replaceMeta(html, 'property', 'og:description', description);
     html = replaceMeta(html, 'name', 'robots', indexable ? 'index, follow' : 'noindex, nofollow');
     html = html.replace('<html ', `<html data-indexable="${indexable}" `);
+    html = preloadPage(html, route.group, locale);
     const canonicalPath = localizedPath(route.path, locale);
     if (origin) {
       const links = [
