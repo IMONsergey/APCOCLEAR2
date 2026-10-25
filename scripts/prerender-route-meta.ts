@@ -103,7 +103,8 @@ const base = (template.match(/<script[^>]*\bsrc="(\/[^"]*?)assets\//)?.[1] ?? '/
 );
 const localizedPath = (path: string, locale: Locale): string => {
   const prefix = locale === 'en' ? '' : locale === 'ru' ? '/ru' : '/zh-hant';
-  return (base || '') + (path === '/' ? prefix + '/' : prefix + path);
+  const pathname = (base || '') + (path === '/' ? prefix + '/' : prefix + path);
+  return path.startsWith('/legal/') || pathname.endsWith('/') ? pathname : pathname + '/';
 };
 const locales: readonly Locale[] = ['en', 'ru', 'zh-Hant'];
 const sitemapEntries: string[] = [];
@@ -131,6 +132,18 @@ for (const locale of locales) {
         '    <link rel="canonical" href="' + escape(origin + canonicalPath) + '" />',
         '    <meta property="og:url" content="' + escape(origin + canonicalPath) + '" />',
       ];
+      if (!route.path.startsWith('/legal/')) {
+        const image = escape(`${origin}${base}/assets/brand/social-preview.png`);
+        links.push(
+          `    <meta property="og:image" content="${image}" data-apco-social />`,
+          '    <meta property="og:image:width" content="1200" data-apco-social />',
+          '    <meta property="og:image:height" content="630" data-apco-social />',
+          '    <meta property="og:image:type" content="image/png" data-apco-social />',
+          '    <meta property="og:image:alt" content="Apcosys — Start with a query. Follow what you find." data-apco-social />',
+          '    <meta name="twitter:card" content="summary_large_image" data-apco-social />',
+          `    <meta name="twitter:image" content="${image}" data-apco-social />`,
+        );
+      }
       if (hasLocalizedCopy(route.path)) {
         for (const alternate of [...locales, 'x-default'] as const) {
           const targetLocale = alternate === 'x-default' ? 'en' : alternate;

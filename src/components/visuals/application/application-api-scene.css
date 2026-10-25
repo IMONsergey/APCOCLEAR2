@@ -58,7 +58,7 @@
 }
 .application-api__credentials {
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
   gap: var(--space-5);
   min-width: 0;
 }
@@ -123,6 +123,7 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-self: start;
 }
 .application-api__action {
   display: inline-flex;
@@ -136,15 +137,6 @@
   background: var(--app-surface);
   line-height: 1.25;
   text-align: center;
-}
-.application-api__rotate {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid var(--app-line);
-  align-self: end;
 }
 .application-api__copy-label {
   display: grid;
@@ -168,6 +160,7 @@
   background: var(--app-soft);
 }
 .application-api__access {
+  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

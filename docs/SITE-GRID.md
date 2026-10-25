@@ -19,7 +19,7 @@ Every page uses the same outer rails. Header, footer, content sections and closi
 
 Use the spacing scale in [Styles](STYLES.md). `--section-space` and density inputs control homepage spacing; inner editorial sections use a consistent responsive vertical rhythm. One page surface and whitespace separate content; quiet dividers remain inside the common rails.
 
-All non-legal internal heroes share the same minimum-height, padding and artwork geometry. Their title uses one responsive page role. All six legal documents share reserved heading/description/date/navigation starts, including Cookie Preferences. These are **minimum sizes**: enlarged text must expand the page rather than clip.
+Non-legal internal heroes share the same minimum-height, padding and artwork geometry. Pricing uses a compact introduction to bring the plan prices into the first desktop viewport; it retains the shared rails, title role and artwork. All six legal documents share reserved heading/description/date/navigation starts, including Cookie Preferences. These are **minimum sizes**: enlarged text must expand the page rather than clip.
 
 Heading and body measures come from `type-scale.css`; do not patch one page with a smaller heading merely to fit the common first screen. If content changes, test the complete family at narrow widths and with enlarged text.
 
@@ -40,7 +40,7 @@ When changing responsive CSS, verify 320, 375, 390, 599/600, 767/768, 899/900, 1
 ## Regression coverage
 
 - `column-rails`, `site-grid`, `reading-rails`: outer edges and structural columns.
-- `inner-hero-layout`: 12 widths from 320 to 1920 px, shared next-section starts, enlarged text.
+- `inner-hero-layout`: 12 widths from 320 to 1920 px, shared next-section starts, the compact Pricing introduction and enlarged text.
 - `style-contract`: six legal pages at nine widths, grey active Sign In.
 - `visual-rhythm`, `editorial-readability`: reading groups, spacing, title relationships and responsive images.
 - `design-system`: typography and shared controls are independent of lazy CSS navigation order.

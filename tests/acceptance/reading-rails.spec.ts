@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test';
 import { siteRoutes } from '../../src/content/routes';
 
 const marketing = siteRoutes.filter(({ path }) => path !== '/' && !path.startsWith('/legal/'));
-for (const width of [768, 1001, 1440, 1920]) {
-  test(`split work areas keep a continuous central rail at ${width}px`, async ({ page }) => {
+for (const width of [768, 1000, 1001, 1440, 1920]) {
+  test(`split work areas keep their reading rails at ${width}px`, async ({ page }) => {
     test.setTimeout(90_000);
     await page.setViewportSize({ width, height: 1000 });
     for (const { path } of marketing) {
@@ -21,14 +21,28 @@ for (const width of [768, 1001, 1440, 1920]) {
           '.usage-layout > :last-child',
           '.date-reading',
           '.handoff-record',
-          '.api-usage',
           '.scanning-request > aside',
           '.team-workflow__layout > :last-child',
           '.stage-related__links',
-          ...(innerWidth > 1000 ? ['.stage-contact-form'] : []),
+          ...(innerWidth > 1000 ? ['.api-usage', '.stage-contact-form'] : []),
         ];
         return {
           rail,
+          left: box.left,
+          right: box.right,
+          stackedApiColumns:
+            innerWidth <= 1000
+              ? Array.from(document.querySelectorAll('.api-access-layout > *')).map((el) => {
+                  const rect = el.getBoundingClientRect();
+                  return {
+                    name: el.className,
+                    left: rect.left,
+                    right: rect.right,
+                    top: rect.top,
+                    bottom: rect.bottom,
+                  };
+                })
+              : [],
           items: Array.from(document.querySelectorAll(selectors.join(',')))
             .filter((el) => el.getBoundingClientRect().width > 0)
             .map((el) => ({
@@ -39,6 +53,27 @@ for (const width of [768, 1001, 1440, 1920]) {
       });
       for (const item of geometry.items)
         expect(Math.abs(item.left - geometry.rail), `${path}: ${item.name}`).toBeLessThanOrEqual(1);
+      if (path === '/developers/api' && width <= 1000) {
+        expect(
+          geometry.stackedApiColumns,
+          'API access and usage both occupy the page rail',
+        ).toHaveLength(2);
+        for (const [index, column] of geometry.stackedApiColumns.entries()) {
+          expect(
+            Math.abs(column.left - geometry.left),
+            `${path}: ${column.name} left`,
+          ).toBeLessThanOrEqual(1);
+          expect(
+            Math.abs(column.right - geometry.right),
+            `${path}: ${column.name} right`,
+          ).toBeLessThanOrEqual(1);
+          if (index > 0)
+            expect(
+              column.top - geometry.stackedApiColumns[index - 1]!.bottom,
+              `${path}: the usage explanation follows the full-width API table`,
+            ).toBeGreaterThanOrEqual(31);
+        }
+      }
     }
   });
 }

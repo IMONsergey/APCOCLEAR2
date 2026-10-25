@@ -22,6 +22,9 @@ async function expectStyledCapabilityPanels(page: Page) {
           top: box.top,
           bottom: box.bottom,
           height: box.height,
+          textSizes: Array.from(button.querySelectorAll('span, code'), (text) =>
+            parseFloat(getComputedStyle(text).fontSize),
+          ),
         };
       }),
     };
@@ -33,6 +36,7 @@ async function expectStyledCapabilityPanels(page: Page) {
   ).toBeGreaterThanOrEqual(12);
   for (const [index, row] of search.rows.entries()) {
     expect(row.height, 'Each query choice is a full touch target').toBeGreaterThanOrEqual(44);
+    expect(Math.min(...row.textSizes), 'Query choices remain readable').toBeGreaterThanOrEqual(14);
     expect(Math.abs(row.left - search.input.left)).toBeLessThanOrEqual(1);
     expect(Math.abs(row.right - search.input.right)).toBeLessThanOrEqual(1);
     if (index > 0)
@@ -77,12 +81,28 @@ async function expectStyledCapabilityPanels(page: Page) {
 }
 
 for (const width of [390, 1440, 1920]) {
-  test(`compact home composition at ${width}`, async ({ page }) => {
+  test(`compact home composition at ${width}`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('./');
     const results = page.locator('.search-scene__results');
     const box = await results.boundingBox();
     expect(box!.height).toBeLessThan(width < 600 ? 460 : 300);
+    const hostnames = await results
+      .locator('.product-evidence__result-main small')
+      .evaluateAll((names) =>
+        names.map((name) => {
+          const range = document.createRange();
+          range.selectNodeContents(name);
+          return {
+            height: range.getBoundingClientRect().height,
+            lineHeight: parseFloat(getComputedStyle(name).lineHeight),
+          };
+        }),
+      );
+    for (const hostname of hostnames)
+      expect(hostname.height, 'Example hostnames keep their domain suffix intact').toBeLessThan(
+        hostname.lineHeight * 1.5,
+      );
     await expect(page.locator('main .eyebrow')).toHaveCount(0);
     await expect(page.locator('.home-searchable .product-evidence')).toHaveCount(0);
     await expect(page.locator('.home-capabilities .product-evidence')).toHaveCount(0);
@@ -158,6 +178,21 @@ for (const width of [390, 1440, 1920]) {
       return next.top - c.bottom;
     });
     expect(gap).toBeGreaterThanOrEqual(63);
+    if (width === 390) {
+      await page.goto('./ru/');
+      await expect(page.locator('main h1')).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      for (const [name, selector] of [
+        ['search-demo', '.search-scene__content'],
+        ['query-options', '.home-capabilities .query-fragment'],
+      ]) {
+        const fragment = page.locator(selector!);
+        await fragment.scrollIntoViewIfNeeded();
+        const path = testInfo.outputPath(`${name}-ru-390.png`);
+        await fragment.screenshot({ path, animations: 'disabled' });
+        await testInfo.attach(`${name} ru at 390px`, { path, contentType: 'image/png' });
+      }
+    }
   });
 }
 
@@ -194,5 +229,7 @@ test('data selectors are keyboard operable and section actions use the shared bu
   await expect(page.locator('.home-searchable .double-button--primary')).toBeVisible();
   await expect(page.locator('.step-evidence-note .double-button')).toBeVisible();
   await page.locator('.home-capabilities__tabs button').nth(3).click();
-  await expect(page.locator('.capability-record__host')).toHaveCount(2);
+  await expect(
+    page.locator('.home-capabilities__stage:visible .capability-record__host'),
+  ).toHaveCount(2);
 });

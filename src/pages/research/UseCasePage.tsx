@@ -54,9 +54,9 @@ export default function UseCasePage({ path }: { path: string }) {
             path === '/use-cases/bug-bounty'
               ? 'Search your scope'
               : path === '/use-cases/vulnerability-research'
-                ? 'Search by technology'
+                ? 'Search for nginx'
                 : 'Look up an IP or domain',
-          href: productUrl + '/search',
+          href: productUrl + (kind === 'technology' ? '/search?search_value=nginx' : '/search'),
         },
         config.next,
       ]}

@@ -45,14 +45,14 @@ test('data lens adapts its internal columns to its own width', async ({ page }) 
     element.style.width = '380px';
   });
   await expect.poll(async () => (await columns()).slice(0, 2)).toEqual([42, 60]);
-  await expect(lens.locator('.data-lens__service').first()).toHaveCSS('font-size', '12px');
+  await expect(lens.locator('.data-lens__service').first()).toHaveCSS('font-size', '14px');
 });
 
 test('research collection stays readable in a narrow desktop slot', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('./');
   await page.locator('.home-capabilities__tabs button').nth(3).click();
-  const collection = page.locator('.home-capabilities .capability-record');
+  const collection = page.locator('.home-capabilities__stage:visible .capability-record');
   await expect(collection).toBeVisible();
   await collection.evaluate((element: HTMLElement) => {
     element.style.width = '240px';

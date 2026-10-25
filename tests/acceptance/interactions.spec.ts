@@ -81,11 +81,17 @@ test('monitoring concept changes state and does not claim real alerts', async ({
 
 test('distinct use-case evidence is accessible in each research journey', async ({ page }) => {
   await page.goto('./use-cases/bug-bounty');
-  await expect(page.getByRole('heading', { name: 'Visibility isn’t permission.' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'From a domain to an in-scope host.' }),
+  ).toBeVisible();
   await page.goto('./use-cases/vulnerability-research');
-  await expect(page.getByRole('heading', { name: /A version is a lead/ })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'From a product to the hosts running it.' }),
+  ).toBeVisible();
   await page.goto('./use-cases/osint-threat-investigation');
-  await expect(page.getByRole('heading', { name: /Follow attributes/ })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'From an IP address to its services.' }),
+  ).toBeVisible();
 });
 
 test('homepage plan prices follow the selected billing period', async ({ page }) => {

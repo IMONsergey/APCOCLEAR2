@@ -1,6 +1,5 @@
 import '../../styles/compact-experience.css';
 import { useState } from 'react';
-import { MorphPanel } from '../ui/MorphPanel';
 import { siteHref } from '../../app/paths';
 import { DataLens, SearchFragment, HostFragment } from '../product/CompactFragments';
 import { TeamSignal } from '../product/TeamSignal';
@@ -230,10 +229,10 @@ function CapabilityResponse() {
   const services = host.services
     .map(
       (service) =>
-        `    { "port": ${service.port}, "technology": ${JSON.stringify(service.technology)} }`,
+        `    { "protocol": ${JSON.stringify(service.protocol.toLowerCase())}, "port": ${service.port} }`,
     )
     .join(',\n');
-  const snippet = `{\n  "host": "${host.ip}",\n  "services": [\n${services}\n  ]\n}`;
+  const snippet = `{\n  "ip": "${host.ip}",\n  "open_ports": [\n${services}\n  ]\n}`;
   return (
     <div className="capability-record capability-record--api">
       <div className="capability-record__bar">
@@ -278,7 +277,6 @@ export function CapabilitiesSection() {
   const { locale, t } = useLocale();
   const [selected, setSelected] = useState(0);
   const [httpsOnly, setHttpsOnly] = useState(false);
-  const item = capabilities[selected]!;
   const fileSize = new Intl.NumberFormat(locale, { maximumFractionDigits: 3 });
   return (
     <section
@@ -307,104 +305,109 @@ export function CapabilitiesSection() {
             </button>
           ))}
         </div>
-        <MorphPanel>
-          <div className="home-capabilities__stage" data-morph-enter>
-            <div className="home-capabilities__copy">
-              <h3>{t(item.title)}</h3>
-              <p>{t(item.text)}</p>
-              <div className="capability-notes">
-                {capabilityNotes[selected]!.map(([title, text], i) => (
-                  <div className="capability-notes__tile" key={title}>
-                    <span className="capability-notes__mark" aria-hidden="true">
-                      {i === 0 ? '01' : '02'}
-                    </span>
-                    <div>
-                      <h4>{t(title!)}</h4>
-                      <p>{t(text!)}</p>
+        <div className="home-capabilities__panels">
+          {capabilities.map((item, index) => (
+            <div
+              key={item.label}
+              className="home-capabilities__stage"
+              aria-hidden={selected !== index}
+              inert={selected !== index}
+            >
+              <div className="home-capabilities__copy">
+                <h3>{t(item.title)}</h3>
+                <p>{t(item.text)}</p>
+                <div className="capability-notes">
+                  {capabilityNotes[index]!.map(([title, text], i) => (
+                    <div className="capability-notes__tile" key={title}>
+                      <span className="capability-notes__mark" aria-hidden="true">
+                        {i === 0 ? '01' : '02'}
+                      </span>
+                      <div>
+                        <h4>{t(title!)}</h4>
+                        <p>{t(text!)}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <DoubleButton
+                  variant="primary"
+                  compact
+                  href={siteHref(
+                    index === 3
+                      ? '/developers/api#api-capabilities'
+                      : index === 4
+                        ? '/developers/api'
+                        : '/platform/search-investigation',
+                  )}
+                >
+                  {t(
+                    index === 3
+                      ? 'Explore bucket search via API'
+                      : index === 4
+                        ? 'Explore API integration'
+                        : 'Explore Search & Investigation',
+                  )}
+                </DoubleButton>
               </div>
-              <DoubleButton
-                variant="primary"
-                compact
-                href={siteHref(
-                  selected === 3
-                    ? '/developers/api#api-capabilities'
-                    : selected === 4
-                      ? '/developers/api'
-                      : '/platform/search-investigation',
-                )}
-              >
-                {t(
-                  selected === 3
-                    ? 'Explore bucket search'
-                    : selected === 4
-                      ? 'Explore API integration'
-                      : 'Explore Search & Investigation',
-                )}
-              </DoubleButton>
-            </div>
-            <div className="home-capabilities__screen">
-              {selected === 1 ? (
-                <div className="capability-record">
-                  <div className="capability-record__bar">
-                    <span>{t('SERVICE FILTER')}</span>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={httpsOnly}
-                        onChange={(e) => setHttpsOnly(e.target.checked)}
-                      />
-                      {t('HTTPS only')}
-                    </label>
-                  </div>
-                  {demoHosts.map((host) => (
-                    <div className="capability-record__host" key={host.ip}>
-                      <strong>{host.ip}</strong>
-                      <span>{host.hostname}</span>
-                      {host.services
-                        .filter((s) => !httpsOnly || s.protocol === 'HTTPS')
-                        .map((s) => (
-                          <p key={s.port}>
+              <div className="home-capabilities__screen">
+                {index === 1 ? (
+                  <div className="capability-record">
+                    <div className="capability-record__bar">
+                      <span>{t('SERVICE FILTER')}</span>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={httpsOnly}
+                          onChange={(e) => setHttpsOnly(e.target.checked)}
+                        />
+                        {t('HTTPS only')}
+                      </label>
+                    </div>
+                    {demoHosts.map((host) => (
+                      <div className="capability-record__host" key={host.ip}>
+                        <strong>{host.ip}</strong>
+                        <span>{host.hostname}</span>
+                        {host.services.map((s) => (
+                          <p key={s.port} aria-hidden={httpsOnly && s.protocol !== 'HTTPS'}>
                             <code>
                               {s.port} / {s.protocol}
                             </code>
                             <span>{s.technology}</span>
                           </p>
                         ))}
-                    </div>
-                  ))}
-                </div>
-              ) : selected === 3 ? (
-                <div className="capability-record">
-                  <div className="capability-record__bar">
-                    <span>{t('Example bucket')}</span>
-                    <span>
-                      {demoBucket.host}/{demoBucket.container}
-                    </span>
+                      </div>
+                    ))}
                   </div>
-                  {demoBucket.files.map((file) => (
-                    <div className="capability-record__host" key={file.key}>
-                      <strong>{file.key.split('/').at(-1)}</strong>
-                      <span>{file.key}</span>
-                      <p>
-                        <code>{file.extension.toUpperCase()}</code>
-                        <span>{t('{size} MB', { size: fileSize.format(file.sizeMb) })}</span>
-                      </p>
+                ) : index === 3 ? (
+                  <div className="capability-record">
+                    <div className="capability-record__bar">
+                      <span>{t('Example bucket')}</span>
+                      <span>
+                        {demoBucket.host}/{demoBucket.container}
+                      </span>
                     </div>
-                  ))}
-                </div>
-              ) : selected === 4 ? (
-                <CapabilityResponse />
-              ) : selected === 0 ? (
-                <SearchFragment />
-              ) : (
-                <HostFragment />
-              )}
+                    {demoBucket.files.map((file) => (
+                      <div className="capability-record__host" key={file.key}>
+                        <strong>{file.key.split('/').at(-1)}</strong>
+                        <span>{file.key}</span>
+                        <p>
+                          <code>{file.extension.toUpperCase()}</code>
+                          <span>{t('{size} MB', { size: fileSize.format(file.sizeMb) })}</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : index === 4 ? (
+                  <CapabilityResponse />
+                ) : index === 0 ? (
+                  <SearchFragment />
+                ) : (
+                  <HostFragment />
+                )}
+              </div>
             </div>
-          </div>
-        </MorphPanel>
+          ))}
+        </div>
       </div>
     </section>
   );

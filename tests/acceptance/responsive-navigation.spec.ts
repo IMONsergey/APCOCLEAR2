@@ -25,7 +25,7 @@ for (const locale of [
       'About',
       'Search & Investigation',
       'Data & Methodology',
-      'Monitoring',
+      'Monitoring concept',
       'Responsible Scanning',
       'Talk to Us',
     ],
@@ -38,7 +38,7 @@ for (const locale of [
       'О нас',
       'Поиск и исследование',
       'Данные и методология',
-      'Мониторинг',
+      'Концепция мониторинга',
       'Ответственное сканирование',
       'Связаться с нами',
     ],
@@ -47,7 +47,7 @@ for (const locale of [
     language: 'zh-Hant',
     prefix: 'zh-hant/',
     platform: '平台',
-    labels: ['關於我們', '搜尋與調查', '資料與方法論', '監控', '負責任的掃描', '聯絡我們'],
+    labels: ['關於我們', '搜尋與調查', '資料與方法論', '監控概念', '負責任的掃描', '聯絡我們'],
   },
 ]) {
   test(`${locale.language} keeps all six Platform links reachable in short desktop and mobile menus`, async ({

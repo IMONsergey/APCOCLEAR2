@@ -43,14 +43,13 @@ html[data-theme='dark'] .search-chrome__rail .is-selected {
   background: var(--surface-elevated);
 }
 html[data-theme='dark'] .search-chrome__filters > span {
-  border-color: #3a464c;
-  background: var(--surface-card);
+  color: var(--text-muted);
 }
 html[data-theme='dark'] .search-chrome__account > span {
   background: var(--surface-elevated);
 }
-html[data-theme='dark'] .search-chrome__account .search-chrome__upgrade {
-  background: #17373d;
+html[data-theme='dark'] .search-chrome__account .search-chrome__preview {
+  background: transparent;
   color: var(--accent-text);
 }
 html[data-theme='dark'] .search-chrome__account b {

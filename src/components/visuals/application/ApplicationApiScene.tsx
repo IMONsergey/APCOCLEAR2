@@ -1,9 +1,11 @@
 import { useLocale } from '../../../i18n/context';
+import { businessPlan } from '../../../content/plans';
+import { formatApiRate } from '../../../lib/pricing';
 import { ApplicationGlyph as Glyph } from './ApplicationGlyph';
 import './application-api-scene.css';
 
 const creditBalances = [
-  { label: 'Query credits remaining', remaining: 1_240_500, total: 1_500_000 },
+  { label: 'Query credits remaining', remaining: 1_240_500, total: businessPlan.credits },
   { label: 'Scan credits remaining', remaining: 327_680, total: 327_680 },
 ] as const;
 
@@ -12,12 +14,10 @@ function CreditBalances({ showAccess = false }: { showAccess?: boolean }) {
   const number = new Intl.NumberFormat(locale);
   return (
     <div className="application-api__credits">
-      {showAccess && (
-        <div className="application-api__access">
-          <strong>{t('Your access')}</strong>
-          <span>{t('Business')}</span>
-        </div>
-      )}
+      <div className="application-api__access">
+        <strong>{t('Example balances')}</strong>
+        {showAccess && <span>{t('Business')}</span>}
+      </div>
       {creditBalances.map(({ label, remaining, total }) => (
         <div className="application-api__credit" key={label}>
           <p className="application-api__credit-label">{t(label)}</p>
@@ -100,13 +100,6 @@ export function ApplicationApiScene() {
                 </span>
               </span>
             </div>
-            <div className="application-api__rotate">
-              <span>{t('Rotate API key')}</span>
-              <span className="application-api__action">
-                <Glyph name="refresh" />
-                {t('Rotate key')}
-              </span>
-            </div>
           </div>
           <CreditBalances showAccess />
         </div>
@@ -123,8 +116,8 @@ export function ApplicationApiScene() {
                 <dd>{t('Business')}</dd>
               </div>
               <div>
-                <dt>{t('Search pages per query')}</dt>
-                <dd>300</dd>
+                <dt>{t('API rate limit')}</dt>
+                <dd>{formatApiRate(businessPlan, t)}</dd>
               </div>
               <div>
                 <dt>{t('API access')}</dt>

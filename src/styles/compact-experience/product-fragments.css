@@ -32,6 +32,9 @@
 .site .product-evidence small {
   font-size: var(--font-size-10);
 }
+.site .product-evidence .product-evidence__result-main small {
+  font-size: var(--font-size-14);
+}
 .site .product-evidence .product-evidence__details {
   padding-bottom: var(--space-3);
 }
@@ -40,7 +43,7 @@
   margin: 0 14px 5px;
 }
 .site .product-evidence .product-evidence__meta {
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
   margin: 0 14px var(--space-3);
 }
 .site .product-evidence .product-evidence__services,
@@ -56,7 +59,7 @@
   grid-template-columns: 42px 0.65fr 1.35fr;
   padding: 9px 6px;
   gap: var(--space-2);
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
 }
 .site .product-evidence .product-evidence__service small {
   display: none;
@@ -70,7 +73,7 @@
   font-size: var(--font-size-10);
 }
 .site .evidence-response code {
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
   line-height: 1.6;
 }
 .site .evidence-response__caption {
@@ -250,7 +253,7 @@
   gap: var(--space-2);
 }
 .domain-tree code {
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
   color: var(--text-muted);
 }
 .technology-stack > div {
@@ -266,7 +269,7 @@
   font-weight: 500;
 }
 .technology-stack small {
-  font: 400 var(--font-size-12)/1.5 var(--font-mono);
+  font: 400 var(--font-size-14)/1.5 var(--font-mono);
   display: block;
   margin-top: 5px;
   color: var(--accent-text);
@@ -321,12 +324,13 @@
 .query-fragment > p {
   margin: 18px 0;
   color: var(--text-muted);
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
 }
 .query-fragment__options button {
   width: 100%;
   min-height: 44px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
@@ -336,13 +340,14 @@
   border-top: 1px solid var(--border-subtle);
   background: transparent;
   color: var(--color-text-body);
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
 }
 .query-fragment__options button[aria-pressed='true'] {
   color: var(--accent-text);
 }
 .query-fragment__options code {
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
+  overflow-wrap: anywhere;
 }
 .host-fragment header,
 .case-fragment header {
@@ -366,7 +371,7 @@
   display: block;
   margin-top: 6px;
   color: var(--text-muted);
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-14);
 }
 .host-fragment__facts {
   display: grid;

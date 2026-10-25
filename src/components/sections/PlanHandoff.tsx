@@ -8,11 +8,14 @@ export function PlanHandoff() {
   const { t } = useLocale();
   return (
     <div className="plan-handoff">
+      <p id="plan-handoff-note" className="plan-handoff__note">
+        {t('Choose your plan and billing period after signing in.')}
+      </p>
       <DoubleButton
         href={signInUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-describedby="plan-handoff-tab-hint"
+        aria-describedby="plan-handoff-note plan-handoff-tab-hint"
       >
         {t('Open Apcosys')}
       </DoubleButton>

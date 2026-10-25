@@ -331,6 +331,13 @@
   white-space: normal;
   text-align: left;
 }
+.site .inner-pages .stage-contact-email-hint {
+  color: var(--text-muted);
+  font-size: var(--font-size-14);
+  line-height: 1.5;
+  max-width: 32ch;
+  margin: 0;
+}
 @media (min-width: 1001px) {
   .stage-table-hint {
     display: none;

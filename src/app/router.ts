@@ -235,8 +235,10 @@ export function useSiteRoute(locale: Locale) {
       canonical.rel = 'canonical';
       document.head.append(canonical);
     }
-    const canonicalPath =
+    const routePath =
       path === '/404' ? location.pathname : (localeHref(path, locale) ?? location.pathname);
+    const canonicalPath =
+      route && route.group !== 'legal' && !routePath.endsWith('/') ? routePath + '/' : routePath;
     canonical.href = location.origin + canonicalPath;
     let ogUrl = document.head.querySelector<HTMLMetaElement>('meta[property="og:url"]');
     if (!ogUrl) {
@@ -245,6 +247,25 @@ export function useSiteRoute(locale: Locale) {
       document.head.append(ogUrl);
     }
     ogUrl.content = canonical.href;
+    document.querySelectorAll('[data-apco-social]').forEach((node) => node.remove());
+    if (route && route.group !== 'legal') {
+      const image = location.origin + import.meta.env.BASE_URL + 'assets/brand/social-preview.png';
+      for (const [name, content] of Object.entries({
+        'og:image': image,
+        'og:image:width': '1200',
+        'og:image:height': '630',
+        'og:image:type': 'image/png',
+        'og:image:alt': 'Apcosys — Start with a query. Follow what you find.',
+        'twitter:card': 'summary_large_image',
+        'twitter:image': image,
+      })) {
+        const element = document.createElement('meta');
+        element.setAttribute(name.startsWith('og:') ? 'property' : 'name', name);
+        element.content = content;
+        element.dataset.apcoSocial = '';
+        document.head.append(element);
+      }
+    }
     document
       .querySelectorAll<HTMLLinkElement>('link[rel="alternate"][data-apco-hreflang]')
       .forEach((link) => link.remove());
@@ -257,7 +278,8 @@ export function useSiteRoute(locale: Locale) {
         const link = document.createElement('link');
         link.rel = 'alternate';
         link.hreflang = alternateLocale;
-        link.href = location.origin + href;
+        link.href =
+          location.origin + (route?.group === 'legal' || href.endsWith('/') ? href : href + '/');
         link.dataset.apcoHreflang = '';
         document.head.append(link);
       }

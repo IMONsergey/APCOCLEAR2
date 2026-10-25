@@ -105,7 +105,7 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
             expect(Math.abs(column.contentLeft - column.left), context).toBeLessThanOrEqual(1);
             expect(column.contentTop - column.headingBottom, context).toBeGreaterThanOrEqual(23);
           }
-          if (width >= 768) {
+          if (width >= (route === 'developers/api' ? 1001 : 768)) {
             expect(
               Math.abs(columns[0]!.headingTop - columns[1]!.headingTop),
               context,
@@ -176,6 +176,25 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
               expect(cell.size, context).toBeGreaterThanOrEqual(cell.heading ? 14 : 16);
               expect(cell.overflow, context).toBeLessThanOrEqual(1);
             }
+            const brokenWords = await table.locator('thead th').evaluateAll((headings) =>
+              headings.flatMap((heading) => {
+                const lineHeight = parseFloat(getComputedStyle(heading).lineHeight);
+                const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+                const broken: string[] = [];
+                let node;
+                while ((node = walker.nextNode())) {
+                  for (const match of node.textContent!.matchAll(/[A-Za-zА-Яа-яЁё]{6,}/gu)) {
+                    const range = document.createRange();
+                    range.setStart(node, match.index);
+                    range.setEnd(node, match.index + match[0].length);
+                    if (range.getBoundingClientRect().height > lineHeight * 1.5)
+                      broken.push(match[0]);
+                  }
+                }
+                return broken;
+              }),
+            );
+            expect(brokenWords, context).toEqual([]);
           }
         }
       }

@@ -52,6 +52,90 @@ function ApiSample() {
     </EditorialSection>
   );
 }
+
+function ApiReference() {
+  const { t } = useLocale();
+  const groups = [
+    {
+      title: 'Request body',
+      fields: [
+        ['page', 'Integer', 'Page to request. The example starts at page 1.'],
+        [
+          'docs_per_page',
+          'Integer',
+          'Records per page. The example requests 20; the documented maximum is 100.',
+        ],
+        [
+          'full_text_search',
+          'String',
+          'Text to look for, such as nginx. The first-request example uses this field.',
+        ],
+      ],
+    },
+    {
+      title: 'Search response',
+      fields: [
+        ['total', 'Integer', 'Number of matches for the query, across all result pages.'],
+        ['page', 'Integer', 'The result page returned by this response.'],
+        ['docs_per_page', 'Integer', 'The page size used for this request.'],
+        ['hosts', 'Array', 'Host records on the returned page.'],
+        ['hosts[].ip', 'String', 'The IP address identifying this host record.'],
+        ['hosts[].uts', 'Integer', 'The last update timestamp, in Unix seconds.'],
+        [
+          'hosts[].open_ports',
+          'Array',
+          'Observed services, with a protocol and port number for each entry.',
+        ],
+      ],
+    },
+  ] as const;
+  return (
+    <EditorialSection
+      id="api-reference"
+      title="Request fields and results."
+      intro="Use these fields with POST /api/v1/search/hosts. The request fields below are optional; the example sets them explicitly."
+    >
+      <div className="api-field-references">
+        {groups.map((group) => (
+          <div
+            key={group.title}
+            className="stage-table-scroll"
+            role="region"
+            aria-label={t(group.title)}
+            tabIndex={0}
+          >
+            <table className="stage-data-table stage-api-reference">
+              <caption>{t(group.title)}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">{t('Field and type')}</th>
+                  <th scope="col">{t('Meaning')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {group.fields.map(([field, type, description]) => (
+                  <tr key={field}>
+                    <th scope="row">
+                      <code>{field}</code>
+                      <small>{t(type)}</small>
+                    </th>
+                    <td>{t(description)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+      <Text as="p" className="editorial-note">
+        For the next page, keep the same filters and increase page. Compare total with the records
+        already returned. An update timestamp describes the stored observation, not a live check of
+        the host.
+      </Text>
+    </EditorialSection>
+  );
+}
+
 export default function ApiPage() {
   const { t } = useLocale();
   return (
@@ -62,6 +146,7 @@ export default function ApiPage() {
       description="Query hosts, services and technologies programmatically and use the results in scripts, pipelines, reports and internal tools."
       sections={[
         { label: 'First request', id: 'documentation' },
+        { label: 'Fields', id: 'api-reference' },
         { label: 'What to query', id: 'api-capabilities' },
         { label: 'Access & limits', id: 'api-access' },
         { label: 'Integration', id: 'api-integration' },
@@ -77,6 +162,7 @@ export default function ApiPage() {
       ]}
     >
       <ApiSample />
+      <ApiReference />
       <EditorialSection
         id="api-capabilities"
         title="What you can query."
@@ -173,16 +259,20 @@ export default function ApiPage() {
         <ReadingRows
           items={[
             {
-              title: 'Read the error message.',
-              text: 'Errors return a JSON error field. Check your API key after HTTP 401 and your requested fields or values after HTTP 402. For a host lookup, HTTP 404 means the requested host was not found.',
+              title: 'HTTP 401 · API key',
+              text: 'The key is missing or invalid. Check the X-API-Key header and the key loaded from your server environment.',
             },
             {
-              title: 'Slow down after HTTP 429.',
-              text: 'HTTP 429 means the plan rate was exceeded. Reduce request frequency before retrying; repeated immediate attempts do not resolve the limit.',
+              title: 'HTTP 402 · Plan restriction',
+              text: 'A requested field or value is restricted by the plan. Read the JSON error message and check which fields your plan permits.',
             },
             {
-              title: 'Preserve the evidence.',
-              text: 'Keep the host, observed ports and protocols, and the uts update timestamp with each record. Use page and docs_per_page to continue through the results.',
+              title: 'HTTP 404 · Host not found',
+              text: 'For an individual host lookup, the requested host was not found. Check the address you supplied.',
+            },
+            {
+              title: 'HTTP 429 · Rate limit',
+              text: 'The request rate was exceeded. Reduce request frequency before retrying and read the JSON error message.',
             },
           ]}
         />
