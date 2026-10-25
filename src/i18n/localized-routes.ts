@@ -11,6 +11,7 @@ export const localizedRoutes = [
   '/use-cases/osint-threat-investigation',
   '/teams',
   '/developers/api',
+  '/developers/api/docs',
   '/pricing',
   '/about',
   '/responsible-scanning',

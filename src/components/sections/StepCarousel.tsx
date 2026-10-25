@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { LocaleText } from '../../i18n/LocaleText';
 import { useLocale } from '../../i18n/context';
 import { useCarousel } from '../../hooks/useCarousel';
@@ -9,6 +10,7 @@ import { DoubleButton } from '../ui/DoubleButton';
 import { siteHref } from '../../app/paths';
 export function StepCarousel() {
   const { locale, t } = useLocale();
+  const [paused, setPaused] = useState(false);
   const { track, position, positions, move, goTo } = useCarousel();
   return (
     <section id="how-it-works" className="steps section-space" aria-labelledby="steps-title">
@@ -40,6 +42,16 @@ export function StepCarousel() {
           {position + 1} / {positions}
         </span>
         <div className="carousel-arrows">
+          <button
+            type="button"
+            className="plain-button demo-playback-toggle"
+            aria-label={t(paused ? 'Play product animation' : 'Pause product animation')}
+            aria-pressed={paused}
+            aria-controls="research-track"
+            onClick={() => setPaused(!paused)}
+          >
+            {t(paused ? 'Play' : 'Pause')}
+          </button>
           <button
             type="button"
             className="icon-button"
@@ -91,7 +103,7 @@ export function StepCarousel() {
               </div>
               <div className="step-media">
                 <Visual kind="dots" direction="bottom-to-top" />
-                <StepIllustration scene={step.scene} alt={step.alt} />
+                <StepIllustration scene={step.scene} alt={step.alt} paused={paused} />
               </div>
             </li>
           ))}

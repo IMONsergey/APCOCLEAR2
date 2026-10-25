@@ -12,7 +12,7 @@ test('sign-in uses its configured destination and documentation stays on site', 
   await page.goto('./developers/api');
   await expect(
     page.getByRole('link', { name: 'View API Documentation', exact: true }).first(),
-  ).toHaveAttribute('href', /\/developers\/api#documentation$/);
+  ).toHaveAttribute('href', /\/developers\/api\/docs$/);
 });
 
 test('defaults use the published product and login route', () => {

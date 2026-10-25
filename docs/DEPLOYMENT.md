@@ -10,7 +10,7 @@
 
 All three use `scripts/build.ts`: legal-source parity, TypeScript, Vite with the requested base, route metadata, then bundle budgets. Deploy the contents of `dist/` at exactly that path. A second build replaces `dist/`; never rebuild while browser tests are using it.
 
-The build generates route-specific metadata for all 19 pages in EN, RU and Traditional Chinese, giving 57 authored route variants, plus the 404 fallback. HTML includes a no-JavaScript fallback; React renders the full page content in the browser. A custom static server should serve actual files and route directories before the SPA fallback to retain route-specific static metadata.
+The build generates route-specific metadata for all 20 pages in EN, RU and Traditional Chinese, giving 60 authored route variants, plus the 404 fallback. HTML includes a no-JavaScript fallback; React renders the full page content in the browser. A custom static server should serve actual files and route directories before the SPA fallback to retain route-specific static metadata.
 
 ## Public origin and indexing
 
@@ -20,7 +20,7 @@ The build generates route-specific metadata for all 19 pages in EN, RU and Tradi
 | `APCO_PUBLIC_SITE_ORIGIN` | Marketing site's HTTPS origin, without a subdirectory or credentials    | GitHub workflows use `https://<lowercase-owner>.github.io`; local builds leave it unset |
 | `APCO_SITE_INDEXABLE`     | `true` publishes `index, follow`; `false` publishes `noindex, nofollow` | `false`                                                                                 |
 
-`APCO_PUBLIC_SITE_ORIGIN` is separate from the external product URL. When present, the build writes canonical and Open Graph URLs, EN/RU/zh-Hant/x-default alternatives and a sitemap containing the 57 authored route URLs. `APCO_SITE_INDEXABLE=true` requires a valid HTTPS origin; invalid values fail the build. The 404 page always remains `noindex, nofollow`, including after client navigation. The review copy should keep `APCO_SITE_INDEXABLE=false`.
+`APCO_PUBLIC_SITE_ORIGIN` is separate from the external product URL. When present, the build writes canonical and Open Graph URLs, EN/RU/zh-Hant/x-default alternatives and a sitemap containing the 60 authored route URLs. `APCO_SITE_INDEXABLE=true` requires a valid HTTPS origin; invalid values fail the build. The 404 page always remains `noindex, nofollow`, including after client navigation. The review copy should keep `APCO_SITE_INDEXABLE=false`.
 
 For an indexable final root-domain deployment:
 
@@ -44,7 +44,7 @@ Pull requests run the same three-browser validation without publishing. Their `h
 
 Every browser job installs Traditional Chinese fonts. Jobs retain their own test reports, screenshots and failure traces under distinct artifact names. A successful build alone does not establish a successful deployment: require the intended commit, all browser gates, `deploy` and `production-smoke` to succeed in the same release run. These instructions describe the workflow; they do not assert that the current working copy has been pushed or deployed.
 
-Public product settings come from repository variables `VITE_APCO_PRODUCT_URL`, `VITE_APCO_SUPPORT_EMAIL` and `VITE_APCO_SIGN_IN_URL`. Unset values use the defaults documented in [Handoff](HANDOFF.md). Documentation stays within the localized site at `/developers/api#documentation`; it has no external destination override. Set `APCO_PUBLIC_SITE_ORIGIN` and `APCO_SITE_BASE=/` when moving to a custom root domain. None of these variables is a secret store; do not place API keys in `VITE_*` settings.
+Public product settings come from repository variables `VITE_APCO_PRODUCT_URL`, `VITE_APCO_SUPPORT_EMAIL` and `VITE_APCO_SIGN_IN_URL`. Unset values use the defaults documented in [Handoff](HANDOFF.md). Documentation stays within the localized site at `/developers/api/docs`; it has no external destination override. Set `APCO_PUBLIC_SITE_ORIGIN` and `APCO_SITE_BASE=/` when moving to a custom root domain. None of these variables is a secret store; do not place API keys in `VITE_*` settings.
 
 ## Other hosts
 

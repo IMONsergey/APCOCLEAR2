@@ -2,4 +2,4 @@
 export const { productUrl, supportEmail, signInUrl } = __APCO_PUBLIC_SETTINGS__;
 
 /** Resolve through siteHref at render time to retain the active language and hosting base. */
-export const apiDocumentationPath = '/developers/api#documentation';
+export const apiDocumentationPath = '/developers/api/docs';

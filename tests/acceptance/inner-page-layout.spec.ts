@@ -6,7 +6,7 @@ for (const width of [320, 768, 1440]) {
     test.setTimeout(90_000);
     await page.setViewportSize({ width, height: 900 });
     for (const route of siteRoutes.filter(
-      (route) => route.path !== '/' && !route.path.startsWith('/legal/'),
+      (route) => route.path !== '/' && route.group !== 'legal' && route.group !== 'documentation',
     )) {
       await page.goto('.' + route.path);
       const hero = page.locator('.stage-page-hero');

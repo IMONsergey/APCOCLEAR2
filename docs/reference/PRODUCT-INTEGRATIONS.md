@@ -1,6 +1,6 @@
 # Published product integration references
 
-The statistics snapshot below was captured on 23 October 2026; public pricing and HTTP API documentation were verified again on 24 October 2026. They describe the separate public Apcosys product; this repository remains the marketing website. No authenticated requests, credentials, real payments or message delivery are used by its demonstrations.
+The statistics snapshot below was captured on 23 October 2026; public pricing was verified again on 24 October 2026 and HTTP API documentation on 25 October 2026. They describe the separate public Apcosys product; this repository remains the marketing website. No authenticated requests, credentials, real payments or message delivery are used by its demonstrations.
 
 ## Statistics
 
@@ -36,14 +36,16 @@ Plus includes HTTP API access, CVE context and bucket search. Expert adds full f
 
 ## HTTP API
 
-Source chain: the [published API documentation](https://apcosys.net/docs/api) loads a public application bundle and the [API Markdown module](https://cdn.apcosys.cc/assets/js/md-file-fIHrv7Eh.js). The module verified on 24 October 2026 provides this contract; its hashed URL records that edition rather than a permanent API endpoint.
+Source chain: the [published API documentation](https://apcosys.net/docs/api) loads a public application bundle and the [API Markdown module](https://cdn.apcosys.cc/assets/js/md-file-fIHrv7Eh.js). The page and module were verified again on 25 October 2026. The current page still references the same module; its URL records that edition rather than a permanent API endpoint. The 190,973-byte module has SHA-256 `e7133dff62fe1b791919317eca786a2c9a7844673615816a7a934e10d5b42d31`; the extracted 39,923-byte API Markdown has SHA-256 `4f96b88049f364f9096afcfa12a7e80e8ca046f3c7970a4729bedffb012ab836`. This verification read only the public reference; no authenticated API requests were made.
 
 - Base: `https://api.apcosys.net/api/v1`.
 - Authentication: `X-API-Key` with the account API key.
 - Host search: `POST /search/hosts`, JSON body with optional `page`, `docs_per_page` (maximum 100) and `full_text_search` (among other documented filters).
 - Search response: `total`, `page`, `docs_per_page`, `hosts`; host records include `ip`, organization/country context, `uts` (last update in Unix seconds) and `open_ports`.
+- Other methods: `GET /search/hosts/:ip`, `POST /search/analytics`, `POST /search/buckets`, `POST /search/buckets/analytics`, `POST /search/private/hosts`, `GET /search/private/hosts/:ip`, and `POST /search/private/analytics`. Private methods require Business.
+- Host detail uses `ports[]`, with certificate properties directly in `tls_info`; it has no nested `certificate_info`. Bucket `result_count` counts items in that response. Host sorting ignores the supplied sort fields and always uses descending `uts`; bucket sorting supports `cts`, `uts` and `size_mb`.
 - Published API rates: Plus 1 request/s, Expert 2, Business 5; Free has no API access.
-- Errors use a JSON `error` string. Documented statuses include 401 for a missing/invalid key, 402 for plan-restricted fields/values, 404 for a missing host and 429 for exceeding the rate limit.
+- Errors use a JSON `error` string. Documented statuses include 400 for an invalid request or host identifier, 500 for a search/server error (including unsupported fields), 401 for a missing/invalid key, 402 for plan-restricted fields/values, 404 for a missing host and 429 for exceeding the rate limit.
 
 The documented method costs consume the HTTP API **rate allowance**:
 
@@ -59,7 +61,7 @@ The website's two-call example (host search, then analytics) therefore has a com
 
 `src/content/api-example.ts` uses the documented request structure and a deliberately small 20-record page. The copyable cURL example reads the key from an environment variable; the browser never stores a key or runs the request. Response values use a reserved documentation IP and an explicitly synthetic organization. The API illustration is an inert account excerpt with a masked key, example balances and simulated copy/usage states. It does not create credentials, change balances or call the API.
 
-Website Documentation links resolve to the localized `/developers/api#documentation` section, which presents the request, response fields and error guidance. The external URLs above are maintenance sources, not the destination of those navigation links. The authenticated web application's session-cookie/WebSocket protocol must not be confused with this public HTTP API.
+Website Documentation links resolve to localized `/developers/api/docs`, a separate lazy page covering all eight methods, authentication, rates, filters, response fields, errors and integration guidance. The shorter API overview keeps `/developers/api#documentation` working as a first-request section with a link to the full reference. `src/content/api-documentation.ts` holds the paraphrased reference data and synthetic examples; it is not a runtime dependency of the overview or Home. The external URLs above are maintenance sources, not the destination of those navigation links. The authenticated web application's session-cookie/WebSocket protocol must not be confused with this public HTTP API.
 
 ## Account and billing handoff
 

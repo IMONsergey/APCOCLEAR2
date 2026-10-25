@@ -45,6 +45,7 @@ const limits: readonly BundleLimit[] = [
   ['src/pages/PlatformPages.tsx', 122, 26, true],
   ['src/pages/ResearchPages.tsx', 120, 24, true],
   ['src/pages/CommercialPages.tsx', 122, 25, true],
+  ['src/pages/ApiDocumentationPage.tsx', 120, 14, true],
 ];
 const problems: string[] = [];
 for (const [entry, jsLimit, cssLimit, compressed] of limits) {

@@ -11,8 +11,8 @@ function QueryBar({ query = 'nginx', compact = false }: { query?: string; compac
   return (
     <div className={`application-search-box${compact ? ' application-search-box--compact' : ''}`}>
       <div className="application-search-tools">
-        <span>
-          <Glyph name="filter" />
+        <span data-demo-target={compact ? undefined : 'query-filters'}>
+          <Glyph name="plus" />
           {t('Filters')}
         </span>
         <span>
@@ -21,13 +21,19 @@ function QueryBar({ query = 'nginx', compact = false }: { query?: string; compac
         </span>
         {!compact && (
           <span className="application-saved">
-            <Glyph name="bookmark" />
-            {t('Saved queries')}
+            <Glyph name="clock" />
+            {t('History')}
           </span>
         )}
       </div>
       <div className="application-query-bar" data-demo-target="query-input">
-        <Glyph name="search" />
+        {compact ? (
+          <span className="application-query-filter" data-demo-target="query-filters">
+            <Glyph name="filter" />
+          </span>
+        ) : (
+          <Glyph name="search" />
+        )}
         <span data-demo-query>{query}</span>
         <span className="application-search-action" data-demo-target="query-submit">
           <span>{t('Search')}</span>
@@ -80,8 +86,8 @@ function ResultRow({ secondary = false }: { secondary?: boolean }) {
           {!secondary && <span>22</span>}
         </span>
         <span className="application-technology">
-          <img src={assetUrl('application', 'nginx.svg')} width="12" height="12" alt="" />
-          nginx
+          <Glyph name="lock" /> HTTPS
+          <span className="application-result-extra"> · HTTP</span>
         </span>
       </div>
       <Country secondary={secondary} />
@@ -107,15 +113,15 @@ function ObjectTabs({ tls = false }: { tls?: boolean }) {
     <div className="application-object-tabs">
       <span data-selected={!tls}>
         <Glyph name="server" />
-        {t('Services')}
+        {t('Response')}
       </span>
       <span data-selected={tls} data-demo-target="tls-tab">
         <Glyph name="lock" />
-        {t('TLS certificate')}
+        TLS
       </span>
       <span>
-        <Glyph name="globe" />
-        DNS
+        <Glyph name="cube" />
+        {t('Products & CVE')}
       </span>
     </div>
   );
@@ -149,7 +155,7 @@ function QueryScene() {
         </span>
       </div>
       <p className="application-query-hint" data-demo-target="query-hint">
-        {t('Use filters for a specific field or range.')}
+        {t('Try')} <span>nginx</span> <span>example.com</span>
       </p>
     </div>
   );
@@ -204,7 +210,7 @@ function ResultsScene() {
         <div className="application-facet">
           <Country secondary />
         </div>
-        <span className="application-filter-apply">
+        <span className="application-filter-apply" data-demo-target="filter-apply">
           {t('Apply conditions')}
           <Glyph name="arrow" />
         </span>
@@ -221,7 +227,11 @@ function HostScene() {
       <div className="application-host-network">
         {host.asn} · {t('Example Research Network')}
       </div>
-      <ObjectTabs />
+      <div className="application-object-tabs application-host-tabs">
+        <span>{t('Overview')}</span>
+        <span data-selected="true">{t('Services')}</span>
+        <span>{t('DNS & domains')}</span>
+      </div>
       <div className="application-host-workspace">
         <div className="application-service-list">
           <h4 className="application-host-services-title">
@@ -230,7 +240,7 @@ function HostScene() {
           </h4>
           <div className="application-services" data-demo-target="host-services">
             <span data-selected="true">
-              <Glyph name="lock" />
+              <img src={assetUrl('application', 'nginx.svg')} width="14" height="14" alt="" />
               <strong>443</strong> HTTPS
             </span>
             <span>
@@ -245,16 +255,17 @@ function HostScene() {
         </div>
         <div className="application-response" data-demo-target="host-response">
           <div className="application-response-heading">
-            <strong>{t('HTTPS response')}</strong>
+            <strong>
+              443 <span>HTTPS</span>
+            </strong>
             <span>200 OK</span>
           </div>
+          <div className="application-service-tabs">
+            <span data-selected="true">{t('Response')}</span>
+            <span>TLS</span>
+          </div>
           <pre>
-            <code>
-              {'HTTP/1.1 200 OK\nserver: nginx'}
-              <span className="application-response-extra">
-                {'\ncontent-type:\n  text/html; charset=utf-8'}
-              </span>
-            </code>
+            <code>{'HTTP/1.1 200 OK\nServer: nginx'}</code>
           </pre>
           <div className="application-product" data-demo-target="host-product">
             <span>{t('Detected product')}</span>
@@ -280,7 +291,6 @@ function EvidenceScene() {
   return (
     <div className="application-evidence-scene">
       <HostHeading />
-      <ObjectTabs tls />
       <div className="application-tls-summary" data-demo-target="tls-service">
         <span className="application-tls-service" data-demo-service="443">
           <Glyph name="lock" />
@@ -288,6 +298,7 @@ function EvidenceScene() {
         </span>
         <span className="application-status">TLS 1.3</span>
       </div>
+      <ObjectTabs tls />
       <div className="application-certificate" data-demo-target="tls-identity">
         <h4 className="application-certificate-title">
           <img src={assetUrl('application', 'certificate.svg')} width="14" height="14" alt="" />

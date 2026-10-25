@@ -25,44 +25,30 @@ async function fillContact(
 }
 
 for (const locale of ['ru', 'zh-Hant'] as const) {
-  test(`${locale} playback keeps every phase localized after autoplay changes the caption`, async ({
+  test(`${locale} manual investigation keeps query, result and service controls localized`, async ({
     page,
   }) => {
-    await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(`./${prefix(locale)}platform/search-investigation`);
-    const evidence = page.locator('.product-evidence').first();
-    const label = evidence.locator('[data-playback-label]');
-    await label.evaluate((node) => {
-      const seen = new Set([node.textContent ?? '']);
-      const record = () => {
-        seen.add(node.textContent ?? '');
-        node.setAttribute('data-observed-captions', JSON.stringify([...seen]));
-      };
-      new MutationObserver(record).observe(node, {
-        childList: true,
-        subtree: true,
-        characterData: true,
-      });
-      record();
-    });
-    await evidence.scrollIntoViewIfNeeded();
-    await page.mouse.move(1, 1);
-    const phases = [
-      'Read the query',
-      'Select a matching host',
-      'Inspect the observed service',
-      'Follow the evidence',
-    ];
-    await expect
-      .poll(async () => JSON.parse((await label.getAttribute('data-observed-captions')) ?? '[]'), {
-        timeout: 20000,
-      })
-      .toEqual(expect.arrayContaining(phases.map((phase) => localized(locale, phase))));
-    const observed: string[] = JSON.parse(
-      (await label.getAttribute('data-observed-captions')) ?? '[]',
+    const workbench = page.locator('.stage-workbench');
+    await expect(workbench.locator('.stage-workbench__step strong')).toHaveText(
+      ['Query', 'Results', 'Host'].map((label) => localized(locale, label)),
     );
-    expect(observed.filter((caption) => phases.includes(caption))).toEqual([]);
+    await expect(workbench.locator('label')).toHaveText(localized(locale, 'Example query'));
+    await workbench.locator('button[type="submit"]').click();
+    await expect(workbench.locator('.investigation-results__bar')).toContainText(
+      localized(locale, 'Example matches'),
+    );
+    await workbench.locator('.investigation-result').first().click();
+    await expect(workbench.locator('.investigation-detail-tabs button').first()).toHaveText(
+      localized(locale, 'Response'),
+    );
+    await workbench.locator('.investigation-detail-tabs button').last().click();
+    await expect(workbench.locator('.investigation-tls dt').first()).toHaveText(
+      localized(locale, 'Server name'),
+    );
+    await expect(workbench.locator('.stage-workbench__notice')).toHaveText(
+      localized(locale, 'Example records. Reserved addresses and synthetic responses.'),
+    );
   });
 
   test(`${locale} monitoring translates human-readable change states`, async ({ page }) => {
@@ -75,34 +61,80 @@ for (const locale of ['ru', 'zh-Hant'] as const) {
   });
 }
 
-test('reduced motion keeps the translated evidence summary without starting autoplay', async ({
+test('reduced motion keeps the localized Home evidence readable without starting autoplay', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('./ru/platform/search-investigation');
-  const evidence = page.locator('.product-evidence').first();
+  await page.goto('./ru/');
+  const evidence = page.locator('.search-scene__results .product-evidence');
   await evidence.scrollIntoViewIfNeeded();
   await page.mouse.move(1, 1);
-  await expect(evidence.locator('[data-playback-label]')).toHaveText(
-    localized('ru', 'Query, host, service, context'),
+  await expect(evidence).toHaveAttribute(
+    'aria-label',
+    localized('ru', 'Illustrative domain investigation'),
   );
+  await expect(evidence.locator('.evidence-cursor')).toBeHidden();
+  const read = () =>
+    evidence.evaluate((root) => ({
+      cursor: root.querySelector<HTMLElement>('.evidence-cursor')!.style.transform,
+      clips: [
+        ...root.querySelectorAll('.product-evidence__query strong, .evidence-response code'),
+      ].map((element) => getComputedStyle(element).clipPath),
+    }));
+  const before = await read();
+  expect(before.clips.every((clip) => clip === 'none')).toBe(true);
   await page.waitForTimeout(2400);
-  await expect(evidence.locator('[data-playback-label]')).toHaveText(
-    localized('ru', 'Query, host, service, context'),
-  );
+  expect(await read()).toEqual(before);
+  await expect(evidence.locator('.evidence-response')).toContainText('Server: nginx/1.24.0');
 });
 
-test('CVE context follows the selected SSH and HTTPS services', async ({ page }) => {
+test('unmatched example queries expose a recoverable empty state without stale host evidence', async ({
+  page,
+}) => {
   await page.goto('./platform/search-investigation');
-  await page.locator('.stage-workbench__step').nth(3).click();
-  const evidence = page.locator('.product-evidence').first();
-  await evidence.locator('.product-evidence__result').nth(1).click();
-  await evidence.locator('.product-evidence__service').nth(1).click();
-  await expect(evidence.locator('.evidence-response')).toContainText('SSH-2.0-OpenSSH_9.6');
-  await expect(evidence.locator('.product-evidence__cve dd').first()).toHaveText('OpenSSH 9.6');
-  await evidence.locator('.product-evidence__service').first().click();
-  await expect(evidence.locator('.evidence-response')).toContainText('Server: nginx/1.24.0');
-  await expect(evidence.locator('.product-evidence__cve dd').first()).toHaveText('nginx 1.24.0');
+  const workbench = page.locator('.stage-workbench');
+  await workbench.locator('input[name="example_query"]').fill('unlisted.example.net');
+  await workbench.locator('button[type="submit"]').click();
+  await expect(workbench.getByRole('status')).toContainText('No matching example hosts');
+  await expect(workbench.locator('.investigation-result, .investigation-host')).toHaveCount(0);
+  const steps = workbench.locator('.stage-workbench__step');
+  await expect(steps.last()).toBeDisabled();
+  await steps.nth(1).focus();
+  await steps.nth(1).press('ArrowRight');
+  await expect(steps.first()).toBeFocused();
+  await expect(workbench.locator('input[name="example_query"]')).toHaveValue(
+    'unlisted.example.net',
+  );
+  await steps.nth(1).click();
+  await workbench.getByRole('button', { name: 'Show example hosts' }).click();
+  await expect(workbench.locator('.investigation-result')).toHaveCount(2);
+  await expect(steps.last()).toBeEnabled();
+});
+
+test('investigation deep links preserve the host while switching service response and TLS', async ({
+  page,
+}) => {
+  await page.goto('./platform/search-investigation?demoHost=203.0.113.42');
+  const workbench = page.locator('.stage-workbench');
+  await expect(workbench.locator('.stage-workbench__step').last()).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await expect(workbench.locator('.investigation-host__heading')).toContainText('203.0.113.42');
+  const services = workbench.locator('.investigation-service-catalog button');
+  await services.nth(1).click();
+  await expect(workbench.locator('.investigation-service-detail__body')).toContainText(
+    'SSH-2.0-OpenSSH_9.6',
+  );
+  await expect(workbench.locator('.investigation-detail-tabs button').last()).toBeDisabled();
+  await services.first().click();
+  await workbench.locator('.investigation-detail-tabs button').last().click();
+  await expect(workbench.locator('.investigation-tls')).toContainText('gateway.example.com');
+  await services.nth(1).click();
+  await expect(workbench.locator('.investigation-tls')).toHaveCount(0);
+  await expect(workbench.locator('.investigation-service-detail__body')).toContainText(
+    'SSH-2.0-OpenSSH_9.6',
+  );
 });
 
 for (const locale of ['en', 'ru', 'zh-Hant'] as const) {

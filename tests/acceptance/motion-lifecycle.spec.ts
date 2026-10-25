@@ -188,21 +188,17 @@ for (const width of [390, 1440]) {
   );
 }
 
-test('service selection produces the matching banner and animation can be paused', async ({
-  page,
-}) => {
-  await page.goto('./platform/search-investigation');
-  const sample = page.locator('.stage-workbench__record');
+test('Home service selection keeps the response banner connected to its host', async ({ page }) => {
+  await page.goto('./');
+  const sample = page.locator('.search-scene__results .product-evidence');
   await sample.getByRole('button', { name: /80.*HTTP/ }).click();
   await expect(sample.locator('.evidence-response')).toContainText('301 Moved Permanently');
+  await expect(sample.locator('.evidence-response')).toContainText('portal.example.com');
   await sample.locator('.product-evidence__result').nth(1).click();
   await sample.getByRole('button', { name: /22.*SSH/ }).click();
   await expect(sample.locator('.evidence-response')).toContainText('SSH-2.0-OpenSSH_9.6');
-  await sample.getByRole('button', { name: 'Pause product animation' }).click();
-  await expect(sample.getByRole('button', { name: 'Play product animation' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
+  await sample.getByRole('button', { name: /443.*HTTPS/ }).click();
+  await expect(sample.locator('.evidence-response')).toContainText('Server: nginx/1.24.0');
 });
 
 test('monitoring switches resize through intermediate frames on mobile', async ({ page }) => {
@@ -255,9 +251,10 @@ test('reduced motion keeps all application scenes and product evidence readable 
   await expect(api.locator('.application-api__heading')).toHaveText('API access');
   await expect(api.locator('.application-demo-cursor')).toBeHidden();
   await expectDemoResting(api, 'static');
-  await page.goto('./platform/search-investigation');
-  await expect(page.locator('.evidence-response')).toContainText('HTTP/1.1 200 OK');
-  await expect(page.locator('.evidence-cursor')).toBeHidden();
+  const evidence = page.locator('.search-scene__results .product-evidence');
+  await evidence.scrollIntoViewIfNeeded();
+  await expect(evidence.locator('.evidence-response')).toContainText('HTTP/1.1 200 OK');
+  await expect(evidence.locator('.evidence-cursor')).toBeHidden();
 });
 
 test('team signal field animates only while visible and respects reduced motion', async ({

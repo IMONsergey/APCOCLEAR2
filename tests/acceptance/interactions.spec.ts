@@ -53,15 +53,25 @@ for (const width of [320, 390, 1366, 1440, 1920]) {
   });
 }
 
-test('five-step investigation workbench moves through contextual scenes', async ({ page }) => {
+test('three-step investigation workbench changes the active task with keyboard navigation', async ({
+  page,
+}) => {
   await page.goto('./platform/search-investigation');
   const tabs = page.locator('.stage-workbench__step');
-  await expect(tabs).toHaveCount(5);
-  await tabs.nth(2).click();
+  await expect(tabs).toHaveCount(3);
+  await expect(page.locator('.investigation-query')).toBeVisible();
+  await tabs.first().focus();
+  await tabs.first().press('ArrowRight');
+  await expect(tabs.nth(1)).toBeFocused();
+  await expect(page.locator('.investigation-results')).toBeVisible();
+  await expect(page.locator('.investigation-query')).toHaveCount(0);
+  await tabs.nth(1).press('End');
+  await expect(tabs.nth(2)).toBeFocused();
   await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
-  await expect(page.locator('.stage-workbench__insight h3')).toContainText('Examine a host');
-  await tabs.nth(4).click();
-  await expect(page.locator('.stage-workbench__insight h3')).toContainText('Refine');
+  await expect(page.locator('.investigation-host__heading')).toContainText('198.51.100.24');
+  await tabs.nth(2).press('Home');
+  await expect(tabs.first()).toBeFocused();
+  await expect(page.locator('.investigation-query')).toBeVisible();
 });
 
 test('monitoring concept changes state and does not claim real alerts', async ({ page }) => {
@@ -286,17 +296,17 @@ for (const locale of [
     question: '我可以使用 API 嗎？',
   },
 ]) {
-  test(`${locale.language} documentation links open the localized on-site API section`, async ({
+  test(`${locale.language} documentation links open the localized standalone API reference`, async ({
     page,
     baseURL,
   }) => {
     const home = `./${locale.prefix}`;
-    const destination = new URL(`${home}developers/api#documentation`, baseURL!);
+    const destination = new URL(`${home}developers/api/docs`, baseURL!);
     const href = destination.pathname + destination.hash;
     const expectDocumentation = async () => {
       await expect(page).toHaveURL(destination.href);
       await expect(page.locator('html')).toHaveAttribute('lang', locale.language);
-      await expect(page.locator('#documentation')).toBeInViewport();
+      await expect(page.locator('.api-docs h1')).toBeInViewport();
     };
 
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -310,11 +320,13 @@ for (const locale of [
     await desktopLink.click();
     await expectDocumentation();
 
+    await page.goto(`${home}developers/api`);
     const actions = page.locator('main').getByRole('link', { name: locale.action, exact: true });
     await expect(actions).toHaveCount(2);
     for (const action of await actions.all()) await expect(action).toHaveAttribute('href', href);
     await actions.last().click();
     await expectDocumentation();
+    await page.goto(home);
     const footerLink = page
       .locator('footer')
       .getByRole('link', { name: locale.documentation, exact: true });
@@ -335,21 +347,30 @@ for (const locale of [
 
     await page.goto(home);
     await page.getByText(locale.question, { exact: true }).click();
-    const faqLink = page.locator('#faq a[href$="/developers/api#documentation"]');
+    const faqLink = page.locator('#faq a[href$="/developers/api/docs"]');
     await expect(faqLink).toHaveAttribute('href', href);
     await faqLink.click();
     await expectDocumentation();
-    await expect(page.locator('.api-first-request pre')).toBeVisible();
+    await expect(page.locator('.api-docs [data-example="first-request"] pre')).toBeVisible();
+
+    await page.goto(`${home}developers/api#documentation`);
+    await expect(page.locator('#documentation')).toBeInViewport();
+    const fullReference = page.locator('#documentation a[href$="/developers/api/docs"]');
+    await expect(fullReference).toHaveAttribute('href', href);
+    await fullReference.click();
+    await expectDocumentation();
   });
 }
 
-test('investigation page leads with one connected product scene, not another search widget', async ({
+test('investigation page leads with one manual example and a separate live-search handoff', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('./platform/search-investigation');
   await expect(page.locator('.stage-platform-search .search-form')).toHaveCount(0);
   await expect(page.locator('.stage-workbench__viewer')).toBeVisible();
-  await expect(page.locator('.stage-workbench__step')).toHaveCount(5);
+  await expect(page.locator('.stage-workbench__step')).toHaveCount(3);
+  await expect(page.locator('.stage-workbench form')).toHaveCount(1);
+  await expect(page.locator('.stage-workbench__notice')).toContainText('Example records');
   await expect(page.locator('.stage-page-cta')).toHaveCount(0);
 });

@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { siteRoutes } from '../../src/content/routes';
 
-const innerRoutes = siteRoutes.filter(({ path }) => path !== '/' && !path.startsWith('/legal/'));
+const innerRoutes = siteRoutes.filter(
+  ({ path, group }) => path !== '/' && group !== 'legal' && group !== 'documentation',
+);
 
 // Include both sides of the stacking/type breakpoints and narrow CTA wrapping.
 for (const width of [320, 360, 390, 480, 600, 767, 768, 1000, 1001, 1280, 1440, 1920]) {

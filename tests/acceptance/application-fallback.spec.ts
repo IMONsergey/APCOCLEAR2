@@ -53,11 +53,9 @@ test('all six application frames remain readable when their motion chunks fail',
       await expect(keyPanel).toBeVisible();
       await expect(frame.locator('[data-api-panel="usage"]')).toBeHidden();
       await expect(frame.locator('[data-demo-target="api-key"]')).toHaveText(/^•{16}$/);
-      await expect(frame.locator('[role="meter"]:visible')).toHaveCount(2);
-      await expect(keyPanel.locator('[role="meter"]').first()).toHaveAttribute(
-        'aria-valuenow',
-        '1240500',
-      );
+      await expect(frame.locator('[role="meter"]:visible')).toHaveCount(0);
+      await expect(keyPanel.locator('.application-api__summary')).toContainText('1,240,500');
+      await expect(frame.locator('[data-api-panel="usage"] [role="meter"]')).toHaveCount(2);
     }
     expect(
       await frame

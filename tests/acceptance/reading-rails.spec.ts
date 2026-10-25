@@ -2,7 +2,9 @@ import { createHash } from 'node:crypto';
 import { expect, test } from '@playwright/test';
 import { siteRoutes } from '../../src/content/routes';
 
-const marketing = siteRoutes.filter(({ path }) => path !== '/' && !path.startsWith('/legal/'));
+const marketing = siteRoutes.filter(
+  ({ path, group }) => path !== '/' && group !== 'legal' && group !== 'documentation',
+);
 for (const width of [768, 1000, 1001, 1440, 1920]) {
   test(`split work areas keep their reading rails at ${width}px`, async ({ page }) => {
     test.setTimeout(90_000);

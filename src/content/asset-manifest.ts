@@ -1,7 +1,65 @@
+/** Browser rendering only needs the directories and artwork variants. */
+export const assetDirectories = {
+  application: 'assets/application',
+  brand: 'assets/brand',
+  api: 'assets/illustrations/api',
+  closing: 'assets/illustrations/closing',
+  walkthrough: 'assets/illustrations/walkthrough',
+} as const;
+
+export const artwork = {
+  'editorial/evidence.webp': {
+    responsive: true,
+  },
+  'editorial/investigation.webp': {
+    responsive: true,
+  },
+  'editorial/scope.webp': {
+    responsive: true,
+  },
+  'inner/search.webp': {
+    responsive: false,
+  },
+  'inner/methodology.webp': {
+    responsive: false,
+  },
+  'inner/monitoring.webp': {
+    responsive: false,
+  },
+  'inner/teams.webp': {
+    responsive: false,
+  },
+  'inner/api.webp': {
+    responsive: false,
+  },
+  'inner/pricing.webp': {
+    responsive: false,
+  },
+  'inner/about.webp': {
+    responsive: false,
+  },
+  'inner/scanning.webp': {
+    responsive: false,
+  },
+  'inner/contact.webp': {
+    responsive: false,
+  },
+  'use-cases/bug-bounty.webp': {
+    responsive: false,
+  },
+  'use-cases/vulnerability-research.webp': {
+    responsive: false,
+  },
+  'use-cases/osint.webp': {
+    responsive: false,
+  },
+} as const;
+
+/** The complete catalog remains the source for asset types and build validation. */
 export default {
   groups: {
     application: {
-      directory: 'assets/application',
+      directory: assetDirectories.application,
       files: [
         'aperture.svg',
         'run-search.svg',
@@ -20,15 +78,15 @@ export default {
       ],
     },
     brand: {
-      directory: 'assets/brand',
+      directory: assetDirectories.brand,
       files: ['favicon.svg', 'logo.svg', 'social-preview.svg', 'social-preview.png'],
     },
     api: {
-      directory: 'assets/illustrations/api',
+      directory: assetDirectories.api,
       files: ['api-layers.webp', 'api-layers-360.webp', 'api-layers-600.webp'],
     },
     closing: {
-      directory: 'assets/illustrations/closing',
+      directory: assetDirectories.closing,
       files: [
         'start-desktop.webp',
         'start-desktop-dark.webp',
@@ -47,7 +105,7 @@ export default {
       ],
     },
     walkthrough: {
-      directory: 'assets/illustrations/walkthrough',
+      directory: assetDirectories.walkthrough,
       files: [
         'step-query.webp',
         'step-query-dark.webp',
@@ -70,51 +128,5 @@ export default {
       ],
     },
   },
-  artwork: {
-    'editorial/evidence.webp': {
-      responsive: true,
-    },
-    'editorial/investigation.webp': {
-      responsive: true,
-    },
-    'editorial/scope.webp': {
-      responsive: true,
-    },
-    'inner/search.webp': {
-      responsive: false,
-    },
-    'inner/methodology.webp': {
-      responsive: false,
-    },
-    'inner/monitoring.webp': {
-      responsive: false,
-    },
-    'inner/teams.webp': {
-      responsive: false,
-    },
-    'inner/api.webp': {
-      responsive: false,
-    },
-    'inner/pricing.webp': {
-      responsive: false,
-    },
-    'inner/about.webp': {
-      responsive: false,
-    },
-    'inner/scanning.webp': {
-      responsive: false,
-    },
-    'inner/contact.webp': {
-      responsive: false,
-    },
-    'use-cases/bug-bounty.webp': {
-      responsive: false,
-    },
-    'use-cases/vulnerability-research.webp': {
-      responsive: false,
-    },
-    'use-cases/osint.webp': {
-      responsive: false,
-    },
-  },
+  artwork,
 } as const;
