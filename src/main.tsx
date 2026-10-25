@@ -3,8 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { LocaleProvider } from './i18n/LocaleProvider';
 import { loadLocale } from './i18n/messages';
-import { getLocale, getRoutePath } from './app/paths';
-import { prepareRoute } from './app/routeModules';
+import { getLocale } from './app/paths';
 import { StartupFailure } from './app/StartupFailure';
 import { ThemeProvider } from './theme/ThemeProvider';
 import './styles/instrument-sans.css';
@@ -34,10 +33,9 @@ const render = (children: ReactNode) =>
 
 async function start() {
   try {
-    // Register language styles first to preserve the cascade while downloads run together.
+    // Fetch the catalog and language styles together before rendering localized content.
     const languageStyles =
       locale === 'ru' ? [import('./styles/onest.css'), import('./styles/russian-type.css')] : [];
-    void prepareRoute(getRoutePath()).catch(() => undefined);
     await Promise.all([loadLocale(locale), ...languageStyles]);
     render(
       <LocaleProvider locale={locale}>

@@ -2,6 +2,9 @@ import { expect, test } from '@playwright/test';
 import { wcagAxe } from '../helpers/accessibility';
 import { siteVariants } from '../helpers/site-variants';
 
+// Each case owns its browser context and report; share the existing CI worker pool.
+test.describe.configure({ mode: 'parallel' });
+
 for (const route of siteVariants) {
   for (const theme of ['light', 'dark'] as const) {
     for (const width of [390, 1440]) {
