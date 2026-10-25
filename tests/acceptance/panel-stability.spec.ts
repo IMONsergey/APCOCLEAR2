@@ -37,7 +37,8 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
       await page.goto(`./${locale}`);
       const capabilities = page.locator('#capabilities');
       await expect(capabilities).toBeVisible();
-      await settle(capabilities);
+      await capabilities.scrollIntoViewIfNeeded();
+      await settle(page.locator('main'));
       const initial = await geometry(page, '#capabilities', '#audiences');
       const tabs = capabilities.locator('.home-capabilities__tabs button');
       for (const index of [1, 2, 3, 4, 0]) {
@@ -58,6 +59,12 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
           const filter = active.getByRole('checkbox');
           await filter.check();
           await settle(capabilities);
+          await expect(active.getByText('80 / HTTP', { exact: true })).not.toBeVisible();
+          await expect(active.getByText('22 / SSH', { exact: true })).not.toBeVisible();
+          const filteredAccessibility = await active.ariaSnapshot();
+          expect(filteredAccessibility).toContain('443 / HTTPS');
+          expect(filteredAccessibility).not.toContain('80 / HTTP');
+          expect(filteredAccessibility).not.toContain('22 / SSH');
           const filtered = await geometry(page, '#capabilities', '#audiences');
           expect(Math.abs(filtered.height - initial.height)).toBeLessThanOrEqual(1);
           expect(Math.abs(filtered.followingTop - initial.followingTop)).toBeLessThanOrEqual(1);
@@ -91,7 +98,8 @@ for (const locale of ['', 'ru/', 'zh-hant/']) {
       await page.goto(`./${locale}developers/api`);
       const code = page.locator('.stage-code-window');
       await expect(code).toBeVisible();
-      await settle(code);
+      await code.scrollIntoViewIfNeeded();
+      await settle(page.locator('main'));
       const request = await geometry(page, '#documentation', '#api-reference');
       const codeTabs = code.locator('.stage-code-tabs button');
       await codeTabs.last().click();

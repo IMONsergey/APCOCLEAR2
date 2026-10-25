@@ -367,16 +367,14 @@ export function CapabilitiesSection() {
                       <div className="capability-record__host" key={host.ip}>
                         <strong>{host.ip}</strong>
                         <span>{host.hostname}</span>
-                        {host.services
-                          .filter((s) => !httpsOnly || s.protocol === 'HTTPS')
-                          .map((s) => (
-                            <p key={s.port}>
-                              <code>
-                                {s.port} / {s.protocol}
-                              </code>
-                              <span>{s.technology}</span>
-                            </p>
-                          ))}
+                        {host.services.map((s) => (
+                          <p key={s.port} aria-hidden={httpsOnly && s.protocol !== 'HTTPS'}>
+                            <code>
+                              {s.port} / {s.protocol}
+                            </code>
+                            <span>{s.technology}</span>
+                          </p>
+                        ))}
                       </div>
                     ))}
                   </div>

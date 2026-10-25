@@ -214,6 +214,9 @@
   line-height: 1.5;
   color: var(--color-text-body);
 }
+.capability-record__host p[aria-hidden='true'] {
+  visibility: hidden;
+}
 .capability-record__host code {
   color: var(--accent-text);
 }
