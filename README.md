@@ -33,7 +33,7 @@ npm run test:release
 | `npm run build -- --base=/site/`         | Same build at another subdirectory                                                                                        |
 | `npm run preview`                        | Serve the existing Pages build at `http://127.0.0.1:4187/APCOCLEAR2/`                                                     |
 | `npm run test:release`                   | Full current release contract in Chromium                                                                                 |
-| `npm run measure:performance`            | Cold-cache Chromium lab measurements for Home, About and Privacy; see QA                                                  |
+| `npm run measure:performance`            | Cold-cache Chromium lab measurements; see QA for routes and profiles                                                      |
 | `npm run test:relocation`                | Check configured URLs, deep links, 404 recovery and localized fonts at the built hosting base                             |
 | `npm run test:cross-browser`             | Current core interactions in Chromium, Firefox and WebKit                                                                 |
 | `npm test`                               | Full current contract in all three engines; install them first                                                            |

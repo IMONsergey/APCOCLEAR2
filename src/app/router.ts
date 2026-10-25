@@ -8,6 +8,11 @@ import { hasLocalizedCopy } from '../i18n/localized-routes';
 import { localizedMetadataSource } from '../i18n/route-metadata';
 import { getRoutePath, isRouteAvailable, localeHref, resolveSiteLocation } from './paths';
 
+function savedScrollY(): number | undefined {
+  const value: unknown = history.state?.apcoScrollY;
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : undefined;
+}
+
 function resolveScroll({ smooth = false, focus = false } = {}) {
   let targetId: string;
   try {
@@ -34,30 +39,83 @@ export function useSiteRoute(locale: Locale) {
   useEffect(() => {
     const previousSetting = history.scrollRestoration;
     history.scrollRestoration = 'manual';
-    let frame = 0;
+    let scrollTimer = 0;
+    const scrollPositions = new Map<string, number>();
+    const newEntryKey = () => Math.random().toString(36).slice(2);
+    const entryKey = () => {
+      const stored: unknown = history.state?.apcoScrollKey;
+      if (typeof stored === 'string') return stored;
+      const key = newEntryKey();
+      history.replaceState({ ...history.state, apcoScrollKey: key }, '');
+      return key;
+    };
+    let currentKey = entryKey();
+    // Firefox can snapshot history state before pagehide updates it on reload.
+    // Keep the departing entry's final position available to the next document.
+    const departureStorageKey = 'apcosys-scroll-departure';
+    let initialY = savedScrollY();
+    try {
+      const departure = JSON.parse(sessionStorage.getItem(departureStorageKey) ?? 'null');
+      sessionStorage.removeItem(departureStorageKey);
+      if (
+        departure?.key === currentKey &&
+        typeof departure.y === 'number' &&
+        Number.isFinite(departure.y) &&
+        departure.y >= 0
+      ) {
+        initialY = departure.y;
+        history.replaceState({ ...history.state, apcoScrollY: initialY }, '');
+      }
+    } catch {
+      // History state remains available when session storage is restricted.
+    }
     let navigationVersion = 0;
     let readiness = new AbortController();
     let currentPath = getRoutePath();
     let navigating = false;
     let activeTransition: ViewTransition | undefined;
     let fallbackAnimation: Animation | undefined;
+    const canRecordScroll = () =>
+      !navigating || document.querySelector('main')?.getAttribute('data-route') === getRoutePath();
+    const saveScroll = () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = 0;
+      if (!canRecordScroll()) return;
+      scrollPositions.set(currentKey, scrollY);
+      if (history.state?.apcoScrollKey === currentKey && savedScrollY() !== scrollY)
+        history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
+    };
+    const saveDeparture = () => {
+      saveScroll();
+      if (!canRecordScroll()) return;
+      try {
+        sessionStorage.setItem(
+          departureStorageKey,
+          JSON.stringify({ key: currentKey, y: scrollY }),
+        );
+      } catch {
+        // Storage restrictions must not interrupt navigation.
+      }
+    };
     const recordScroll = () => {
-      if (navigating) return;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        if (!navigating) history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
-      });
+      if (!canRecordScroll()) return;
+      // Keep exact positions in memory without writing History API state every frame.
+      scrollPositions.set(currentKey, scrollY);
+      if (!scrollTimer) scrollTimer = window.setTimeout(saveScroll, 500);
     };
     const waitForPage = async (targetPath: string, version: number) =>
       (await waitForRouteReady(targetPath, readiness.signal)) && version === navigationVersion;
-    const applyScroll = (y: number, smooth = false, focus = false) => {
-      if (!location.hash || !resolveScroll({ smooth, focus }))
-        scrollTo({ top: y, behavior: 'instant' });
+    const applyScroll = (rememberedY?: number, smooth = false, focus = false) => {
+      // A history entry remembers where reading stopped, even if its URL has a hash.
+      const anchored =
+        rememberedY === undefined && !!location.hash && resolveScroll({ smooth, focus });
+      if (!anchored) scrollTo({ top: rememberedY ?? 0, behavior: 'instant' });
+      return anchored;
     };
     const navigate = async (
       targetPath: string,
       url?: URL,
-      rememberedY = 0,
+      rememberedY?: number,
       originDialog: HTMLDialogElement | null = null,
     ) => {
       const version = ++navigationVersion;
@@ -65,7 +123,8 @@ export function useSiteRoute(locale: Locale) {
       readiness = new AbortController();
       activeTransition?.skipTransition();
       fallbackAnimation?.cancel();
-      cancelAnimationFrame(frame);
+      clearTimeout(scrollTimer);
+      scrollTimer = 0;
       navigating = true;
       try {
         await prepareRoute(targetPath);
@@ -77,16 +136,23 @@ export function useSiteRoute(locale: Locale) {
         const commit = async () => {
           if (version !== navigationVersion) return;
           if (url && url.href !== location.href) {
+            scrollPositions.set(currentKey, scrollY);
             history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
-            history.pushState({ apcoScrollY: 0 }, '', url.pathname + url.search + url.hash);
+            const key = newEntryKey();
+            history.pushState(
+              { apcoScrollKey: key, apcoScrollY: 0 },
+              '',
+              url.pathname + url.search + url.hash,
+            );
+            currentKey = key;
           }
           // Track the committed destination before waiting for its lazy subtree.
           // A second activation can arrive while that subtree is still mounting.
           currentPath = targetPath;
           startTransition(() => setPath(targetPath));
           if (!(await waitForPage(targetPath, version))) return;
-          applyScroll(rememberedY, samePage && !!url, samePage && !!url);
-          if (!samePage) {
+          const anchored = applyScroll(rememberedY, samePage && !!url, !!url);
+          if (!samePage && !anchored) {
             const heading = document.querySelector<HTMLElement>('main h1');
             heading?.setAttribute('tabindex', '-1');
             heading?.focus({ preventScroll: true });
@@ -129,7 +195,9 @@ export function useSiteRoute(locale: Locale) {
       }
     };
     const sync = () => {
-      const rememberedY = Number(history.state?.apcoScrollY) || 0;
+      const key = entryKey();
+      const rememberedY = scrollPositions.get(key) ?? savedScrollY();
+      currentKey = key;
       void navigate(getRoutePath(), undefined, rememberedY);
     };
     const internalAnchor = (target: EventTarget | null) => {
@@ -174,20 +242,20 @@ export function useSiteRoute(locale: Locale) {
       const anchor = internalAnchor(event.target);
       if (!anchor) return;
       event.preventDefault();
-      if (anchor.url.href === location.href && !navigating) {
-        if (anchor.url.hash) resolveScroll({ smooth: true, focus: true });
-        return;
-      }
-      void navigate(anchor.targetPath, anchor.url, 0, anchor.originDialog);
+      void navigate(anchor.targetPath, anchor.url, undefined, anchor.originDialog);
     };
     window.addEventListener('popstate', sync);
     window.addEventListener('scroll', recordScroll, { passive: true });
+    window.addEventListener('pagehide', saveDeparture);
     document.addEventListener('click', intercept);
     document.addEventListener('pointerover', warm, { passive: true });
     document.addEventListener('focusin', warm);
-    if (location.hash)
+    if (location.hash || initialY !== undefined)
       void waitForPage(getRoutePath(), navigationVersion).then((ready) => {
-        if (ready) resolveScroll();
+        if (ready) {
+          applyScroll(initialY);
+          recordScroll();
+        }
       });
     return () => {
       navigationVersion++;
@@ -195,9 +263,10 @@ export function useSiteRoute(locale: Locale) {
       activeTransition?.skipTransition();
       fallbackAnimation?.cancel();
       history.scrollRestoration = previousSetting;
-      cancelAnimationFrame(frame);
+      clearTimeout(scrollTimer);
       window.removeEventListener('popstate', sync);
       window.removeEventListener('scroll', recordScroll);
+      window.removeEventListener('pagehide', saveDeparture);
       document.removeEventListener('click', intercept);
       document.removeEventListener('pointerover', warm);
       document.removeEventListener('focusin', warm);
