@@ -35,10 +35,9 @@ test('Early navigation stays open when Home commits during a link press', async 
     await route.continue();
   });
   try {
-    const navigation = page.goto('./');
+    await page.goto('./', { waitUntil: 'commit' });
     await expect(page.locator('main .route-fallback')).toBeVisible();
     await expect(page.locator('footer')).toHaveCount(0);
-    await page.evaluate(() => document.fonts.ready);
     const group = page.getByRole('button', { name: 'Platform', exact: true });
     await group.click();
     const link = page
@@ -46,6 +45,15 @@ test('Early navigation stays open when Home commits during a link press', async 
       .getByRole('link', { name: 'Search & Investigation', exact: true });
     await expect(group).toHaveAttribute('aria-expanded', 'true');
     await expect(link).toBeVisible();
+    // The held page import can keep WebKit's document in its loading state.
+    // Load only the menu font; document.fonts.ready also waits for document load.
+    await link.evaluate(async (element) => {
+      const style = getComputedStyle(element);
+      await document.fonts.load(
+        `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
+        element.textContent ?? '',
+      );
+    });
     const before = await link.boundingBox();
     expect(before).not.toBeNull();
     await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2);
@@ -53,7 +61,7 @@ test('Early navigation stays open when Home commits during a link press', async 
 
     // A lazy page and its footer must not close or move the navigation mid-gesture.
     release();
-    await navigation;
+    await page.waitForLoadState('load');
     await expect(page.locator('main h1')).toBeVisible();
     await expect(page.locator('footer')).toBeVisible();
     await expect(group).toHaveAttribute('aria-expanded', 'true');
