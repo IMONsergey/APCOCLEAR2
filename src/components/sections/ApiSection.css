@@ -35,9 +35,7 @@
 .api-copy h2 {
   font-size: var(--type-section-size);
   line-height: 1;
-}
-.api-copy > svg {
-  margin: var(--space-6) 0 var(--space-5);
+  margin-bottom: var(--space-6);
 }
 .api-copy p {
   max-width: 478px;
