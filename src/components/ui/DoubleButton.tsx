@@ -1,6 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import { Icon, type IconName } from './Icon';
-import { LinkLanguageHint } from './LinkLanguageHint';
 type Shared = {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'inverse' | 'dark';
@@ -26,10 +25,7 @@ export function DoubleButton({
     `double-button double-button--${variant}${compact ? ' double-button--compact' : ''} ${className}`.trim();
   const content = (
     <>
-      <span className="double-button__label">
-        {children}
-        {'href' in rest && rest.href && <LinkLanguageHint href={rest.href} />}
-      </span>
+      <span className="double-button__label">{children}</span>
       <span className="double-button__icon">
         <Icon name={icon} />
       </span>

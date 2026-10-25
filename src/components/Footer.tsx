@@ -3,7 +3,6 @@ import { useLocale } from '../i18n/context';
 import { footerGroups } from '../content/navigation';
 import { supportEmail } from '../config/site';
 import { Logo } from './ui/Logo';
-import { LinkLanguageHint } from './ui/LinkLanguageHint';
 import { siteHref } from '../app/paths';
 import { CookiePreferences } from './ui/CookiePreferences';
 export function Footer() {
@@ -22,7 +21,6 @@ export function Footer() {
                   <li key={label}>
                     <a href={href.startsWith('/') ? siteHref(href) : href}>
                       <LocaleText>{t(label)}</LocaleText>
-                      <LinkLanguageHint href={href.startsWith('/') ? siteHref(href) : href} />
                     </a>
                   </li>
                 ))}

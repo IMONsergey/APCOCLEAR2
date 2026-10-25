@@ -5,7 +5,6 @@ import { supportEmail } from '../../config/site';
 import { siteHref } from '../../app/paths';
 import { DoubleButton } from '../../components/ui/DoubleButton';
 import { SelectField } from '../../components/ui/SelectField';
-import { LinkLanguageHint } from '../../components/ui/LinkLanguageHint';
 import { MorphPanel } from '../../components/ui/MorphPanel';
 import { useLocale } from '../../i18n/context';
 import { readContactDraft, saveContactDraft, type ContactDraft } from './contactDraft';
@@ -183,10 +182,7 @@ export default function ContactForm({
         />{' '}
         <span>
           {privacyBefore}
-          <a href={siteHref('/legal/privacy-policy')}>
-            {t('Privacy Policy')}
-            <LinkLanguageHint href={siteHref('/legal/privacy-policy')} />
-          </a>
+          <a href={siteHref('/legal/privacy-policy')}>{t('Privacy Policy')}</a>
           {privacyAfter}
         </span>
       </label>

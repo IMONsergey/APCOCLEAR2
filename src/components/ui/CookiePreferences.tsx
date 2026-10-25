@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Modal } from './Modal';
 import { DoubleButton } from './DoubleButton';
-import { LinkLanguageHint } from './LinkLanguageHint';
 import { siteHref } from '../../app/paths';
 import { LocaleText } from '../../i18n/LocaleText';
 import { useLocale } from '../../i18n/context';
@@ -50,7 +49,6 @@ export function CookiePreferences() {
             <LocaleText>{t('For the current legal policy, see')}</LocaleText>{' '}
             <a href={siteHref('/legal/cookie-policy')} onClick={() => setOpen(false)}>
               <LocaleText>{t('Cookie Policy')}</LocaleText>
-              <LinkLanguageHint href={siteHref('/legal/cookie-policy')} />
             </a>
             .
           </p>

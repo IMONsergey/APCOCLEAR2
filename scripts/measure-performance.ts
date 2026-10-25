@@ -236,10 +236,17 @@ try {
         const load = await page.evaluate(() => {
           const r = window.__performanceSample;
           const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-          const bytes = (extension: RegExp) =>
-            resources
-              .filter((entry) => extension.test(new URL(entry.name).pathname))
-              .reduce((sum, entry) => sum + entry.transferSize, 0);
+          let scriptBytes = 0,
+            styleBytes = 0,
+            fontBytes = 0,
+            imageBytes = 0;
+          for (const entry of resources) {
+            const path = new URL(entry.name).pathname;
+            if (/\.js$/.test(path)) scriptBytes += entry.transferSize;
+            else if (/\.css$/.test(path)) styleBytes += entry.transferSize;
+            else if (/\.woff2$/.test(path)) fontBytes += entry.transferSize;
+            else if (/\.(?:webp|svg|png)$/.test(path)) imageBytes += entry.transferSize;
+          }
           let start = 0,
             last = 0,
             sum = 0,
@@ -257,10 +264,10 @@ try {
             fcpMs: performance.getEntriesByName('first-contentful-paint')[0]?.startTime ?? 0,
             cls,
             requestCount: resources.length,
-            scriptBytes: bytes(/\.js$/),
-            styleBytes: bytes(/\.css$/),
-            fontBytes: bytes(/\.woff2$/),
-            imageBytes: bytes(/\.(?:webp|svg|png)$/),
+            scriptBytes,
+            styleBytes,
+            fontBytes,
+            imageBytes,
             lcpMs: r.lcp,
             longTaskCount: r.longTasks.length,
             blockingMs: r.longTasks.reduce((sum, duration) => sum + Math.max(0, duration - 50), 0),
@@ -293,9 +300,11 @@ try {
       console.log(`${profile.name} ${route || '/'}: ${runs} cold runs complete`);
     }
   const median = (values: readonly number[]): number => {
-    const value = [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
+    const sorted = [...values].sort((a, b) => a - b);
+    const middle = Math.floor(sorted.length / 2);
+    const value = sorted[middle];
     if (value === undefined) throw new Error('Cannot calculate a median without samples.');
-    return value;
+    return sorted.length % 2 ? value : (sorted[middle - 1]! + value) / 2;
   };
   const summary = profiles.flatMap(({ name }) =>
     routes.map((route) => {

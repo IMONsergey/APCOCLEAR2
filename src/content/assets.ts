@@ -1,4 +1,5 @@
-import manifest, { assetDirectories, artwork } from './asset-manifest';
+import type manifest from './asset-manifest';
+import { assetDirectories, artwork } from './asset-manifest';
 
 export type AssetGroup = keyof typeof manifest.groups;
 export type AssetFile<G extends AssetGroup> = (typeof manifest.groups)[G]['files'][number];

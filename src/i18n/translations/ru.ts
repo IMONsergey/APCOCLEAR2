@@ -1111,7 +1111,6 @@ export default {
     'Планируете коммерческое использование данных? До покупки уточните у Apcosys, разрешено ли оно на выбранном тарифе.',
   'Confirm data usage': 'Уточнить условия использования',
   'View all plan features': 'Все возможности тарифов',
-  'Available in English': 'Доступно на английском',
   'API key': 'API-ключ',
   'Query credits remaining': 'Остаток кредитов на запросы',
   'Scan credits remaining': 'Остаток кредитов на сканирование',
