@@ -709,6 +709,22 @@ html[data-theme='dark'] .application-scene {
     font-size: var(--font-size-18);
   }
 }
+@container application (max-width: 319px) {
+  .application-results-columns,
+  .application-result {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+  .application-results-columns > span:last-child {
+    display: none;
+  }
+  .application-result > .application-country {
+    grid-column: 1 / -1;
+  }
+  .application-result .application-technology,
+  .application-dns-names {
+    display: none;
+  }
+}
 @container application (max-width: 279px) {
   .application-product-scene {
     padding: var(--space-2);
@@ -716,21 +732,6 @@ html[data-theme='dark'] .application-scene {
   .application-query-bar > .application-glyph,
   .application-search-action > span:last-child,
   .application-product-scene .application-object-tabs > span:last-child {
-    display: none;
-  }
-  .application-results-columns {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  }
-  .application-results-columns > span:last-child {
-    display: none;
-  }
-  .application-result {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  }
-  .application-result > .application-country {
-    grid-column: 1 / -1;
-  }
-  .application-result .application-technology {
     display: none;
   }
   .application-host-heading .application-country {
@@ -754,9 +755,6 @@ html[data-theme='dark'] .application-scene {
   }
   .application-evidence-scene {
     gap: var(--space-1);
-  }
-  .application-dns-names {
-    display: none;
   }
   .application-refine-scene {
     gap: var(--space-2);

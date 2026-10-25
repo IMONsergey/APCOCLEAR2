@@ -124,8 +124,11 @@
   transition: transform 320ms var(--ease);
 }
 .step-illustration > .application-scene {
+  /* Fill the resolved frame, including its minimum height in WebKit. */
+  position: absolute;
+  inset: 0;
   min-height: 0;
-  height: 100%;
+  height: auto;
 }
 @container research (max-width: 1199px) {
   .section-heading-row {

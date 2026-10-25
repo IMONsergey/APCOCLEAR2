@@ -3,6 +3,7 @@
   padding-bottom: var(--section-space);
 }
 .api-docs__header {
+  container: api-docs-header / inline-size;
   padding-block: var(--space-9) var(--space-8);
 }
 .api-docs__back,
@@ -360,5 +361,10 @@
   }
   .api-docs__costs {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container api-docs-header (max-width: 280px) {
+  .api-docs__header h1 {
+    font-size: var(--font-size-32);
   }
 }

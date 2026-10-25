@@ -1,6 +1,6 @@
 # Application demonstrations — 25 October 2026
 
-The five Home research scenes and the API illustration follow the current Apcosys SaaS interface. They are translated React/HTML excerpts with native playback and real pause controls outside the inert illustrations. Research frames contain their readable content at a natural height, with a 300px minimum; the former fixed-height crop is no longer the layout contract. The homepage retains all 13 sections in the approved order, including both Audience illustrations.
+The five Home research scenes and the API illustration follow the current Apcosys SaaS interface. They are translated React/HTML excerpts with native playback and real pause controls outside the inert illustrations. Research frames use a preferred 3:2 aspect ratio with a 300px minimum height; their excerpts adapt to the available width so all visible text fits. The homepage retains all 13 sections in the approved order, including both Audience illustrations.
 
 This document describes the implementation in source. [Final readiness](FINAL-READINESS.md) records the current verification scope and links to the commit-associated release workflow. The historical results below are not evidence for this revision.
 
@@ -41,7 +41,7 @@ Credit meters derive their fill from the displayed remaining/allowance values. T
 
 The shared `ApplicationFrame` contains the scene and decorative cursor without a logo strip, navigation shell or shared screen header. Controls within the search box belong to the excerpt itself. The first query scene has no artwork.
 
-- All five research excerpts fit inside their cards. `--step-copy-inset` coordinates the text and illustration left edges at each carousel breakpoint. Frames have a **300px minimum** and can grow with their translated content. A preferred aspect ratio can balance short scenes, but it is not a fixed-height or permitted-cropping requirement. Visible text must fit within both its scene and card.
+- All five research excerpts fit inside their cards. `--step-copy-inset` coordinates the text and illustration left edges at each carousel breakpoint. Frames have a **300px minimum height** and a preferred **3:2 aspect ratio**. Each scene fills that resolved frame, including in WebKit; responsive composition keeps all visible text inside both the scene and card. Narrow Results rows place the country below the host, and TLS omits the secondary DNS row while retaining the domain in the host and certificate subject.
 - The carousel retains one card through 767px, two from 768px and three from 1200px. Shared rows keep the card text and media aligned.
 - Research body text has a **12px minimum**; primary identifiers and selected details use larger shared type roles where space permits. Compact breakpoints simplify secondary detail instead of scaling the whole interface down.
 - API body text, labels and actions use **14px**, card headings 14px and the API heading 20px; the compact status badge uses 12px. The synthetic mask uses the supplied Latin monospace face so CJK fallback glyph widths cannot overflow its field. Above 479px of application-container width, credentials and their access summary sit in two columns; at 479px and below they stack. Usage metrics sit side by side where they fit and stack at application widths up to 319px, preserving long translated labels.

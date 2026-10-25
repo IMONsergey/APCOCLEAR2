@@ -117,12 +117,36 @@ for (const width of [390, 1440]) {
 test('evidence pointer follows the last visible target when responsive DNS details are hidden', async ({
   page,
 }) => {
+  test.setTimeout(60_000);
   await page.goto('./');
   const scene = page.locator('.application-scene[data-scene="evidence"]');
-  for (const width of [320, 390, 1440, 390]) {
-    await page.setViewportSize({ width, height: 950 });
+  for (const { viewport, container } of [
+    { viewport: 320 },
+    { viewport: 390 },
+    { viewport: 1440, container: 319 },
+    { viewport: 1440, container: 320 },
+    { viewport: 1440 },
+    { viewport: 390 },
+  ]) {
+    await page.setViewportSize({ width: viewport, height: 950 });
+    await scene.evaluate((element: HTMLElement, width) => {
+      const style = getComputedStyle(element);
+      const borders = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+      element.style.width = width === undefined ? '' : `${width + borders}px`;
+    }, container);
     await scene.scrollIntoViewIfNeeded();
-    const hidden = width < 1440;
+    const inlineSize = await scene.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return (
+        element.getBoundingClientRect().width -
+        parseFloat(style.borderLeftWidth) -
+        parseFloat(style.borderRightWidth) -
+        parseFloat(style.paddingLeft) -
+        parseFloat(style.paddingRight)
+      );
+    });
+    if (container !== undefined) expect(inlineSize).toBeCloseTo(container, 1);
+    const hidden = inlineSize <= 319;
     if (hidden) await expect(scene.locator('[data-demo-target="tls-names"]')).toBeHidden();
     else await expect(scene.locator('[data-demo-target="tls-names"]')).toBeVisible();
     const target = hidden ? 'tls-validity' : 'tls-names';
@@ -158,7 +182,7 @@ test('evidence pointer follows the last visible target when responsive DNS detai
           }, target),
         {
           timeout: 12000,
-          message: `${width}px: TLS phase 3 stays on the visible ${target} record after resizing`,
+          message: `${viewport}px viewport / ${inlineSize}px container: TLS phase 3 stays on the visible ${target} record after resizing`,
         },
       )
       .toBe(true);

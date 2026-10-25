@@ -219,8 +219,69 @@ async function expectApplicationScene(scene: Locator, node: string) {
   await expect(scene).toHaveAttribute('data-demo-playback', 'static');
   await expect(scene).toHaveAttribute('data-demo-phase', '0');
   await expect(scene.locator('.application-demo-cursor')).toBeHidden();
+  if ((await scene.getAttribute('data-scene')) !== 'api') {
+    const deviations = await scene.evaluate((element) => {
+      const frame = element.closest('.step-illustration')!.getBoundingClientRect();
+      const content = element.getBoundingClientRect();
+      return [
+        content.left - frame.left,
+        content.top - frame.top,
+        content.right - frame.right,
+        content.bottom - frame.bottom,
+      ].map(Math.abs);
+    });
+    expect(
+      Math.max(...deviations),
+      'the research scene fills the actual illustration frame on every browser',
+    ).toBeLessThanOrEqual(1);
+  }
   await expectDecodedAssets(scene);
 }
+
+test('results and TLS excerpts adapt at their actual narrow container boundaries', async ({
+  page,
+}) => {
+  await openHome(page, './ru/', 'light', 1440);
+  for (const name of ['results', 'evidence']) {
+    const scene = page.locator(`.application-scene[data-scene="${name}"]`);
+    await scene.scrollIntoViewIfNeeded();
+    for (const width of [279, 280, 292, 319, 320]) {
+      await test.step(`${name}: ${width}px container`, async () => {
+        const inlineSize = await scene.evaluate((element: HTMLElement, width) => {
+          const style = getComputedStyle(element);
+          const borders = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+          element.style.width = `${width + borders}px`;
+          return (
+            element.getBoundingClientRect().width -
+            borders -
+            parseFloat(style.paddingLeft) -
+            parseFloat(style.paddingRight)
+          );
+        }, width);
+        expect(inlineSize).toBeCloseTo(width, 1);
+        if (name === 'results') {
+          const columns = scene.locator('.application-results-columns');
+          expect(
+            await columns.evaluate(
+              (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length,
+            ),
+          ).toBe(width <= 319 ? 2 : 3);
+          await expect(
+            scene.locator('.application-result > .application-country:visible'),
+          ).toHaveCount(2);
+        } else {
+          const dns = scene.locator('[data-demo-target="tls-names"]');
+          if (width <= 319) await expect(dns).toBeHidden();
+          else await expect(dns).toBeVisible();
+          await expect(scene.locator('.application-certificate dd').first()).toHaveText(
+            'node-1.example.com',
+          );
+        }
+        await expectReadableContents(scene, 11.5, true);
+      });
+    }
+  }
+});
 
 for (const locale of locales) {
   test(`application TLS playback preserves the selected HTTPS certificate context: ${locale.language}`, async ({

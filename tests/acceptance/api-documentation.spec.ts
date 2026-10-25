@@ -1,5 +1,25 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { wcagAxe } from '../helpers/accessibility';
+
+async function documentationTitle(page: Page) {
+  return page.locator('.api-docs h1').evaluate((heading) => {
+    const box = heading.getBoundingClientRect();
+    const range = document.createRange();
+    range.selectNodeContents(heading);
+    return {
+      width: box.width,
+      fontSize: parseFloat(getComputedStyle(heading).fontSize),
+      clipped: [...range.getClientRects()]
+        .filter(
+          (rect) =>
+            rect.width > 0 &&
+            (rect.left < Math.max(0, box.left) - 1 ||
+              rect.right > Math.min(innerWidth, box.right) + 1),
+        )
+        .map((rect) => ({ left: rect.left, right: rect.right })),
+    };
+  });
+}
 
 const documentedMethods = [
   ['POST', '/search/hosts'],
@@ -124,7 +144,6 @@ for (const locale of [
             aligned:
               Math.abs(header.left - layout.left) <= 1 &&
               Math.abs(header.right - layout.right) <= 1,
-            titleSize: parseFloat(getComputedStyle(article.querySelector('h1')!).fontSize),
             cells: [...article.querySelectorAll('th,td')]
               .filter((cell) => !(innerWidth < 600 && cell.closest('.api-docs__fields thead')))
               .map((cell) => ({
@@ -139,7 +158,26 @@ for (const locale of [
         });
         expect(geometry.overflow, `${width}px`).toBeLessThanOrEqual(1);
         expect(geometry.aligned).toBe(true);
-        expect(geometry.titleSize).toBeGreaterThanOrEqual(40);
+        const title = await documentationTitle(page);
+        expect(title.clipped, `${locale.lang} ${width}px title`).toEqual([]);
+        expect(title.fontSize).toBe(title.width <= 280 ? 32 : width <= 599 ? 40 : 48);
+        if (width === 320) {
+          for (const [model, css] of [
+            ['overlay', 'html { scrollbar-width: none; scrollbar-gutter: auto; }'],
+            [
+              'classic',
+              'html { scrollbar-width: auto; scrollbar-gutter: stable; overflow-y: scroll; } html::-webkit-scrollbar { width: 20px; }',
+            ],
+          ] as const) {
+            const scrollbar = await page.addStyleTag({ content: css });
+            const narrowTitle = await documentationTitle(page);
+            expect(narrowTitle.clipped, `${locale.lang} ${theme} ${model} title`).toEqual([]);
+            expect(narrowTitle.fontSize).toBe(narrowTitle.width <= 280 ? 32 : 40);
+            await scrollbar.evaluate((element) => {
+              element.parentNode?.removeChild(element);
+            });
+          }
+        }
         for (const cell of geometry.cells) {
           expect(cell.overflow, `${locale.lang} ${width}px cell`).toBeLessThanOrEqual(1);
           expect(cell.size).toBeGreaterThanOrEqual(cell.header ? 14 : 16);
