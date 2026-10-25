@@ -15,6 +15,10 @@ test('Russian page styles and display fonts start before application code is ava
   });
   try {
     await page.goto('./ru/about/', { waitUntil: 'commit' });
+    await expect(page.locator('script[type="module"][src]')).toHaveAttribute(
+      'fetchpriority',
+      'high',
+    );
     await expect
       .poll(() => requested.some((url) => /CorporatePages-[\w-]+\.css$/.test(url)))
       .toBe(true);

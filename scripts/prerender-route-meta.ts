@@ -16,7 +16,11 @@ if (
 )
   throw new Error('Routes must have unique safe paths, titles and descriptions.');
 const dist = resolve('dist');
-const template = await readFile(join(dist, 'index.html'), 'utf8');
+// Vite creates the entry script tag during build, so set its priority on the final HTML.
+const template = (await readFile(join(dist, 'index.html'), 'utf8')).replace(
+  /<script\b(?=[^>]*\btype="module")(?=[^>]*\bsrc=)/g,
+  '<script fetchpriority="high"',
+);
 const manifest = await readBuildManifest();
 const escape = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -86,6 +90,10 @@ function preloadPage(html: string, group: RouteGroup, locale: Locale): string {
           `<link rel="preload" as="font" type="font/woff2" href="${base}/fonts/onest-${subset}.woff2" crossorigin />`,
         );
   }
+  if (group === 'documentation')
+    links.push(
+      `<link rel="preload" as="font" type="font/woff2" href="${base}/fonts/ibm-plex-mono-latin.woff2" crossorigin />`,
+    );
   return html.replace('</head>', links.join('\n') + '\n</head>');
 }
 const sitemapEntries: string[] = [];
