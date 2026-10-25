@@ -985,12 +985,16 @@ export default {
   '{count} service records': '{count} 筆服務記錄',
   '{name} interactive illustrated workflow': '{name} 互動式說明工作流程',
   '{address} · Reserved example address.': '{address} · 保留的範例位址。',
+  'A defined boundary surrounds infrastructure being observed.':
+    '明確的邊界環繞正在觀測的基礎設施。',
   'A precise connection carries data between two software systems.':
     '一條精確的連線在兩個軟體系統之間傳遞資料。',
   'A single teal connection links three transparent layers of observations.':
     '一條藍綠色連線串起三層透明的觀測資料。',
   'Added in this example: {technology}': '此範例中新增：{technology}',
   Analytics: '分析',
+  'An open structure makes the internet’s technical layers visible.':
+    '開放式結構呈現網際網路的技術層次。',
   'An optical lens brings one infrastructure host into focus.':
     '光學透鏡將一部基礎設施主機聚焦呈現。',
   'API code example': 'API 程式碼範例',
