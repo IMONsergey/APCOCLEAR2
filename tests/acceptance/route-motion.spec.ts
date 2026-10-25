@@ -166,50 +166,57 @@ for (const width of [390, 1440]) {
   });
 }
 
-test('continuous scrolling limits history writes and keeps the latest position', async ({
-  page,
-}) => {
-  const errors: string[] = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('./platform/search-investigation#search-syntax');
-  await expect(page.locator('#search-syntax')).toBeInViewport();
-  await page.evaluate(() => document.fonts.ready);
-  const sample = await page.evaluate(async () => {
-    const replace = history.replaceState.bind(history);
-    let writes = 0;
-    history.replaceState = (...args: Parameters<History['replaceState']>) => {
-      writes++;
-      return replace(...args);
-    };
-    const start = performance.now();
-    for (let frame = 0; frame < 150; frame++) {
-      scrollTo({ top: 200 + frame * 3, behavior: 'instant' });
-      await new Promise(requestAnimationFrame);
-    }
-    history.replaceState = replace;
-    return { writes, elapsed: performance.now() - start };
-  });
-  expect(sample.writes).toBeLessThanOrEqual(Math.ceil(sample.elapsed / 400) + 2);
-  expect(errors).toEqual([]);
+for (const mode of ['native', 'fallback', 'reduced'] as const) {
+  test(`continuous scrolling limits history writes and keeps the latest position: ${mode}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: mode === 'reduced' ? 'reduce' : 'no-preference' });
+    if (mode === 'fallback')
+      await page.addInitScript(() => {
+        Object.defineProperty(document, 'startViewTransition', { value: undefined });
+      });
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto('./platform/search-investigation#search-syntax');
+    await expect(page.locator('#search-syntax')).toBeInViewport();
+    await page.evaluate(() => document.fonts.ready);
+    const sample = await page.evaluate(async () => {
+      const replace = history.replaceState.bind(history);
+      let writes = 0;
+      history.replaceState = (...args: Parameters<History['replaceState']>) => {
+        writes++;
+        return replace(...args);
+      };
+      const start = performance.now();
+      for (let frame = 0; frame < 150; frame++) {
+        scrollTo({ top: 200 + frame * 3, behavior: 'instant' });
+        await new Promise(requestAnimationFrame);
+      }
+      history.replaceState = replace;
+      return { writes, elapsed: performance.now() - start };
+    });
+    expect(sample.writes).toBeLessThanOrEqual(Math.ceil(sample.elapsed / 400) + 2);
+    expect(errors).toEqual([]);
 
-  await page.evaluate(() => {
-    document.querySelector<HTMLAnchorElement>('.site-header a[href$="/pricing"]')!.click();
+    await page.evaluate(() => {
+      document.querySelector<HTMLAnchorElement>('.site-header a[href$="/pricing"]')!.click();
+    });
+    await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    await page.evaluate(() => {
+      scrollTo({ top: 600, behavior: 'instant' });
+      // Leave before the next persisted snapshot; Forward still needs the exact position.
+      window.dispatchEvent(new Event('scroll'));
+      history.back();
+    });
+    await expect(page.locator('main')).toHaveAttribute(
+      'data-route',
+      '/platform/search-investigation',
+    );
+    await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 647))).toBeLessThan(2);
+    await page.goForward();
+    await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
+    await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 600))).toBeLessThan(2);
+    expect(errors).toEqual([]);
   });
-  await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
-  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
-  await page.evaluate(() => {
-    scrollTo({ top: 600, behavior: 'instant' });
-    // Leave before the next persisted snapshot; Forward still needs the exact position.
-    window.dispatchEvent(new Event('scroll'));
-    history.back();
-  });
-  await expect(page.locator('main')).toHaveAttribute(
-    'data-route',
-    '/platform/search-investigation',
-  );
-  await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 647))).toBeLessThan(2);
-  await page.goForward();
-  await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
-  await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 600))).toBeLessThan(2);
-  expect(errors).toEqual([]);
-});
+}

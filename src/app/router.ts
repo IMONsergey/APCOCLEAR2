@@ -162,8 +162,11 @@ export function useSiteRoute(locale: Locale) {
       }
     };
     const sync = () => {
-      currentKey = entryKey();
-      void navigate(getRoutePath(), undefined, scrollPositions.get(currentKey) ?? savedScrollY());
+      const key = entryKey();
+      const rememberedY = scrollPositions.get(key) ?? savedScrollY();
+      scrollPositions.set(currentKey, scrollY);
+      currentKey = key;
+      void navigate(getRoutePath(), undefined, rememberedY);
     };
     const internalAnchor = (target: EventTarget | null) => {
       if (!(target instanceof Element)) return null;
