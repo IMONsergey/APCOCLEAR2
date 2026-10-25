@@ -280,6 +280,7 @@
 }
 .api-docs__closing a {
   display: inline-flex;
+  gap: var(--space-2);
   align-items: center;
   min-height: 44px;
 }

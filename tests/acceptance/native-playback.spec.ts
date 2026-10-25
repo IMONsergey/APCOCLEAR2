@@ -214,7 +214,7 @@ test('a live reduced-motion change restores the complete query while it is being
   await expect(scene).toHaveAttribute('data-demo-phase', '1');
 });
 
-test('the research carousel pauses every scene and resumes the current action', async ({
+test('the research carousel keeps its animations automatic without a playback control', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 950 });
@@ -223,24 +223,12 @@ test('the research carousel pauses every scene and resumes the current action', 
   const query = carousel.locator('.application-scene[data-scene="query"]');
   await query.scrollIntoViewIfNeeded();
   await expect(query).toHaveAttribute('data-demo-action', '1');
-  await carousel.getByRole('button', { name: 'Pause product animation', exact: true }).click();
-  const phase = await query.getAttribute('data-demo-phase');
-  const action = await query.getAttribute('data-demo-action');
-  await expect(query).toHaveAttribute('data-demo-playback', 'paused');
-  await expect(query.locator('[data-demo-query]')).toHaveText('nginx');
-  await page.waitForTimeout(800);
-  await expect(query).toHaveAttribute('data-demo-phase', phase!);
-  await expect(query).toHaveAttribute('data-demo-action', action!);
-  for (const scene of await carousel.locator('.application-scene').all()) {
-    await expect(scene).not.toHaveAttribute('data-demo-playback', 'playing');
-    await expect(scene.locator('.application-demo-cursor')).toBeHidden();
-  }
-  await carousel.getByRole('button', { name: 'Play product animation', exact: true }).click();
+  await expect(carousel.getByRole('button', { name: 'Pause product animation' })).toHaveCount(0);
+  await expect(carousel.locator('.carousel-arrows .icon-button')).toHaveCount(2);
   await expect(query).toHaveAttribute('data-demo-playback', 'playing');
-  await expect(query).toHaveAttribute('data-demo-phase', phase!);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(carousel.locator('.demo-playback-toggle')).toBeHidden();
   await expect(query).toHaveAttribute('data-demo-playback', 'static');
+  await expect(query.locator('.application-demo-cursor')).toBeHidden();
 });
 
 for (const width of [390, 1440]) {
@@ -305,7 +293,7 @@ for (const width of [390, 1440]) {
   });
 }
 
-test('API actions follow the pointer and manual pause preserves the usage view', async ({
+test('API actions follow the pointer and reduced motion restores the key view', async ({
   page,
 }) => {
   await page.goto('./');
@@ -359,24 +347,13 @@ test('API actions follow the pointer and manual pause preserves the usage view',
   expect(actions).toEqual({ copy: true, usage: true });
   await expect(scene).toHaveAttribute('data-demo-phase', '2');
   await expect(scene).toHaveAttribute('data-api-view', 'usage');
-  const toggle = page.locator('.api-illustration').getByRole('button');
-  await expect(toggle).toHaveAccessibleName('Pause product animation');
-  await toggle.click();
-  await expect(toggle).toBeFocused();
-  await expect(scene).toHaveAttribute('data-demo-playback', 'paused');
-  await expect(scene.locator('.application-demo-cursor')).toBeHidden();
-  const paused = await scene.getAttribute('data-demo-action');
-  await page.waitForTimeout(1800);
-  await expect(scene).toHaveAttribute('data-demo-action', paused!);
-  await expect(scene).toHaveAttribute('data-api-view', 'usage');
-  await toggle.press('Enter');
+  await expect(page.locator('.api-illustration').getByRole('button')).toHaveCount(0);
   await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
   await expect(scene).toHaveAttribute('data-api-view', 'usage');
   await expect(scene.locator('.application-demo-cursor')).toBeVisible();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(scene).toHaveAttribute('data-demo-playback', 'static');
   await expect(scene.locator('[data-api-panel="key"]')).toBeVisible();
-  await expect(toggle).toBeHidden();
 });
 
 async function openEvidence(page: Page) {

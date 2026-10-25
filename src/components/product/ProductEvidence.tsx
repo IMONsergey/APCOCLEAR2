@@ -45,9 +45,8 @@ export function ProductEvidence({
         ? ['SSH-2.0-OpenSSH_9.6', 'Protocol: SSH / TCP']
         : ['HTTP/1.1 301 Moved Permanently', 'Location: https://' + host.hostname];
   const root = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
   const [playbackCaption, setPlaybackCaption] = useState('Query, host, service, context');
-  useEvidencePlayback(root, scenario + mode + host.ip + service.port, paused, setPlaybackCaption);
+  useEvidencePlayback(root, scenario + mode + host.ip + service.port, false, setPlaybackCaption);
   return (
     <div
       ref={root}
@@ -67,18 +66,6 @@ export function ProductEvidence({
             Apcosys <span className="product-evidence__slash">/</span>{' '}
             <LocaleText>{t(mode === 'cve' ? 'CVE CONTEXT' : 'INVESTIGATION')}</LocaleText>
           </span>
-          <button
-            className="evidence-playback-toggle"
-            type="button"
-            aria-label={t(paused ? 'Play product animation' : 'Pause product animation')}
-            aria-pressed={paused}
-            onClick={() => setPaused(!paused)}
-          >
-            <LocaleText>{t(paused ? 'Play' : 'Pause')}</LocaleText>
-            <svg viewBox="0 0 10 12" aria-hidden="true">
-              <path d={paused ? 'M1 0L10 6L1 12Z' : 'M1 0H4V12H1ZM6 0H9V12H6Z'} />
-            </svg>
-          </button>
         </div>
         <div className="product-evidence__query">
           <span className="product-evidence__mono">
