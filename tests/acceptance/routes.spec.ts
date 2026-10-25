@@ -113,3 +113,56 @@ test('Cookie preferences disclose disabled analytics', async ({ page }) => {
     'essential',
   );
 });
+
+for (const width of [390, 1440]) {
+  test(`Cold anchored navigation keeps the language trigger available during a press: ${width}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    let release = () => {};
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route(/\/PlatformPages-[\w-]+\.js$/, async (route) => {
+      await held;
+      await route.continue();
+    });
+    try {
+      await page.goto('./platform/data-methodology?source=language#coverage', {
+        waitUntil: 'commit',
+      });
+      await expect(page.locator('main .route-fallback')).toBeVisible();
+      const trigger = page.locator('[data-language-selector]');
+      await expect(trigger).toBeVisible();
+      await trigger.evaluate(async (element) => {
+        const style = getComputedStyle(element);
+        await document.fonts.load(
+          `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
+          element.textContent ?? '',
+        );
+      });
+      const box = await trigger.boundingBox();
+      expect(box).not.toBeNull();
+      await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+      await page.mouse.down();
+      release();
+      await page.waitForLoadState('load');
+      await expect(page.locator('#coverage')).toBeInViewport();
+      const header = page.locator('.site-header');
+      await expect(header).toHaveAttribute('data-compact', 'true');
+      await expect(header).toHaveAttribute('data-hidden', 'false');
+      await page.mouse.up();
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.locator('.language-panel')).toHaveCSS('opacity', '1');
+      await page.getByRole('menuitemradio', { name: 'Русский', exact: true }).click();
+      await expect(page).toHaveURL(
+        /\/ru\/platform\/data-methodology\/?\?source=language#coverage$/,
+      );
+      await expect(page.locator('#coverage')).toBeInViewport();
+      await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+    } finally {
+      release();
+      await page.mouse.up();
+    }
+  });
+}
