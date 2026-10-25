@@ -63,24 +63,15 @@ const localizedPath = (path: string, locale: Locale): string => {
 };
 const locales: readonly Locale[] = ['en', 'ru', 'zh-Hant'];
 function preloadPage(html: string, group: RouteGroup, locale: Locale): string {
-  const startupEntries = ['index.html'];
-  if (locale !== 'en') startupEntries.push(`src/i18n/translations/${locale}.ts`);
-  if (locale === 'ru') startupEntries.push('src/styles/onest.css', 'src/styles/russian-type.css');
-  const startup = staticAssets(manifest, startupEntries);
-  const entries = [...startupEntries, routeEntries[group]];
-  if (group === 'legal')
-    entries.push(
-      locale === 'en'
-        ? 'src/content/legal-documents.json'
-        : `src/content/legal-translations/${locale}.json`,
-    );
-  // Warm the HTTP cache without putting failed responses in WebKit's module map.
-  // Page resources must not outrank the shared runtime needed for the first render.
+  const entries: string[] = [routeEntries[group]];
+  if (locale === 'ru') entries.push('src/styles/onest.css', 'src/styles/russian-type.css');
+  // Script preloads can retain failed responses across WebKit reloads. Warm only styles;
+  // their download must not outrank the shared runtime needed for the first render.
   const links = [...staticAssets(manifest, entries)]
-    .filter((file) => !html.includes(`"${base}/${file}"`))
+    .filter((file) => file.endsWith('.css') && !html.includes(`"${base}/${file}"`))
     .map(
       (file) =>
-        `<link rel="preload" as="${file.endsWith('.css') ? 'style' : 'script'}" href="${base}/${file}" fetchpriority="${startup.has(file) ? 'high' : 'low'}" crossorigin />`,
+        `<link rel="preload" as="style" href="${base}/${file}" fetchpriority="low" crossorigin />`,
     );
   if (locale !== 'en') {
     html = html.replace(/<link\b(?=[^>]*rel="preload")(?=[^>]*as="font")[^>]*>/g, '');

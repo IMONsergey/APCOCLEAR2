@@ -19,6 +19,9 @@ test('Russian page styles and display fonts start before application code is ava
       'fetchpriority',
       'high',
     );
+    await expect(
+      page.locator('link[rel="modulepreload"], link[rel="preload"][as="script"]'),
+    ).toHaveCount(0);
     await expect
       .poll(() => requested.some((url) => /CorporatePages-[\w-]+\.css$/.test(url)))
       .toBe(true);

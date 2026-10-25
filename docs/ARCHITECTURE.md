@@ -16,9 +16,9 @@ Route modules are lazy loading entrypoints. Corporate, Platform, Commercial and 
 
 Vite groups the mandatory React, React DOM, scheduler and Typograf modules in one shared `site-runtime` chunk. Lazy page entrypoints retain their separate loading boundaries.
 
-One Suspense boundary avoids intermediate empty inner-page renders. A viewport-sized cold-load fallback keeps the footer below the first screen. Legal remains independent of shared illustrated page frames and animation engines. Route HTML contains metadata and preload hints for the current page’s static dependencies, selected language and display fonts; full content is client-rendered. The initial page module and language resources start in parallel. Preloaded CSS retains its normal import order.
+One Suspense boundary avoids intermediate empty inner-page renders. A viewport-sized cold-load fallback keeps the footer below the first screen. Legal remains independent of shared illustrated page frames and animation engines. Route HTML contains metadata and preload hints for the current page’s styles and display fonts; full content is client-rendered. The initial page module and language resources start in parallel. Preloaded CSS retains its normal import order.
 
-Build-time JavaScript `modulepreload` is disabled because WebKit can retain failed preloaded modules. HTTP-cache preload hints and router warming remain enabled. Hints cover only the current route’s static graph; optional motion and other pages remain deferred. Re-enable it only after the network failure and recovery checks pass in supported Safari versions. See [WebKit issue 270357](https://bugs.webkit.org/show_bug.cgi?id=270357).
+Build-time JavaScript `modulepreload` and `preload as="script"` are disabled because WebKit can retain failed preloaded responses across reloads. CSS/font hints and router warming remain enabled; optional motion and other pages stay deferred. Re-enable script preloads only after network and HTTP-error recovery checks pass in supported Safari versions. See [WebKit issue 270357](https://bugs.webkit.org/show_bug.cgi?id=270357).
 
 ## Ownership and dependency rules
 
