@@ -13,6 +13,7 @@ const platformDestinations = [
   'platform/data-methodology',
   'platform/monitoring',
   'responsible-scanning',
+  'docs/investors',
   'contact',
 ];
 
@@ -27,6 +28,7 @@ for (const locale of [
       'Data & Methodology',
       'Monitoring concept',
       'Responsible Scanning',
+      'Investors',
       'Talk to Us',
     ],
   },
@@ -40,6 +42,7 @@ for (const locale of [
       'Данные и методология',
       'Концепция мониторинга',
       'Ответственное сканирование',
+      'Инвесторам',
       'Связаться с нами',
     ],
   },
@@ -47,10 +50,18 @@ for (const locale of [
     language: 'zh-Hant',
     prefix: 'zh-hant/',
     platform: '平台',
-    labels: ['關於我們', '搜尋與調查', '資料與方法論', '監控概念', '負責任的掃描', '聯絡我們'],
+    labels: [
+      '關於我們',
+      '搜尋與調查',
+      '資料與方法論',
+      '監控概念',
+      '負責任的掃描',
+      '投資人',
+      '聯絡我們',
+    ],
   },
 ]) {
-  test(`${locale.language} keeps all six Platform links reachable in short desktop and mobile menus`, async ({
+  test(`${locale.language} keeps all Platform links reachable in short desktop and mobile menus`, async ({
     page,
     baseURL,
   }) => {
@@ -70,7 +81,7 @@ for (const locale of [
     await page.keyboard.press('ArrowDown');
     const panel = page.locator('#nav-panel-0');
     const desktopLinks = panel.getByRole('link');
-    await expect(desktopLinks).toHaveCount(6);
+    await expect(desktopLinks).toHaveCount(platformDestinations.length);
     await expect(desktopLinks).toHaveText(locale.labels);
     expect(
       await desktopLinks.evaluateAll((links) => links.map((link) => link.getAttribute('href'))),
@@ -100,7 +111,7 @@ for (const locale of [
     const mobilePlatform = drawer.locator('.mobile-nav-group').first();
     await expect(mobilePlatform.locator('.eyebrow')).toHaveText(locale.platform);
     const mobileLinks = mobilePlatform.getByRole('link');
-    await expect(mobileLinks).toHaveCount(6);
+    await expect(mobileLinks).toHaveCount(platformDestinations.length);
     await expect(mobileLinks).toHaveText(locale.labels);
     expect(
       await mobileLinks.evaluateAll((links) => links.map((link) => link.getAttribute('href'))),

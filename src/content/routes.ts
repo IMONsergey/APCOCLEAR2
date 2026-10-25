@@ -76,6 +76,13 @@ export const siteRoutes = [
     description: 'Learn about the approach behind Apcosys internet intelligence.',
   },
   {
+    path: '/docs/investors',
+    group: 'investors',
+    title: 'Investors',
+    description:
+      'Explore Apcosys external exposure intelligence and contact the team about investment.',
+  },
+  {
     path: '/responsible-scanning',
     group: 'corporate',
     title: 'Responsible Scanning',

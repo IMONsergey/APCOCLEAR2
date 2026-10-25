@@ -1,4 +1,45 @@
 export default {
+  Investors: '投資人',
+  'For investors.': '投資人專區。',
+  'Investor enquiries': '投資洽詢',
+  'External digital exposure intelligence. Apcosys turns observations of public internet infrastructure into searchable context for security researchers and teams.':
+    '外部數位曝險情報。Apcosys 將公開網際網路基礎架構的觀測資料，轉化為資安研究人員與團隊可搜尋的技術脈絡。',
+  'The opportunity': '市場機會',
+  'Platform foundations': '平台基礎',
+  'The next stage': '下一階段',
+  'For investment enquiries and further company information, contact the Apcosys team directly.':
+    '如需洽詢投資事宜或進一步了解公司，請直接聯絡 Apcosys 團隊。',
+  'Visibility beyond the perimeter.': '看見邊界之外。',
+  'Cloud adoption and distributed infrastructure keep expanding what organisations expose to the public internet.':
+    '雲端服務與分散式基礎架構的普及，讓組織暴露於公開網際網路的系統持續增加。',
+  'Exposed services, infrastructure misconfigurations and data leaks create risks that are difficult to understand from inside an organisation alone. Security teams need an external view of the systems they investigate.':
+    '暴露的服務、基礎架構設定錯誤與資料外洩帶來的風險，很難僅從組織內部掌握。資安團隊需要從外部檢視所調查的系統。',
+  'Apcosys observes publicly accessible infrastructure directly. It brings hosts, services and technologies into a searchable view, helping teams move from a technical signal to the context behind it.':
+    'Apcosys 直接觀測可公開存取的基礎架構，將主機、服務與技術整合為可搜尋的視圖，協助團隊從技術訊號追溯其背後的脈絡。',
+  'A platform built around observations.': '以觀測為基礎的平台。',
+  'The foundation is the connection between internet-scale collection, useful technical context and the workflows that put it to work.':
+    '平台將網際網路規模的資料蒐集、實用的技術脈絡與實際工作流程連結起來。',
+  'Internet-wide perspective.': '網際網路全局視角。',
+  'Observe publicly accessible hosts and services across networks, rather than relying only on information collected inside a customer environment.':
+    '跨網路觀測可公開存取的主機與服務，補充僅從客戶環境內部蒐集的資訊。',
+  'Application-layer context.': '應用層脈絡。',
+  'Connect services, detected technologies and response details so researchers can understand what sits behind an exposed host.':
+    '連結服務、偵測到的技術與回應細節，讓研究人員了解暴露主機背後的內容。',
+  'An investigation workflow.': '調查工作流程。',
+  'Move from a query to matching hosts and technical evidence. Refine the search as each observation raises the next question.':
+    '從查詢進入符合條件的主機與技術證據，並隨著每項觀測引出新問題，逐步調整搜尋。',
+  'Data that teams can use.': '團隊可運用的資料。',
+  'Bring infrastructure intelligence into research, security operations and internal tools through search and API access.':
+    '透過搜尋與 API 存取，將基礎架構情報運用於研究、資安作業與內部工具。',
+  'Building the next stage of Apcosys.': '打造 Apcosys 的下一階段。',
+  'Our focus is continued platform development and market expansion.':
+    '我們專注於持續發展平台並拓展市場。',
+  'We are developing the platform around the needs of security researchers and enterprise teams: richer infrastructure context, practical workflows and scalable access to data.':
+    '我們依據資安研究人員與企業團隊的需求發展平台：更豐富的基礎架構脈絡、實用的工作流程，以及可擴展的資料存取。',
+  'We welcome conversations with investors who share a long-term interest in internet intelligence and external digital exposure. Get in touch to discuss the company, our direction and the next stage of growth.':
+    '我們歡迎與長期關注網際網路情報及外部數位曝險的投資人交流。請聯絡我們，討論公司、發展方向與下一階段的成長。',
+  'An open optical structure brings teal infrastructure signals into a shared centre.':
+    '開放式光學結構將青綠色的基礎架構訊號匯聚至共同中心。',
   'Begin with infrastructure you own or are authorised to assess.':
     '從您擁有或獲授權評估的基礎設施開始。',
   'Compare two recorded snapshots of the selected host.': '比較所選主機的兩份記錄快照。',

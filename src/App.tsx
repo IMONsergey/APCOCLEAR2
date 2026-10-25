@@ -15,6 +15,7 @@ import {
   loadCommercial,
   loadDocumentation,
   loadCorporate,
+  loadInvestors,
   loadLegal,
   loadNotFound,
   routeGroup,
@@ -27,6 +28,7 @@ const pages = {
   commercial: lazy(loadCommercial),
   documentation: lazy(loadDocumentation),
   corporate: lazy(loadCorporate),
+  investors: lazy(loadInvestors),
   legal: lazy(loadLegal),
   notFound: lazy(loadNotFound),
 };

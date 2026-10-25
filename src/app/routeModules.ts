@@ -10,6 +10,7 @@ export const loadCommercial = () => import('../pages/CommercialPages');
 export const loadDocumentation = () => import('../pages/ApiDocumentationPage');
 export const loadLegal = () => import('../pages/LegalPages');
 export const loadCorporate = () => import('../pages/CorporatePages');
+export const loadInvestors = () => import('../pages/corporate/InvestorsPage');
 export const loadNotFound = () => import('../pages/NotFoundPage');
 
 /** One route group, one boundary: no intermediate empty inner-page render. */
@@ -24,6 +25,7 @@ const loaders = {
   commercial: loadCommercial,
   documentation: loadDocumentation,
   corporate: loadCorporate,
+  investors: loadInvestors,
   notFound: loadNotFound,
 } satisfies Record<RouteGroup | 'notFound', () => Promise<unknown>>;
 const pending = new Map<string, Promise<unknown>>();

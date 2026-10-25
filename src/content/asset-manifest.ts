@@ -38,6 +38,9 @@ export const artwork = {
   'inner/about.webp': {
     responsive: false,
   },
+  'inner/investors.webp': {
+    responsive: false,
+  },
   'inner/scanning.webp': {
     responsive: false,
   },

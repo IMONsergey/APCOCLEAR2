@@ -16,6 +16,7 @@ export type ArtworkKey =
   | 'api'
   | 'pricing'
   | 'about'
+  | 'investors'
   | 'scanning'
   | 'contact';
 const artwork: Record<ArtworkKey, { file: ThemedAsset; alt: string }> = {
@@ -58,6 +59,10 @@ const artwork: Record<ArtworkKey, { file: ThemedAsset; alt: string }> = {
   about: {
     file: 'inner/about.webp',
     alt: 'An open structure makes the internet’s technical layers visible.',
+  },
+  investors: {
+    file: 'inner/investors.webp',
+    alt: 'An open optical structure brings teal infrastructure signals into a shared centre.',
   },
   scanning: {
     file: 'inner/scanning.webp',

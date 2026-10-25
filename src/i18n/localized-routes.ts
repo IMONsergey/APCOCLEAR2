@@ -14,6 +14,7 @@ export const localizedRoutes = [
   '/developers/api/docs',
   '/pricing',
   '/about',
+  '/docs/investors',
   '/responsible-scanning',
   '/contact',
   '/legal/api-data-license-agreement',

@@ -42,6 +42,7 @@ const limits: readonly BundleLimit[] = [
   ['src/pages/HomePage.tsx', 132, 29, true],
   ['src/pages/LegalPages.tsx', 120, 10, true],
   ['src/pages/CorporatePages.tsx', 115, 21, true],
+  ['src/pages/corporate/InvestorsPage.tsx', 110, 20, true],
   ['src/pages/PlatformPages.tsx', 122, 26, true],
   ['src/pages/ResearchPages.tsx', 120, 24, true],
   ['src/pages/CommercialPages.tsx', 122, 25, true],

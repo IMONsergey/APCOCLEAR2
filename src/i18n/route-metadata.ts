@@ -66,6 +66,11 @@ export const localizedMetadata = {
     description:
       'Apcosys makes technical observations about internet-facing infrastructure searchable, so security researchers and teams can investigate them.',
   },
+  '/docs/investors': {
+    title: 'For investors.',
+    description:
+      'External digital exposure intelligence. Apcosys turns observations of public internet infrastructure into searchable context for security researchers and teams.',
+  },
   '/responsible-scanning': {
     title: 'How Apcosys scans.',
     description:

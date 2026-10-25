@@ -9,6 +9,7 @@ export const navigation = [
       { label: 'Data & Methodology', href: '/platform/data-methodology' },
       { label: 'Monitoring concept', href: '/platform/monitoring' },
       { label: 'Responsible Scanning', href: '/responsible-scanning' },
+      { label: 'Investors', href: '/docs/investors' },
       { label: 'Talk to Us', href: '/contact' },
     ],
   },
@@ -58,6 +59,7 @@ export const footerGroups = [
     title: 'APCOSYS',
     links: [
       ['About', '/about'],
+      ['Investors', '/docs/investors'],
       ['Responsible Scanning', '/responsible-scanning'],
       ['Talk to Us', '/contact'],
     ],
