@@ -130,10 +130,10 @@ test('Teams keeps one stage rail and carries the selected evidence into the hand
   );
 });
 
-for (const [route, label] of [
-  ['/use-cases/bug-bounty', 'Search your scope'],
-  ['/use-cases/vulnerability-research', 'Search by technology'],
-  ['/use-cases/osint-threat-investigation', 'Look up an IP or domain'],
+for (const [route, label, destination] of [
+  ['/use-cases/bug-bounty', 'Search your scope', /\/search$/],
+  ['/use-cases/vulnerability-research', 'Search for nginx', /\/search\?search_value=nginx$/],
+  ['/use-cases/osint-threat-investigation', 'Look up an IP or domain', /\/search$/],
 ] as const) {
   test(`Use Case ${route} demonstrates the investigation and contextual CTA`, async ({ page }) => {
     await page.goto('.' + route);
@@ -145,7 +145,7 @@ for (const [route, label] of [
     await expect(page.locator('.stage-case-evidence .case-fragment')).toBeVisible();
     await expect(page.getByRole('link', { name: label }).first()).toHaveAttribute(
       'href',
-      /\/search$/,
+      destination,
     );
   });
 }

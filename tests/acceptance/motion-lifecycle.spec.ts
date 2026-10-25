@@ -156,36 +156,33 @@ test('application playback pauses on a document visibility notification and resu
 
 for (const width of [390, 1440]) {
   test(
-    'API expands continuously, handles interruption and settles at ' + width,
+    'API keeps its viewport stable through rapid request and response switches at ' + width,
     async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 });
       await page.goto('./developers/api');
       await page.locator('.stage-code-window').scrollIntoViewIfNeeded();
+      await page.evaluate(() => document.fonts.ready);
       const samples = await page.locator('.stage-code-window').evaluate(async (root) => {
-        const box = root.querySelector<HTMLElement>('.morph-panel')!;
         const buttons = root.querySelectorAll<HTMLButtonElement>('.stage-code-tabs button');
-        const heights = [{ height: box.getBoundingClientRect().height, time: performance.now() }];
+        const heights = [root.getBoundingClientRect().height];
         buttons[1]!.click();
         for (let i = 0; i < 42; i++) {
           await new Promise(requestAnimationFrame);
-          heights.push({ height: box.getBoundingClientRect().height, time: performance.now() });
+          heights.push(root.getBoundingClientRect().height);
         }
         return heights;
       });
-      expectContinuous(samples);
+      expect(Math.max(...samples) - Math.min(...samples)).toBeLessThanOrEqual(1);
       const buttons = page.locator('.stage-code-tabs button');
       await buttons.first().click();
       await buttons.last().click();
       await buttons.first().click();
-      await expect
-        .poll(() =>
-          page
-            .locator('.stage-code-window .morph-panel')
-            .evaluate((el) => el.getAttribute('data-morphing')),
-        )
-        .toBe('false');
       await expect(page.locator('.stage-code-window pre')).toContainText(
         'https://api.apcosys.net/api/v1/search/hosts',
+      );
+      expect((await page.locator('.stage-code-window').boundingBox())!.height).toBeCloseTo(
+        samples[0]!,
+        0,
       );
     },
   );

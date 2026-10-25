@@ -191,9 +191,17 @@ export default function ContactForm({
         </span>
       </label>
       <div className="stage-form-actions">
-        <DoubleButton type="submit" className="stage-contact-submit" disabled={opening}>
+        <DoubleButton
+          type="submit"
+          className="stage-contact-submit"
+          disabled={opening}
+          aria-describedby="contact-email-hint"
+        >
           {t(opening ? 'Opening email…' : 'Email us')}
         </DoubleButton>
+        <p id="contact-email-hint" className="stage-contact-email-hint">
+          {t('Opens a draft in your email app.')}
+        </p>
       </div>
       {status && (
         <MorphPanel className="stage-form-feedback">

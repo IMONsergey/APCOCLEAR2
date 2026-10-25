@@ -21,7 +21,7 @@ export default {
     },
     brand: {
       directory: 'assets/brand',
-      files: ['favicon.svg', 'logo.svg'],
+      files: ['favicon.svg', 'logo.svg', 'social-preview.svg', 'social-preview.png'],
     },
     api: {
       directory: 'assets/illustrations/api',

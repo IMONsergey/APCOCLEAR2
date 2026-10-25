@@ -19,8 +19,11 @@ test('home contains all new content, five animated scenes, one set of coverage f
     'https://api.apcosys.net/api/statistics',
   );
   await expect(page.locator('.data-section')).not.toContainText('88 585 365');
-  const collection = page.locator('#capabilities');
-  await collection.getByRole('button', { name: /Buckets/ }).click();
+  await page
+    .locator('#capabilities')
+    .getByRole('button', { name: /Buckets/ })
+    .click();
+  const collection = page.locator('#capabilities .home-capabilities__stage:visible');
   await expect(collection).toContainText(
     'Group matching files by bucket and inspect their metadata.',
   );

@@ -144,7 +144,7 @@ test('localized runtime preserves verbatim and form values and publishes alterna
   await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(4);
   await expect(page.locator('link[rel="alternate"][hreflang="zh-Hant"]')).toHaveAttribute(
     'href',
-    /\/zh-hant\/developers\/api$/,
+    /\/zh-hant\/developers\/api\/$/,
   );
 
   await page.goto('./ru/');

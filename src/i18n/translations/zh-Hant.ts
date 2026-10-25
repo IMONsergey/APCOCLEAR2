@@ -1730,4 +1730,77 @@ export default {
     'HTTP 429 表示已超過方案的請求速率。重試前請降低請求頻率；立即反覆重試無法解除限制。',
   'Keep the host, observed ports and protocols, and the uts update timestamp with each record. Use page and docs_per_page to continue through the results.':
     '每筆記錄都應保留主機、觀測到的連接埠與通訊協定，以及 uts 更新時間戳記。使用 page 與 docs_per_page 瀏覽後續結果。',
+
+  'Monitoring concept': '監控概念',
+  'Explore bucket search via API': '透過 API 探索儲存貯體搜尋',
+  'From a domain to an in-scope host.': '從網域找到授權範圍內的主機。',
+  'example.com stands in for a domain included in a programme scope.':
+    'example.com 代表計畫授權範圍內的網域。',
+  'Enter the permitted domain in the search field. This example uses example.com.':
+    '在搜尋欄輸入獲准的網域。此範例使用 example.com。',
+  'Compare portal.example.com and gateway.example.com in the example results.':
+    '比較範例結果中的 portal.example.com 與 gateway.example.com。',
+  'Check each host against the programme scope before testing its services.':
+    '測試服務前，確認每台主機都在計畫授權範圍內。',
+  'From a product to the hosts running it.': '從產品找到執行它的主機。',
+  'nginx is the product to look for; the example shows version 1.24.0.':
+    '以 nginx 為搜尋目標；範例顯示版本 1.24.0。',
+  'Search for nginx, then inspect the detected version in each host record.':
+    '搜尋 nginx，再查看各主機記錄中偵測到的版本。',
+  'Read the HTTP Server header that supports the nginx version in this example.':
+    '檢視此範例中用來識別 nginx 版本的 HTTP Server 標頭。',
+  'Check the vendor advisory, installed patches and configuration.':
+    '核對廠商公告、已安裝的修補程式與設定。',
+  'From an IP address to its services.': '從 IP 位址查看其服務。',
+  '198.51.100.24 stands in for an IP address from an alert or report.':
+    '198.51.100.24 代表警示或報告中的 IP 位址。',
+  'Enter the complete IP address in the search field.': '在搜尋欄輸入完整的 IP 位址。',
+  'The example connects the IP to portal.example.com and HTTPS on port 443.':
+    '範例將此 IP 連結至 portal.example.com 與連接埠 443 上的 HTTPS。',
+  'Use the hostname or service as the next query, then check the new results.':
+    '以主機名稱或服務作為下一個查詢，再檢視新結果。',
+  'Search for nginx': '搜尋 nginx',
+  'Request body': '請求本文',
+  'Search response': '搜尋回應',
+  Integer: '整數',
+  String: '字串',
+  Array: '陣列',
+  'Page to request. The example starts at page 1.': '要請求的頁碼。範例從第 1 頁開始。',
+  'Records per page. The example requests 20; the documented maximum is 100.':
+    '每頁記錄數。範例請求 20 筆；文件規定上限為 100 筆。',
+  'Text to look for, such as nginx. The first-request example uses this field.':
+    '要搜尋的文字，例如 nginx。第一個請求範例使用此欄位。',
+  'Number of matches for the query, across all result pages.':
+    '此查詢在所有結果頁面上的相符記錄總數。',
+  'The result page returned by this response.': '此回應所傳回的結果頁碼。',
+  'The page size used for this request.': '此請求所使用的每頁記錄數。',
+  'Host records on the returned page.': '傳回頁面中的主機記錄。',
+  'The IP address identifying this host record.': '識別此主機記錄的 IP 位址。',
+  'The last update timestamp, in Unix seconds.': '最後更新時間，以 Unix 秒數表示。',
+  'Observed services, with a protocol and port number for each entry.':
+    '觀察到的服務；每筆記錄包含通訊協定與連接埠號碼。',
+  'Request fields and results.': '請求欄位與結果。',
+  'Use these fields with POST /api/v1/search/hosts. The request fields below are optional; the example sets them explicitly.':
+    '將這些欄位用於 POST /api/v1/search/hosts。下列請求欄位為選填；範例會明確設定其值。',
+  'Field and type': '欄位與型別',
+  Meaning: '說明',
+  'For the next page, keep the same filters and increase page. Compare total with the records already returned. An update timestamp describes the stored observation, not a live check of the host.':
+    '要取得下一頁，請保留相同篩選條件並增加 page。將 total 與已傳回的記錄數比較。更新時間描述的是儲存的觀察記錄，並不代表即時檢查主機。',
+  Fields: '欄位',
+  'HTTP 401 · API key': 'HTTP 401 · API 金鑰',
+  'The key is missing or invalid. Check the X-API-Key header and the key loaded from your server environment.':
+    '金鑰遺漏或無效。請檢查 X-API-Key 標頭，以及從伺服器環境載入的金鑰。',
+  'HTTP 402 · Plan restriction': 'HTTP 402 · 方案限制',
+  'A requested field or value is restricted by the plan. Read the JSON error message and check which fields your plan permits.':
+    '方案限制了請求的欄位或值。請閱讀 JSON 錯誤訊息，並確認方案允許使用哪些欄位。',
+  'HTTP 404 · Host not found': 'HTTP 404 · 找不到主機',
+  'For an individual host lookup, the requested host was not found. Check the address you supplied.':
+    '查詢個別主機時，找不到指定主機。請檢查提供的位址。',
+  'HTTP 429 · Rate limit': 'HTTP 429 · 速率限制',
+  'The request rate was exceeded. Reduce request frequency before retrying and read the JSON error message.':
+    '已超過請求速率。請閱讀 JSON 錯誤訊息，降低請求頻率後再重試。',
+  'Interface preview': '介面預覽',
+  'Choose your plan and billing period after signing in.': '登入後，請選擇方案與計費週期。',
+  'Opens a draft in your email app.': '會在您的郵件應用程式中開啟草稿。',
+  'Example balances': '範例餘額',
 } satisfies Record<string, string>;

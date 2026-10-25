@@ -32,7 +32,7 @@ The three entry stylesheets contain only ordered `@import` statements. Vite inli
 | `inner-pages.css`        | `inner-pages/foundation`, `editorial-components`, `reading-rails`, `editorial-surfaces`, `content-adaptations`                                                                        |
 | `compact-experience.css` | `compact-experience/product-fragments`, `responsive-fragments`, `search-contour`                                                                                                      |
 
-Names above omit `.css`. Homepage modules follow actual section ownership; inner-page modules separate shared structure, reading layout and surfaces. Responsive adaptations retain their cascade position. Do not sort these imports alphabetically or append a new “fix” file. Find the existing rule and its later responsive states before editing. Keep responsive and interaction selectors separate where cascade order matters. Shared tablet hero sizing accommodates typographed copy without page-specific height overrides.
+Names above omit `.css`. Homepage modules follow actual section ownership; inner-page modules separate shared structure, reading layout and surfaces. Responsive adaptations retain their cascade position. Do not sort these imports alphabetically or append a new “fix” file. Find the existing rule and its later responsive states before editing. Keep responsive and interaction selectors separate where cascade order matters. Shared tablet hero sizing accommodates typographed copy. Pricing owns a compact introduction in its section stylesheet so visitors reach prices sooner without changing other page families.
 
 ## Typography
 

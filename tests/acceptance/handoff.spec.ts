@@ -18,6 +18,11 @@ test('published metadata keeps indexing, sitemap and 404 policies consistent', a
   expect(notFound).toContain('name="robots" content="noindex, nofollow"');
   const canonical = html.match(/rel="canonical" href="([^"]+)"/)?.[1];
   if (canonical) {
+    expect(html).toContain('property="og:image"');
+    expect(html).toContain('name="twitter:card" content="summary_large_image"');
+    const socialImage = await request.get('./assets/brand/social-preview.png');
+    expect(socialImage.ok()).toBe(true);
+    expect(socialImage.headers()['content-type']).toContain('image/png');
     const response = await request.get('./sitemap.xml');
     expect(response.ok()).toBe(true);
     const sitemap = await response.text();
@@ -92,13 +97,22 @@ test('canonical and Open Graph URL follow client navigation', async ({ page }) =
   await page.locator('.site-header').getByRole('link', { name: 'Pricing', exact: true }).click();
   await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
   const url = new URL(page.url());
+  const canonicalPath = url.pathname.replace(/\/?$/, '/');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    url.origin + url.pathname,
+    url.origin + canonicalPath,
   );
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
     'content',
-    url.origin + url.pathname,
+    url.origin + canonicalPath,
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /\/assets\/brand\/social-preview\.png$/,
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    'content',
+    'summary_large_image',
   );
 });
 

@@ -7,7 +7,7 @@ export const navigation = [
       { label: 'About', href: '/about' },
       { label: 'Search & Investigation', href: '/platform/search-investigation' },
       { label: 'Data & Methodology', href: '/platform/data-methodology' },
-      { label: 'Monitoring', href: '/platform/monitoring' },
+      { label: 'Monitoring concept', href: '/platform/monitoring' },
       { label: 'Responsible Scanning', href: '/responsible-scanning' },
       { label: 'Talk to Us', href: '/contact' },
     ],
@@ -34,7 +34,7 @@ export const footerGroups = [
     links: [
       ['Search & Investigation', '/platform/search-investigation'],
       ['Data & Methodology', '/platform/data-methodology'],
-      ['Monitoring', '/platform/monitoring'],
+      ['Monitoring concept', '/platform/monitoring'],
       ['Pricing', '/pricing'],
     ],
   },

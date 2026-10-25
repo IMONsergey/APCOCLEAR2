@@ -30,7 +30,7 @@
     width: 100%;
   }
   .site .product-evidence .product-evidence__result {
-    flex: 1 1 140px;
+    flex: 1 1 180px;
     display: block;
     padding: 10px var(--space-3);
   }
@@ -41,7 +41,7 @@
     gap: var(--space-2);
   }
   .site .product-evidence .product-evidence__hint {
-    font-size: var(--font-size-10);
+    font-size: var(--font-size-12);
   }
   .site .product-evidence .product-evidence__footer {
     display: none;
@@ -65,13 +65,9 @@
   .data-lens__service {
     grid-template-columns: 42px 60px 1fr;
     gap: var(--space-2);
-    font-size: var(--font-size-12);
   }
   .query-fragment__options button {
     gap: var(--space-2);
-  }
-  .query-fragment__options code {
-    font-size: var(--font-size-10);
   }
 }
 .site .search-scene__results .product-evidence__details > .product-evidence__eyebrow,

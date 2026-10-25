@@ -1,6 +1,37 @@
 .pricing {
   padding-block: 160px;
 }
+.site .inner-pages[data-page='pricing'] .stage-page-hero {
+  --hero-padding-start: var(--space-7);
+  --hero-padding-end: var(--space-6);
+}
+.site .inner-pages[data-page='pricing'] .stage-page-hero__grid {
+  min-block-size: 0;
+}
+.site .inner-pages[data-page='pricing'] .stage-page-hero h1 {
+  max-width: 18ch;
+}
+.site .inner-pages[data-page='pricing'] .stage-page-hero__description,
+.site .inner-pages[data-page='pricing'] .stage-page-hero .stage-actions {
+  margin-top: var(--space-6);
+}
+.site .inner-pages[data-page='pricing'] .stage-page-hero .page-artwork {
+  max-width: 360px;
+}
+.site .inner-pages[data-page='pricing'] .page-contents {
+  padding-block: var(--space-2);
+}
+.site .inner-pages[data-page='pricing'] > .pricing {
+  padding-top: var(--space-6);
+}
+.site .inner-pages[data-page='pricing'] .pricing-heading {
+  margin-bottom: var(--space-4);
+}
+@media (max-width: 767px) {
+  .site .inner-pages[data-page='pricing'] .stage-page-hero .page-artwork {
+    max-width: 220px;
+  }
+}
 .pricing-heading {
   display: flex;
   align-items: flex-end;
