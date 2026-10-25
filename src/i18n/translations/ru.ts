@@ -2126,8 +2126,8 @@ export default {
   'To continue, increase page and keep the same filters. Compare total with the records already returned. The first example requests 20 records; the documented default is 50.':
     'Для продолжения увеличьте page и сохраните фильтры. Сравнивайте total с числом полученных записей. Первый пример запрашивает 20 записей; значение по умолчанию в документации — 50.',
   'Inspect one host.': 'Данные одного хоста.',
-  'Replace :ip with an IP address or domain. The response is one detailed host object. A missing record returns 404; an invalid host identifier returns 400.':
-    'Замените :ip на IP-адрес или домен. Ответ — объект с подробными данными одного хоста. Если запись не найдена, возвращается 404; при некорректном идентификаторе хоста — 400.',
+  'Set the ip path parameter to an IP address or domain. The response is one detailed host object. A missing record returns 404; an invalid host identifier returns 400.':
+    'В параметре пути ip укажите IP-адрес или домен. Ответ — объект с подробными данными одного хоста. Если запись не найдена, возвращается 404; при некорректном идентификаторе хоста — 400.',
   'Host lookup': 'Запрос одного хоста',
   'Host detail response': 'Подробный ответ о хосте',
   'Service fields': 'Поля сервиса',

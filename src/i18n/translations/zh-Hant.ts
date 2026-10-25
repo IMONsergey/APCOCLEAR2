@@ -2032,8 +2032,8 @@ export default {
   'To continue, increase page and keep the same filters. Compare total with the records already returned. The first example requests 20 records; the documented default is 50.':
     '若要繼續，請增加 page 並保留相同篩選條件。將 total 與已傳回的記錄數比較。第一個範例請求 20 筆記錄；文件中的預設值為 50。',
   'Inspect one host.': '查看單一主機。',
-  'Replace :ip with an IP address or domain. The response is one detailed host object. A missing record returns 404; an invalid host identifier returns 400.':
-    '請將 :ip 替換為 IP 位址或網域。回應是一個詳細主機物件。找不到記錄時傳回 404；主機識別碼無效時傳回 400。',
+  'Set the ip path parameter to an IP address or domain. The response is one detailed host object. A missing record returns 404; an invalid host identifier returns 400.':
+    '在路徑參數 ip 中指定 IP 位址或網域。回應是一個詳細主機物件。找不到記錄時傳回 404；主機識別碼無效時傳回 400。',
   'Host lookup': '單一主機查詢',
   'Host detail response': '主機詳細回應',
   'Service fields': '服務欄位',
