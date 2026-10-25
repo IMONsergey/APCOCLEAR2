@@ -73,7 +73,7 @@ jobs:
       contents: read
       pages: read
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - name: Check out source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -100,7 +100,8 @@ jobs:
         run: >-
           npm run test:release -- tests/acceptance/route-motion.spec.ts
           tests/acceptance/localization.spec.ts tests/acceptance/layout-regressions.spec.ts
-          --grep 'continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
+          tests/acceptance/legal-pages.spec.ts tests/acceptance/legal-localization.spec.ts
+          --grep 'reload preserves the latest|complete published text|full translated text and stable anchors|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
         env:
           APCO_TEST_BASE_PATH: ${{ needs.configuration.outputs.base }}
       - name: Full release acceptance
@@ -162,7 +163,8 @@ jobs:
           tests/acceptance/interactions.spec.ts
           tests/acceptance/route-motion.spec.ts tests/acceptance/localization.spec.ts
           tests/acceptance/layout-regressions.spec.ts
-          --grep 'Early navigation|failed initial page download|documentation links open the localized standalone API reference|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
+          tests/acceptance/legal-pages.spec.ts tests/acceptance/legal-localization.spec.ts
+          --grep 'reload preserves the latest|complete published text|full translated text and stable anchors|Early navigation|failed initial page download|documentation links open the localized standalone API reference|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
       - name: Repeated cold navigation
         run: >-
           npm test -- --project=${{ matrix.browser }} tests/acceptance/routes.spec.ts
@@ -285,7 +287,7 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: deploy
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - name: Check out published source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803

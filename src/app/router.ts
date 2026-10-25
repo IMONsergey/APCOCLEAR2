@@ -50,6 +50,25 @@ export function useSiteRoute(locale: Locale) {
       return key;
     };
     let currentKey = entryKey();
+    // Firefox can snapshot history state before pagehide updates it on reload.
+    // Keep the departing entry's final position available to the next document.
+    const departureStorageKey = 'apcosys-scroll-departure';
+    let initialY = savedScrollY();
+    try {
+      const departure = JSON.parse(sessionStorage.getItem(departureStorageKey) ?? 'null');
+      sessionStorage.removeItem(departureStorageKey);
+      if (
+        departure?.key === currentKey &&
+        typeof departure.y === 'number' &&
+        Number.isFinite(departure.y) &&
+        departure.y >= 0
+      ) {
+        initialY = departure.y;
+        history.replaceState({ ...history.state, apcoScrollY: initialY }, '');
+      }
+    } catch {
+      // History state remains available when session storage is restricted.
+    }
     let navigationVersion = 0;
     let readiness = new AbortController();
     let currentPath = getRoutePath();
@@ -65,6 +84,18 @@ export function useSiteRoute(locale: Locale) {
       scrollPositions.set(currentKey, scrollY);
       if (history.state?.apcoScrollKey === currentKey && savedScrollY() !== scrollY)
         history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
+    };
+    const saveDeparture = () => {
+      saveScroll();
+      if (!canRecordScroll()) return;
+      try {
+        sessionStorage.setItem(
+          departureStorageKey,
+          JSON.stringify({ key: currentKey, y: scrollY }),
+        );
+      } catch {
+        // Storage restrictions must not interrupt navigation.
+      }
     };
     const recordScroll = () => {
       if (!canRecordScroll()) return;
@@ -215,11 +246,10 @@ export function useSiteRoute(locale: Locale) {
     };
     window.addEventListener('popstate', sync);
     window.addEventListener('scroll', recordScroll, { passive: true });
-    window.addEventListener('pagehide', saveScroll);
+    window.addEventListener('pagehide', saveDeparture);
     document.addEventListener('click', intercept);
     document.addEventListener('pointerover', warm, { passive: true });
     document.addEventListener('focusin', warm);
-    const initialY = savedScrollY();
     if (location.hash || initialY !== undefined)
       void waitForPage(getRoutePath(), navigationVersion).then((ready) => {
         if (ready) {
@@ -236,7 +266,7 @@ export function useSiteRoute(locale: Locale) {
       clearTimeout(scrollTimer);
       window.removeEventListener('popstate', sync);
       window.removeEventListener('scroll', recordScroll);
-      window.removeEventListener('pagehide', saveScroll);
+      window.removeEventListener('pagehide', saveDeparture);
       document.removeEventListener('click', intercept);
       document.removeEventListener('pointerover', warm);
       document.removeEventListener('focusin', warm);

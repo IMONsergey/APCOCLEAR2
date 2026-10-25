@@ -228,3 +228,30 @@ for (const mode of ['native', 'fallback', 'reduced'] as const) {
     expect(errors).toEqual([]);
   });
 }
+
+for (const storage of ['available', 'restricted'] as const) {
+  test(`reload preserves the latest reading position with ${storage} session storage`, async ({
+    page,
+  }) => {
+    if (storage === 'restricted')
+      await page.addInitScript(() => {
+        Object.defineProperty(window, 'sessionStorage', {
+          get() {
+            throw new DOMException('Storage is restricted', 'SecurityError');
+          },
+        });
+      });
+    await page.goto('./legal/terms');
+    await expect(page.locator('.legal-copy')).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(() => {
+      scrollTo({ top: 800, behavior: 'instant' });
+      window.dispatchEvent(new Event('scroll'));
+    });
+    if (storage === 'restricted')
+      await expect.poll(() => page.evaluate(() => history.state?.apcoScrollY)).toBe(800);
+    await page.reload();
+    await expect(page.locator('.legal-copy')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => Math.abs(scrollY - 800))).toBeLessThan(2);
+  });
+}
