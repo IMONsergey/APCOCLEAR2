@@ -56,16 +56,18 @@ export function useSiteRoute(locale: Locale) {
     let navigating = false;
     let activeTransition: ViewTransition | undefined;
     let fallbackAnimation: Animation | undefined;
+    const canRecordScroll = () =>
+      !navigating || document.querySelector('main')?.getAttribute('data-route') === getRoutePath();
     const saveScroll = () => {
       clearTimeout(scrollTimer);
       scrollTimer = 0;
-      if (navigating) return;
+      if (!canRecordScroll()) return;
       scrollPositions.set(currentKey, scrollY);
       if (history.state?.apcoScrollKey === currentKey && savedScrollY() !== scrollY)
         history.replaceState({ ...history.state, apcoScrollY: scrollY }, '');
     };
     const recordScroll = () => {
-      if (navigating) return;
+      if (!canRecordScroll()) return;
       // Keep exact positions in memory without writing History API state every frame.
       scrollPositions.set(currentKey, scrollY);
       if (!scrollTimer) scrollTimer = window.setTimeout(saveScroll, 500);
@@ -164,7 +166,6 @@ export function useSiteRoute(locale: Locale) {
     const sync = () => {
       const key = entryKey();
       const rememberedY = scrollPositions.get(key) ?? savedScrollY();
-      scrollPositions.set(currentKey, scrollY);
       currentKey = key;
       void navigate(getRoutePath(), undefined, rememberedY);
     };

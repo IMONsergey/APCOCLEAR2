@@ -196,6 +196,10 @@ for (const mode of ['native', 'fallback', 'reduced'] as const) {
       return { writes, elapsed: performance.now() - start };
     });
     expect(sample.writes).toBeLessThanOrEqual(Math.ceil(sample.elapsed / 400) + 2);
+    await test.info().attach('scroll-history', {
+      body: JSON.stringify(sample),
+      contentType: 'application/json',
+    });
     expect(errors).toEqual([]);
 
     await page.evaluate(() => {
@@ -203,12 +207,16 @@ for (const mode of ['native', 'fallback', 'reduced'] as const) {
     });
     await expect(page.locator('main')).toHaveAttribute('data-route', '/pricing');
     await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
-    await page.evaluate(() => {
+    await expect(page.locator('main h1')).toBeFocused();
+    const departedY = await page.evaluate(() => {
       scrollTo({ top: 600, behavior: 'instant' });
       // Leave before the next persisted snapshot; Forward still needs the exact position.
       window.dispatchEvent(new Event('scroll'));
+      const y = scrollY;
       history.back();
+      return y;
     });
+    expect(departedY).toBe(600);
     await expect(page.locator('main')).toHaveAttribute(
       'data-route',
       '/platform/search-investigation',
