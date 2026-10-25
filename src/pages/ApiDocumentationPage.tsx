@@ -361,8 +361,8 @@ export default function ApiDocumentationPage() {
           <ApiDocsSection id="host-details" title="Inspect one host.">
             <Method method="GET" path="/search/hosts/:ip" />
             <Text as="p">
-              Replace :ip with an IP address or domain. The response is one detailed host object. A
-              missing record returns 404; an invalid host identifier returns 400.
+              Set the ip path parameter to an IP address or domain. The response is one detailed
+              host object. A missing record returns 404; an invalid host identifier returns 400.
             </Text>
             <DocCode label="Host lookup" code={apiDocExamples.host} example="host-details" />
             <FieldTable title={t('Host detail response')} fields={hostDetailFields} />
