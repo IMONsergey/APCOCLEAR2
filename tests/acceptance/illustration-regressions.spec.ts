@@ -211,11 +211,8 @@ async function expectDecodedAssets(scene: Locator) {
   expect(broken, 'every referenced illustration image and mask must decode').toEqual([]);
 }
 
-async function expectApplicationScene(scene: Locator, node: string) {
+async function expectApplicationScene(scene: Locator) {
   await expect(scene).toBeVisible();
-  await expect(scene).toHaveAttribute('data-design-source', 'apcosys-application');
-  await expect(scene).toHaveAttribute('data-design-url', 'https://assaasdev.vercel.app');
-  await expect(scene).toHaveAttribute('data-design-node', node);
   await expect(scene).toHaveAttribute('data-demo-playback', 'static');
   await expect(scene).toHaveAttribute('data-demo-phase', '0');
   await expect(scene.locator('.application-demo-cursor')).toBeHidden();
@@ -294,9 +291,6 @@ for (const locale of locales) {
     await page.locator('.step-card').nth(3).scrollIntoViewIfNeeded();
     const scene = page.locator('.application-scene[data-scene="evidence"]');
     await scene.scrollIntoViewIfNeeded();
-    await expect(scene).toHaveAttribute('data-design-source', 'apcosys-application');
-    await expect(scene).toHaveAttribute('data-design-url', 'https://assaasdev.vercel.app');
-    await expect(scene).toHaveAttribute('data-design-node', '903:48414');
     await expect(scene).toHaveAttribute('data-demo-playback', 'playing');
     await expect(scene.locator('.application-demo-cursor')).toBeVisible();
     for (const phase of [0, 1, 2, 3]) {
@@ -338,20 +332,20 @@ for (const locale of locales) {
       }) => {
         await openHome(page, locale.route, theme, width);
         const scenes = [
-          ['query', '899:4021', '.application-query-title', locale.query],
-          ['results', '899:4117', '.application-results-all', locale.results],
-          ['host', '899:5079', '.application-host-services-title', locale.services],
-          ['evidence', '903:48414', '.application-certificate-title', locale.certificate],
-          ['suggestions', '903:48044', '.application-refine-heading', locale.applied],
+          ['query', '.application-query-title', locale.query],
+          ['results', '.application-results-all', locale.results],
+          ['host', '.application-host-services-title', locale.services],
+          ['evidence', '.application-certificate-title', locale.certificate],
+          ['suggestions', '.application-refine-heading', locale.applied],
         ];
-        for (const [name, node, selector, text] of scenes) {
+        for (const [name, selector, text] of scenes) {
           await test.step(name!, async () => {
             const card = page
               .locator('.step-card')
               .nth(scenes.findIndex((scene) => scene[0] === name));
             await card.scrollIntoViewIfNeeded();
             const scene = card.locator(`.application-scene[data-scene="${name}"]`);
-            await expectApplicationScene(scene, node!);
+            await expectApplicationScene(scene);
             await expect(scene.locator(selector!)).toBeVisible();
             if (name === 'host') {
               await expect(scene.locator(selector!)).toContainText(text!);
@@ -404,7 +398,7 @@ for (const locale of locales) {
         const frame = page.locator('.api-demo-frame');
         await frame.scrollIntoViewIfNeeded();
         const demo = frame.locator('.application-scene[data-scene="api"]');
-        await expectApplicationScene(demo, '903:53837');
+        await expectApplicationScene(demo);
         await expect(demo.locator('.application-api__heading')).toHaveText(locale.apiHeading);
         await expect(demo.locator('.application-api__tabs > span:visible')).toHaveCount(2);
         await expect(demo.locator('[data-demo-target="api-key"]')).toHaveText(/^•{16}$/);

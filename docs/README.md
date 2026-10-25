@@ -2,20 +2,19 @@
 
 ## Current operating guides
 
-Start with [Final readiness](FINAL-READINESS.md) for recorded visual review and release evidence, and [Product integrations](reference/PRODUCT-INTEGRATIONS.md) for the dated public pricing/API sources and integration boundaries. A previous release record does not validate a later working-tree change.
+Start with [Handoff](HANDOFF.md) for setup and product boundaries. [Product integrations](reference/PRODUCT-INTEGRATIONS.md) records the pricing and API sources. Build, test and publication results are attached to each commit in [GitHub Actions](https://github.com/IMONsergey/APCOCLEAR2/actions).
 
-| Guide                               | Purpose                                                             |
-| ----------------------------------- | ------------------------------------------------------------------- |
-| [Handoff](HANDOFF.md)               | First session, ownership, integration boundaries and source package |
-| [Migration](MIGRATION.md)           | Clean source transfer and destination-specific release verification |
-| [Architecture](ARCHITECTURE.md)     | Runtime structure, editing map and CSS order                        |
-| [Deployment](DEPLOYMENT.md)         | Hosting bases, public configuration, verification and rollback      |
-| [Quality review](QUALITY-REVIEW.md) | Initial audit history and the decisions recorded at that stage      |
-| [QA](QA.md)                         | Browser suites, release gates and measurement limits                |
-| [Site grid](SITE-GRID.md)           | Shared rails, typography and responsive layout contract             |
-| [Assets](ASSETS.md)                 | Asset families, theme pairs, licenses and editing rules             |
-| [Visuals](VISUALS.md)               | Native/Canvas animation lifecycle and protected source files        |
-| [Content](CONTENT.md)               | Product copy and owner approval inputs                              |
+| Guide                           | Purpose                                                             |
+| ------------------------------- | ------------------------------------------------------------------- |
+| [Handoff](HANDOFF.md)           | First session, ownership, integration boundaries and source package |
+| [Migration](MIGRATION.md)       | Clean source transfer and destination-specific release verification |
+| [Architecture](ARCHITECTURE.md) | Runtime structure, editing map and CSS order                        |
+| [Deployment](DEPLOYMENT.md)     | Hosting bases, public configuration, verification and rollback      |
+| [QA](QA.md)                     | Browser suites, release gates and measurement limits                |
+| [Site grid](SITE-GRID.md)       | Shared rails, typography and responsive layout contract             |
+| [Assets](ASSETS.md)             | Asset families, theme pairs, licenses and editing rules             |
+| [Visuals](VISUALS.md)           | Native/Canvas animation lifecycle and protected source files        |
+| [Content](CONTENT.md)           | Product copy and owner approval inputs                              |
 
 - [Style ownership and reuse](STYLES.md)
 - [Localization and translation release gates](LOCALIZATION.md)

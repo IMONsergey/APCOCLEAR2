@@ -45,4 +45,4 @@ When changing responsive CSS, verify 320, 375, 390, 599/600, 767/768, 899/900, 1
 - `visual-rhythm`, `editorial-readability`: reading groups, spacing, title relationships and responsive images.
 - `design-system`: typography and shared controls are independent of lazy CSS navigation order.
 
-Dated audit reports describe earlier revisions; this file and the current token owners describe the active implementation.
+Use this guide with the token owners and regression tests when changing layout.

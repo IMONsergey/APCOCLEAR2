@@ -1,29 +1,7 @@
-import type { SitePath } from '../content/routes';
+import { siteRoutes } from '../content/routes';
 
-/** Routes with complete editions in both additional languages. */
-export const localizedRoutes = [
-  '/',
-  '/platform/search-investigation',
-  '/platform/data-methodology',
-  '/platform/monitoring',
-  '/use-cases/bug-bounty',
-  '/use-cases/vulnerability-research',
-  '/use-cases/osint-threat-investigation',
-  '/teams',
-  '/developers/api',
-  '/developers/api/docs',
-  '/pricing',
-  '/about',
-  '/docs/investors',
-  '/responsible-scanning',
-  '/contact',
-  '/legal/api-data-license-agreement',
-  '/legal/cookie-policy',
-  '/legal/data-collection-policy',
-  '/legal/data-processing-agreement',
-  '/legal/privacy-policy',
-  '/legal/terms',
-] as const satisfies readonly SitePath[];
+/** Every published route has English, Russian and Traditional Chinese editions. */
+export const localizedRoutes = siteRoutes.map(({ path }) => path);
 
 export const hasLocalizedCopy = (route: string): boolean =>
-  (localizedRoutes as readonly string[]).includes(route);
+  localizedRoutes.some((path) => path === route);

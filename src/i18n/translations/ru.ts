@@ -1,5 +1,5 @@
 export default {
-  Investors: 'Инвесторам',
+  'For Investors': 'Инвесторам',
   'For investors.': 'Инвесторам.',
   'Investor enquiries': 'Связаться с командой',
   'External digital exposure intelligence. Apcosys turns observations of public internet infrastructure into searchable context for security researchers and teams.':
@@ -48,8 +48,6 @@ export default {
     'Запрос, результаты, хост, технический контекст и следующий поиск.',
   'Follow a reserved example domain through scope checks and host evidence.':
     'На примере зарезервированного домена пройдите от проверки границ программы к данным хоста.',
-  'Review an example technology, matching hosts and potential vulnerability context.':
-    'Изучите пример технологии, соответствующие хосты и сведения о возможных уязвимостях.',
   'Follow a reserved example address through services and shared attributes.':
     'Изучите сервисы и общие признаки на примере зарезервированного IP-адреса.',
   'Review an example host and plan the next investigation step.':
@@ -59,14 +57,9 @@ export default {
   'Account API key': 'API-ключ аккаунта',
   'One key for your integrations.': 'Один ключ для ваших интеграций.',
   'Reveal key': 'Показать ключ',
-  'Rotate API key': 'Замена API-ключа',
-  'Rotate key': 'Заменить ключ',
-  'Your access': 'Ваш доступ',
   'Account limits': 'Лимиты аккаунта',
-  'Search pages per query': 'Страниц на запрос',
   Enabled: 'Доступен',
   'All types': 'Все типы',
-  'Saved queries': 'Сохранённые запросы',
   'Example Research Network': 'Тестовая исследовательская сеть',
   'Explore hosts, services and networks.': 'Исследуйте хосты, сервисы и сети.',
   Results: 'Результаты',
@@ -90,8 +83,6 @@ export default {
   '{count} example hosts': '{count} примера хостов',
   '{name} plan': 'Тариф {name}',
   '/mo': '/мес',
-  'A careful first integration is easier to understand, debug and extend.':
-    'Аккуратная первая интеграция проще для понимания, отладки и расширения.',
   'A change opens a question.': 'Изменение ставит вопрос.',
   'A closer look at internet infrastructure': 'Детальный взгляд на интернет-инфраструктуру',
   'A compact introduction to API requests, access levels and usage.':
@@ -105,7 +96,6 @@ export default {
     'Несколько практических деталей перед выбором. Ознакомьтесь с окончательными условиями на странице оформления заказа в продукте перед оплатой.',
   'A match is not a finding.': 'Совпадение — это не вывод.',
   'A newly published advisory.': 'Новый бюллетень об уязвимости.',
-  'A product and version.': 'Продукт и версия.',
   'A product or version is inferred from the available service response.':
     'Продукт или версия выводятся из доступного ответа сервиса.',
   'A recent record describes what responded at that moment. It does not guarantee that the service remains available or unchanged.':
@@ -130,7 +120,6 @@ export default {
     'При передаче задачи укажите, что изменилось, что уже проверено и какие вопросы остались.',
   'A useful note lets another analyst retrace the question without inheriting an unsupported conclusion.':
     'Полезная заметка помогает другому аналитику восстановить ход исследования, не принимая неподтверждённые выводы за факты.',
-  'A version is a lead. Not a finding.': 'Версия — это зацепка. А не вывод.',
   'A version match is a research lead. Check patches and configuration before confirming a vulnerability.':
     'Совпадение версий — зацепка для исследования. Перед подтверждением уязвимости проверьте патчи и конфигурацию.',
   About: 'О нас',
@@ -139,29 +128,21 @@ export default {
   'Absence is not proof': 'Отсутствие не является доказательством',
   'Access & limits': 'Доступ и лимиты',
   'Access gateway': 'Шлюз доступа',
-  'Add Filter': 'Добавить фильтр',
   'Advanced · full filters': 'Расширенный поиск · полные фильтры',
   'Advanced search & full filters': 'Расширенный поиск и полные фильтры',
   Advisory: 'Уведомление',
   'Advisory applicability': 'Применимость бюллетеня',
-  'All fields are required except company.': 'Все поля, кроме компании, обязательны.',
-  'All Types': 'Все типы',
   'Plan allowances and access': 'Лимиты тарифов и доступ',
   'An address, domain or product name.': 'Адрес, домен или название продукта.',
   'An association does not establish exploitability.':
     'Связь не устанавливает возможность эксплуатации.',
   'An association is a lead to verify, not a confirmed vulnerability.':
     'Связь — это зацепка для проверки, а не подтвержденная уязвимость.',
-  'An authorised domain.': 'Домен, разрешённый для тестирования.',
   'An HTTPS service and a technology response.':
     'HTTPS-сервис и ответ, по которому определена технология.',
-  'Example collection.': 'Пример подборки.',
   'An indicator from an alert.': 'Индикатор из оповещения.',
   'An IP from a log, a domain from a report or a service identified in an alert can become a starting point.':
     'IP-адрес из журнала, домен из отчета или сервис, обнаруженный в оповещении, могут стать отправной точкой.',
-  'An IP or domain from a report.': 'IP или домен из отчета.',
-  'An IP, domain, service or technology becomes your starting point.':
-    'IP-адрес, домен, сервис или технология становятся вашей отправной точкой.',
   'An observation has a time.': 'Учитывайте дату наблюдения.',
   'An observation is a starting point.': 'Наблюдение — это отправная точка.',
   'Analyst input': 'Ввод аналитика',
@@ -185,15 +166,12 @@ export default {
   'API access by plan.': 'Доступ к API по тарифам.',
   'API access is available on Plus, Expert and Business plans.':
     'Доступ к API предоставляется в тарифах Plus, Expert и Business.',
-  'API activity uses the account’s request balance. Review request costs and Search Token packages before scheduling a larger workflow.':
-    'Активность API расходует баланс запросов учетной записи. Ознакомьтесь со стоимостью запросов и пакетами поисковых токенов, прежде чем планировать более масштабный рабочий процесс.',
   'API handoff': 'Передача данных через API',
   'API request rate': 'Лимит запросов к API',
   Applicability: 'Применимость',
   'Applicable VAT or GST and the final payable amount are shown in checkout before you complete the purchase.':
     'Применимый НДС (VAT или GST) и окончательная сумма к оплате отображаются на странице оформления заказа до завершения покупки.',
   Association: 'Связь',
-  'At least 10 characters.': 'Не менее 10 символов.',
   AUTHENTICATION: 'АУТЕНТИФИКАЦИЯ',
   'Before a candidate becomes a target.': 'Проверьте хост перед тестированием.',
   'Before a result informs a decision, another analyst should be able to see what was observed, why it matters and what has not yet been established.':
@@ -203,10 +181,6 @@ export default {
   'Before you act': 'Перед действием',
   'Begin with a specific product or technology and use the supported search syntax to focus on relevant observations.':
     'Начните с конкретного продукта или технологии и используйте поддерживаемый синтаксис поиска, чтобы сосредоточиться на релевантных наблюдениях.',
-  'Begin with an IP, domain, service or technology. Use supported attributes to narrow the results to the infrastructure behind your question.':
-    'Начните с IP-адреса, домена, сервиса или технологии. Используйте поддерживаемые атрибуты, чтобы сузить результаты до инфраструктуры, стоящей за вашим вопросом.',
-  'Begin with infrastructure you own or are authorised to assess. Select an example target below.':
-    'Начните с инфраструктуры, которой вы владеете или которую уполномочены оценивать. Выберите пример цели ниже.',
   'Begin with infrastructure your team owns or is authorised to assess. Keep the scope and the research question explicit.':
     'Начните с инфраструктуры вашей команды или объектов, на проверку которых у вас есть разрешение. Зафиксируйте границы и цель проверки.',
   'Billed annually': 'Оплата ежегодно',
@@ -214,8 +188,6 @@ export default {
   Billing: 'Оплата',
   'Billing period': 'Период оплаты',
   'Billing questions.': 'Вопросы по оплате.',
-  'Billing, scanning or another question? Select the relevant topic in the form below.':
-    'Оплата, сканирование или другой вопрос? Выберите соответствующую тему в форме ниже.',
   'Bring an existing question to Apcosys. Use observed infrastructure to give the next review more technical context.':
     'Начните с задачи вашей команды. Найдите связанные хосты и сервисы, чтобы подготовить данные для дальнейшей проверки.',
   'Bring Apcosys': 'Перенесите данные Apcosys',
@@ -227,7 +199,6 @@ export default {
     'Добавляйте доступные данные наблюдений в свои рабочие процессы.',
   'Bring the evidence into your workflow.': 'Используйте полученные данные в своих инструментах.',
   Buckets: 'Хранилища',
-  'BUCKETS / CONCEPT': 'КОЛЛЕКЦИИ / КОНЦЕПЦИЯ',
   'Bug Bounty': 'Bug Bounty',
   'Build an evidence trail you can revisit.':
     'Постройте цепочку доказательств, к которой можно вернуться.',
@@ -241,44 +212,28 @@ export default {
   'Can I use the API?': 'Могу ли я использовать API?',
   'Candidate infrastructure. Confirm each target against the programme rules.':
     'Потенциальная инфраструктура. Подтвердите каждую цель на соответствие правилам программы.',
-  'Carry a useful service, technology or domain into the next query. Keep the observation that led you there so the investigation remains traceable.':
-    'Переносите полезный сервис, технологию или домен в следующий запрос. Сохраняйте наблюдение, которое привело вас туда, чтобы расследование оставалось отслеживаемым.',
   'Carry forward: the detection, advisory applicability and checks still required.':
     'Передайте коллеге: обнаруженную версию, подходящий бюллетень и список оставшихся проверок.',
   'Carry forward: the host, relevant service response and the question that remains.':
     'Передайте дальше: хост, соответствующий ответ сервиса и оставшийся вопрос.',
   'Carry forward: the observation context, the source and your own validation notes.':
     'Передайте дальше: контекст наблюдения, источник и ваши собственные заметки о проверке.',
-  'Carry the available observation dates and supporting attributes with the result.':
-    'Переносите доступные даты наблюдений и сопутствующие атрибуты вместе с результатом.',
   'Carry the host, service evidence and available observation time into your notes or reporting workflow.':
     'Сохраните в заметках или отчете хост, ответ сервиса и доступную дату наблюдения.',
   'Carry the selected host into Search & Investigation and validate the observation.':
     'Перенесите выбранный хост в раздел «Поиск и расследование» и подтвердите наблюдение.',
   'Check permitted techniques, exclusions and rate restrictions in the programme before interacting with a service.':
     'Проверьте разрешенные методы, исключения и ограничения по скорости в программе, прежде чем взаимодействовать с сервисом.',
-  'Check status codes and the current API error guidance. Make failures visible in your own tool instead of treating an empty result as a confirmed absence.':
-    'Проверяйте коды состояния и актуальные рекомендации по ошибкам API. Делайте сбои видимыми в вашем инструменте, а не воспринимайте пустой результат как подтвержденное отсутствие данных.',
   'Check the affected versions, required configuration and vendor guidance. Account for backported patches.':
     'Проверьте затронутые версии, требуемую конфигурацию и рекомендации производителя. Учитывайте бэкпортированные патчи.',
   'Check the detection': 'Проверьте признаки технологии',
-  'Check the evidence behind a detected version. A potential CVE association is a lead to validate against patches, configuration and observation time.':
-    'Проверьте доказательства, стоящие за обнаруженной версией. Потенциальная связь с CVE — это зацепка, которую нужно проверить с учетом патчей, конфигурации и времени наблюдения.',
   'Check the observation time and collection context. An absent response alone does not prove that a service has been retired.':
     'Проверьте время наблюдения и контекст сбора. Отсутствие ответа не доказывает, что сервис был выведен из эксплуатации.',
-  'Check the remaining balance before a larger investigation. Ask the team about exhaustion, expiry and rollover if these affect your workflow.':
-    'Проверяйте оставшийся баланс перед масштабным исследованием. Спросите у команды об исчерпании, сроке действия и переносе остатков, если это влияет на ваш рабочий процесс.',
   'Check vendor advisory': 'Проверить бюллетень производителя',
   'Check whether the added service belongs to a planned deployment. Review its response and confirm the host remains in your scope.':
     'Проверьте, относится ли добавленный сервис к запланированному развертыванию. Изучите его ответ и убедитесь, что хост остается в вашей области.',
   'Check whether their observation times are comparable.':
     'Проверьте, сопоставимы ли их времена наблюдения.',
-  'Choose a host or search question you understand. Set the endpoint and authentication header from the current reference.':
-    'Выберите хост или поисковый запрос, который вам понятен. Укажите эндпоинт и заголовок аутентификации из актуальной документации.',
-  'Choose a plan for its capabilities. Add capacity when the tools already fit and you need to make more requests.':
-    'Выбирайте тариф по его доступам. Добавляйте ресурсы, когда инструменты вам уже подходят и вам нужно делать больше запросов.',
-  'Choose a step, select a host and inspect the evidence. The same record stays in view as the question becomes more specific.':
-    'Выберите шаг, выберите хост и изучите доказательства. Одна и та же запись остается на экране по мере уточнения вопроса.',
   'Choose a topic': 'Выберите тему',
   'Choose a topic to prepare the form. A little context helps the team understand your question.':
     'Выберите тему обращения. Краткое описание задачи поможет команде разобраться в вашем вопросе.',
@@ -292,11 +247,8 @@ export default {
   'Choose what to observe.': 'Выберите, за чем наблюдать.',
   'Clear answers.': 'Понятные ответы.',
   'Clear search query': 'Очистить поисковый запрос',
-  'Client-preview figures. Measurement date and final counting definitions have not been supplied; these are not live totals.':
-    'Цифры для предварительного просмотра клиентом. Дата измерения и окончательные определения подсчета не предоставлены; это не текущие итоговые значения.',
   Close: 'Закрыть',
   'Close dialog': 'Закрыть окно',
-  'Collect the leads': 'Собирайте зацепки',
   'Collection & dates': 'Сбор и даты',
   Company: 'Компания',
   Compare: 'Сравнение',
@@ -304,13 +256,9 @@ export default {
     'Сравнивайте состояние инфраструктуры на разные даты, изучайте изменения и используйте данные для дальнейшей проверки. Ниже показан предлагаемый сценарий.',
   'Compare open ports, services and detected technologies across the results. Narrow the list to systems that help answer your question.':
     'Сравнивайте открытые порты, сервисы и обнаруженные технологии по всем результатам. Сузьте список до систем, которые помогают ответить на ваш вопрос.',
-  'Compare open ports, services and detected technologies before opening a host. Look for the result that helps answer your question.':
-    'Сравнивайте открытые порты, сервисы и обнаруженные технологии, прежде чем открывать хост. Ищите результат, который помогает ответить на ваш вопрос.',
   'Compare plans': 'Сравнить тарифы',
   'Compare plans.': 'Сравнить тарифы.',
   'Compare recorded observations.': 'Сравните записанные наблюдения.',
-  'Compare the allowance, research tools and API access included at each level. Choose the capabilities you need before adding more capacity.':
-    'Сравните лимиты, исследовательские инструменты и доступ к API, включенные в каждый уровень. Выберите функции, которые вам нужны, прежде чем добавлять больше ресурсов.',
   'Compare the reported product with its evidence.':
     'Сопоставьте обнаруженный продукт с признаками в ответе сервиса.',
   'Compare the service response, detected software and observation time before escalating a lead.':
@@ -319,9 +267,6 @@ export default {
     'Сравните данные из ответов сервиса. Другой баннер может отражать изменение конфигурации, а не обновление программного обеспечения.',
   'Concept demonstration · Not a live product capability':
     'Демонстрация концепции · Не является реальной функцией продукта',
-  'Concept examples only. This page does not connect to live scans or deliver alerts.':
-    'Только примеры концепции. Эта страница не подключается к реальным сканированиям и не отправляет оповещения.',
-  'Confirm scope before testing.': 'Проверьте рамки программы перед тестированием.',
   'Confirm the individual host is covered. A related domain or shared technology does not automatically extend the scope.':
     'Убедитесь, что конкретный хост входит в рамки программы. Связанный домен или общая технология не расширяют их автоматически.',
   'Connect your tools': 'Подключите свои инструменты',
@@ -329,7 +274,6 @@ export default {
     'Учитывайте исправления от производителя, бэкпорты, конфигурацию системы и время наблюдения, прежде чем делать выводы.',
   'Consider when the service was observed. Verify the condition on systems you are authorised to assess.':
     'Учтите, когда наблюдался сервис. Проверьте состояние в системах, которые вы уполномочены оценивать.',
-  'contact our team': 'свяжитесь с нашей командой',
   Context: 'Контекст',
   'Context, not conclusions.': 'Проверьте контекст результата.',
   'Continue in Apcosys': 'Продолжить в Apcosys',
@@ -344,13 +288,11 @@ export default {
   'Coverage, observation dates, CVE associations and the limits of internet scanning.':
     'Покрытие, даты наблюдений, связи с CVE и ограничения интернет-сканирования.',
   Credits: 'Кредиты',
-  'Credits or Search Tokens?': 'Кредиты или поисковые токены?',
   'Credits:': 'Кредиты:',
   'Cross-check every lead against the programme rules before taking action. Search results are not an authorisation to test an unrelated system.':
     'Перепроверяйте каждую зацепку на соответствие правилам программы, прежде чем действовать. Результаты поиска не являются разрешением на тестирование несвязанной системы.',
   'Current state': 'Текущее состояние',
   'CVE associations': 'Связи с CVE',
-  'CVE Associations': 'Связи с CVE',
   'CVE ASSOCIATIONS': 'СВЯЗИ С CVE',
   'CVE associations need checks against vendor advisories, patch backports and the actual configuration.':
     'Связи с CVE нужно сверять с бюллетенями производителя, установленными исправлениями и фактической конфигурацией.',
@@ -364,9 +306,6 @@ export default {
   'Describe the workflow, request types and volume you are planning.':
     'Опишите задачу, типы запросов и ожидаемый объём.',
   'Detected product': 'Обнаруженный продукт',
-  'Detected Products': 'Обнаруженные продукты',
-  'Detected products, versions and CVEs potentially associated with them.':
-    'Обнаруженные продукты, версии и потенциально связанные с ними CVE.',
   'Detected, not verified': 'Обнаружено, но не проверено',
   Detection: 'Обнаружение',
   'Detection evidence': 'Данные об обнаруженной технологии',
@@ -381,9 +320,6 @@ export default {
   'Domain observations': 'Наблюдения за доменами',
   'Domain observations connect names to infrastructure. A shared domain, service or technology does not by itself establish ownership.':
     'Наблюдения за доменами связывают имена с инфраструктурой. Общий домен, сервис или технология сами по себе не устанавливают право собственности.',
-  'Domain observations connected to infrastructure':
-    'Наблюдения за доменами, связанные с инфраструктурой',
-  'Domain or technical attribute': 'Домен или технический атрибут',
   'Domain, IP or attribute': 'Домен, IP или атрибут',
   'Domain, IP or technical attribute': 'Домен, IP или технический атрибут',
   'Domain, IP or technical attribute.': 'Домен, IP или технический атрибут.',
@@ -392,7 +328,6 @@ export default {
   Domains: 'Домены',
   'Email us': 'Написать на почту',
   'Enter a domain, IP or technical attribute.': 'Введите домен, IP-адрес или технический атрибут.',
-  'Enter an observed attribute': 'Введите наблюдаемый атрибут',
   'Evaluate it with your own research question.':
     'Оцените это со своим исследовательским вопросом.',
   'Evaluating Apcosys for your security team?':
@@ -400,14 +335,11 @@ export default {
   'Every investigation starts with a question.': 'Каждое расследование начинается с вопроса.',
   'every search.': 'каждым поиском.',
   Evidence: 'Доказательства',
-  'Evidence and open questions': 'Доказательства и открытые вопросы',
-  'Examine a host': 'Изучите хост',
   'Examine CVEs potentially associated with observed technologies and versions.':
     'Изучайте CVE, потенциально связанные с обнаруженными технологиями и версиями.',
   'Examine potential exposure.': 'Изучите потенциальную уязвимость.',
   'Examine services and host context. Identify the next research lead.':
     'Оцените сервисы и контекст хоста. Определите следующую зацепку для исследования.',
-  'Examine shared attributes.': 'Изучите общие атрибуты.',
   'Examine the host.': 'Изучите хост.',
   'Example data': 'Пример данных',
   'Example investigation': 'Пример исследования',
@@ -417,8 +349,6 @@ export default {
   'Explore a host with its service evidence, or learn how to contact the team about scanning activity.':
     'Изучите хост и ответы его сервисов или свяжитесь с командой по вопросам сканирования.',
   'Compare observations and investigate changes.': 'Сравнивайте наблюдения и изучайте изменения.',
-  'Explore access levels or talk to the team about the API reference and your integration requirements.':
-    'Изучите уровни доступа или свяжитесь с командой, чтобы обсудить справочную документацию по API и ваши требования к интеграции.',
   'Explore an example': 'Посмотреть пример',
   'Explore API': 'Изучить API',
   'Explore API integration': 'Изучить интеграцию API',
@@ -448,7 +378,6 @@ export default {
     'Найдите инфраструктуру для исследования. Перед тестированием убедитесь, что у вас есть разрешение.',
   'Find internet-facing systems that match your query.':
     'Найдите доступные из интернета системы, соответствующие вашему запросу.',
-  'Find matching observations.': 'Найти совпадающие наблюдения.',
   'Find matching versions. Check whether the advisory applies.':
     'Найдите совпадающие версии. Проверьте, применимы ли рекомендации.',
   'Find the infrastructure behind a name.': 'Найдите инфраструктуру за названием.',
@@ -463,12 +392,8 @@ export default {
     'Изучите сервисы и технический контекст изменившегося хоста.',
   'Follow an attribute into the next query. Similarity alone is not attribution.':
     'Переходите по атрибуту к следующему запросу. Одно лишь сходство не является атрибуцией.',
-  'Follow attributes. Keep attribution separate.':
-    'Следуйте за атрибутами. Держите атрибуцию отдельно.',
   'Follow one lead through a shared research process. Choose a step to see which evidence and open questions move with it.':
     'Проследите путь от первого результата к совместной проверке. Выберите шаг, чтобы увидеть нужные данные и оставшиеся вопросы.',
-  'Follow one permitted starting point through candidate infrastructure to a responsible testing decision.':
-    'Пройдите от одной разрешенной отправной точки через потенциальную инфраструктуру к ответственному решению о тестировании.',
   'Follow shared attributes.': 'Продолжите поиск по общим признакам.',
   'Follow the next evidence-led question.': 'Продолжайте проверку по найденным данным.',
   'Follow the result': 'Изучите результат',
@@ -480,11 +405,8 @@ export default {
   'For security researchers and teams.': 'Исследователям и командам безопасности.',
   'For security teams': 'Командам безопасности',
   'For Teams': 'Для команд',
-  'For the current credit usage rules,': 'Чтобы узнать текущие правила использования кредитов,',
   'Frame the question': 'Сформулировать вопрос',
   FREE: 'Free',
-  'Free introduces search. Plus adds API access for individual research. Expert adds deeper filtering. Business brings access for a team and a larger allowance.':
-    'Тариф Free знакомит с поиском. Plus добавляет доступ к API для индивидуальных исследований. Expert добавляет более глубокую фильтрацию. Business предоставляет доступ для команды и больший лимит.',
   'From analyst question to technical context.': 'От вопроса аналитика к техническому контексту.',
   'From query to technical context.': 'От запроса к техническому контексту.',
   'Get your account key.': 'Получите ключ учетной записи.',
@@ -492,11 +414,8 @@ export default {
     'Предоставьте аналитикам общий источник данных об инфраструктуре, доступной из интернета: от исходного индикатора до сервисов и технологий хоста.',
   'Give analysts the context they need.': 'Дайте аналитикам необходимый контекст.',
   'Good questions.': 'Хорошие вопросы.',
-  'Good questions. Clear answers.': 'Хорошие вопросы. Понятные ответы.',
-  'Handle unsuccessful requests.': 'Обрабатывайте неудачные запросы.',
   'Has limits': 'Ограничен',
   'Have specific requirements?': 'Есть особые требования?',
-  'Host · protocol · technology': 'Хост · протокол · технология',
   'Host context': 'Контекст хоста',
   'Host identity': 'Идентификация хоста',
   'Host research': 'Исследование хостов',
@@ -518,25 +437,17 @@ export default {
   'HTTPS only': 'Только HTTPS',
   'I agree to the processing of my data in line with the':
     'Я согласен на обработку данных в соответствии с',
-  'Illustrative Apcosys API documentation with a request and response. See the current documentation for the live API.':
-    'Иллюстративная документация Apcosys API с примером запроса и ответа. Актуальную информацию смотрите в документации продукта.',
-  'Illustrative data shape. The API contract comes from the product documentation.':
-    'Пример структуры данных. Актуальное описание API смотрите в документации продукта.',
   'Example inputs.': 'Примеры для поиска.',
-  'Illustrative request template, not a working API contract. Contact the team for the current endpoint, authentication details and API reference.':
-    'Пример шаблона запроса, а не действующая спецификация API. Свяжитесь с командой, чтобы уточнить актуальный адрес API, параметры аутентификации и получить документацию.',
   Included: 'Включено',
   'Included credits': 'Кредиты в тарифе',
   'Indicator trail': 'Цепочка индикаторов',
   'Inspect a host.': 'Изучение хоста.',
   'Inspect host observations and use relevant technology and CVE associations as research leads rather than confirmed findings.':
     'Изучайте наблюдения за хостами и используйте соответствующие технологии и связи с CVE в качестве зацепок для исследования, а не подтвержденных выводов.',
-  'Inspect matching infrastructure': 'Изучите совпадающую инфраструктуру',
   'Inspect the response.': 'Изучите ответ.',
   'Inspect the technical evidence.': 'Изучите технические данные.',
   'Inspect what the service actually returned.': 'Изучите, что на самом деле вернул сервис.',
   Integration: 'Интеграция',
-  'INTEGRATION / EXAMPLE': 'ИНТЕГРАЦИЯ / ПРИМЕР',
   'Internet intelligence for your security team.':
     'Интернет-разведка для вашей команды по безопасности.',
   'Internet-facing systems change. Read a service response alongside its collection context before using it in a decision.':
@@ -553,16 +464,10 @@ export default {
   'It’s free': 'Это бесплатно',
   'Judge relevance before you click.': 'Оцените релевантность, прежде чем кликать.',
   'Keep a useful investigation note.': 'Ведите полезную заметку о расследовании.',
-  'Keep a useful lead together.': 'Храните полезную информацию в одном месте.',
-  'Keep credentials, access tokens and sensitive third-party findings out of your message.':
-    'Не указывайте в сообщении учетные данные, токены доступа и конфиденциальные данные третьих лиц.',
   'Keep only the protocol relevant to your question.':
     'Оставьте только протокол, релевантный вашему вопросу.',
-  'Keep related hosts in a research shortlist.':
-    'Храните связанные хосты в шорт-листе для исследования.',
   'Keep separate': 'Держите отдельно',
   'Keep the context': 'Сохраняйте контекст',
-  'Keep the context.': 'Сохранение контекста.',
   'Keep the earlier and later records together with their time context. Inspect the service response behind the change.':
     'Храните более ранние и поздние записи вместе с их временным контекстом. Изучите ответ сервиса, стоящий за изменением.',
   'Keep the evidence together.': 'Храните доказательства вместе.',
@@ -576,8 +481,6 @@ export default {
   'Keep the source': 'Сохраняйте источник',
   'Keep the thread.': 'Продолжайте исследование.',
   'Keep the uncertainty': 'Сохраняйте неопределенность',
-  'Keep your workflow within its plan limit. Use the documented retry guidance and avoid repeating unsuccessful requests indefinitely.':
-    'Держите рабочий процесс в рамках лимита вашего тарифа. Используйте задокументированные рекомендации по повторным попыткам и избегайте бесконечного повторения неудачных запросов.',
   'Know what the data cannot prove.': 'Знайте, что данные не могут доказать.',
   'Know what’s behind every result.': 'Узнайте, что стоит за каждым результатом.',
   Language: 'Язык',
@@ -591,7 +494,6 @@ export default {
   'Look up an IP or domain': 'Поиск по IP или домену',
   'Look up the host and review its services, products and versions. Give the analyst enough context to decide which part of the lead needs closer attention.':
     'Найдите хост и изучите его сервисы, ПО и версии. Это поможет аналитику определить, что проверять дальше.',
-  'Look up the indicator.': 'Поиск индикатора.',
   'Main navigation': 'Основная навигация',
   'Make scope the starting point.': 'Начните с рамок программы.',
   'Make the handoff useful.': 'Передайте результаты следующему аналитику.',
@@ -602,8 +504,6 @@ export default {
     'Совпадающие хосты с их открытыми портами и сервисами.',
   Menu: 'Меню',
   Message: 'Сообщение',
-  'Messages are not stored or delivered by this website. This form prepares a draft in your email application; review and send it there.':
-    'Сообщения не сохраняются и не доставляются этим сайтом. Эта форма создает черновик в вашем почтовом приложении; проверьте его и отправьте оттуда.',
   'Missing is not absent.': 'Нет в результатах — не значит нет в сети.',
   'Mobile navigation': 'Мобильная навигация',
   Monitoring: 'Мониторинг',
@@ -615,8 +515,6 @@ export default {
     'Ежемесячные подписки оплачиваются картой на странице оформления. Уточните у команды возможность оплаты по счету для годовой подписки Business.',
   'More capacity': 'Дополнительные ресурсы',
   'More to test inside your scope.': 'Больше целей для тестирования в вашей области.',
-  'Move from a technology observation to candidate hosts, then separate potential CVE associations from validated vulnerabilities.':
-    'Переходите от наблюдения за технологией к хостам-кандидатам, затем отделяйте потенциальные связи с CVE от подтвержденных уязвимостей.',
   'Move from detection to evidence.': 'Переходите от обнаружения к доказательствам.',
   'Move the next task forward.': 'Продвиньте следующую задачу вперед.',
   Name: 'Имя',
@@ -641,12 +539,8 @@ export default {
   Observe: 'Наблюдение',
   Observed: 'Наблюдалось',
   'Observed hostname': 'Наблюдаемое имя хоста',
-  'Observed IPv4 address entries': 'Наблюдаемые записи IPv4-адресов',
-  'Observed IPv6 address entries': 'Наблюдаемые записи IPv6-адресов',
   'Observed signal': 'Наблюдаемый сигнал',
   'Observed version': 'Обнаруженная версия',
-  'Obtain your key inside Apcosys. Set the endpoint and authentication header from the confirmed API reference.':
-    'Получите ваш ключ внутри Apcosys. Установите эндпоинт и заголовок аутентификации согласно подтвержденной справочной документации по API.',
   'One host, the technical picture.': 'Один хост, техническая картина.',
   'One lead. A shared starting point.': 'Один результат. Общая задача для команды.',
   'One observation, with its technical context.': 'Одно наблюдение с техническим контекстом.',
@@ -669,19 +563,12 @@ export default {
   Ownership: 'Право собственности',
   'Ownership and attribution remain unproven.':
     'Право собственности и атрибуция остаются недоказанными.',
-  'Check package eligibility, token balance, expiry and final purchase terms in your account.':
-    'Проверьте доступность пакета, баланс токенов, срок действия и окончательные условия покупки в своём аккаунте.',
   'Patch state': 'Состояние патча',
   'Personal introduction': 'Знакомство с продуктом',
-  'Pick up the investigation': 'Возобновите расследование',
   Plan: 'Тариф',
-  'Plan allowances use credits; additional packages use Search Tokens. Check the conversion, available balance and package terms in your account before adding capacity.':
-    'Лимиты тарифов учитываются в кредитах, а дополнительные пакеты — в поисковых токенах. Перед увеличением лимита проверьте соотношение единиц, доступный баланс и условия пакета в своём аккаунте.',
   'Plan billing options': 'Варианты оплаты тарифов',
   'Plan comparison': 'Сравнение тарифов',
   'Plan rate limit': 'Частота запросов по тарифу',
-  'Plan rates shown for the client preview. Confirm current limits and consumption in your account.':
-    'Показанные лимиты тарифов предназначены для предварительного просмотра клиентом. Подтвердите актуальные ограничения и расход в вашей учетной записи.',
   Plans: 'Тарифы',
   Platform: 'Платформа',
   PLUS: 'Plus',
@@ -690,21 +577,14 @@ export default {
   'Ports & Services': 'Порты и сервисы',
   'Ports, services and detected versions belong to one selected host.':
     'Порты, сервисы и обнаруженные версии относятся к выбранному хосту.',
-  'Potential links between detected products and CVEs':
-    'Потенциальные связи между обнаруженными продуктами и CVE',
   'Prefer a direct email?': 'Предпочитаете написать напрямую?',
   'Prepare a narrow request.': 'Подготовьте узконаправленный запрос.',
-  'Prepare email': 'Подготовить email',
-  'Preserve the evidence.': 'Сохраняйте доказательства.',
   'Previous research step': 'Предыдущий этап исследования',
   Pricing: 'Тарифы',
   'Prioritise with context.': 'Расставляйте приоритеты с учетом контекста.',
   'Privacy Policy': 'Политика конфиденциальности',
-  'Product detections derived from service responses':
-    'Обнаружения продуктов, полученные из ответов сервисов',
   'Programme boundary': 'Граница программы',
   Protocols: 'Протоколы',
-  'Protocols represented in the dataset': 'Протоколы, представленные в наборе данных',
   'Public services': 'Публичные сервисы',
   'Put a technology under the microscope.': 'Поместите технологию под микроскоп.',
   'Put observations in context.': 'Поместите наблюдения в контекст.',
@@ -718,25 +598,18 @@ export default {
   Question: 'Вопрос',
   'Questions about data, API access, team plans or procurement? Choose a topic and tell us what you need.':
     'Есть вопросы о данных, доступе к API, командных тарифах или закупках? Выберите тему и расскажите, что вам нужно.',
-  'Read API integration guidance': 'Ознакомиться с руководством по API',
   'Read from the observation outward.': 'Начинайте с наблюдений, затем переходите к выводам.',
   'Read methodology': 'Прочитать методологию',
-  'Read the detection evidence.': 'Прочитать доказательства обнаружения.',
   'Read the evidence in context.': 'Изучайте данные в контексте хоста.',
-  'Read the observed ports and services together with the response evidence. Keep detected products and versions in the context of that host.':
-    'Читайте наблюдаемые порты и сервисы вместе с доказательствами ответа. Держите обнаруженные продукты и версии в контексте этого хоста.',
   'Read the response': 'Прочитайте ответ',
   'Read the response behind the product label. Banners can be incomplete, stale or changed by intermediaries.':
     'Прочитайте ответ, стоящий за меткой продукта. Баннеры могут быть неполными, устаревшими или измененными посредниками.',
   'Read the result. Understand the source.': 'Читайте результат. Понимайте источник.',
-  'Read the returned fields and their observation context before using them in a report or wider workflow.':
-    'Прочитайте возвращенные поля и контекст их наблюдения, прежде чем использовать их в отчете или более широком рабочем процессе.',
   'Read the scanning principles': 'Прочитать принципы сканирования',
   'Read the service response and detected technology before interpreting a signal.':
     'Прочитайте ответ сервиса и обнаруженную технологию, прежде чем интерпретировать сигнал.',
   'Reading dates and timestamps.': 'Чтение дат и временных меток.',
   'Reading the evidence': 'Как читать результаты',
-  'Record a new research lead.': 'Запишите новую зацепку для исследования.',
   'Record the observed attributes and their time context in your own investigation notes and analytical workflow.':
     'Записывайте наблюдаемые атрибуты и их временной контекст в свои заметки о расследовании и аналитический рабочий процесс.',
   'Record what has been observed and what still needs independent verification.':
@@ -745,7 +618,6 @@ export default {
     'Запишите, откуда взялся индикатор и на какой вопрос он должен был ответить.',
   'Record your reasoning separately from the source data, so the next person can distinguish an observation from a validated finding.':
     'Записывайте свои рассуждения отдельно от исходных данных, чтобы следующий человек мог отличить наблюдение от подтвержденного вывода.',
-  'Refine the next query': 'Уточните следующий запрос',
   'Refine the query with what you found and continue.':
     'Уточните запрос, используя найденную информацию, и продолжайте.',
   'refine your search as you go.': 'уточняйте поиск по ходу дела.',
@@ -753,13 +625,8 @@ export default {
     'Право на возврат средств регулируется политикой платежного провайдера и применимым законодательством о защите прав потребителей. Ознакомьтесь с текущей политикой на странице оформления заказа или свяжитесь с командой по вашему вопросу об оплате.',
   'Removed, filtered or temporarily unavailable?': 'Удален, отфильтрован или временно недоступен?',
   Request: 'Запрос',
-  'Request costs': 'Стоимость запросов',
   'Request rate controls how quickly you can query. Your usage allowance controls how much capacity is available.':
     'Лимит запросов контролирует, как быстро вы можете отправлять запросы. Ваш лимит использования контролирует, какой объем ресурсов доступен.',
-  'Request template. Endpoint and authentication contract require product confirmation.':
-    'Шаблон запроса. Эндпоинт и контракт аутентификации требуют подтверждения в продукте.',
-  'Request without analytics, such as host information or bucket search.':
-    'Запрос без аналитики, например сведения о хосте или поиск по коллекциям.',
   'Requires verification': 'Требует проверки',
   'Research a product or version.': 'Исследуйте продукт или версию.',
   'Research a technology across infrastructure, then inspect individual hosts to understand whether a potential exposure is relevant.':
@@ -768,27 +635,17 @@ export default {
   'Research leads': 'Зацепки',
   'Research notes': 'Заметки исследования',
   'Research responsibly.': 'Исследуйте ответственно.',
-  'Research shortlist': 'Шорт-лист для исследования',
   'Research tasks': 'Задачи исследования',
   'Research the named technology and inspect potential version matches. Review the evidence before turning an association into a finding.':
     'Найдите указанную технологию и изучите совпадения версий. Проверьте исходные данные, прежде чем подтверждать уязвимость.',
-  'Research with API access': 'Исследования с доступом к API',
   'Reserved example address': 'Зарезервированный пример адреса',
-  'Respect the request rate.': 'Соблюдайте лимит запросов.',
   Response: 'Ответ',
   'Response headers': 'Заголовки ответа',
   'Responses become records': 'Ответы становятся записями',
   'Responsible Scanning': 'Ответственное сканирование',
   Result: 'Результат',
   'Results.': 'Результаты.',
-  'Return to the observations you need to review.':
-    'Вернитесь к наблюдениям, которые вам нужно пересмотреть.',
   'Review a possible change.': 'Изучите возможное изменение.',
-  'Review detected technology': 'Изучите обнаруженную технологию',
-  'Review exposed services.': 'Изучить открытые сервисы.',
-  'Review scope': 'Изучить область',
-  'Review service evidence and confirm authorised scope.':
-    'Изучите данные сервиса и проверьте разрешение на исследование.',
   'Review the comparison.': 'Изучите сравнение.',
   'Review the evidence': 'Изучить доказательства',
   'Review which internet-facing hosts appear to use the product, alongside observed ports and services.':
@@ -802,7 +659,6 @@ export default {
     'Ищите и исследуйте наблюдаемые данные о доменах.',
   'Search Apcosys': 'Поиск в Apcosys',
   'Search by product and version.': 'Поиск по продукту и версии.',
-  'Search by technology': 'Поиск по технологии',
   'Search for observed products and versions, explore the infrastructure around them and evaluate potential vulnerability context.':
     'Ищите наблюдаемые продукты и версии, изучайте окружающую их инфраструктуру и оценивайте потенциальный контекст уязвимостей.',
   'Search infrastructure.': 'Поиск по инфраструктуре.',
@@ -820,7 +676,6 @@ export default {
   'Search Token': 'Поисковый токен',
   'Search Token packages.': 'Пакеты поисковых токенов.',
   'Search Tokens': 'Поисковые токены',
-  'Search with category analytics.': 'Поиск с аналитикой по категориям.',
   'Search your scope': 'Поиск в рамках программы',
   'Searchable observations reduce uncertainty. They do not remove the need for technical judgement.':
     'Доступные для поиска наблюдения снижают неопределенность. Они не устраняют необходимость в техническом суждении.',
@@ -851,7 +706,6 @@ export default {
   'Skip to content': 'Перейти к содержимому',
   'Start a conversation': 'Написать нам',
   'Start a conversation.': 'Напишите нам.',
-  'Start Free': 'Начать бесплатно',
   'Start free.': 'Начните бесплатно.',
   'Start free. Upgrade when you need more searches, deeper filters, API access or a team.':
     'Начните бесплатно. Меняйте тариф, когда потребуется больше поисковых запросов, расширенные фильтры, доступ к API или командная работа.',
@@ -861,13 +715,10 @@ export default {
     'Начните бесплатно. Переходите на платный тариф, когда исследованию потребуется больше кредитов, фильтров или доступ к API.',
   'Start from the programme scope.': 'Проверьте рамки программы.',
   'Start from what you have.': 'Начните с того, что у вас есть.',
-  'Start small. Make the result useful.': 'Начните с малого. Сделайте результат полезным.',
   'Start with a query.': 'Начните с запроса.',
   'Start with a query. Follow what you find.': 'Начните с запроса. Исследуйте.',
   'Start with a single query. See which hosts match, open one, review its technical context and decide where to look next.':
     'Начните с одного запроса. Посмотрите, какие хосты совпадают, выберите один, изучите его технический контекст и решите, что изучить дальше.',
-  'Start with a small query. Use your account API key and the endpoint, authentication scheme and parameters from the current API reference.':
-    'Начните с небольшого запроса. Используйте API-ключ вашей учетной записи, а также эндпоинт, схему аутентификации и параметры из актуальной справочной документации по API.',
   'Start with a technical attribute.': 'Начните с технического атрибута.',
   'Start with an IP or domain, or use the API to bring repeat lookups into your investigation workflow.':
     'Начните с IP-адреса или домена или используйте API, чтобы добавить повторные поиски в свой рабочий процесс расследования.',
@@ -875,23 +726,14 @@ export default {
     'Начните с индикатора, который у вас есть. По мере развития расследования отделяйте то, что вы наблюдали, от того, что, по вашему мнению, это может означать.',
   'Start with what you know': 'Начните с того, что знаете',
   'Start with your first query.': 'Начните с первого запроса.',
-  'Start with your first query. Try the public search before creating an account.':
-    'Начните с первого запроса. Попробуйте публичный поиск, прежде чем создавать учётную запись.',
   'Start with your next research question.':
     'Начните со своего следующего исследовательского вопроса.',
-  'Start your first query': 'Начните первый запрос',
   'Starting a query': 'Начало запроса',
   'Starting indicator': 'Начальный индикатор',
   'Starting point': 'Отправная точка',
   'Stay in scope.': 'Соблюдайте рамки программы.',
   'step by step.': 'пошагово.',
-  'Store the fields your investigation needs alongside the source and observation context. Keep your own conclusions separate from the returned data.':
-    'Храните необходимые для расследования поля вместе с источником и контекстом наблюдения. Держите свои выводы отдельно от возвращенных данных.',
   'Subscribe annually': 'Подпишитесь на год',
-  'Synthetic demonstration · No live observations.':
-    'Демонстрация на синтетических данных · Наблюдения в реальном времени отсутствуют.',
-  'Take an indicator from an investigation, inspect its technical context and choose the next evidence-led query.':
-    'Возьмите индикатор из расследования, изучите его технический контекст и выберите следующий запрос, основанный на доказательствах.',
   'Take supported search and host data into scripts and internal workflows.':
     'Используйте доступные результаты поиска и данные о хостах в скриптах и внутренних процессах.',
   'Talk to the Apcosys team.': 'Свяжитесь с командой Apcosys.',
@@ -923,19 +765,11 @@ export default {
   'The data behind every search.': 'Данные, стоящие за каждым поиском.',
   'Coverage totals do not indicate when an individual service was last observed. Check the timestamps attached to the record.':
     'Суммарные показатели покрытия не указывают, когда отдельный сервис наблюдался в последний раз. Проверьте временные метки в его записи.',
-  'The existing Free plan introduces the service for personal, non-commercial use.':
-    'Тариф Free позволяет познакомиться с сервисом для личного некоммерческого использования.',
-  'The form prepares a message in your email application. You review it and send it from there.':
-    'Эта форма подготовит сообщение в вашем почтовом приложении. Вы сможете его проверить и отправить оттуда.',
   'The Free plan is intended for personal, non-commercial use, with one Free account per person.':
     'Тариф Free предназначен для личного некоммерческого использования. На одного человека разрешена одна учётная запись Free.',
   'The host and its other observations remain connected.':
     'Хост и его наблюдения остаются связанными.',
   'The investigation': 'Расследование',
-  'The proposed billing terms keep paid features available until the end of the current subscription period. Confirm the applicable terms in your account.':
-    'Предлагаемые условия оплаты сохраняют доступ к платным функциям до конца текущего периода подписки. Проверьте применимые условия в вашей учетной записи.',
-  'The selected plan is shown for comparison only. Plan selection is not transferred to registration. Confirm the plan, pricing and billing inside Apcosys before purchase.':
-    'Выбранный тариф показан только для сравнения. Выбор тарифа не переносится в регистрацию. Подтвердите тариф, цену и условия оплаты внутри Apcosys перед покупкой.',
   'The strongest research starts where a simple version comparison stops.':
     'Самое сильное исследование начинается там, где заканчивается простое сравнение версий.',
   'The tools to go deeper.': 'Инструменты для глубокого исследования.',
@@ -943,8 +777,6 @@ export default {
     'Полезная часть сравнения — это следующее решение. Разные изменения требуют разных проверок, прежде чем стать исследовательской задачей.',
   'The useful result is a host you can responsibly investigate. Keep the programme’s boundaries with you from the first query to the last check.':
     'Полезный результат — это хост, который вы вправе исследовать. Не упускайте рамки программы из виду — с первого запроса и до финальной проверки.',
-  'These figures describe different parts of the dataset. Product detections and CVE associations are records, not counts of distinct vulnerable systems.':
-    'Эти цифры описывают разные части набора данных. Обнаружения продуктов и связи с CVE — это записи, а не количество отдельных уязвимых систем.',
   'Three checks after a version match.': 'Три проверки после совпадения версий.',
   Topic: 'Тема',
   'Try Apcosys public search': 'Попробовать публичный поиск Apcosys',
@@ -956,11 +788,7 @@ export default {
     'Превратите технический вопрос в запрос, просмотрите совпадающие хосты и откройте каждый из них, чтобы увидеть сервисы, технологии и контекст, стоящие за ним.',
   'Turn an alert, domain or technical question into an investigation your team can follow.':
     'Превратите оповещение, домен или технический вопрос в расследование, за которым может следовать ваша команда.',
-  'Turn an IP, domain, service or technology question into a set of observations to review.':
-    'Превратите вопрос об IP, домене, сервисе или технологии в набор наблюдений для изучения.',
   'Turn one indicator into a clearer picture.': 'Превратите один индикатор в более ясную картину.',
-  'Two authored snapshots show how a service difference can become a research lead.':
-    'Два созданных снимка показывают, как разница в сервисах может стать зацепкой для исследования.',
   Uncertainty: 'Неопределенность',
   'Understand observations, dates and the limits of a comparison.':
     'Понимайте наблюдения, даты и ограничения сравнения.',
@@ -970,7 +798,6 @@ export default {
     'Следите за изменениями инфраструктуры, доступной из интернета.',
   'Understand your allowance.': 'Понимайте свои лимиты.',
   'Upgrade or buy more?': 'Сменить тариф или добавить запросы?',
-  'Upgrade Plan': 'Сменить тариф',
   'Upgrade when you need another capability or team access. Consider a package when you need more requests at the same access level.':
     'Смените тариф, если нужны новые возможности или командный доступ. Дополнительный пакет подойдёт, если нужно больше запросов с текущим уровнем доступа.',
   'Upgrade when your': 'Меняйте тариф, когда',
@@ -978,8 +805,6 @@ export default {
     'Обновление, перенастройка или другой ответ?',
   Usage: 'Использование',
   'Usage and credits.': 'Использование и кредиты.',
-  'Usage applies to website and API requests. Check the current charge in your account.':
-    'Использование относится к запросам с веб-сайта и через API. Проверяйте текущую стоимость в вашей учетной записи.',
   'Use a service, a technology or a domain from one result to ask a more precise question. Start with the public search and follow what you find.':
     'Используйте сервис, технологию или домен из результата, чтобы задать более точный вопрос. Начните с публичного поиска и исследуйте найденное.',
   'Use an account with API access. Keep the key in your server environment or secrets manager, outside browser code.':
@@ -998,23 +823,12 @@ export default {
     'Используйте API, чтобы перенести поддерживаемые данные поиска и хостов в скрипты, этапы обогащения и внутреннюю отчетность.',
   'Use the domains, IP addresses or other assets explicitly permitted by the programme. Stay within its published testing rules.':
     'Используйте домены, IP-адреса или другие активы, явно разрешенные программой. Оставайтесь в рамках опубликованных правил тестирования.',
-  'Use the same search and host context in your own tools. Build around the supported fields and request types in the current API reference.':
-    'Используйте тот же контекст поиска и хостов в своих собственных инструментах. Стройте работу на основе поддерживаемых полей и типов запросов в актуальной справочной документации по API.',
-  'Use the switch above the plans to compare billing periods. Annual prices show the discounted monthly equivalent; the annual total is shown on the plan.':
-    'Используйте переключатель над тарифами для сравнения периодов оплаты. Годовые цены показывают эквивалент в месяц со скидкой; общая годовая сумма отображается в тарифе.',
   'Useful at the point of investigation.': 'Полезно на этапе расследования.',
-  'Useful for: analyst tools and investigation reports.':
-    'Полезно для: инструментов аналитика и отчетов о расследованиях.',
-  'Useful for: focused enrichment and repeat lookups.':
-    'Полезно для: точечного обогащения данных и повторных поисков.',
-  'Useful for: traceable research and careful interpretation.':
-    'Полезно для: отслеживаемых исследований и аккуратной интерпретации.',
   'Useful when a log, alert or report already identifies a system. Review its observed services before widening the search.':
     'Полезно, когда лог, оповещение или отчёт уже указывают на систему. Изучите её наблюдаемые сервисы, прежде чем расширять поиск.',
   Users: 'Пользователи',
   'Users on one subscription': 'Пользователей по одной подписке',
   'Validate a potential association.': 'Проверьте потенциальную связь.',
-  'Validate applicability.': 'Проверить применимость.',
   'Validate the current state with an authorised method.':
     'Подтвердите текущее состояние авторизованным методом.',
   'Validate the signal': 'Проверить сигнал',
@@ -1028,7 +842,6 @@ export default {
   'View API documentation': 'Посмотреть документацию API',
   'View Business Plan': 'Посмотреть тариф Business',
   'View Plans': 'Посмотреть тарифы',
-  "Visibility isn't permission.": 'Видимость — не разрешение.',
   'Vulnerability Context': 'Контекст уязвимостей',
   'Vulnerability Research': 'Исследование уязвимостей',
   'Web application': 'Веб-приложение',
@@ -1037,9 +850,6 @@ export default {
   'What about taxes?': 'Как насчет налогов?',
   'What Apcosys records.': 'Что фиксирует Apcosys.',
   'What are we trying to establish?': 'Что мы пытаемся установить?',
-  'What consumes search credits?': 'Что расходует поисковые кредиты?',
-  'What happens after cancellation?': 'Что происходит после отмены?',
-  'What happens at the limit?': 'Что происходит при достижении лимита?',
   'What needs independent verification?': 'Что требует независимой проверки?',
   'What to query': 'Что запрашивать',
   'What we observe': 'Что мы наблюдаем',
@@ -1050,7 +860,6 @@ export default {
     'На каких данных о хосте и сервисе основан результат?',
   'Which other observations could explain this service?':
     'Какие другие наблюдения могли бы объяснить этот сервис?',
-  'Who is each plan for?': 'Для кого предназначен каждый тариф?',
   'Who reviews it, and what should they check?': 'Кто это проверяет и что они должны проверить?',
   'with annual billing': 'при годовой оплате',
   'Work email': 'Рабочий email',
@@ -1085,7 +894,6 @@ export default {
   'API request template': 'Шаблон запроса API',
   APPEARANCE: 'ОФОРМЛЕНИЕ',
   Appearance: 'Оформление',
-  'Authored concept · no scan date': 'Авторская концепция · без даты сканирования',
   'Example record': 'Пример записи',
   'Authorised scope': 'Разрешенная область',
   'Begin with a known {type}. The records below show how the investigation continues. Technology input illustrates intent, not verified query syntax.':
@@ -1101,8 +909,6 @@ export default {
   'Company: {company}': 'Компания: {company}',
   'Compare the detected version with vendor advisories and installed patches.':
     'Сопоставьте обнаруженную версию с рекомендациями производителя и установленными исправлениями.',
-  'Concept only · NO LIVE ALERTS · Illustrative service records':
-    'Только концепция · НЕТ ОПОВЕЩЕНИЙ В РЕАЛЬНОМ ВРЕМЕНИ · Иллюстративные записи о сервисах',
   'Confirm permission before observing.': 'Подтвердите разрешение до начала наблюдения.',
   'Continue exploring Apcosys': 'Продолжить знакомство с Apcosys',
   'Continue with the selected host in Search & Investigation. Keep the observation context with the task.':
@@ -1119,7 +925,6 @@ export default {
   'Evidence source': 'Источник доказательств',
   'Example investigation note': 'Пример заметки о расследовании',
   'Example investigations': 'Примеры расследований',
-  'Example only': 'Только пример',
   Feature: 'Функция',
   'For the current legal policy, see': 'Актуальная правовая политика приведена в документе',
   'Four levels of access grow with the needs of an investigation.':
@@ -1128,7 +933,6 @@ export default {
   'HOST DETAILS': 'СВЕДЕНИЯ О ХОСТЕ',
   'I agree to the processing of my data in line with the {privacyPolicy}.':
     'Я соглашаюсь на обработку моих данных в соответствии с документом «{privacyPolicy}».',
-  'Illustrative analyst handoff': 'Иллюстративная передача между аналитиками',
   'Illustrative API response': 'Иллюстративный ответ API',
   'Illustrative domain investigation': 'Иллюстративное исследование домена',
   'Illustrative host details and open services.':
@@ -1137,13 +941,7 @@ export default {
   'Illustrative investigation stages': 'Иллюстративные этапы расследования',
   'Illustrative list of matching hosts, services and technologies.':
     'Иллюстративный список подходящих хостов, сервисов и технологий.',
-  'Illustrative product walkthrough · Query, results, host, evidence and the next search.':
-    'Иллюстративный обзор продукта · запрос, результаты, хост, доказательства и следующий поиск.',
   'Illustrative technology investigation': 'Иллюстративное исследование технологии',
-  'Illustrative technical context for an individual host.':
-    'Иллюстративный технический контекст отдельного хоста.',
-  'Illustrative UI · No live host results or backend queries are simulated. The product screens demonstrate the intended investigation sequence.':
-    'Иллюстративный интерфейс · Результаты реальных хостов и запросы к серверу не имитируются. Экраны продукта показывают предполагаемую последовательность расследования.',
   'Infrastructure organised inside a defined research scope.':
     'Инфраструктура организована внутри заданной области исследования.',
   'Investigation capabilities': 'Возможности расследования',
@@ -1176,12 +974,8 @@ export default {
   'Response banner · authored example': 'Баннер ответа · авторский пример',
   'Return to the query with a more specific search.':
     'Вернитесь к запросу с более точными условиями поиска.',
-  'Review the response and validate the observation before treating a change as a security finding.':
-    'Изучите ответ и проверьте наблюдение, прежде чем считать изменение выводом о безопасности.',
   'Save Preferences': 'Сохранить настройки',
   'Search & filters': 'Поиск и фильтры',
-  'Search query with recent queries and syntax examples.':
-    'Поисковый запрос с недавними запросами и примерами синтаксиса.',
   'Search starting points': 'Варианты начала поиска',
   'Search → review → integrate': 'Поиск → проверка → интеграция',
   'Searchable data types': 'Типы данных для поиска',
@@ -1192,7 +986,6 @@ export default {
   'SERVICE RESPONSE': 'ОТВЕТ СЕРВИСА',
   'Snapshot A / earlier': 'Снимок A / ранее',
   'Snapshot B / later': 'Снимок B / позже',
-  'Snapshot source': 'Источник снимка',
   'STARTING POINT': 'ОТПРАВНАЯ ТОЧКА',
   'Start with an attribute you already know.': 'Начните с уже известного вам атрибута.',
   'Subscribe annually and save {discount}%!': 'Оформите годовую подписку и сэкономьте {discount}%!',
@@ -1200,8 +993,6 @@ export default {
   'Swipe the table horizontally on smaller screens to compare all four plans.':
     'На небольшом экране прокрутите таблицу по горизонтали, чтобы сравнить все четыре тарифа.',
   System: 'Системная',
-  'Synthetic host data, not the production response schema.':
-    'Синтетические данные хоста, а не схема рабочего ответа.',
   'Team workflow': 'Рабочий процесс команды',
   TECHNOLOGY: 'ТЕХНОЛОГИЯ',
   'Technical indicators connected into an investigation trail.':
@@ -1224,180 +1015,29 @@ export default {
   'View API Documentation': 'Посмотреть документацию API',
   'Workflow handoff': 'Передача результатов',
   'Work email: {email}': 'Рабочий email: {email}',
-  'Your email application will open with a prepared message. Please send the email there; this website has not submitted it.':
-    'Почтовое приложение откроется с подготовленным сообщением. Отправьте письмо там: этот сайт его не отправлял.',
   'Cookie preferences saved.': 'Настройки файлов cookie сохранены.',
   'Scroll to compare plan features': 'Прокрутите, чтобы сравнить функции тарифов',
   'CVE CONTEXT': 'КОНТЕКСТ CVE',
-  'Animated Apcosys API demo: parameters update the cURL request, a successful JSON response appears, then the next endpoint opens and a success confirmation completes the loop.':
-    'Анимационная демонстрация API Apcosys: параметры обновляют запрос cURL, появляется успешный ответ JSON, затем открывается следующая конечная точка, и цикл завершается подтверждением успеха.',
-  'Add parameter': 'Добавить параметр',
-  'API KEY': 'API-КЛЮЧ',
-  'API key connected': 'API-ключ подключен',
-  Authorization: 'Авторизация',
   'Base URL': 'Базовый URL',
-  'Bearer token': 'Bearer-токен',
-  'Code examples': 'Примеры кода',
-  'Copy cURL request': 'Скопировать запрос cURL',
-  'Copy JSON response': 'Скопировать ответ JSON',
-  'Create dataset': 'Создать набор данных',
-  'cURL request': 'Запрос cURL',
-  'Dataset endpoints': 'Конечные точки наборов данных',
-  'Dataset identifier': 'Идентификатор набора данных',
-  Datasets: 'Наборы данных',
-  'Delete dataset': 'Удалить набор данных',
-  DESCRIPTION: 'ОПИСАНИЕ',
-  'e.g. revenue': 'например, revenue',
-  Exports: 'Экспорты',
-  'Filter by name or description': 'Фильтр по имени или описанию',
-  'Get dataset': 'Получить набор данных',
-  Headers: 'Заголовки',
-  Jobs: 'Задания',
-  'JSON response': 'Ответ JSON',
-  'Limit parameter': 'Параметр limit',
-  'List datasets': 'Получить список наборов данных',
-  'Maximum number of results (1–100)': 'Максимальное число результатов (1–100)',
   Method: 'Метод',
-  NAME: 'ИМЯ',
-  'Not sent': 'Не отправлено',
-  'Number of results to skip': 'Число пропускаемых результатов',
-  'Offset parameter': 'Параметр offset',
-  Organization: 'Организация',
-  Parameters: 'Параметры',
-  'Path parameters': 'Параметры пути',
-  'Query parameters': 'Параметры запроса',
-  Queries: 'Запросы',
-  'Request configuration': 'Настройка запроса',
-  'Request headers': 'Заголовки запроса',
-  'Request successful': 'Запрос выполнен',
-  'Response format': 'Формат ответа',
-  'Returns a list of datasets in your organization.':
-    'Возвращает список наборов данных вашей организации.',
-  'Returns one dataset by its unique identifier.':
-    'Возвращает один набор данных по его уникальному идентификатору.',
-  SCHEME: 'СХЕМА',
-  'Search parameter': 'Параметр поиска',
-  'Send a request to see the response.': 'Отправьте запрос, чтобы увидеть ответ.',
-  'Send request': 'Отправить запрос',
-  'Sending…': 'Отправка…',
-  'The Authorization header is included in every request.':
-    'Заголовок Authorization включается в каждый запрос.',
-  TYPE: 'ТИП',
-  'Unique identifier of the dataset': 'Уникальный идентификатор набора данных',
-  'Update dataset': 'Обновить набор данных',
-  'Use the cURL request below with your API key.':
-    'Используйте приведенный ниже запрос cURL со своим API-ключом.',
-  VALUE: 'ЗНАЧЕНИЕ',
-  'Your dataset is ready to use.': 'Ваш набор данных готов к использованию.',
-  '{count} hosts found': 'Найдено хостов: {count}',
-  'Add filters, technologies, countries or ports to narrow your search.':
-    'Добавьте фильтры, технологии, страны или порты, чтобы сузить поиск.',
-  'All countries': 'Все страны',
-  'All services': 'Все сервисы',
-  'All technologies': 'Все технологии',
-  'Apache hosts that may be affected by recent CVEs.':
-    'Хосты Apache, которые могут быть затронуты недавними CVE.',
-  'Apr 1': '1 апр.',
-  'Apr 26, 2025': '26 апр. 2025 г.',
-  Ashburn: 'Ашберн',
   Available: 'Доступно',
-  California: 'Калифорния',
-  'Certificate details (if available)': 'Сведения о сертификате (при наличии)',
   City: 'Город',
-  'Clear all': 'Очистить все',
-  Confidence: 'Уверенность',
-  Coordinates: 'Координаты',
-  Countries: 'Страны',
   Country: 'Страна',
-  Critical: 'Критическая',
   CVEs: 'CVE',
-  'Detected products': 'Обнаруженные продукты',
-  'Evidence collected from {address}': 'Доказательства собраны с {address}',
-  'Exposure over time': 'Изменение экспозиции со временем',
-  Falkenstein: 'Фалькенштайн',
-  'Feb 1': '1 февр.',
-  'Feb 15': '15 февр.',
-  'Find Apache on different ports (e.g. 8080, 8443).':
-    'Найдите Apache на других портах (например, 8080 или 8443).',
-  'Find known vulnerabilities': 'Найти известные уязвимости',
-  'First seen': 'Впервые замечен',
-  Geolocation: 'Геолокация',
   Germany: 'Германия',
-  'Git hosting and developer API platform.': 'Git-хостинг и платформа API для разработчиков.',
-  'Global content delivery and web services.': 'Глобальная доставка контента и веб-сервисы.',
   High: 'Высокая',
-  'High confidence based on multiple consistent signals across banner, service behavior and OS fingerprinting.':
-    'Высокая уверенность на основе нескольких согласованных сигналов из баннера, поведения сервиса и определения ОС.',
-  'Hosts running related technologies (e.g. PHP, OpenSSL).':
-    'Хосты с соответствующими технологиями (например, PHP или OpenSSL).',
-  'HTTPS response banner': 'Баннер ответа HTTPS',
   'internet-facing hosts': 'доступных из интернета хостов',
-  'Investigate further with one click.': 'Продолжите исследование одним нажатием.',
   'IP range': 'Диапазон IP-адресов',
-  'Jan 1': '1 янв.',
-  'Jan 12, 2023': '12 янв. 2023 г.',
-  'Jan 15': '15 янв.',
-  'Last seen': 'Последнее наблюдение',
-  'Linked CVEs': 'Связанные CVE',
-  'Load more': 'Показать еще',
   Location: 'Местоположение',
   Low: 'Низкая',
-  'Mar 1': '1 марта',
-  'Mar 15': '15 марта',
-  Medium: 'Средняя',
-  'Network information': 'Сведения о сети',
-  'Nmap test host for scanning research.': 'Тестовый хост Nmap для исследования сканирования.',
-  'No SSL/TLS service detected on port 22.': 'На порту 22 сервис SSL/TLS не обнаружен.',
-  'Not available': 'Недоступно',
   Open: 'Открыт',
   'Open ports': 'Открытые порты',
-  'Open services': 'Открытые сервисы',
-  'OpenSSH information disclosure': 'Раскрытие информации в OpenSSH',
-  'OpenSSH privilege escalation': 'Повышение привилегий в OpenSSH',
-  'OpenSSH regreSSHion RCE vulnerability':
-    'Уязвимость удаленного выполнения кода regreSSHion в OpenSSH',
-  'Other hosts using the same TLS certificate.':
-    'Другие хосты, использующие тот же сертификат TLS.',
-  'Other services on the same ASNs (e.g. related infrastructure).':
-    'Другие сервисы в тех же ASN (например, связанная инфраструктура).',
-  'PTR record': 'Запись PTR',
   Product: 'Продукт',
-  'Public DNS resolver.': 'Публичный DNS-резолвер.',
-  Raw: 'Исходные данные',
-  'Recent queries': 'Недавние запросы',
-  'Refine your query': 'Уточните запрос',
   Region: 'Регион',
-  'Related technology': 'Связанная технология',
-  'Resolved to': 'Разрешается в',
-  'Reverse DNS': 'Обратный DNS',
-  'Run query': 'Выполнить запрос',
-  'Running Apache HTTP Server on port 8080 in the United States.':
-    'Apache HTTP Server работает на порту 8080 в США.',
-  'Running Apache HTTP Server with SSL in the United States.':
-    'Apache HTTP Server с SSL работает в США.',
-  'Same ASN': 'Тот же ASN',
-  'Same certificate': 'Тот же сертификат',
-  'Same service': 'Тот же сервис',
-  'Same service on other ports': 'Тот же сервис на других портах',
-  'Same TLS certificate': 'Тот же сертификат TLS',
-  'San Francisco': 'Сан-Франциско',
-  'San Francisco, United States': 'Сан-Франциско, США',
-  'Search hosts, domains, IPs...': 'Поиск хостов, доменов и IP-адресов…',
-  'Search syntax': 'Синтаксис поиска',
   'Service banner': 'Баннер сервиса',
-  'Sort by: Relevance': 'Сортировка: по релевантности',
-  'SSH protocol banner': 'Баннер протокола SSH',
-  'Suggested next queries': 'Рекомендуемые следующие запросы',
-  'Technical evidence': 'Технические доказательства',
   'United States': 'США',
-  'Valid certificate · example.com · TLS 1.3.': 'Действующий сертификат · example.com · TLS 1.3.',
   Version: 'Версия',
   'View all': 'Посмотреть все',
-  'View docs': 'Открыть документацию',
-  'View query syntax': 'Посмотреть синтаксис запроса',
-  Vulnerabilities: 'Уязвимости',
-  'WHAT WE FOUND': 'ЧТО МЫ НАШЛИ',
-  ASN: 'ASN',
   '{count} request/s': '{count} запрос/с',
   '{count} requests/s': '{count} запросов/с',
   '301 response': 'Ответ 301',
@@ -1428,62 +1068,21 @@ export default {
     'Слои технологии раскрыты для более внимательного изучения.',
   'Several research inputs meet in one shared body of evidence.':
     'Несколько исследовательских входных данных объединяются в общем наборе доказательств.',
-
-  // 404 arcade
-  'ERROR / 404': 'ОШИБКА / 404',
-  'Signal lost. Keep the ball in play.': 'Сигнал потерян. Держите мяч в игре.',
-  'This route does not exist, but the system is still responsive. Clear the 404 or return to familiar ground.':
-    'Этого адреса не существует, но система отвечает. Разбейте конструкцию 404 или вернитесь на знакомый маршрут.',
-  '404 page links': 'Ссылки страницы 404',
   'Page not found': 'Страница не найдена',
   'Return to home': 'На главную',
-  'Explore search': 'Изучить поиск',
-  '404 arcade': 'Арканоид 404',
-  'PRESS START': 'НАЖМИТЕ СТАРТ',
-  PAUSED: 'ПАУЗА',
-  '404 CLEARED': '404 РАЗБИТА',
-  'SIGNAL LOST': 'СИГНАЛ ПОТЕРЯН',
-  'PRESS SPACE TO LAUNCH': 'ПРОБЕЛ — ЗАПУСК',
   'Awaiting start': 'Ожидание старта',
   Paused: 'Пауза',
   '404 cleared': '404 разрушена',
   'Game over': 'Игра окончена',
   'In play': 'В игре',
   'Ball ready — press Space': 'Мяч готов — нажмите Пробел',
-  'Wide paddle': 'Широкая платформа',
-  'Multi-ball': 'Несколько мячей',
-  'Protective shield': 'Защитный щит',
-  'Slow ball': 'Замедление мяча',
-  'Route recovery protocol': 'Протокол восстановления маршрута',
-  'Game status': 'Состояние игры',
   Score: 'Очки',
   Bricks: 'Кирпичи',
-  Lives: 'Жизни',
-  '404 clearance': 'Прогресс разрушения 404',
-  '404 brick progress': 'Прогресс разрушения блоков 404',
   'Arkanoid game board. Break the bricks that form 404. Use Arrow keys or A and D to move, Space to launch or pause, and P or Escape to pause.':
     'Игровое поле арканоида. Разбейте кирпичи, образующие 404. Двигайте платформу стрелками или клавишами A и D. Пробел запускает мяч или ставит на паузу. Клавиши P и Escape управляют паузой.',
   'The game board is unavailable.': 'Игровое поле недоступно.',
-  'Canvas 2D is not supported in this browser. You can still return home.':
-    'Этот браузер не поддерживает Canvas 2D. Вы можете вернуться на главную.',
   '{state}. Score {score}. {bricks} bricks remain. {lives} lives.':
     'Состояние: {state}. Очки: {score}. Осталось блоков: {bricks}. Жизней: {lives}.',
-  'Game controls': 'Управление игрой',
-  'Start game': 'Начать игру',
-  Resume: 'Продолжить',
-  Restart: 'Заново',
-  'Active boosts': 'Активные усиления',
-  '{count} balls': 'Мячей: {count}',
-  '{seconds}s': '{seconds} с',
-  'No active power-ups': 'Нет активных усилений',
-  'Keyboard and touch controls': 'Клавиатура и касания',
-  'Move the paddle': 'Двигать платформу',
-  'Launch or pause': 'Запуск или пауза',
-  'Pause or resume': 'Пауза или продолжение',
-  'Drag or tap the board': 'Проведите или нажмите на поле',
-  'Focus the game board first to use keyboard controls.':
-    'Для управления клавишами сначала выберите игровое поле.',
-  'Power-ups': 'Бонусы',
   Space: 'Пробел',
   QUERY: 'ЗАПРОС',
   Basic: 'Базовые',
@@ -1502,17 +1101,6 @@ export default {
   '{count} requests/s#other': '{count} запроса/с',
   'Search hosts': 'Поиск хостов',
   'Host details': 'Сведения о хосте',
-  'Illustrative host search response.': 'Пример ответа на поиск хостов.',
-  'Illustrative details for one observed host.': 'Пример сведений об одном наблюдаемом хосте.',
-  'Host address': 'Адрес хоста',
-  'OpenSSH ssh-agent PKCS#11 code execution': 'Выполнение кода через PKCS#11 в OpenSSH ssh-agent',
-  'OpenSSH scp command injection (disputed)': 'Инъекция команд в OpenSSH scp (статус оспаривается)',
-  'Internet infrastructure search': 'Поиск инфраструктуры интернета',
-  'Illustrative workflow': 'Пример рабочего процесса',
-  'Confirm authentication in the API reference.':
-    'Проверьте способ аутентификации в документации API.',
-  'Search by host, service or technology': 'Поиск по хосту, сервису или технологии',
-  'Example response ready': 'Пример ответа готов',
   'Read the query': 'Прочитайте запрос',
   'Select a matching host': 'Выберите подходящий хост',
   'Inspect the observed service': 'Изучите наблюдаемый сервис',
@@ -1524,40 +1112,9 @@ export default {
   'Confirm data usage': 'Уточнить условия использования',
   'View all plan features': 'Все возможности тарифов',
   'Available in English': 'Доступно на английском',
-  '7D': '7д',
-  '30D': '30д',
-  '90D': '90д',
-  '1Y': '1г',
-  'No CVE assessment is provided for this illustrative service.':
-    'Для этого сервиса в примере не приводится оценка по CVE.',
-  'Copy email text': 'Скопировать текст письма',
-  'Email text copied. Paste it into your email application and send it there.':
-    'Текст письма скопирован. Вставьте его в почтовое приложение и отправьте оттуда.',
-  'Copy the prepared email below and send it from your email application.':
-    'Скопируйте подготовленное письмо ниже и отправьте его из почтового приложения.',
-  'Prepared email': 'Подготовленное письмо',
-  'To: {email}': 'Кому: {email}',
-  'Subject: {subject}': 'Тема: {subject}',
-  'Clear draft': 'Удалить черновик',
-  'Draft cleared.': 'Черновик удалён.',
-  'Your draft stays in this browser tab for up to 24 hours. This website does not send your message. Review and send it in your email application.':
-    'Черновик сохраняется в этой вкладке браузера на срок до 24 часов. Сайт не отправляет сообщения. Проверьте письмо и отправьте его из почтового приложения.',
-  'Build with Apcosys': 'Создавайте с Apcosys',
-  'Your existing key, available credits and API documentation.':
-    'Ваш ключ, доступные кредиты и документация API.',
   'API key': 'API-ключ',
-  'Copy API key': 'Скопировать API-ключ',
-  'Regenerate API key': 'Создать новый API-ключ',
-  'Copy base URL': 'Скопировать базовый URL',
   'Query credits remaining': 'Остаток кредитов на запросы',
   'Scan credits remaining': 'Остаток кредитов на сканирование',
-  'From a question to a response.': 'От вопроса к ответу.',
-  'Use the current endpoints and supported query fields.':
-    'Используйте актуальные эндпоинты и поддерживаемые поля запроса.',
-  'Open documentation': 'Открыть документацию',
-  'API access and rate limits depend on your plan.':
-    'Доступ к API и лимиты частоты запросов зависят от тарифа.',
-  '{percent} left': 'Осталось {percent}',
   'Search workspace with a query field and supported query types.':
     'Рабочая область поиска: поле запроса и поддерживаемые типы запросов.',
   'Review the service response, certificate and observed technical context.':
@@ -1566,26 +1123,15 @@ export default {
     'TLS-сертификат хоста: издатель, срок действия и DNS-имя.',
   Filters: 'Фильтры',
   Netherlands: 'Нидерланды',
-  'Example Network': 'Пример сети',
   'TLS certificate': 'TLS-сертификат',
   'Search internet infrastructure.': 'Поиск инфраструктуры интернета.',
-  'Find hosts, services and networks.': 'Ищите хосты, сервисы и сети.',
   'Text query': 'Текстовый запрос',
-  'Use filters for a specific field or range.': 'Уточните поле или диапазон с помощью фильтров.',
-  '148 results': '148 результатов',
-  '86 results': '86 результатов',
-  'Country · Hosts': 'Страна · Хосты',
-  'HTTPS response': 'Ответ HTTPS',
   'Certificate identity': 'Сведения о сертификате',
   Subject: 'Субъект',
   Issuer: 'Издатель',
   'Example Certificate Authority': 'Пример удостоверяющего центра',
-  'Connection & validity': 'Соединение и срок действия',
-  'Certificate fingerprint': 'Отпечаток сертификата',
   'Applied condition': 'Применённое условие',
-  'Clear conditions': 'Сбросить условия',
   '1 result': '1 результат',
-  'Observed services and metadata': 'Наблюдаемые сервисы и метаданные',
   'API workspace with a masked key, credit balances and account limits.':
     'Рабочая область API со скрытым ключом, остатками кредитов и лимитами аккаунта.',
   'Built for people who investigate the internet.': 'Создано для тех, кто исследует интернет.',
@@ -1706,19 +1252,8 @@ export default {
     'HTTP-запрос из документации. Перед выполнением задайте APCOSYS_API_KEY в серверном окружении.',
   'Send a small host-search request to the public HTTP API. Use your account API key in the X-API-Key header.':
     'Отправьте небольшой запрос поиска хостов в публичный HTTP API. Укажите API-ключ своего аккаунта в заголовке X-API-Key.',
-  'Send JSON to POST /api/v1/search/hosts. Start with a small page size and the filters your plan supports.':
-    'Отправьте JSON через POST /api/v1/search/hosts. Начните с небольшого размера страницы и фильтров, доступных на вашем тарифе.',
-  'The HTTP API documents method costs separately from plan request rates. Review the current reference before scheduling larger workflows.':
-    'Стоимость методов в документации HTTP API указана отдельно от лимитов частоты запросов по тарифам. Перед планированием масштабных задач изучите актуальную документацию.',
-  'Published HTTP API limits are shown here. Check current plan details in your Apcosys account before scheduling a larger workflow.':
-    'Здесь приведены опубликованные лимиты HTTP API. Перед планированием масштабной задачи проверьте актуальные условия тарифа в своём аккаунте Apcosys.',
   'Open Apcosys': 'Открыть Apcosys',
   'Opens in a new tab': 'Откроется в новой вкладке',
-  'Copy plan details': 'Скопировать условия тарифа',
-  'Plan details copied.': 'Условия тарифа скопированы.',
-  'Copy the plan details below. Your selection stays on this page while Apcosys opens in another tab.':
-    'Скопируйте условия тарифа ниже. Ваш выбор останется на этой странице, а Apcosys откроется в другой вкладке.',
-  'Selected plan details': 'Условия выбранного тарифа',
   'Coverage snapshot · {date}': 'Снимок покрытия · {date}',
   'View statistics source': 'Источник статистики',
   'These figures reproduce the public statistics endpoint. Read them alongside the source and its update date.':
@@ -1805,17 +1340,6 @@ export default {
     'Найдите хосты с нужной технологией. Используйте ответы сервисов и даты наблюдений, чтобы спланировать проверку бюллетеней безопасности.',
   'Turn an indicator into a next query, keeping the observed service, date and supporting response together.':
     'Определите следующий запрос по индикатору; сохраните сведения о сервисе, дату наблюдения и его ответ.',
-  'Review ports, services and observation dates.': 'Изучите порты, сервисы и даты наблюдений.',
-  'Compare versions, responses and observation dates.':
-    'Сопоставьте версии, ответы и даты наблюдений.',
-  'Read services, technologies and observation dates.':
-    'Изучите сервисы, технологии и даты наблюдений.',
-  'Keep an in-scope shortlist with service evidence.':
-    'Сохраните список разрешённых целей с данными сервисов.',
-  'Keep candidates for advisory and configuration checks.':
-    'Отберите кандидатов для сверки с бюллетенями и проверки конфигурации.',
-  'Record the next query and its supporting evidence.':
-    'Запишите следующий запрос и данные, на которых он основан.',
   'Send JSON to POST /api/v1/search/hosts. The example requests 20 hosts on page 1; docs_per_page supports up to 100 records.':
     'Отправьте JSON на POST /api/v1/search/hosts. В примере запрошены 20 хостов на странице 1; docs_per_page поддерживает до 100 записей.',
   "Read total for the number of matches and hosts for this page of results. Keep each host's ports, protocols and update time with your research notes.":
@@ -1836,14 +1360,6 @@ export default {
     'У каждого метода HTTP API есть стоимость, учитываемая в лимите API (rate allowance). Руководство по использованию показывает эти значения отдельно от кредитов тарифа и пакетов поисковых токенов.',
   'Fields and values also depend on your plan. HTTP 402 identifies a restriction; HTTP 429 identifies an exceeded request rate.':
     'Доступные поля и значения также зависят от тарифа. HTTP 402 сообщает об ограничении доступа, HTTP 429 — о превышении частоты запросов.',
-  'Read the error message.': 'Прочитайте сообщение об ошибке.',
-  'Errors return a JSON error field. Check your API key after HTTP 401 and your requested fields or values after HTTP 402. For a host lookup, HTTP 404 means the requested host was not found.':
-    'Ошибки возвращаются в поле error JSON-ответа. При HTTP 401 проверьте API-ключ, при HTTP 402 — запрошенные поля и значения. При запросе сведений о хосте HTTP 404 означает, что этот хост не найден.',
-  'Slow down after HTTP 429.': 'Снизьте частоту при HTTP 429.',
-  'HTTP 429 means the plan rate was exceeded. Reduce request frequency before retrying; repeated immediate attempts do not resolve the limit.':
-    'HTTP 429 означает превышение лимита частоты запросов по тарифу. Перед повтором уменьшите частоту: немедленные повторные попытки не устраняют ограничение.',
-  'Keep the host, observed ports and protocols, and the uts update timestamp with each record. Use page and docs_per_page to continue through the results.':
-    'Сохраняйте в каждой записи хост, наблюдаемые порты и протоколы, а также метку времени обновления uts. Для перехода к следующим результатам используйте page и docs_per_page.',
 
   'Monitoring concept': 'Концепция мониторинга',
   'Explore bucket search via API': 'Поиск хранилищ через API',
@@ -1876,44 +1392,11 @@ export default {
   'Search for nginx': 'Найти nginx',
   'Request body': 'Тело запроса',
   'Search response': 'Ответ поиска',
-  Integer: 'Целое число',
   String: 'Строка',
   Array: 'Массив',
-  'Page to request. The example starts at page 1.':
-    'Номер запрашиваемой страницы. В примере — страница 1.',
-  'Records per page. The example requests 20; the documented maximum is 100.':
-    'Число записей на странице. В примере — 20, максимум по документации — 100.',
-  'Text to look for, such as nginx. The first-request example uses this field.':
-    'Текст для поиска, например nginx. Это поле используется в примере первого запроса.',
-  'Number of matches for the query, across all result pages.':
-    'Общее число результатов запроса на всех страницах.',
-  'The result page returned by this response.': 'Номер страницы, данные которой вернул API.',
-  'The page size used for this request.': 'Число записей на странице, заданное в запросе.',
-  'Host records on the returned page.': 'Массив записей о хостах на этой странице.',
-  'The IP address identifying this host record.': 'IP-адрес хоста в этой записи.',
-  'The last update timestamp, in Unix seconds.': 'Время последнего обновления в секундах Unix.',
-  'Observed services, with a protocol and port number for each entry.':
-    'Наблюдаемые сервисы. В каждой записи указаны протокол и номер порта.',
-  'Request fields and results.': 'Поля запроса и ответа.',
-  'Use these fields with POST /api/v1/search/hosts. The request fields below are optional; the example sets them explicitly.':
-    'Эти поля используются в POST /api/v1/search/hosts. Поля запроса ниже необязательны; в примере они заданы явно.',
   'Field and type': 'Поле и тип',
   Meaning: 'Описание',
-  'For the next page, keep the same filters and increase page. Compare total with the records already returned. An update timestamp describes the stored observation, not a live check of the host.':
-    'Чтобы получить следующую страницу, сохраните фильтры и увеличьте page. Сопоставьте total с числом уже полученных записей. Метка обновления относится к сохраненному наблюдению и не означает проверку хоста в реальном времени.',
   Fields: 'Поля',
-  'HTTP 401 · API key': 'HTTP 401 · API-ключ',
-  'The key is missing or invalid. Check the X-API-Key header and the key loaded from your server environment.':
-    'Ключ отсутствует или недействителен. Проверьте заголовок X-API-Key и ключ, загруженный из окружения сервера.',
-  'HTTP 402 · Plan restriction': 'HTTP 402 · Ограничение тарифа',
-  'A requested field or value is restricted by the plan. Read the JSON error message and check which fields your plan permits.':
-    'Запрошенное поле или значение недоступно по тарифу. Прочтите JSON-сообщение об ошибке и проверьте доступные поля.',
-  'HTTP 404 · Host not found': 'HTTP 404 · Хост не найден',
-  'For an individual host lookup, the requested host was not found. Check the address you supplied.':
-    'При запросе отдельного хоста адрес не найден. Проверьте переданный IP-адрес.',
-  'HTTP 429 · Rate limit': 'HTTP 429 · Частота запросов',
-  'The request rate was exceeded. Reduce request frequency before retrying and read the JSON error message.':
-    'Превышена частота запросов. Прочтите JSON-сообщение об ошибке и уменьшите частоту перед повтором.',
   'Interface preview': 'Пример интерфейса',
   'Choose your plan and billing period after signing in.':
     'После входа выберите тариф и период оплаты.',

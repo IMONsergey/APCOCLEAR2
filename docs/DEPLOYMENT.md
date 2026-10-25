@@ -10,7 +10,7 @@
 
 All three use `scripts/build.ts`: legal-source parity, TypeScript, Vite with the requested base, route metadata, then bundle budgets. Deploy the contents of `dist/` at exactly that path. A second build replaces `dist/`; never rebuild while browser tests are using it.
 
-The build generates route-specific metadata for all 20 pages in EN, RU and Traditional Chinese, giving 60 authored route variants, plus the 404 fallback. HTML includes a no-JavaScript fallback; React renders the full page content in the browser. A custom static server should serve actual files and route directories before the SPA fallback to retain route-specific static metadata.
+The build generates metadata for every route in `src/content/routes.ts` in EN, RU and Traditional Chinese, plus the 404 fallback. HTML includes a no-JavaScript fallback; React renders the full page content in the browser. A custom static server should serve actual files and route directories before the SPA fallback to retain route-specific static metadata.
 
 ## Public origin and indexing
 
@@ -20,7 +20,7 @@ The build generates route-specific metadata for all 20 pages in EN, RU and Tradi
 | `APCO_PUBLIC_SITE_ORIGIN` | Marketing site's HTTPS origin, without a subdirectory or credentials    | GitHub workflows use `https://<lowercase-owner>.github.io`; local builds leave it unset |
 | `APCO_SITE_INDEXABLE`     | `true` publishes `index, follow`; `false` publishes `noindex, nofollow` | `false`                                                                                 |
 
-`APCO_PUBLIC_SITE_ORIGIN` is separate from the external product URL. When present, the build writes canonical and Open Graph URLs, EN/RU/zh-Hant/x-default alternatives and a sitemap containing the 60 authored route URLs. `APCO_SITE_INDEXABLE=true` requires a valid HTTPS origin; invalid values fail the build. The 404 page always remains `noindex, nofollow`, including after client navigation. The review copy should keep `APCO_SITE_INDEXABLE=false`.
+`APCO_PUBLIC_SITE_ORIGIN` is separate from the external product URL. When present, the build writes canonical and Open Graph URLs, EN/RU/zh-Hant/x-default alternatives and a sitemap containing every localized route URL. `APCO_SITE_INDEXABLE=true` requires a valid HTTPS origin; invalid values fail the build. The 404 page always remains `noindex, nofollow`, including after client navigation. The review copy should keep `APCO_SITE_INDEXABLE=false`.
 
 For an indexable final root-domain deployment:
 
@@ -35,7 +35,7 @@ These variables may also be provided by a local `.env` or the hosting build envi
 After Pages is configured to use GitHub Actions, a push to `main` runs `.github/workflows/deploy.yml` and publishes only after these checks succeed for that revision:
 
 1. Resolve the common repository base and marketing origin.
-2. Install locked dependencies, audit production dependencies, run the complete source checks, build and run the full Chromium release contract.
+2. Install locked dependencies, audit dependencies, run the complete source checks, build and run the full Chromium release contract.
 3. Build the same destination in separate Firefox and WebKit jobs and run the full release contract in each engine. Both matrix jobs are required; neither is cancelled merely because the other fails.
 4. Deploy the validated static artifact to Pages.
 5. Run the full Chromium release contract against the actual URL returned by the Pages deployment.

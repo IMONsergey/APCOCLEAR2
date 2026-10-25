@@ -1,5 +1,5 @@
 /* Data section */
-/* Desktop globe composition; narrower containers retain the approved reading path. */
+/* Desktop globe composition and responsive reading layout. */
 .data-section {
   overflow: clip;
   padding-top: 0;
@@ -347,7 +347,7 @@
     line-height: 1.1;
   }
 }
-/* The coverage totals already sit above SearchPreview. The globe now explains how to read a record. */
+/* Observation context beneath the globe. */
 .data-section--observations .metric-card dd:not(.metric-observation-note) {
   font: 500 var(--font-size-20)/1.25 var(--font-sans);
   white-space: normal;

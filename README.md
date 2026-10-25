@@ -1,6 +1,6 @@
 # Apcosys website
 
-React 19 + TypeScript + Vite marketing website: all 20 pages in English, Russian and Traditional Chinese (60 localized URLs), Light/Dark/System themes, reference legal translations and application-based product demonstrations. The authenticated product is a separate system. Start developer onboarding with [Handoff](docs/HANDOFF.md) and inspect the latest [readiness review](docs/FINAL-READINESS.md).
+React 19, TypeScript and Vite marketing website with English, Russian and Traditional Chinese editions, Light/Dark/System themes, legal documents and interactive product demonstrations. The authenticated product is a separate application. Start with the [developer handoff](docs/HANDOFF.md).
 
 ## Local setup
 
@@ -69,7 +69,5 @@ This repository is [IMONsergey/APCOCLEAR2](https://github.com/IMONsergey/APCOCLE
 - [Localization strategy and translation release gates](docs/LOCALIZATION.md)
 - [Deployment and rollback](docs/DEPLOYMENT.md)
 - [Quality assurance](docs/QA.md)
-- [Current readiness and release status](docs/FINAL-READINESS.md)
-- [Initial audit history](docs/QUALITY-REVIEW.md)
 - [Grid](docs/SITE-GRID.md), [assets](docs/ASSETS.md), [visual engines](docs/VISUALS.md)
 - [Documentation index](docs/README.md) — maintenance guides and legal source files

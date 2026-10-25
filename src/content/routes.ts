@@ -1,6 +1,6 @@
 import { legalRoutes } from './legal-routes';
 
-/** Client-preview routes, including the locally hosted legal documents. */
+/** Published routes, page metadata and lazy-loading groups. */
 export const siteRoutes = [
   {
     path: '/',

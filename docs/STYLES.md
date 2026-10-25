@@ -11,7 +11,7 @@ Change a shared role before adding a local value. Components own their geometry;
 | Document defaults, reset, container and accessibility helpers | `src/styles/base.css`                                                               |
 | Dark palette and theme controls                               | `src/styles/theme.css`                                                              |
 | Shared buttons and interaction states                         | `src/styles/controls.css`                                                           |
-| Header and language disclosure                                | `navigation.css`, `localization.css`, `interface-layout.css`                        |
+| Header and language disclosure                                | `site.css`, `navigation.css`, `localization.css`                                    |
 | Homepage                                                      | `home-layout.css`, `home-product.css`, owning section CSS                           |
 | Inner-page composition, reading groups and responsive grids   | `inner-pages.css`                                                                   |
 | Reusable page components, workspaces and research scenarios   | `page-components.css`, `workspaces.css`, `research-scenarios.css`                   |
@@ -98,4 +98,4 @@ Keep global viewport queries for navigation, shell composition, input-device pre
 5. `design-system.spec.ts` compares cold and client-navigated pages in both themes. `style-contract.spec.ts` checks legal alignment and Sign In; `inner-hero-layout.spec.ts` checks 12 viewport widths and doubled text.
 6. For a measurable before/after report: `tsx scripts/verify-styles.ts --ref <commit>`. Its totals count source expressions, not computed styles or semantic roles. Fewer files or replacing every number with a variable is not proof of a simpler system.
 
-Large composition files remain explicit CSS, rather than a new utility framework or runtime style library. The application retains four runtime dependencies. Original engine checksums, reduced-motion behavior and interruption-safe transitions remain release gates.
+Large composition files remain explicit CSS, rather than a new utility framework or runtime style library. The application has three runtime dependencies: React, React DOM and Typograf. Original engine checksums, reduced-motion behavior and interruption-safe transitions remain release gates.

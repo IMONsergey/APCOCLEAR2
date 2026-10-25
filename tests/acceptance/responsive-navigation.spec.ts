@@ -28,7 +28,7 @@ for (const locale of [
       'Data & Methodology',
       'Monitoring concept',
       'Responsible Scanning',
-      'Investors',
+      'For Investors',
       'Talk to Us',
     ],
   },

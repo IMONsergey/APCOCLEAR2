@@ -1,4 +1,14 @@
 import { apiDocumentationPath } from '../config/site';
+import type { SitePath } from './routes';
+
+type NavigationGroup = {
+  label: string;
+  items: readonly { label: string; href: SitePath }[];
+};
+type FooterGroup = {
+  title: string;
+  links: readonly (readonly [label: string, path: SitePath])[];
+};
 
 export const navigation = [
   {
@@ -9,7 +19,7 @@ export const navigation = [
       { label: 'Data & Methodology', href: '/platform/data-methodology' },
       { label: 'Monitoring concept', href: '/platform/monitoring' },
       { label: 'Responsible Scanning', href: '/responsible-scanning' },
-      { label: 'Investors', href: '/docs/investors' },
+      { label: 'For Investors', href: '/docs/investors' },
       { label: 'Talk to Us', href: '/contact' },
     ],
   },
@@ -28,7 +38,8 @@ export const navigation = [
       { label: 'Documentation', href: apiDocumentationPath },
     ],
   },
-] as const;
+] as const satisfies readonly NavigationGroup[];
+
 export const footerGroups = [
   {
     title: 'Platform',
@@ -59,7 +70,7 @@ export const footerGroups = [
     title: 'APCOSYS',
     links: [
       ['About', '/about'],
-      ['Investors', '/docs/investors'],
+      ['For Investors', '/docs/investors'],
       ['Responsible Scanning', '/responsible-scanning'],
       ['Talk to Us', '/contact'],
     ],
@@ -75,4 +86,4 @@ export const footerGroups = [
       ['Terms & Conditions', '/legal/terms'],
     ],
   },
-] as const;
+] as const satisfies readonly FooterGroup[];

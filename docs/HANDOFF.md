@@ -11,7 +11,7 @@ This repository contains the Apcosys marketing website and its informational pag
 5. Run `npm run dev`; open the URL printed by Vite, normally `http://127.0.0.1:5187/APCOCLEAR2/`.
 6. Review all page groups, Pricing and legal content in both themes and at narrow and wide widths.
 
-`npm run test:cross-browser` runs a smaller focused interaction suite. It does not replace the full three-engine release gate. See [QA](QA.md) and the current release record for evidence and limits. Automated checks complement visual and editorial review.
+`npm run test:cross-browser` runs a smaller focused interaction suite. It does not replace the full three-engine release gate. See [QA](QA.md) for commands and the commit’s GitHub Actions run for results. Automated checks complement visual and editorial review.
 
 ## Product boundaries
 
@@ -26,10 +26,10 @@ This repository contains the Apcosys marketing website and its informational pag
 | Contact           | Required-field validation, accessible Topic selector, per-tab draft for up to 24 hours and one Email us action preparing mailto  | Message delivery through the user's email application; a backend is needed for direct website delivery |
 | Cookies           | Essential preference storage; no optional analytics or marketing trackers enabled                                                | Consent/tracking design if optional analytics is added                                                 |
 | Legal pages       | Six preserved English Markdown sources and full RU/Traditional Chinese reference translations, compiled separately by locale     | Legal approval and deliberate amendments to the authoritative English text                             |
-| Languages         | All 20 routes in EN, RU and Traditional Chinese; 60 authored URL variants plus localized 404 handling                            | Editorial approval of terminology and final-host verification                                          |
+| Languages         | All published routes in EN, RU and Traditional Chinese, plus localized 404 handling                                              | Editorial approval of terminology and final-host verification                                          |
 | Themes and motion | System/manual theme choice, paired artwork, six rebuilt application scenes, complete reduced-motion frames                       | Physical-device acceptance and future asset changes                                                    |
 
-The six legacy product/API scenes have been replaced by React HTML and the approved vector assets. Both remaining GSAP playback modules now use native browser animation, and the GSAP dependency is removed. Preserve the remaining asset notices and integrity checks. Synthetic demonstrations must remain clearly labelled, and animation failure must not hide readable content.
+The six product/API scenes use React HTML, shared vector assets and native browser animation. Preserve the remaining asset notices and integrity checks. Synthetic demonstrations must remain clearly labelled, and animation failure must not hide readable content.
 
 Commercial decisions still include the mapping between Free/Plus/Expert/Business plans and the license's Personal/Free and Business/Enterprise categories. No additional usage rights are inferred for Plus or Expert. Published sources also do not define a conversion between plan credits, Search Tokens and HTTP API method-cost units, or annual credit renewal, expiry and rollover. Keep these boundaries until the owner provides the actual rules; do not calculate request capacity from an assumed conversion. See [Product integrations](reference/PRODUCT-INTEGRATIONS.md) for the dated source chain and confirmed values. A future automatic checkout handoff, direct Contact delivery, final public domain and indexing policy also require their actual receiving systems or owner decisions.
 
@@ -46,7 +46,7 @@ Copy `.env.example` to a local `.env` only when overriding defaults. `VITE_*` va
 | `APCO_SITE_INDEXABLE`     | `false` by default; `true` requires a valid HTTPS marketing origin                                                                         |
 | `APCO_SITE_BASE`          | GitHub workflow destination path; local builds use the `--base` option                                                                     |
 
-Documentation links use the localized page at `/developers/api/docs`, including the hosting base path. The legacy `/developers/api#documentation` anchor still opens the overview’s short first-request section, with a link to the full reference. The former `VITE_APCO_API_DOCS_URL` override is no longer used.
+Documentation links use the localized page at `/developers/api/docs`, including the hosting base path. The legacy `/developers/api#documentation` anchor still opens the overview’s short first-request section, with a link to the full reference. Investor enquiries use `/docs/investors` and the dedicated `rk@apcosys.net` address.
 
 Changing the support email updates site UI, not the preserved legal document bodies. Legal amendments require review. See [Deployment](DEPLOYMENT.md) for origin, indexing and host configuration.
 
@@ -72,7 +72,7 @@ On pull requests, CI runs the `handoff-package` job after full browser validatio
 
 On `main`, the release workflow requires source checks, the production build and the complete Chromium, Firefox and WebKit contracts before Pages deployment. The deployed URL then receives the full Chromium contract. Manual dispatch on `main` uses the same gate. Provide the accepted commit, successful workflow run, deployment URL and any remaining owner decisions; do not infer publication merely from a local build or prepared source tree.
 
-Repository permissions, hosting ownership and environment configuration are transferred separately by their owners. The original project repository remains outside this work's publication target.
+Repository permissions, hosting ownership and environment configuration are transferred separately by their owners.
 
 ## Maintenance boundaries
 

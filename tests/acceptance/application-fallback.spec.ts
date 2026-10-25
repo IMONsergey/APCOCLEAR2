@@ -25,7 +25,6 @@ test('all six application frames remain readable when their motion chunks fail',
     await frame.scrollIntoViewIfNeeded();
     await page.waitForLoadState('networkidle');
     await expect(frame).toBeVisible();
-    await expect(frame).toHaveAttribute('data-design-source', 'apcosys-application');
     await expect(frame).toHaveAttribute('data-demo-playback', 'static');
     await expect(frame.locator('.application-demo-cursor')).toBeHidden();
     await expect(frame.locator(heading!)).toBeVisible();

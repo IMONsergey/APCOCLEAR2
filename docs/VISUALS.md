@@ -24,4 +24,4 @@ Product records use reserved documentation addresses and example hostnames. The 
 
 The six application frames reflow at their actual container width instead of scaling the entire desktop interface down. Their controls are inert illustration content, with a translated description on the enclosing image role. After a change, check all languages and themes, narrow widths, animation phases, visibility pause/resume and reduced-motion transitions. Static-frame inspection alone does not cover the animation lifecycle. The separate interactive product-evidence component also requires service-selection and period/reset checks.
 
-GSAP is no longer distributed. Retain the applicable font licenses and all notices for dependencies and assets that remain in the source distribution.
+Retain the applicable font licenses and all notices for dependencies and assets that remain in the source distribution.
