@@ -4,7 +4,7 @@ This repository contains the Apcosys marketing website and its informational pag
 
 ## First working session
 
-1. Check out the agreed commit. Keep `package-lock.json`; use Node 22.12 or later.
+1. Check out the agreed commit. Keep `package-lock.json`; use Node 22.13 or later.
 2. Run `npm ci`, `npm run check`, `npm run build`.
 3. Install `chromium firefox webkit` with Playwright and install Noto CJK fonts for Traditional Chinese geometry checks.
 4. Run `npm run test:release` for the full Chromium contract or `npm test` for the full contract in all three engines.

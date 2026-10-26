@@ -98,10 +98,11 @@ jobs:
         run: sudo apt-get install --no-install-recommends -y fonts-noto-cjk
       - name: Browser regression suite
         run: >-
-          npm run test:release -- tests/acceptance/route-motion.spec.ts
+          npm run test:release -- tests/acceptance/route-motion.spec.ts tests/acceptance/routes.spec.ts
           tests/acceptance/localization.spec.ts tests/acceptance/layout-regressions.spec.ts
           tests/acceptance/legal-pages.spec.ts tests/acceptance/legal-localization.spec.ts
-          --grep 'reload preserves the latest|complete published text|full translated text and stable anchors|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
+          tests/acceptance/theme-transitions.spec.ts
+          --grep 'Initial theme applies|Delayed route keeps|Cold anchored navigation|reload preserves the latest|complete published text|full translated text and stable anchors|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
         env:
           APCO_TEST_BASE_PATH: ${{ needs.configuration.outputs.base }}
       - name: Full release acceptance
@@ -164,11 +165,12 @@ jobs:
           tests/acceptance/route-motion.spec.ts tests/acceptance/localization.spec.ts
           tests/acceptance/layout-regressions.spec.ts
           tests/acceptance/legal-pages.spec.ts tests/acceptance/legal-localization.spec.ts
-          --grep 'reload preserves the latest|complete published text|full translated text and stable anchors|Early navigation|failed initial page download|documentation links open the localized standalone API reference|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
+          tests/acceptance/theme-transitions.spec.ts
+          --grep 'Initial theme applies|Delayed route keeps|Cold anchored navigation|reload preserves the latest|complete published text|full translated text and stable anchors|Early navigation|failed initial page download|documentation links open the localized standalone API reference|continuous scrolling|history restores the reading position|reselecting the current route|language round trip|Business action lands'
       - name: Repeated cold navigation
         run: >-
-          npm test -- --project=${{ matrix.browser }} tests/acceptance/routes.spec.ts
-          --grep 'Early navigation' --repeat-each=5 --retries=0
+          npm test -- --project=${{ matrix.browser }} tests/acceptance/routes.spec.ts tests/acceptance/route-motion.spec.ts
+          --grep 'Early navigation|Cold anchored navigation|Delayed route keeps' --repeat-each=5 --retries=0
       - name: Full release acceptance
         run: npm test -- --project=${{ matrix.browser }}
       - name: Preserve browser evidence

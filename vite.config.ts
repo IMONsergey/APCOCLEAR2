@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readPublicSettings } from './src/config/public-settings.ts';
+import { themeBootstrap } from './scripts/theme-bootstrap.ts';
 export default defineConfig(({ mode }) => {
   const publicSettings = readPublicSettings(loadEnv(mode, process.cwd(), 'VITE_APCO_'));
   return {
@@ -9,6 +10,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      themeBootstrap(),
       {
         name: 'apcosys-noscript-link',
         transformIndexHtml: {
