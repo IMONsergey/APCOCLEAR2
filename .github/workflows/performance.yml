@@ -65,26 +65,7 @@ jobs:
           --screenshots .work/performance-screenshots/after
           --output .work/performance-after.json
       - name: Summarize controlled comparison
-        run: |
-          node --input-type=module <<'JS'
-          import { readFileSync, appendFileSync } from 'node:fs';
-          const before = JSON.parse(readFileSync('.work/performance-before.json', 'utf8'));
-          const after = JSON.parse(readFileSync('.work/performance-after.json', 'utf8'));
-          const lines = [
-            '## Page performance',
-            '',
-            'Medians of three cold Chromium runs on the same runner. Mobile: 4× CPU throttling, 80 ms latency, 1.6 Mbps. These are lab samples, not field Core Web Vitals.',
-            '',
-            '| Profile / route | FCP before → after, ms | LCP before → after, ms | Blocking before → after, ms | Transfer before → after, KiB | CLS after |',
-            '| --- | ---: | ---: | ---: | ---: | ---: |',
-          ];
-          for (const row of after.summary) {
-            const old = before.summary.find((item) => item.route === row.route && item.profile === row.profile);
-            if (!old) throw new Error(`Missing baseline for ${row.profile} ${row.route}`);
-            lines.push(`| ${row.profile} ${row.route} | ${old.fcpMs} → ${row.fcpMs} | ${old.lcpMs} → ${row.lcpMs} | ${old.blockingMs} → ${row.blockingMs} | ${Math.round(old.resourceBytes / 1024)} → ${Math.round(row.resourceBytes / 1024)} | ${row.cls} |`);
-          }
-          appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
-          JS
+        run: node --import tsx scripts/summarize-performance.ts
       - name: Preserve measurements and first screens
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
