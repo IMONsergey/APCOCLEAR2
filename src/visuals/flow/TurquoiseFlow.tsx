@@ -7,7 +7,7 @@ import {
 import { observeFirstPaint } from '../firstPaint';
 import './turquoise-flow.css';
 
-export interface TurquoiseFlowProps extends FlowOptions {
+interface TurquoiseFlowProps extends FlowOptions {
   children?: ReactNode;
   className?: string;
   style?: CSSProperties;
@@ -15,7 +15,7 @@ export interface TurquoiseFlowProps extends FlowOptions {
 }
 
 /** A normal container: it can be a card, section, hero, or absolute background. */
-export function TurquoiseFlow({
+function TurquoiseFlow({
   children,
   className = '',
   style,
