@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type HTMLAttributes, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, type HTMLAttributes, type ReactNode } from 'react';
 import { useMotion } from '../../hooks/useMotion';
 import './MorphPanel.css';
 
@@ -14,12 +14,14 @@ export function MorphPanel({
   const content = useRef<HTMLDivElement>(null);
   const { reduced } = useMotion();
   const measure = useRef<(() => void) | null>(null);
-  useLayoutEffect(() => {
+  // Initial content uses its natural height; only later changes need a pre-paint measurement.
+  useEffect(() => {
     const outer = frame.current;
     const inner = content.current;
     if (!outer || !inner) return;
-    let height = inner.getBoundingClientRect().height;
-    let width = inner.getBoundingClientRect().width;
+    const initial = inner.getBoundingClientRect();
+    let height = initial.height;
+    let width = initial.width;
     let animation: Animation | undefined;
     let resizeFrame = 0;
     const resize = () => {
