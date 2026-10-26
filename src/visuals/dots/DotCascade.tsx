@@ -3,7 +3,7 @@ import { createDotCascade, type DotOptions, type DotController } from './dot-cas
 import { observeFirstPaint } from '../firstPaint';
 import './dot-cascade.css';
 
-export interface DotCascadeProps extends DotOptions {
+interface DotCascadeProps extends DotOptions {
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
@@ -11,7 +11,7 @@ export interface DotCascadeProps extends DotOptions {
   onReady?: ((ready: boolean) => void) | undefined;
 }
 
-export function DotCascade({
+function DotCascade({
   children,
   className = '',
   style,

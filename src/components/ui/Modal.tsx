@@ -24,14 +24,15 @@ export function Modal({ open, onClose, title, children, className = '', fallback
   const [canScroll, setCanScroll] = useState(false);
   useEffect(() => {
     const dialog = ref.current;
-    if (!dialog) return;
+    if (!dialog || (!open && !dialog.open)) return;
     const interrupted = animation.current?.playState === 'running';
-    const previousStyle = getComputedStyle(dialog);
-    const previousFrame = {
-      opacity: previousStyle.opacity,
-      transform: previousStyle.transform,
-      clipPath: previousStyle.clipPath,
-    };
+    const previousFrame: Keyframe = {};
+    if (interrupted) {
+      const previousStyle = getComputedStyle(dialog);
+      previousFrame.opacity = previousStyle.opacity;
+      previousFrame.transform = previousStyle.transform;
+      previousFrame.clipPath = previousStyle.clipPath;
+    }
     animation.current?.cancel();
     contentAnimations.current.forEach((item) => item.cancel());
     contentAnimations.current = [];

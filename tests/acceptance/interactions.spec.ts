@@ -53,6 +53,40 @@ for (const width of [320, 390, 1366, 1440, 1920]) {
   });
 }
 
+for (const motion of ['reduce', 'no-preference'] as const) {
+  test(`research carousel handles rapid input and viewport changes: ${motion}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: motion });
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.goto('./');
+    const carousel = page.locator('#how-it-works');
+    const track = carousel.locator('#research-track');
+    const counter = carousel.locator('.counter');
+    const previous = carousel.getByRole('button', { name: 'Previous research step' });
+    const next = carousel.getByRole('button', { name: 'Next research step' });
+
+    for (const width of [390, 1440, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      await track.scrollIntoViewIfNeeded();
+      await track.press('Home');
+      const total = width === 390 ? 5 : 3;
+      await expect(counter).toHaveText(`1 / ${total}`);
+      await expect(previous).toBeDisabled();
+      await next.click();
+      await next.click();
+      await expect(counter).toHaveText(`3 / ${total}`);
+      await track.press('End');
+      await expect(counter).toHaveText(`${total} / ${total}`);
+      await expect(next).toBeDisabled();
+      await expect(track.locator('.step-card').last()).toBeInViewport({ ratio: 0.98 });
+      await track.press('ArrowLeft');
+      await expect(counter).toHaveText(`${total - 1} / ${total}`);
+      await expect(next).toBeEnabled();
+    }
+  });
+}
+
 test('three-step investigation workbench changes the active task with keyboard navigation', async ({
   page,
 }) => {
