@@ -5,6 +5,21 @@ import { siteVariants } from '../helpers/site-variants';
 // Each case owns its browser context and report; share the existing CI worker pool.
 test.describe.configure({ mode: 'parallel' });
 
+test('accessibility audit retains WCAG filtering and visible-label checks', async ({ page }) => {
+  await page.setContent(`
+    <!doctype html><html lang="en"><head><title>Accessibility fixture</title></head>
+    <body><main>
+      <button aria-label="Confirm">Save</button>
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E">
+    </main></body></html>
+  `);
+  const { violations } = await wcagAxe(page).analyze();
+  const rules = violations.map(({ id }) => id);
+  expect(rules).toContain('image-alt');
+  expect(rules).toContain('label-content-name-mismatch');
+  expect(rules).not.toContain('page-has-heading-one');
+});
+
 for (const route of siteVariants) {
   for (const theme of ['light', 'dark'] as const) {
     for (const width of [390, 1440]) {
@@ -28,6 +43,7 @@ for (const route of siteVariants) {
         await page.addInitScript((mode) => localStorage.setItem('apcosys-theme-mode', mode), theme);
         await page.goto('.' + route.path, { waitUntil: 'networkidle' });
         await expect(page.locator('html')).toHaveAttribute('lang', route.locale);
+        await expect(page.locator('main h1')).toBeVisible();
         await page.evaluate(async () => {
           await document.fonts.ready;
           for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight) {
