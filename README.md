@@ -2,9 +2,11 @@
 
 React 19, TypeScript and Vite marketing website with English, Russian and Traditional Chinese editions, Light/Dark/System themes, legal documents and interactive product demonstrations. The authenticated product is a separate application. Start with the [developer handoff](docs/HANDOFF.md).
 
+All authored executable code uses TypeScript (`.ts` or `.tsx`), including configuration and build scripts. HTML, CSS and JSON retain their native formats. Vite produces JavaScript for browsers; dependencies and build output are outside the source-only rule, which `npm run verify:source` enforces.
+
 ## Local setup
 
-Use Node.js 22.12+ (Node 22 in `.nvmrc` and CI) and the committed npm lockfile.
+Use Node.js 22.13+ (Node 22 in `.nvmrc` and CI) and the committed npm lockfile.
 
 ```sh
 npm ci
